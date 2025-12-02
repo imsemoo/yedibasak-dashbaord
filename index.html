@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Management Dashboard</title>
+  <meta name="description" content="Modern management dashboard shell for charity donations." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar__logo">
+        <div class="logo-mark">
+          <img src="assets/img/logo.svg" alt="" width="190px">
+        </div>
+
+      </div>
+      <nav class="sidebar__nav">
+        <a class="sidebar__link active" href="#">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual Donations</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay"></div>
+
+    <div class="app-main">
+      <header class="app-header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h1 class="h3">Overview</h1>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <div class="search">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input type="search" placeholder="Search donors, campaigns, or messages" aria-label="Search" />
+          </div>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" data-dropdown-target="notifications"
+              aria-haspopup="true" aria-expanded="false" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa-regular fa-bell"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" data-dropdown-panel="notifications" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread">
+                  <div class="notification-dot"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">3 campaigns ending soon</p>
+                    <p class="notification-meta">Today &bull; Campaigns</p>
+                  </div>
+                  <span class="notification-time">2m</span>
+                </li>
+                <li class="dropdown-notification">
+                  <div class="notification-dot is-green"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donation: $500 for "Healthcare Fund"</p>
+                    <p class="notification-meta">5h &bull; Donations</p>
+                  </div>
+                  <span class="notification-time">5h</span>
+                </li>
+                <li class="dropdown-notification">
+                  <div class="notification-dot is-orange"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Payout scheduled for tomorrow</p>
+                    <p class="notification-meta">Yesterday &bull; Finance</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <div class="header-user js-dropdown-toggle js-user-menu-toggle" data-dropdown-target="user-menu"
+              role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              <div class="avatar">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </div>
+            <div class="dropdown dropdown-user-menu" data-dropdown-panel="user-menu" aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fa-regular fa-user"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <section class="card welcome">
+          <div class="welcome__text">
+            <p class="eyebrow">Welcome back</p>
+            <h2 class="h2">Keep your impact growing</h2>
+            <p class="text-muted">Track donations, nurture donor relationships, and keep every campaign on target.</p>
+          </div>
+          <div class="welcome__actions">
+            <div class="chip">
+              <span class="chip__dot"></span>
+              3 campaigns ending soon
+            </div>
+            <div class="chip chip--primary">
+              <i class="fas fa-plus"></i>
+              New donation
+            </div>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <article class="card stat-card">
+            <div class="stat-card__label">Total Donations</div>
+            <div class="stat-card__value">$245,400</div>
+            <div class="stat-card__meta">
+              <span class="badge badge--positive">+12% MoM</span>
+              <span class="text-muted">vs last month</span>
+            </div>
+          </article>
+          <article class="card stat-card">
+            <div class="stat-card__label">Active Donors</div>
+            <div class="stat-card__value">1,284</div>
+            <div class="stat-card__meta">
+              <span class="badge badge--info">+64 new</span>
+              <span class="text-muted">in the last 7 days</span>
+            </div>
+          </article>
+          <article class="card stat-card">
+            <div class="stat-card__label">Avg. Donation</div>
+            <div class="stat-card__value">$86.20</div>
+            <div class="stat-card__meta">
+              <span class="badge badge--warning">+4.1%</span>
+              <span class="text-muted">week over week</span>
+            </div>
+          </article>
+          <article class="card stat-card">
+            <div class="stat-card__label">Open Pledges</div>
+            <div class="stat-card__value">$32,500</div>
+            <div class="stat-card__meta">
+              <span class="badge badge--neutral">14 pending</span>
+              <span class="text-muted">awaiting confirmation</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="charts-grid">
+          <article class="card chart-card">
+            <div class="card__header">
+              <h3 class="h5">Distribution of Donations (Bar Chart)</h3>
+              <span class="text-muted">Campaign performance</span>
+            </div>
+            <div id="donations-bar-chart" class="chart"></div>
+          </article>
+          <article class="card chart-card">
+            <div class="card__header">
+              <h3 class="h5">Distribution of Donations (Donut Chart)</h3>
+              <span class="text-muted">Source mix</span>
+            </div>
+            <div id="donations-donut-chart" class="chart"></div>
+          </article>
+        </section>
+
+        <section class="card table-card">
+          <div class="card__header">
+            <h3 class="h5">Latest Donations</h3>
+            <button class="link-button" type="button">View all</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Donor</th>
+                  <th>Campaign</th>
+                  <th>Amount</th>
+                  <th>Method</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Alex Morgan</td>
+                  <td>Clean Water Drive</td>
+                  <td>$1,200</td>
+                  <td>Credit Card</td>
+                  <td>Jan 12, 2025</td>
+                  <td><span class="status-pill status-pill--success">Completed</span></td>
+                </tr>
+                <tr>
+                  <td>Priya Patel</td>
+                  <td>Education For All</td>
+                  <td>$600</td>
+                  <td>Bank Transfer</td>
+                  <td>Jan 11, 2025</td>
+                  <td><span class="status-pill status-pill--pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>Diego Ramirez</td>
+                  <td>Emergency Relief</td>
+                  <td>$350</td>
+                  <td>Cash</td>
+                  <td>Jan 10, 2025</td>
+                  <td><span class="status-pill status-pill--processing">Processing</span></td>
+                </tr>
+                <tr>
+                  <td>Sara Fischer</td>
+                  <td>Healthcare Fund</td>
+                  <td>$980</td>
+                  <td>Credit Card</td>
+                  <td>Jan 09, 2025</td>
+                  <td><span class="status-pill status-pill--success">Completed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js"></script>
+  <script src="assets/js/owl.carousel.min.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+
+</html>
