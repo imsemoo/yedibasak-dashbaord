@@ -3,31 +3,69 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Donations Management Dashboard</title>
-  <meta name="description" content="Modern management dashboard shell for charity donations." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard – Overview</title>
+  <meta name="description" content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
   <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard" />
+  <meta property="og:title" content="Donations Dashboard – Overview" />
+  <meta property="og:description" content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard – Overview" />
+  <meta name="twitter:description"
+    content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
   <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="assets/css/normalize.css" />
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
   <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Donations Dashboard",
+          "url": "https://example.org",
+          "logo": "https://example.org/assets/img/og-image.png"
+        },
+        {
+          "@type": "WebSite",
+          "name": "Donations Dashboard",
+          "url": "https://example.org/dashboard",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://example.org/dashboard/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+  </script>
 </head>
 
 <body data-theme="light">
+  <!-- <a class="skip-link" href="#main-content">Skip to main content</a> -->
   <div class="app">
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
-        <div class="logo-mark">
-          <img src="assets/img/logo.svg" alt="" width="190px">
-        </div>
-
+        <a class="sidebar__brand" href="#" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" width="190" height="44" />
+        </a>
       </div>
-      <nav class="sidebar__nav">
-        <a class="sidebar__link active" href="#">
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link active" href="#" aria-current="page">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
@@ -58,63 +96,68 @@
       </nav>
     </aside>
 
-    <div class="sidebar-overlay js-sidebar-overlay"></div>
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
 
     <div class="app-main">
-      <header class="app-header">
+      <header class="app-header" aria-label="Dashboard header">
         <div class="app-header__left">
-          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar">
-            <i class="fas fa-bars"></i>
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
           </button>
-          <div>
+          <div class="app-header__titles">
             <p class="eyebrow">Dashboard</p>
-            <h1 class="h3">Overview</h1>
+            <h2 class="h4">Overview</h2>
           </div>
         </div>
 
         <div class="app-header__center">
-          <div class="search">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
             <i class="fas fa-search" aria-hidden="true"></i>
-            <input type="search" placeholder="Search donors, campaigns, or messages" aria-label="Search" />
-          </div>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
         </div>
 
         <div class="app-header__right">
           <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
-            <i class="fas fa-sun"></i>
+            <i class="fas fa-sun" aria-hidden="true"></i>
           </button>
 
           <div class="dropdown-group">
-            <button class="icon-button js-dropdown-toggle js-notifications-toggle" data-dropdown-target="notifications"
-              aria-haspopup="true" aria-expanded="false" aria-label="Open notifications">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
               <span class="badge-dot"></span>
-              <i class="fa-regular fa-bell"></i>
+              <i class="fa-regular fa-bell" aria-hidden="true"></i>
             </button>
-            <div class="dropdown dropdown-notifications" data-dropdown-panel="notifications" aria-label="Notifications">
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
               <div class="dropdown-header">
                 <span class="dropdown-title">Notifications</span>
                 <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
                   read</button>
               </div>
               <ul class="dropdown-list">
-                <li class="dropdown-notification is-unread">
-                  <div class="notification-dot"></div>
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
                   <div class="notification-body">
                     <p class="notification-title">3 campaigns ending soon</p>
                     <p class="notification-meta">Today &bull; Campaigns</p>
                   </div>
                   <span class="notification-time">2m</span>
                 </li>
-                <li class="dropdown-notification">
-                  <div class="notification-dot is-green"></div>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
                   <div class="notification-body">
                     <p class="notification-title">New donation: $500 for "Healthcare Fund"</p>
                     <p class="notification-meta">5h &bull; Donations</p>
                   </div>
                   <span class="notification-time">5h</span>
                 </li>
-                <li class="dropdown-notification">
-                  <div class="notification-dot is-orange"></div>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
                   <div class="notification-body">
                     <p class="notification-title">Payout scheduled for tomorrow</p>
                     <p class="notification-meta">Yesterday &bull; Finance</p>
@@ -129,34 +172,36 @@
           </div>
 
           <div class="dropdown-group dropdown-user">
-            <div class="header-user js-dropdown-toggle js-user-menu-toggle" data-dropdown-target="user-menu"
-              role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-              <div class="avatar">JL</div>
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
               <div class="user-details">
                 <div class="user-name">Jordan Lee</div>
                 <div class="user-email text-muted">jordan@donations.org</div>
               </div>
-            </div>
-            <div class="dropdown dropdown-user-menu" data-dropdown-panel="user-menu" aria-label="User menu">
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
               <div class="dropdown-header dropdown-user-header">
-                <div class="dropdown-user-avatar">JL</div>
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
                 <div class="dropdown-user-info">
                   <span class="dropdown-user-name">Jordan Lee</span>
                   <span class="dropdown-user-email">jordan@donations.org</span>
                 </div>
               </div>
               <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item">
-                <i class="fa-regular fa-user"></i>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
                 <span>Profile</span>
               </a>
-              <a href="#" class="dropdown-item">
-                <i class="fa-solid fa-gear"></i>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
                 <span>Account settings</span>
               </a>
               <div class="dropdown-divider"></div>
-              <button type="button" class="dropdown-item dropdown-item-danger">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
                 <span>Sign out</span>
               </button>
             </div>
@@ -164,126 +209,223 @@
         </div>
       </header>
 
-      <main class="app-content">
-        <section class="card welcome">
+      <main class="app-content" id="main-content" tabindex="-1">
+        <section class="card welcome" aria-labelledby="welcome-title">
           <div class="welcome__text">
             <p class="eyebrow">Welcome back</p>
-            <h2 class="h2">Keep your impact growing</h2>
+            <h1 id="welcome-title">Keep your impact growing</h1>
             <p class="text-muted">Track donations, nurture donor relationships, and keep every campaign on target.</p>
           </div>
           <div class="welcome__actions">
-            <div class="chip">
-              <span class="chip__dot"></span>
+            <div class="chip" role="status" aria-live="polite">
+              <span class="chip__dot" aria-hidden="true"></span>
               3 campaigns ending soon
             </div>
-            <div class="chip chip--primary">
-              <i class="fas fa-plus"></i>
+            <button class="chip chip--primary" type="button">
+              <i class="fas fa-plus" aria-hidden="true"></i>
               New donation
-            </div>
+            </button>
           </div>
         </section>
 
-        <section class="stats-grid">
-          <article class="card stat-card">
-            <div class="stat-card__label">Total Donations</div>
-            <div class="stat-card__value">$245,400</div>
-            <div class="stat-card__meta">
-              <span class="badge badge--positive">+12% MoM</span>
-              <span class="text-muted">vs last month</span>
-            </div>
-          </article>
-          <article class="card stat-card">
-            <div class="stat-card__label">Active Donors</div>
-            <div class="stat-card__value">1,284</div>
-            <div class="stat-card__meta">
-              <span class="badge badge--info">+64 new</span>
-              <span class="text-muted">in the last 7 days</span>
-            </div>
-          </article>
-          <article class="card stat-card">
-            <div class="stat-card__label">Avg. Donation</div>
-            <div class="stat-card__value">$86.20</div>
-            <div class="stat-card__meta">
-              <span class="badge badge--warning">+4.1%</span>
-              <span class="text-muted">week over week</span>
-            </div>
-          </article>
-          <article class="card stat-card">
-            <div class="stat-card__label">Open Pledges</div>
-            <div class="stat-card__value">$32,500</div>
-            <div class="stat-card__meta">
-              <span class="badge badge--neutral">14 pending</span>
-              <span class="text-muted">awaiting confirmation</span>
-            </div>
-          </article>
+        <section class="section-block" aria-labelledby="stats-title">
+          <div class="section-block__header">
+            <p class="eyebrow">Key metrics</p>
+            <h2 id="stats-title" class="h4">Donations at a glance</h2>
+          </div>
+          <div class="stats-grid">
+            <article class="card stat-card" aria-label="Total Donations">
+              <div class="stat-card__icon">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+              </div>
+              <div>
+                <div class="stat-card__label stat-card__label--live">
+                  Total Donations
+                  <span class="live-pulse" aria-hidden="true"></span>
+                  <span class="sr-only">Live metric</span>
+                </div>
+                <div class="stat-card__value">$245,400</div>
+                <div class="stat-card__meta">
+                  <span class="badge badge--positive">+12% MoM</span>
+                  <span class="text-muted">vs last month</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card stat-card" aria-label="Active Donors">
+              <div class="stat-card__icon">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <div>
+                <div class="stat-card__label">Active Donors</div>
+                <div class="stat-card__value">1,284</div>
+                <div class="stat-card__meta">
+                  <span class="badge badge--info">+64 new</span>
+                  <span class="text-muted">in the last 7 days</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card stat-card" aria-label="Average Donation">
+              <div class="stat-card__icon">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <div>
+                <div class="stat-card__label">Avg. Donation</div>
+                <div class="stat-card__value">$86.20</div>
+                <div class="stat-card__meta">
+                  <span class="badge badge--warning">+4.1%</span>
+                  <span class="text-muted">week over week</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card stat-card" aria-label="Open Pledges">
+              <div class="stat-card__icon">
+                <i class="fa-solid fa-wallet"></i>
+              </div>
+              <div>
+                <div class="stat-card__label">Open Pledges</div>
+                <div class="stat-card__value">$32,500</div>
+                <div class="stat-card__meta">
+                  <span class="badge badge--neutral">14 pending</span>
+                  <span class="text-muted">awaiting confirmation</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+          <div class="insight-bar" aria-live="polite">
+            <i class="fa-regular fa-lightbulb insight-bar__icon" aria-hidden="true"></i>
+            <p class="insight-bar__text">
+              Top regions this month: <strong>Gaza City</strong> and <strong>Nairobi</strong> &mdash; contributing 54%
+              of
+              tracked donations.
+            </p>
+          </div>
         </section>
 
-        <section class="charts-grid">
-          <article class="card chart-card">
-            <div class="card__header">
-              <h3 class="h5">Distribution of Donations (Bar Chart)</h3>
-              <span class="text-muted">Campaign performance</span>
-            </div>
-            <div id="donations-bar-chart" class="chart"></div>
-          </article>
-          <article class="card chart-card">
-            <div class="card__header">
-              <h3 class="h5">Distribution of Donations (Donut Chart)</h3>
-              <span class="text-muted">Source mix</span>
-            </div>
-            <div id="donations-donut-chart" class="chart"></div>
-          </article>
+        <section class="section-block" aria-labelledby="charts-title">
+          <div class="section-block__header">
+            <p class="eyebrow">Performance</p>
+            <h2 id="charts-title" class="h4">Campaign and donor mix</h2>
+          </div>
+          <div class="charts-grid">
+            <article class="card chart-card">
+              <div class="card__header">
+                <h3 class="h5">Distribution of Donations (Bar)</h3>
+                <span class="text-muted">Campaign performance</span>
+              </div>
+              <div id="donations-bar-chart" class="chart" aria-label="Donations bar chart"></div>
+            </article>
+            <article class="card chart-card">
+              <div class="card__header">
+                <h3 class="h5">Distribution of Donations (Donut)</h3>
+                <span class="text-muted">Source mix</span>
+              </div>
+              <div id="donations-donut-chart" class="chart" aria-label="Donations donut chart"></div>
+            </article>
+          </div>
         </section>
 
-        <section class="card table-card">
+        <section class="overview-section overview-section--regions" aria-labelledby="regions-title">
+          <div class="overview-section__header">
+            <h2 class="section-title" id="regions-title">Donations by region</h2>
+            <p class="section-subtitle">See where campaigns are gaining traction across cities and countries.</p>
+          </div>
+
+          <div class="regions-layout">
+            <article class="card card--map h-100">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Geographic distribution</h3>
+                  <span class="card-meta">Sample data for demonstration</span>
+                </div>
+              </header>
+              <div class="card-body">
+                <div id="donations-map" class="map-container" aria-label="Donations by region"></div>
+              </div>
+              <footer class="card-footer card-footer--map">
+                <div class="map-legend" aria-label="Map legend">
+                  <span class="map-legend__item">
+                    <span class="map-legend__dot map-legend__dot--high"></span> High volume
+                  </span>
+                  <span class="map-legend__item">
+                    <span class="map-legend__dot map-legend__dot--medium"></span> Medium
+                  </span>
+                  <span class="map-legend__item">
+                    <span class="map-legend__dot map-legend__dot--low"></span> Emerging
+                  </span>
+                </div>
+              </footer>
+            </article>
+
+            <article class="card card--regions-list">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Top regions</h3>
+                  <span class="card-meta">Last 30 days</span>
+                </div>
+              </header>
+              <div class="card-body regions-list" aria-label="Top regions by donations">
+                <!-- Populated by script -->
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="card table-card" aria-labelledby="table-title">
           <div class="card__header">
-            <h3 class="h5">Latest Donations</h3>
+            <div>
+              <p class="eyebrow">Activity</p>
+              <h2 id="table-title" class="h5">Latest Donations</h2>
+            </div>
             <button class="link-button" type="button">View all</button>
           </div>
-          <div class="table-wrapper">
+          <div class="table-wrapper" role="region" aria-live="polite" aria-label="Latest donations table">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Donor</th>
-                  <th>Campaign</th>
-                  <th>Amount</th>
-                  <th>Method</th>
-                  <th>Date</th>
-                  <th>Status</th>
+                  <th scope="col">Donor</th>
+                  <th scope="col">Campaign</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Method</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Status</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Alex Morgan</td>
-                  <td>Clean Water Drive</td>
-                  <td>$1,200</td>
-                  <td>Credit Card</td>
-                  <td>Jan 12, 2025</td>
-                  <td><span class="status-pill status-pill--success">Completed</span></td>
+                  <td data-label="Donor">Alex Morgan</td>
+                  <td data-label="Campaign">Clean Water Drive</td>
+                  <td data-label="Amount">$1,200</td>
+                  <td data-label="Method">Credit Card</td>
+                  <td data-label="Date">Jan 12, 2025</td>
+                  <td data-label="Status"><span class="status-pill status-pill--success">Completed</span></td>
                 </tr>
                 <tr>
-                  <td>Priya Patel</td>
-                  <td>Education For All</td>
-                  <td>$600</td>
-                  <td>Bank Transfer</td>
-                  <td>Jan 11, 2025</td>
-                  <td><span class="status-pill status-pill--pending">Pending</span></td>
+                  <td data-label="Donor">Priya Patel</td>
+                  <td data-label="Campaign">Education For All</td>
+                  <td data-label="Amount">$600</td>
+                  <td data-label="Method">Bank Transfer</td>
+                  <td data-label="Date">Jan 11, 2025</td>
+                  <td data-label="Status"><span class="status-pill status-pill--pending">Pending</span></td>
                 </tr>
                 <tr>
-                  <td>Diego Ramirez</td>
-                  <td>Emergency Relief</td>
-                  <td>$350</td>
-                  <td>Cash</td>
-                  <td>Jan 10, 2025</td>
-                  <td><span class="status-pill status-pill--processing">Processing</span></td>
+                  <td data-label="Donor">Diego Ramirez</td>
+                  <td data-label="Campaign">Emergency Relief</td>
+                  <td data-label="Amount">$350</td>
+                  <td data-label="Method">Cash</td>
+                  <td data-label="Date">Jan 10, 2025</td>
+                  <td data-label="Status"><span class="status-pill status-pill--processing">Processing</span></td>
                 </tr>
                 <tr>
-                  <td>Sara Fischer</td>
-                  <td>Healthcare Fund</td>
-                  <td>$980</td>
-                  <td>Credit Card</td>
-                  <td>Jan 09, 2025</td>
-                  <td><span class="status-pill status-pill--success">Completed</span></td>
+                  <td data-label="Donor">Sara Fischer</td>
+                  <td data-label="Campaign">Healthcare Fund</td>
+                  <td data-label="Amount">$980</td>
+                  <td data-label="Method">Credit Card</td>
+                  <td data-label="Date">Jan 09, 2025</td>
+                  <td data-label="Status"><span class="status-pill status-pill--success">Completed</span></td>
                 </tr>
               </tbody>
             </table>
@@ -298,11 +440,13 @@
   </div>
 
   <!-- JavaScript Files -->
-  <script src="assets/js/jquery-3.7.1.min.js"></script>
-  <script src="assets/js/owl.carousel.min.js"></script>
-  <script src="assets/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script src="assets/js/script.js"></script>
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="assets/js/script.js" defer></script>
 </body>
 
 </html>
