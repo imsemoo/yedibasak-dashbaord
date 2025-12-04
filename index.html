@@ -61,25 +61,25 @@
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="#" aria-label="Donations dashboard home">
-          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" width="190" height="44" />
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
         </a>
       </div>
       <nav class="sidebar__nav" aria-label="Primary">
-        <a class="sidebar__link active" href="#" aria-current="page">
+        <a class="sidebar__link active" href="index.html">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
-        <a class="sidebar__link" href="#">
+        <a class="sidebar__link" href="campaigns.html">
           <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link " href="donations.html" aria-current="page">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
         </a>
         <a class="sidebar__link" href="#">
           <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Donors</span>
-        </a>
-        <a class="sidebar__link" href="#">
-          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
-          <span class="sidebar__label">Donations</span>
         </a>
         <a class="sidebar__link" href="#">
           <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
@@ -93,6 +93,22 @@
           <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Settings</span>
         </a>
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span>More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-file"></i> Reports</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-user-group"></i> Beneficiaries</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-plug"></i> Integrations</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-clipboard-list"></i> System Logs</a></li>
+          </ul>
+        </li>
       </nav>
     </aside>
 
@@ -368,7 +384,63 @@
                 </div>
               </header>
               <div class="card-body regions-list" aria-label="Top regions by donations">
-                <!-- Populated by script -->
+                <button class="region-row" type="button" data-region-id="gaza">
+                  <div class="region-row__main">
+                    <span class="region-row__name">Gaza City</span>
+                    <span class="region-row__country">Palestine</span>
+                  </div>
+                  <div class="region-row__metrics">
+                    <span class="region-row__amount">$74,400</span>
+                    <span class="region-row__meta">420 donors | 9 campaigns</span>
+                  </div>
+                  <div class="region-row__spark">
+                    <span class="badge badge--level badge--level-high">High</span>
+                  </div>
+                </button>
+
+                <button class="region-row" type="button" data-region-id="nairobi">
+                  <div class="region-row__main">
+                    <span class="region-row__name">Nairobi</span>
+                    <span class="region-row__country">Kenya</span>
+                  </div>
+                  <div class="region-row__metrics">
+                    <span class="region-row__amount">$58,100</span>
+                    <span class="region-row__meta">214 donors | 6 campaigns</span>
+                  </div>
+                  <div class="region-row__spark">
+                    <span class="badge badge--level badge--level-high">High</span>
+                  </div>
+                </button>
+
+                <button class="region-row" type="button" data-region-id="istanbul">
+                  <div class="region-row__main">
+                    <span class="region-row__name">Istanbul</span>
+                    <span class="region-row__country">Turkiye</span>
+                  </div>
+                  <div class="region-row__metrics">
+                    <span class="region-row__amount">$31,400</span>
+                    <span class="region-row__meta">165 donors | 5 campaigns</span>
+                  </div>
+                  <div class="region-row__spark">
+                    <span class="badge badge--level badge--level-medium">Medium</span>
+                  </div>
+                </button>
+
+                <button class="region-row" type="button" data-region-id="kampala">
+                  <div class="region-row__main">
+                    <span class="region-row__name">Kampala</span>
+                    <span class="region-row__country">Uganda</span>
+                  </div>
+                  <div class="region-row__metrics">
+                    <span class="region-row__amount">$28,500</span>
+                    <span class="region-row__meta">150 donors | 4 campaigns</span>
+                  </div>
+                  <div class="region-row__spark">
+                    <span class="badge badge--level badge--level-medium">Medium</span>
+                  </div>
+                </button>
+
+
               </div>
             </article>
           </div>

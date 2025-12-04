@@ -606,55 +606,21 @@
       bounds.push([region.lat, region.lng]);
     };
 
-    const buildRegionsList = () => {
-      regionsList.innerHTML = "";
-      sortedRegions.forEach((region) => {
-        const row = document.createElement("button");
-        row.type = "button";
-        row.className = "region-row";
-        row.dataset.regionId = region.id;
-
-        const main = document.createElement("div");
-        main.className = "region-row__main";
-        const nameEl = document.createElement("span");
-        nameEl.className = "region-row__name";
-        nameEl.textContent = region.name;
-        const countryEl = document.createElement("span");
-        countryEl.className = "region-row__country";
-        countryEl.textContent = region.country;
-        main.append(nameEl, countryEl);
-
-        const metrics = document.createElement("div");
-        metrics.className = "region-row__metrics";
-        const amountEl = document.createElement("span");
-        amountEl.className = "region-row__amount";
-        amountEl.textContent = formatCurrencyDisplay(region.totalDonations);
-        const metaEl = document.createElement("span");
-        metaEl.className = "region-row__meta";
-        metaEl.textContent = `${region.donors.toLocaleString()} donors | ${region.campaigns} campaigns`;
-        metrics.append(amountEl, metaEl);
-
-        const spark = document.createElement("div");
-        spark.className = "region-row__spark";
-        const badge = document.createElement("span");
-        badge.className = `badge badge--level badge--level-${region.level}`;
-        badge.textContent = region.level === "high" ? "High" : region.level === "medium" ? "Medium" : "Low";
-        spark.append(badge);
-
-        row.append(main, metrics, spark);
-
-        row.addEventListener("click", () => setActiveRegion(region.id, { pan: true, openPopup: true }));
-        row.addEventListener("mouseenter", () => setHoverRegion(region.id));
+    const wireRegionsList = () => {
+      const regionRows = Array.from(regionsList.querySelectorAll(".region-row"));
+      regionRows.forEach((row) => {
+        const id = row.dataset.regionId;
+        if (!id) return;
+        rows.set(id, row);
+        row.addEventListener("click", () => setActiveRegion(id, { pan: true, openPopup: true }));
+        row.addEventListener("mouseenter", () => setHoverRegion(id));
         row.addEventListener("mouseleave", () => setHoverRegion(activeRegionId));
         row.addEventListener("keydown", (event) => {
           if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
             event.preventDefault();
-            setActiveRegion(region.id, { pan: true, openPopup: true });
+            setActiveRegion(id, { pan: true, openPopup: true });
           }
         });
-
-        regionsList.appendChild(row);
-        rows.set(region.id, row);
       });
     };
 
@@ -674,7 +640,7 @@
     };
 
     sortedRegions.forEach(createMarker);
-    buildRegionsList();
+    wireRegionsList();
     refreshRegionsMapTheme = () => updateMarkerStyles(activeRegionId, hoverRegionId);
     donationsMapInitialized = true;
 
@@ -684,7 +650,7 @@
       requestAnimationFrame(() => map.invalidateSize());
     }
 
-    const defaultRegion = sortedRegions[0];
+    const defaultRegion = sortedRegions.find((region) => rows.has(region.id)) || sortedRegions[0];
     if (defaultRegion) {
       setActiveRegion(defaultRegion.id, { pan: false });
     }
@@ -1990,6 +1956,68 @@
     });
   };
 
+  const showToast = (message, variant = "success") => {
+    const container = document.querySelector(".toast-container");
+    if (!container) return;
+    const toast = document.createElement("div");
+    toast.className = `toast toast--${variant}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.remove();
+    }, 4200);
+  };
+
+  const initDonationDetailsPage = () => {
+    const page = document.querySelector(".donation-details-page");
+    if (!page) return;
+
+    const modal = document.getElementById("refundModal");
+    const form = modal?.querySelector("#refundForm");
+    const closeControls = modal?.querySelectorAll("[data-modal-close]");
+    const refundTriggers = page.querySelectorAll(".js-trigger-refund");
+
+    const openModal = () => {
+      modal?.classList.add("is-open");
+      document.body.classList.add("is-locked");
+    };
+
+    const closeModal = () => {
+      modal?.classList.remove("is-open");
+      document.body.classList.remove("is-locked");
+    };
+
+    refundTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", openModal);
+    });
+
+    closeControls?.forEach((control) => {
+      control.addEventListener("click", closeModal);
+    });
+
+    modal?.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      closeModal();
+      showToast("Refund request captured.", "success");
+    });
+
+    const resendTrigger = page.querySelector(".js-resend-receipt");
+    resendTrigger?.addEventListener("click", () => {
+      showToast("Receipt resent to jordan@donations.org", "success");
+    });
+
+    const timelineItems = page.querySelectorAll(".timeline-item");
+    timelineItems.forEach((item, index) => {
+      setTimeout(() => item.classList.add("is-visible"), index * 100);
+    });
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
     initThemeToggle();
     initSidebar();
@@ -2010,6 +2038,7 @@
     initCampaignFormFormatting();
     initCampaignFormPreview();
     initCampaignFormValidation();
+    initDonationDetailsPage();
 
     const markAllNotifications = document.querySelector(".js-mark-notifications");
     if (markAllNotifications) {
