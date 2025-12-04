@@ -71,6 +71,7 @@
   --sidebar-width: 264px;
   --sidebar-collapsed: 96px;
   --header-height: 64px;
+  --donation-sticky-offset: 0px;
 }
 
 body[data-theme="dark"] {
@@ -716,6 +717,12 @@ img {
   font-weight: 600;
   background: var(--color-bg);
   border: 1px solid var(--color-border);
+}
+
+.badge--primary {
+  color: var(--color-primary);
+  border-color: rgba(21, 197, 206, 0.2);
+  background: rgba(21, 197, 206, 0.12);
 }
 
 .badge--positive {
@@ -3589,9 +3596,10 @@ body[data-theme="dark"] .sidebar__nav::-webkit-scrollbar-thumb {
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 0.35s var(--transition-fast), transform 0.35s var(--transition-fast);
+  transition-delay: var(--timeline-delay, 0s);
 }
 
-.timeline-item.is-visible {
+.timeline.is-visible .timeline-item {
   opacity: 1;
   transform: translateY(0);
 }
@@ -3860,6 +3868,7 @@ body[data-theme="dark"] .sidebar__nav::-webkit-scrollbar-thumb {
     transform: translateY(6px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -3870,6 +3879,7 @@ body[data-theme="dark"] .sidebar__nav::-webkit-scrollbar-thumb {
   .details-layout {
     grid-template-columns: 1fr;
   }
+
   .payment-card__body {
     grid-template-columns: 1fr;
   }
@@ -3887,6 +3897,104 @@ body[data-theme="dark"] .details-card__meta span,
 body[data-theme="dark"] .timeline-item__body time,
 body[data-theme="dark"] .timeline-item__body p {
   color: var(--color-muted);
+}
+
+/* Donation details micro-interactions */
+.details-card--side {
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .details-card--side:hover,
+  .details-card--side:focus-within {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+    border-color: var(--color-primary-soft);
+  }
+}
+
+.details-sticky-actions {
+  display: none;
+}
+
+.details-sticky-actions__btn {
+  flex: 1;
+  height: 46px;
+  gap: var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details-sticky-actions__btn i {
+  margin-right: var(--space-2);
+  font-size: 0.85rem;
+}
+
+.details-sticky-actions__more {
+  border-color: var(--color-border);
+  width: 46px;
+  height: 46px;
+}
+
+.details-sticky-actions__more i {
+  margin: 0;
+}
+
+.timeline.is-visible .timeline-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .details-sticky-actions {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: calc(var(--space-3) + env(safe-area-inset-bottom, 0px)) var(--space-4);
+    gap: var(--space-3);
+    background: var(--color-card-bg);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -16px 34px rgba(15, 23, 42, 0.16);
+    z-index: 2200;
+  }
+
+  .details-sticky-actions__btn {
+    height: 46px;
+  }
+
+  .details-sticky-actions__more {
+    flex: 0 0 46px;
+  }
+
+  .app-content {
+    padding-bottom: calc(var(--donation-sticky-offset, 0px) + var(--space-5));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .details-card--side {
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .details-card--side:hover,
+  .details-card--side:focus-within {
+    transform: none;
+  }
+
+  .timeline-item {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+body[data-theme="dark"] .details-sticky-actions {
+  background: #0b1222;
+  border-top-color: #1f2a3d;
+  box-shadow: 0 -16px 34px rgba(0, 0, 0, 0.55);
 }
 
 /* Responsive */

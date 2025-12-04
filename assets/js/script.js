@@ -1968,10 +1968,7 @@
     }, 4200);
   };
 
-  const initDonationDetailsPage = () => {
-    const page = document.querySelector(".donation-details-page");
-    if (!page) return;
-
+  const setupDonationDetailsActions = (page) => {
     const modal = document.getElementById("refundModal");
     const form = modal?.querySelector("#refundForm");
     const closeControls = modal?.querySelectorAll("[data-modal-close]");
@@ -2011,11 +2008,55 @@
     resendTrigger?.addEventListener("click", () => {
       showToast("Receipt resent to jordan@donations.org", "success");
     });
+  };
 
-    const timelineItems = page.querySelectorAll(".timeline-item");
-    timelineItems.forEach((item, index) => {
-      setTimeout(() => item.classList.add("is-visible"), index * 100);
+  const setupDonationDetailsStickyBar = (page) => {
+    const stickyBar = page.querySelector(".details-sticky-actions");
+    if (!stickyBar) return;
+
+    const refreshOffset = () => {
+      const height = stickyBar.offsetHeight;
+      document.documentElement.style.setProperty("--donation-sticky-offset", `${height}px`);
+    };
+
+    refreshOffset();
+    setTimeout(refreshOffset, 200);
+    window.addEventListener("resize", refreshOffset);
+  };
+
+  const setupDonationTimelineReveal = (page) => {
+    const timeline = page.querySelector(".details-card--timeline .timeline");
+    if (!timeline) return;
+
+    const items = Array.from(timeline.querySelectorAll(".timeline-item"));
+    if (!items.length) return;
+
+    items.forEach((item, index) => {
+      item.style.setProperty("--timeline-delay", `${index * 0.08}s`);
     });
+
+    const reveal = () => {
+      timeline.classList.add("is-visible");
+    };
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      reveal();
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      setTimeout(reveal, 60);
+    });
+  };
+
+  const initDonationDetailsPage = () => {
+    const page = document.querySelector(".donation-details-page");
+    if (!page) return;
+
+    setupDonationDetailsActions(page);
+    setupDonationDetailsStickyBar(page);
+    setupDonationTimelineReveal(page);
   };
 
   document.addEventListener("DOMContentLoaded", () => {

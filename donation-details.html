@@ -433,7 +433,7 @@
           </div>
 
           <aside class="details-layout__side">
-            <article class="card details-card campaign-card--mini">
+            <article class="card details-card details-card--side campaign-card--mini">
               <header class="details-card__header">
                 <div>
                   <p class="details-card__title">Linked campaign</p>
@@ -458,7 +458,7 @@
               </a>
             </article>
 
-            <article class="card details-card donor-history-card">
+            <article class="card details-card details-card--side donor-history-card">
               <header class="details-card__header">
                 <div>
                   <p class="details-card__title">Donor history</p>
@@ -500,7 +500,7 @@
               <button type="button" class="link-button donor-history-card__link">View all donations from this donor</button>
             </article>
 
-            <article class="card details-card tech-card">
+            <article class="card details-card details-card--side tech-card">
               <header class="details-card__header">
                 <div>
                   <p class="details-card__title">Technical details</p>
@@ -536,6 +536,21 @@
             </article>
           </aside>
         </section>
+        <div class="details-sticky-actions" role="toolbar" aria-label="Donation quick actions">
+          <button class="btn btn-primary details-sticky-actions__btn js-trigger-refund" type="button">
+            <i class="fas fa-sack-dollar" aria-hidden="true"></i>
+            Refund
+          </button>
+          <button class="btn btn-outline details-sticky-actions__btn js-resend-receipt" type="button">
+            <i class="fas fa-envelope" aria-hidden="true"></i>
+            Resend receipt
+          </button>
+          <button class="icon-button icon-button--sm details-sticky-actions__more js-dropdown-toggle" type="button"
+            data-dropdown-target="donation-more" aria-haspopup="true" aria-expanded="false" aria-controls="donation-more"
+            aria-label="More actions">
+            <i class="fas fa-ellipsis-vertical"></i>
+          </button>
+        </div>
       </main>
 
       <footer class="app-footer">
