@@ -90,6 +90,7 @@
 
   const STORAGE_KEY = "donations-dashboard-theme";
   const CAMPAIGN_VIEW_STORAGE_KEY = "dd_campaigns_view_mode";
+  const DONATIONS_VIEW_STORAGE_KEY = "dd_donations_view_mode";
   const mobileQuery = window.matchMedia("(max-width: 1023px)");
   const barCategories = ["Education", "Healthcare", "Emergency Relief", "Operations", "Community"];
   const donutLabels = ["One-time", "Recurring", "Corporate", "In-kind"];
@@ -1009,6 +1010,313 @@
     });
   };
 
+  const initDonationsViewToggle = () => {
+    const viewToggle = document.querySelector(".view-toggle[data-view-context='donations']");
+    const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
+    const views = Array.from(document.querySelectorAll(".donations-view"));
+    if (!viewToggle || !viewButtons.length || !views.length) return;
+
+    const validModes = viewButtons.map((btn) => btn.dataset.viewMode).filter(Boolean);
+    const stored = localStorage.getItem(DONATIONS_VIEW_STORAGE_KEY);
+    const fallback = validModes.includes("cards") ? "cards" : validModes[0];
+    const initialMode = stored && validModes.includes(stored) ? stored : fallback;
+
+    const setActiveView = (mode) => {
+      viewButtons.forEach((btn) => {
+        const isActive = btn.dataset.viewMode === mode;
+        btn.classList.toggle("is-active", isActive);
+        btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+
+      views.forEach((view) => {
+        const isActive = view.dataset.view === mode;
+        view.classList.toggle("is-active", isActive);
+        view.setAttribute("aria-hidden", isActive ? "false" : "true");
+      });
+
+      localStorage.setItem(DONATIONS_VIEW_STORAGE_KEY, mode);
+    };
+
+    setActiveView(initialMode);
+
+    viewButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.viewMode;
+        if (mode) {
+          setActiveView(mode);
+        }
+      });
+    });
+  };
+
+  const initDonationsPreview = () => {
+    const previewSheet = document.querySelector('.preview-sheet[data-preview="donation"]');
+    if (!previewSheet) return;
+
+    const closeButtons = previewSheet.querySelectorAll(".js-preview-close");
+    const backdrop = previewSheet.querySelector(".preview-sheet__backdrop");
+    const donorNameEls = Array.from(previewSheet.querySelectorAll(".js-preview-donor"));
+    const campaignEls = Array.from(previewSheet.querySelectorAll(".js-preview-campaign"));
+    const statusEl = previewSheet.querySelector(".js-preview-status");
+    const amountEl = previewSheet.querySelector(".js-preview-amount");
+    const methodEl = previewSheet.querySelector(".js-preview-method");
+    const dateEl = previewSheet.querySelector(".js-preview-date");
+    const avatarEl = previewSheet.querySelector(".preview-donation__avatar");
+    const emailEl = previewSheet.querySelector(".js-preview-email");
+    const locationEl = previewSheet.querySelector(".js-preview-location");
+    const notesSection = previewSheet.querySelector("[data-preview-notes]");
+    const notesEl = previewSheet.querySelector(".js-preview-notes");
+    const previewButtons = Array.from(document.querySelectorAll(".js-donation-preview"));
+    const body = document.body;
+
+    if (!previewButtons.length) return;
+
+    const statusClass = (status) => {
+      const normalized = (status || "").toLowerCase();
+      if (normalized.includes("completed")) return "status-pill--success";
+      if (normalized.includes("pending")) return "status-pill--pending";
+      if (normalized.includes("refunded")) return "status-pill--refunded";
+      if (normalized.includes("failed")) return "status-pill--failed";
+      return "";
+    };
+
+    const getInitials = (value = "") =>
+      (value
+        .split(" ")
+        .map((segment) => segment.charAt(0))
+        .filter(Boolean)
+        .slice(0, 2)
+        .join("") || "")
+        .toUpperCase();
+
+    const lockScroll = () => body.classList.add("is-locked");
+    const unlockScroll = () => {
+      const app = document.querySelector(".app");
+      if (!app || !app.classList.contains("sidebar-open")) {
+        body.classList.remove("is-locked");
+      }
+    };
+
+    const openSheet = () => {
+      previewSheet.classList.add("is-open");
+      previewSheet.setAttribute("aria-hidden", "false");
+      lockScroll();
+    };
+
+    const closeSheet = () => {
+      previewSheet.classList.remove("is-open");
+      previewSheet.setAttribute("aria-hidden", "true");
+      unlockScroll();
+    };
+
+    const fillPreview = (dataset) => {
+      const donorName = dataset?.donorName || "Donor";
+      const donorInitials = dataset?.donorInitials || getInitials(donorName);
+      donorNameEls.forEach((el) => {
+        el.textContent = donorName;
+      });
+      campaignEls.forEach((el) => {
+        el.textContent = dataset?.donationCampaign || "Campaign";
+      });
+      if (amountEl) amountEl.textContent = dataset?.donationAmount || "$0";
+
+      if (methodEl) {
+        methodEl.textContent = dataset?.donationMethod || "";
+      }
+      if (dateEl) {
+        dateEl.textContent = dataset?.donationDate || "";
+      }
+
+      if (statusEl) {
+        const statusText = dataset?.donationStatus || "";
+        statusEl.textContent = statusText || "Status";
+        statusEl.className = `status-pill ${statusClass(statusText)}`.trim();
+      }
+
+      if (avatarEl) {
+        avatarEl.textContent = donorInitials || "DR";
+      }
+
+      if (emailEl) {
+        emailEl.textContent = dataset?.donorEmail || "";
+      }
+
+      if (locationEl) {
+        locationEl.textContent = dataset?.donorLocation || "";
+      }
+
+      const notes = dataset?.donationNotes;
+      if (notesSection && notesEl) {
+        notesSection.classList.toggle("is-hidden", !notes);
+        notesEl.textContent = notes || "";
+      }
+    };
+
+    previewButtons.forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        const wrapper = event.currentTarget.closest(".donation-card, .donation-row");
+        if (!wrapper) return;
+        fillPreview(wrapper.dataset);
+        openSheet();
+      });
+    });
+
+    closeButtons.forEach((btn) => btn.addEventListener("click", closeSheet));
+    backdrop?.addEventListener("click", closeSheet);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && previewSheet.classList.contains("is-open")) {
+        closeSheet();
+      }
+    });
+  };
+
+  const initDonationsFilters = () => {
+    const offcanvas = document.getElementById("donationsFilters");
+    const trigger = document.querySelector(".js-open-donations-filters");
+    if (!offcanvas || !trigger) return;
+
+    const backdrop = offcanvas.querySelector(".offcanvas-backdrop");
+    const closeButtons = offcanvas.querySelectorAll(".js-offcanvas-close");
+    const resetButton = offcanvas.querySelector(".js-offcanvas-reset");
+    const applyButton = offcanvas.querySelector(".js-offcanvas-apply");
+    const badge = trigger.querySelector(".js-filter-count");
+    const fields = Array.from(offcanvas.querySelectorAll("input, select"));
+
+    const lockScroll = () => document.body.classList.add("is-locked");
+    const unlockScroll = () => {
+      const app = document.querySelector(".app");
+      if (!app || !app.classList.contains("sidebar-open")) {
+        document.body.classList.remove("is-locked");
+      }
+    };
+
+    const countActiveFilters = () =>
+      fields.reduce((count, field) => {
+        if ((field.type === "checkbox" || field.type === "radio") && field.checked) return count + 1;
+        if (field.value && field.value.trim() !== "") return count + 1;
+        return count;
+      }, 0);
+
+    const updateBadge = () => {
+      const total = countActiveFilters();
+      if (badge) {
+        badge.textContent = total;
+        badge.classList.toggle("is-hidden", total === 0);
+      }
+      trigger.setAttribute("data-has-filters", total > 0 ? "true" : "false");
+    };
+
+    const close = () => {
+      offcanvas.classList.remove("is-open");
+      offcanvas.setAttribute("aria-hidden", "true");
+      trigger.setAttribute("aria-expanded", "false");
+      unlockScroll();
+    };
+
+    const open = () => {
+      offcanvas.classList.add("is-open");
+      offcanvas.setAttribute("aria-hidden", "false");
+      trigger.setAttribute("aria-expanded", "true");
+      lockScroll();
+    };
+
+    const toggle = () => {
+      if (offcanvas.classList.contains("is-open")) {
+        close();
+      } else {
+        open();
+      }
+    };
+
+    trigger.addEventListener("click", toggle);
+    backdrop?.addEventListener("click", close);
+    closeButtons.forEach((btn) => btn.addEventListener("click", close));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && offcanvas.classList.contains("is-open")) {
+        close();
+      }
+    });
+
+    fields.forEach((field) => field.addEventListener("change", updateBadge));
+
+    resetButton?.addEventListener("click", () => {
+      fields.forEach((field) => {
+        if (field.type === "checkbox" || field.type === "radio") {
+          field.checked = false;
+        } else {
+          field.value = "";
+        }
+      });
+      updateBadge();
+    });
+
+    applyButton?.addEventListener("click", () => {
+      updateBadge();
+      close();
+    });
+
+    updateBadge();
+  };
+
+  const initDonationsActions = () => {
+    const actionToggles = Array.from(document.querySelectorAll(".js-donation-actions-toggle"));
+    const actionMenus = Array.from(document.querySelectorAll(".dropdown-donations .dropdown-menu--actions"));
+    if (!actionToggles.length || !actionMenus.length) return;
+
+    const closeMenus = () => {
+      actionMenus.forEach((menu) => menu.classList.remove("is-open"));
+      actionToggles.forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+    };
+
+    const getMenu = (toggle) => toggle.closest(".dropdown-donations")?.querySelector(".dropdown-menu--actions");
+
+    const toggleMenu = (toggle) => {
+      const menu = getMenu(toggle);
+      if (!menu) return;
+      const isOpen = menu.classList.contains("is-open");
+      closeMenus();
+      if (!isOpen) {
+        menu.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+      }
+    };
+
+    actionToggles.forEach((toggle) => {
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleMenu(toggle);
+      });
+      toggle.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+          event.preventDefault();
+          toggleMenu(toggle);
+        }
+      });
+    });
+
+    actionMenus.forEach((menu) => {
+      menu.addEventListener("click", (event) => event.stopPropagation());
+      menu.querySelectorAll(".dropdown-item").forEach((item) => {
+        item.addEventListener("click", closeMenus);
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".dropdown-donations")) {
+        closeMenus();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenus();
+      }
+    });
+  };
+
   // Campaign form preview
   const initCampaignFormPreview = () => {
     const form = document.querySelector(".js-campaign-form");
@@ -1563,6 +1871,62 @@
     }
   };
 
+  const initSidebarSubmenus = () => {
+    const expandableItems = Array.from(document.querySelectorAll(".sidebar-item--expandable"));
+    if (!expandableItems.length) return;
+
+    const closeAll = (skipItem) => {
+      expandableItems.forEach((item) => {
+        if (item === skipItem) return;
+        const toggle = item.querySelector(".sidebar-link--toggle");
+        const submenu = toggle ? document.getElementById(toggle.dataset.submenu) : null;
+        if (!toggle || !submenu) return;
+        submenu.classList.remove("is-open");
+        submenu.setAttribute("aria-hidden", "true");
+        toggle.setAttribute("aria-expanded", "false");
+        item.classList.remove("is-open");
+      });
+    };
+
+    const setMenuState = (item, toggle, submenu, isOpen) => {
+      if (!toggle || !submenu) return;
+      submenu.classList.toggle("is-open", isOpen);
+      submenu.setAttribute("aria-hidden", isOpen ? "false" : "true");
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      item.classList.toggle("is-open", isOpen);
+    };
+
+    expandableItems.forEach((item) => {
+      const toggle = item.querySelector(".sidebar-link--toggle");
+      const submenuId = toggle?.dataset.submenu;
+      const submenu = submenuId ? document.getElementById(submenuId) : null;
+      if (!toggle || !submenu) return;
+      submenu.setAttribute("aria-hidden", "true");
+      toggle.setAttribute("aria-expanded", "false");
+
+      const handleToggle = (event) => {
+        event.preventDefault();
+        const isOpen = submenu.classList.contains("is-open");
+        closeAll(item);
+        setMenuState(item, toggle, submenu, !isOpen);
+      };
+
+      toggle.addEventListener("click", handleToggle);
+      toggle.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+          event.preventDefault();
+          handleToggle(event);
+        }
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".sidebar-item--expandable")) {
+        closeAll();
+      }
+    });
+  };
+
   // Soft validation states and submit guardrails
   const initCampaignFormValidation = () => {
     const form = document.querySelector(".js-campaign-form");
@@ -1629,13 +1993,18 @@
   document.addEventListener("DOMContentLoaded", () => {
     initThemeToggle();
     initSidebar();
+    initSidebarSubmenus();
     Dropdowns.init();
     initAccessibilityHelpers();
     initCharts();
     initCampaignViewToggle();
+    initDonationsViewToggle();
     initCampaignFilters();
+    initDonationsFilters();
     initCampaignActions();
+    initDonationsActions();
     initCampaignPreview();
+    initDonationsPreview();
     initMultiSelectTags();
     initCampaignImageUpload();
     initCampaignFormFormatting();

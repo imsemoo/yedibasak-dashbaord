@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard - Donations</title>
+  <meta name="description" content="Track every donation, filter by status, and review details across campaigns." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/donations" />
+  <meta property="og:title" content="Donations Dashboard - Donations" />
+  <meta property="og:description"
+    content="Track every donation, filter by status, and review details across campaigns." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/donations" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Donations" />
+  <meta name="twitter:description"
+    content="Track every donation, filter by status, and review details across campaigns." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="#" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" width="190" height="44" />
+        </a>
+      </div>
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link active" href="donations.html" aria-current="page">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual Donations</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span>More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-file"></i> Reports</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-user-group"></i> Beneficiaries</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-plug"></i> Integrations</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-clipboard-list"></i> System Logs</a></li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Donations</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa-regular fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New manual donation added</p>
+                    <p class="notification-meta">Just now • Donations</p>
+                  </div>
+                  <span class="notification-time">Just now</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Recurring donation processed</p>
+                    <p class="notification-meta">2h • Finance</p>
+                  </div>
+                  <span class="notification-time">2h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Refund request approved</p>
+                    <p class="notification-meta">Yesterday • Support</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="app-content" id="main-content" tabindex="-1">
+        <section class="card page-header" aria-labelledby="donations-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li aria-current="page">Donations</li>
+              </ol>
+            </nav>
+            <div class="page-header__title">
+              <h1 id="donations-title" class="h3">Donations</h1>
+              <p class="page-header__subtitle text-muted">Track all individual contributions across campaigns.</p>
+            </div>
+          </div>
+          <div class="page-header__actions">
+            <button class="btn btn-primary" type="button">
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+              New manual donation
+            </button>
+            <button class="icon-button" type="button" aria-label="Export donations">
+              <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i>
+            </button>
+          </div>
+        </section>
+
+        <section class="card donations-toolbar" aria-label="Donation filters">
+          <div class="donations-toolbar__left">
+            <div class="tabs" role="tablist" aria-label="Donation status tabs">
+              <button class="tabs__item tabs__item--active" type="button" role="tab" aria-selected="true">All</button>
+              <button class="tabs__item" type="button" role="tab" aria-selected="false">Completed</button>
+              <button class="tabs__item" type="button" role="tab" aria-selected="false">Pending</button>
+              <button class="tabs__item" type="button" role="tab" aria-selected="false">Refunded</button>
+              <button class="tabs__item" type="button" role="tab" aria-selected="false">Failed</button>
+            </div>
+          </div>
+          <div class="donations-toolbar__right">
+            <form class="search donations-search" role="search" aria-label="Search donations">
+              <label class="sr-only" for="donations-search">Search donations</label>
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input id="donations-search" type="search" name="donation-search"
+                placeholder="Search donors, campaigns, or amounts" autocomplete="off" />
+            </form>
+            <button class="btn btn-ghost js-open-donations-filters" type="button" aria-expanded="false"
+              aria-controls="donationsFilters">
+              <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+              Filters
+              <span class="filter-count js-filter-count is-hidden" aria-live="polite">0</span>
+            </button>
+            <div class="view-toggle" role="tablist" aria-label="Donations view modes" data-view-context="donations">
+              <button class="view-toggle__btn is-active" type="button" data-view-mode="cards" aria-pressed="true">
+                <i class="fa-solid fa-grid-2" aria-hidden="true"></i>
+                <span>Cards</span>
+              </button>
+              <button class="view-toggle__btn" type="button" data-view-mode="table" aria-pressed="false">
+                <i class="fa-solid fa-table" aria-hidden="true"></i>
+                <span>Table</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card donations-view donations-view--cards is-active" data-view="cards"
+          aria-label="Donation cards view">
+          <div class="donations-grid">
+            <article class="donation-card card" data-donor-name="Amina Rahman" data-donor-email="amina@worldhealth.org"
+              data-donor-location="Nairobi, Kenya" data-donor-initials="AR" data-donation-amount="$1,250"
+              data-donation-status="Completed" data-donation-method="ACH transfer" data-donation-date="Nov 21, 2025"
+              data-donation-campaign="Healthcare Resilience Fund"
+              data-donation-notes="Recorded offline during the Nairobi gala.">
+              <div class="donation-card__header">
+                <div class="donation-card__donor">
+                  <span class="donation-card__avatar" aria-hidden="true">AR</span>
+                  <div>
+                    <p class="donation-card__donor-name">Amina Rahman</p>
+                    <p class="donation-card__donor-meta">World Health Alliance</p>
+                  </div>
+                </div>
+                <span class="status-pill status-pill--success">Completed</span>
+              </div>
+              <div class="donation-card__body">
+                <p class="donation-card__amount">$1,250</p>
+                <p class="donation-card__campaign">Healthcare Resilience Fund</p>
+                <p class="donation-card__meta">
+                  <span>ACH transfer</span>
+                  <span>Nov 21, 2025</span>
+                </p>
+              </div>
+              <div class="donation-card__footer">
+                <div class="donation-card__actions">
+                  <button class="btn btn-ghost js-donation-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <button class="btn btn-outline" type="button">
+                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                    <span>Edit</span>
+                  </button>
+                  <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donations">
+                    <button class="icon-button icon-button--sm js-donation-actions-toggle" type="button"
+                      aria-haspopup="true" aria-expanded="false" aria-label="More donation actions">
+                      <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-receipt" aria-hidden="true"></i>
+                        <span>Send receipt</span>
+                      </button>
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        <span>Duplicate</span>
+                      </button>
+                      <button type="button" class="dropdown-item dropdown-item--danger">
+                        <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                        <span>Flag donation</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="donation-card card" data-donor-name="Mateo Singh" data-donor-email="mateo@brightfuture.org"
+              data-donor-location="Seattle, USA" data-donor-initials="MS" data-donation-amount="$320"
+              data-donation-status="Pending" data-donation-method="Credit card" data-donation-date="Nov 20, 2025"
+              data-donation-campaign="Education Access">
+              <div class="donation-card__header">
+                <div class="donation-card__donor">
+                  <span class="donation-card__avatar" aria-hidden="true">MS</span>
+                  <div>
+                    <p class="donation-card__donor-name">Mateo Singh</p>
+                    <p class="donation-card__donor-meta">Bright Future Collective</p>
+                  </div>
+                </div>
+                <span class="status-pill status-pill--pending">Pending</span>
+              </div>
+              <div class="donation-card__body">
+                <p class="donation-card__amount">$320</p>
+                <p class="donation-card__campaign">Education Access</p>
+                <p class="donation-card__meta">
+                  <span>Credit card</span>
+                  <span>Nov 20, 2025</span>
+                </p>
+              </div>
+              <div class="donation-card__footer">
+                <div class="donation-card__actions">
+                  <button class="btn btn-ghost js-donation-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donations">
+                    <button class="icon-button icon-button--sm js-donation-actions-toggle" type="button"
+                      aria-haspopup="true" aria-expanded="false" aria-label="More donation actions">
+                      <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-receipt" aria-hidden="true"></i>
+                        <span>Send receipt</span>
+                      </button>
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        <span>Duplicate</span>
+                      </button>
+                      <button type="button" class="dropdown-item dropdown-item--danger">
+                        <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                        <span>Flag donation</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="donation-card card" data-donor-name="Lena Ortiz" data-donor-email="lena@shorecare.org"
+              data-donor-location="Madrid, Spain" data-donor-initials="LO" data-donation-amount="$980"
+              data-donation-status="Refunded" data-donation-method="PayPal" data-donation-date="Nov 18, 2025"
+              data-donation-campaign="Emergency Relief" data-donation-notes="Refund issued after duplicate gift.">
+              <div class="donation-card__header">
+                <div class="donation-card__donor">
+                  <span class="donation-card__avatar" aria-hidden="true">LO</span>
+                  <div>
+                    <p class="donation-card__donor-name">Lena Ortiz</p>
+                    <p class="donation-card__donor-meta">Shorecare Foundation</p>
+                  </div>
+                </div>
+                <span class="status-pill status-pill--refunded">Refunded</span>
+              </div>
+              <div class="donation-card__body">
+                <p class="donation-card__amount">$980</p>
+                <p class="donation-card__campaign">Emergency Relief</p>
+                <p class="donation-card__meta">
+                  <span>PayPal</span>
+                  <span>Nov 18, 2025</span>
+                </p>
+              </div>
+              <div class="donation-card__footer">
+                <div class="donation-card__actions">
+                  <button class="btn btn-ghost js-donation-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donations">
+                    <button class="icon-button icon-button--sm js-donation-actions-toggle" type="button"
+                      aria-haspopup="true" aria-expanded="false" aria-label="More donation actions">
+                      <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-receipt" aria-hidden="true"></i>
+                        <span>Send receipt</span>
+                      </button>
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        <span>Duplicate</span>
+                      </button>
+                      <button type="button" class="dropdown-item dropdown-item--danger">
+                        <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                        <span>Flag donation</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="donation-card card" data-donor-name="Kai Morrison" data-donor-email="kai@riverkind.org"
+              data-donor-location="Toronto, Canada" data-donor-initials="KM" data-donation-amount="$120"
+              data-donation-status="Failed" data-donation-method="Bank transfer" data-donation-date="Nov 17, 2025"
+              data-donation-campaign="Community Kitchen">
+              <div class="donation-card__header">
+                <div class="donation-card__donor">
+                  <span class="donation-card__avatar" aria-hidden="true">KM</span>
+                  <div>
+                    <p class="donation-card__donor-name">Kai Morrison</p>
+                    <p class="donation-card__donor-meta">Riverkind Collective</p>
+                  </div>
+                </div>
+                <span class="status-pill status-pill--failed">Failed</span>
+              </div>
+              <div class="donation-card__body">
+                <p class="donation-card__amount">$120</p>
+                <p class="donation-card__campaign">Community Kitchen</p>
+                <p class="donation-card__meta">
+                  <span>Bank transfer</span>
+                  <span>Nov 17, 2025</span>
+                </p>
+              </div>
+              <div class="donation-card__footer">
+                <div class="donation-card__actions">
+                  <button class="btn btn-ghost js-donation-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donations">
+                    <button class="icon-button icon-button--sm js-donation-actions-toggle" type="button"
+                      aria-haspopup="true" aria-expanded="false" aria-label="More donation actions">
+                      <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-receipt" aria-hidden="true"></i>
+                        <span>Send receipt</span>
+                      </button>
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        <span>Duplicate</span>
+                      </button>
+                      <button type="button" class="dropdown-item dropdown-item--danger">
+                        <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                        <span>Flag donation</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="card donations-view donations-view--table" data-view="table" aria-label="Donations table view">
+          <div class="donations-table-wrapper">
+            <table class="donations-table">
+              <thead>
+                <tr>
+                  <th scope="col">Donor</th>
+                  <th scope="col">Campaign</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Method</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="donation-row" data-donor-name="Amina Rahman" data-donor-email="amina@worldhealth.org"
+                  data-donor-location="Nairobi, Kenya" data-donor-initials="AR" data-donation-amount="$1,250"
+                  data-donation-status="Completed" data-donation-method="ACH transfer" data-donation-date="Nov 21, 2025"
+                  data-donation-campaign="Healthcare Resilience Fund"
+                  data-donation-notes="Recorded offline during the Nairobi gala.">
+                  <td data-label="Donor">
+                    <div class="donations-table__donor">
+                      <span class="donations-table__avatar" aria-hidden="true">AR</span>
+                      <div>
+                        <p class="donations-table__donor-name">Amina Rahman</p>
+                        <p class="text-muted">amina@worldhealth.org</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Campaign">
+                    <span class="donations-table__campaign">Healthcare Resilience Fund</span>
+                  </td>
+                  <td data-label="Amount">$1,250</td>
+                  <td data-label="Method">ACH transfer</td>
+                  <td data-label="Status"><span class="status-pill status-pill--success">Completed</span></td>
+                  <td data-label="Date">Nov 21, 2025</td>
+                  <td class="table-col-actions" data-label="Actions">
+                    <div class="table-actions">
+                      <button type="button" class="btn btn-ghost btn-ghost--xs js-donation-preview"
+                        aria-label="View donation">
+                        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                      </button>
+                      <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donations">
+                        <button class="icon-button icon-button--sm js-donation-actions-toggle" type="button"
+                          aria-haspopup="true" aria-expanded="false" aria-label="More donation actions">
+                          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                          <button type="button" class="dropdown-item">
+                            <i class="fa-regular fa-receipt" aria-hidden="true"></i>
+                            <span>Send receipt</span>
+                          </button>
+                          <button type="button" class="dropdown-item">
+                            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                            <span>Duplicate</span>
+                          </button>
+                          <button type="button" class="dropdown-item dropdown-item--danger">
+                            <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                            <span>Flag donation</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="donation-row" data-donor-name="Mateo Singh" data-donor-email="mateo@brightfuture.org"
+                  data-donor-location="Seattle, USA" data-donor-initials="MS" data-donation-amount="$320"
+                  data-donation-status="Pending" data-donation-method="Credit card" data-donation-date="Nov 20, 2025"
+                  data-donation-campaign="Education Access">
+                  <td data-label="Donor">
+                    <div class="donations-table__donor">
+                      <span class="donations-table__avatar" aria-hidden="true">MS</span>
+                      <div>
+                        <p class="donations-table__donor-name">Mateo Singh</p>
+                        <p class="text-muted">mateo@brightfuture.org</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Campaign">
+                    <span class="donations-table__campaign">Education Access</span>
+                  </td>
+                  <td data-label="Amount">$320</td>
+                  <td data-label="Method">Credit card</td>
+                  <td data-label="Status"><span class="status-pill status-pill--pending">Pending</span></td>
+                  <td data-label="Date">Nov 20, 2025</td>
+                  <td class="table-col-actions" data-label="Actions">
+                    <div class="table-actions">
+                      <button type="button" class="btn btn-ghost btn-ghost--xs js-donation-preview"
+                        aria-label="View donation">
+                        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                      </button>
+                      <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donations">
+                        <button class="icon-button icon-button--sm js-donation-actions-toggle" type="button"
+                          aria-haspopup="true" aria-expanded="false" aria-label="More donation actions">
+                          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                          <button type="button" class="dropdown-item">
+                            <i class="fa-regular fa-receipt" aria-hidden="true"></i>
+                            <span>Send receipt</span>
+                          </button>
+                          <button type="button" class="dropdown-item">
+                            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                            <span>Duplicate</span>
+                          </button>
+                          <button type="button" class="dropdown-item dropdown-item--danger">
+                            <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                            <span>Flag donation</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="donation-row" data-donor-name="Ariel Chen" data-donor-email="ariel@greenhorizons.org"
+                  data-donor-location="Singapore" data-donor-initials="AC" data-donation-amount="$560"
+                  data-donation-status="Refunded" data-donation-method="PayPal" data-donation-date="Nov 19, 2025"
+                  data-donation-campaign="Clean Water Initiative"
+                  data-donation-notes="Refund pending processor approval.">
+                  <td data-label="Donor">
+                    <div class="donations-table__donor">
+                      <span class="donations-table__avatar" aria-hidden="true">AC</span>
+                      <div>
+                        <p class="donations-table__donor-name">Ariel Chen</p>
+                        <p class="text-muted">ariel@greenhorizons.org</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Campaign">
+                    <span class="donations-table__campaign">Clean Water Initiative</span>
+                  </td>
+                  <td data-label="Amount">$560</td>
+                  <td data-label="Method">PayPal</td>
+                  <td data-label="Status"><span class="status-pill status-pill--refunded">Refunded</span></td>
+                  <td data-label="Date">Nov 19, 2025</td>
+                  <td class="table-col-actions" data-label="Actions">
+                    <div class="table-actions">
+                      <button type="button" class="btn btn-ghost btn-ghost--xs js-donation-preview"
+                        aria-label="View donation">
+                        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                      </button>
+                      <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donations">
+                        <button class="icon-button icon-button--sm js-donation-actions-toggle" type="button"
+                          aria-haspopup="true" aria-expanded="false" aria-label="More donation actions">
+                          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                          <button type="button" class="dropdown-item">
+                            <i class="fa-regular fa-receipt" aria-hidden="true"></i>
+                            <span>Send receipt</span>
+                          </button>
+                          <button type="button" class="dropdown-item">
+                            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                            <span>Duplicate</span>
+                          </button>
+                          <button type="button" class="dropdown-item dropdown-item--danger">
+                            <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                            <span>Flag donation</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="donation-row" data-donor-name="Ivy Delgado" data-donor-email="ivy@climateaction.org"
+                  data-donor-location="Lisbon, Portugal" data-donor-initials="ID" data-donation-amount="$90"
+                  data-donation-status="Failed" data-donation-method="Credit card" data-donation-date="Nov 16, 2025"
+                  data-donation-campaign="Climate Action Fund">
+                  <td data-label="Donor">
+                    <div class="donations-table__donor">
+                      <span class="donations-table__avatar" aria-hidden="true">ID</span>
+                      <div>
+                        <p class="donations-table__donor-name">Ivy Delgado</p>
+                        <p class="text-muted">ivy@climateaction.org</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Campaign">
+                    <span class="donations-table__campaign">Climate Action Fund</span>
+                  </td>
+                  <td data-label="Amount">$90</td>
+                  <td data-label="Method">Credit card</td>
+                  <td data-label="Status"><span class="status-pill status-pill--failed">Failed</span></td>
+                  <td data-label="Date">Nov 16, 2025</td>
+                  <td class="table-col-actions" data-label="Actions">
+                    <div class="table-actions">
+                      <button type="button" class="btn btn-ghost btn-ghost--xs js-donation-preview"
+                        aria-label="View donation">
+                        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                      </button>
+                      <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donations">
+                        <button class="icon-button icon-button--sm js-donation-actions-toggle" type="button"
+                          aria-haspopup="true" aria-expanded="false" aria-label="More donation actions">
+                          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                          <button type="button" class="dropdown-item">
+                            <i class="fa-regular fa-receipt" aria-hidden="true"></i>
+                            <span>Send receipt</span>
+                          </button>
+                          <button type="button" class="dropdown-item">
+                            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                            <span>Duplicate</span>
+                          </button>
+                          <button type="button" class="dropdown-item dropdown-item--danger">
+                            <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                            <span>Flag donation</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-end offcanvas-filters app-offcanvas" id="donationsFilters" aria-hidden="true">
+    <div class="offcanvas-backdrop js-offcanvas-close"></div>
+    <aside class="offcanvas-panel" role="dialog" aria-modal="true" aria-labelledby="donationFiltersTitle">
+      <header class="offcanvas-header">
+        <h2 id="donationFiltersTitle" class="h4">Filter donations</h2>
+        <button class="icon-button js-offcanvas-close" type="button" aria-label="Close filters">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <div class="offcanvas-body">
+        <div class="filter-group">
+          <label class="filter-label" for="filterCampaign">Campaign</label>
+          <select id="filterCampaign" name="campaign" class="form-control">
+            <option value="">All campaigns</option>
+            <option value="health">Healthcare Resilience Fund</option>
+            <option value="education">Education Access</option>
+            <option value="emergency">Emergency Relief</option>
+            <option value="community">Community Kitchen</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-label">Status</p>
+          <div class="filter-chips">
+            <label class="filter-chip">
+              <input type="checkbox" name="status" value="completed" />
+              <span>Completed</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="status" value="pending" />
+              <span>Pending</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="status" value="refunded" />
+              <span>Refunded</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="status" value="failed" />
+              <span>Failed</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-label">Amount range</p>
+          <div class="filter-range">
+            <div class="form-field">
+              <label class="form-label" for="amountMin">Min</label>
+              <input id="amountMin" name="amountMin" type="number" min="0" step="10" class="form-control"
+                placeholder="$0" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="amountMax">Max</label>
+              <input id="amountMax" name="amountMax" type="number" min="0" step="10" class="form-control"
+                placeholder="$5,000" />
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label" for="paymentMethod">Payment method</label>
+          <select id="paymentMethod" name="method" class="form-control">
+            <option value="">Any</option>
+            <option value="credit">Credit card</option>
+            <option value="ach">ACH transfer</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank">Bank transfer</option>
+            <option value="check">Check</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-label">Date range</p>
+          <div class="filter-dates__fields">
+            <div class="form-field">
+              <label class="form-label" for="donationStart">Start</label>
+              <input type="date" id="donationStart" name="startDate" class="form-control" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="donationEnd">End</label>
+              <input type="date" id="donationEnd" name="endDate" class="form-control" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="offcanvas-footer">
+        <button type="button" class="btn btn-outline js-offcanvas-reset">Clear all</button>
+        <button type="button" class="btn btn-primary js-offcanvas-apply">Apply filters</button>
+      </footer>
+    </aside>
+  </div>
+
+  <div class="preview-sheet" data-preview="donation" aria-hidden="true">
+    <div class="preview-sheet__backdrop js-preview-close"></div>
+    <aside class="preview-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="donationPreviewTitle">
+      <header class="preview-sheet__header">
+        <div>
+          <p class="preview-sheet__eyebrow">Donation preview</p>
+          <h2 id="donationPreviewTitle" class="preview-sheet__title js-preview-donor">Donor name</h2>
+          <p class="preview-sheet__subtitle js-preview-campaign">Campaign name</p>
+        </div>
+        <button type="button" class="icon-button js-preview-close" aria-label="Close preview">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+      <div class="preview-sheet__body preview-donation">
+        <div class="preview-donation__header">
+          <span class="preview-donation__avatar" aria-hidden="true">DR</span>
+          <div>
+            <p class="preview-donation__name js-preview-donor">Donor</p>
+            <p class="preview-donation__email js-preview-email"></p>
+            <p class="preview-donation__location js-preview-location"></p>
+          </div>
+        </div>
+        <div>
+          <p class="preview-donation__amount js-preview-amount">$0</p>
+          <div class="preview-donation__meta">
+            <span class="status-pill js-preview-status">Status</span>
+            <span class="preview-donation__method js-preview-method"></span>
+            <span class="preview-donation__date js-preview-date"></span>
+          </div>
+        </div>
+        <div class="preview-donation__campaign">
+          <p class="filter-label">Campaign</p>
+          <p class="preview-donation__campaign-title js-preview-campaign">Campaign</p>
+        </div>
+        <div class="preview-donation__notes is-hidden" data-preview-notes>
+          <p class="filter-label">Notes</p>
+          <p class="preview-donation__notes-text js-preview-notes"></p>
+        </div>
+      </div>
+      <footer class="preview-sheet__footer">
+        <button type="button" class="btn btn-primary">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          <span>Open full details</span>
+        </button>
+        <button type="button" class="btn btn-outline">
+          <i class="fa-regular fa-share-from-square"></i>
+          <span>Send link</span>
+        </button>
+      </footer>
+    </aside>
+  </div>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>
