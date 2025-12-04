@@ -4,17 +4,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Donations Dashboard – Overview</title>
+  <title>Donations Dashboard - Overview</title>
   <meta name="description" content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
   <meta name="theme-color" content="#15C5CE" />
   <link rel="canonical" href="https://example.org/dashboard" />
-  <meta property="og:title" content="Donations Dashboard – Overview" />
+  <meta property="og:title" content="Donations Dashboard - Overview" />
   <meta property="og:description" content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://example.org/dashboard" />
   <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Donations Dashboard – Overview" />
+  <meta name="twitter:title" content="Donations Dashboard - Overview" />
   <meta name="twitter:description"
     content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
   <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
@@ -103,10 +103,10 @@
             <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
           </button>
           <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
-            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-file"></i> Reports</a></li>
-            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-user-group"></i> Beneficiaries</a></li>
-            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-plug"></i> Integrations</a></li>
-            <li><a href="#" class="sidebar-sublink"><i class="fa-regular fa-clipboard-list"></i> System Logs</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-file"></i> Reports</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-user-group"></i> Beneficiaries</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-plug"></i> Integrations</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-clipboard-list"></i> System Logs</a></li>
           </ul>
         </li>
       </nav>
@@ -146,7 +146,7 @@
               data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
               aria-controls="notifications-menu" aria-label="Open notifications">
               <span class="badge-dot"></span>
-              <i class="fa-regular fa-bell" aria-hidden="true"></i>
+              <i class="fa fa-bell" aria-hidden="true"></i>
             </button>
             <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
               role="menu" aria-label="Notifications">
@@ -191,7 +191,14 @@
             <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
               data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
               aria-controls="user-menu">
-              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="avatar-progress">
+                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                  <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
+                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
+                    stroke-dashoffset="38.5"></circle>
+                </svg>
+                <div class="avatar" aria-hidden="true">JL</div>
+              </div>
               <div class="user-details">
                 <div class="user-name">Jordan Lee</div>
                 <div class="user-email text-muted">jordan@donations.org</div>
@@ -208,7 +215,7 @@
               </div>
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item" role="menuitem">
-                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <i class="fa fa-user" aria-hidden="true"></i>
                 <span>Profile</span>
               </a>
               <a href="#" class="dropdown-item" role="menuitem">
@@ -225,28 +232,47 @@
         </div>
       </header>
 
-      <main class="app-content" id="main-content" tabindex="-1">
-        <section class="card welcome" aria-labelledby="welcome-title">
-          <div class="welcome__text">
-            <p class="eyebrow">Welcome back</p>
-            <h1 id="welcome-title">Keep your impact growing</h1>
-            <p class="text-muted">Track donations, nurture donor relationships, and keep every campaign on target.</p>
-          </div>
-          <div class="welcome__actions">
-            <div class="chip" role="status" aria-live="polite">
-              <span class="chip__dot" aria-hidden="true"></span>
-              3 campaigns ending soon
+      <main class="app-content overview-page" id="main-content" tabindex="-1">
+        <section class="card overview-hero" aria-labelledby="welcome-title">
+          <div class="overview-hero__main">
+            <p class="overview-hero__eyebrow">Welcome back</p>
+            <h1 id="welcome-title" class="overview-hero__title">Keep your impact growing</h1>
+            <p class="overview-hero__subtitle">
+              Track donations, nurture donor relationships, and keep every campaign on target.
+            </p>
+            <div class="overview-hero__primary-actions">
+              <button class="btn btn-pill btn-pill--soft" type="button">
+                3 campaigns ending soon
+              </button>
+              <button class="btn btn-primary btn-pill" type="button">
+                <i class="fas fa-plus" aria-hidden="true"></i>
+                New donation
+              </button>
             </div>
-            <button class="chip chip--primary" type="button">
-              <i class="fas fa-plus" aria-hidden="true"></i>
-              New donation
-            </button>
+          </div>
+          <div class="overview-hero__side">
+            <p class="overview-hero__side-label">Quick actions</p>
+            <div class="overview-hero__quick-actions">
+              <button class="quick-action" type="button">
+                <i class="fa fa-bullhorn" aria-hidden="true"></i>
+                <span>New campaign</span>
+              </button>
+              <button class="quick-action" type="button">
+                <i class="fa fa-hand-holding-heart" aria-hidden="true"></i>
+                <span>Manual donation</span>
+              </button>
+              <button class="quick-action" type="button">
+                <i class="fa fa-file-export" aria-hidden="true"></i>
+                <span>Export monthly report</span>
+              </button>
+            </div>
           </div>
         </section>
+        <div class="section-divider" aria-hidden="true"></div>
 
-        <section class="section-block" aria-labelledby="stats-title">
-          <div class="section-block__header">
-            <p class="eyebrow">Key metrics</p>
+        <section class="section-block overview-section" aria-labelledby="stats-title">
+          <div class="section-block__header overview-section__header">
+            <p class="eyebrow overview-section__label">Key metrics</p>
             <h2 id="stats-title" class="h4">Donations at a glance</h2>
           </div>
           <div class="stats-grid">
@@ -254,6 +280,7 @@
               <div class="stat-card__icon">
                 <i class="fa-solid fa-hand-holding-heart"></i>
               </div>
+              <span class="stat-card__tag">MoM +12%</span>
               <div>
                 <div class="stat-card__label stat-card__label--live">
                   Total Donations
@@ -272,6 +299,7 @@
               <div class="stat-card__icon">
                 <i class="fa-solid fa-users"></i>
               </div>
+              <span class="stat-card__tag">Last 7 days</span>
               <div>
                 <div class="stat-card__label">Active Donors</div>
                 <div class="stat-card__value">1,284</div>
@@ -286,6 +314,7 @@
               <div class="stat-card__icon">
                 <i class="fa-solid fa-chart-line"></i>
               </div>
+              <span class="stat-card__tag">WoW +4.1%</span>
               <div>
                 <div class="stat-card__label">Avg. Donation</div>
                 <div class="stat-card__value">$86.20</div>
@@ -300,6 +329,7 @@
               <div class="stat-card__icon">
                 <i class="fa-solid fa-wallet"></i>
               </div>
+              <span class="stat-card__tag">14 pending pledges</span>
               <div>
                 <div class="stat-card__label">Open Pledges</div>
                 <div class="stat-card__value">$32,500</div>
@@ -312,7 +342,7 @@
 
           </div>
           <div class="insight-bar" aria-live="polite">
-            <i class="fa-regular fa-lightbulb insight-bar__icon" aria-hidden="true"></i>
+            <i class="fa fa-lightbulb insight-bar__icon" aria-hidden="true"></i>
             <p class="insight-bar__text">
               Top regions this month: <strong>Gaza City</strong> and <strong>Nairobi</strong> &mdash; contributing 54%
               of
@@ -321,31 +351,134 @@
           </div>
         </section>
 
-        <section class="section-block" aria-labelledby="charts-title">
-          <div class="section-block__header">
-            <p class="eyebrow">Performance</p>
+        <section class="overview-section overview-section--today" aria-label="Today snapshot">
+          <div class="today-strip">
+            <div class="today-metric">
+              <span class="today-label">Today's donations</span>
+              <span class="today-value">$4,320</span>
+              <span class="today-meta">87 donations</span>
+            </div>
+            <div class="today-metric">
+              <span class="today-label">New donors</span>
+              <span class="today-value">26</span>
+              <span class="today-meta">vs 19 yesterday</span>
+            </div>
+            <div class="today-metric">
+              <span class="today-label">Failed payments</span>
+              <span class="today-value today-value--warning">3</span>
+              <span class="today-meta">needs review</span>
+            </div>
+            <div class="today-metric">
+              <span class="today-label">Avg. donation today</span>
+              <span class="today-value">$49.70</span>
+              <span class="today-meta">+6.2% vs last week</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block overview-section" aria-labelledby="charts-title">
+          <div class="section-block__header overview-section__header">
+            <p class="eyebrow overview-section__label">Performance</p>
             <h2 id="charts-title" class="h4">Campaign and donor mix</h2>
           </div>
-          <div class="charts-grid">
-            <article class="card chart-card">
-              <div class="card__header">
-                <h3 class="h5">Distribution of Donations (Bar)</h3>
-                <span class="text-muted">Campaign performance</span>
+          <div class="charts-layout">
+            <div class="charts-layout__visuals">
+              <div class="charts-grid">
+                <article class="card chart-card">
+                  <div class="card__header">
+                    <h3 class="h5">Distribution of Donations (Bar)</h3>
+                    <span class="text-muted">Campaign performance</span>
+                  </div>
+                  <p class="chart-insight chart-insight--bar">Highest category: Education • $61k</p>
+                  <div id="donations-bar-chart" class="chart" aria-label="Donations bar chart"></div>
+                </article>
+                <article class="card chart-card">
+                  <div class="card__header">
+                    <h3 class="h5">Distribution of Donations (Donut)</h3>
+                    <span class="text-muted">Source mix</span>
+                  </div>
+                  <p class="chart-insight chart-insight--donut">Recurring gifts represent 48% of total volume.</p>
+                  <div id="donations-donut-chart" class="chart" aria-label="Donations donut chart"></div>
+                </article>
               </div>
-              <div id="donations-bar-chart" class="chart" aria-label="Donations bar chart"></div>
+            </div>
+            <article class="card card--top-campaigns">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Campaign health</h3>
+                  <span class="card-meta">Top campaigns by progress</span>
+                </div>
+              </header>
+              <div class="card-body top-campaigns-list">
+                <div class="campaign-health-row campaign-health-row--ok">
+                  <div class="campaign-health-main">
+                    <span class="campaign-health-name">Clean Water Initiative</span>
+                    <span class="campaign-health-meta">$36,200 raised of $50,000</span>
+                  </div>
+                  <div class="campaign-health-progress">
+                    <div class="progress progress--sm">
+                      <div class="progress-bar" style="width:72%"></div>
+                    </div>
+                    <span class="campaign-health-tag tag--on-track">On track</span>
+                  </div>
+                </div>
+                <div class="campaign-health-row campaign-health-row--risk">
+                  <div class="campaign-health-main">
+                    <span class="campaign-health-name">Healthcare Fund</span>
+                    <span class="campaign-health-meta">$18,600 raised of $40,000</span>
+                  </div>
+                  <div class="campaign-health-progress">
+                    <div class="progress progress--sm">
+                      <div class="progress-bar" style="width:47%"></div>
+                    </div>
+                    <span class="campaign-health-tag tag--at-risk">At risk</span>
+                  </div>
+                </div>
+                <div class="campaign-health-row campaign-health-row--ending">
+                  <div class="campaign-health-main">
+                    <span class="campaign-health-name">Education for All</span>
+                    <span class="campaign-health-meta">$29,750 raised of $35,000</span>
+                  </div>
+                  <div class="campaign-health-progress">
+                    <div class="progress progress--sm">
+                      <div class="progress-bar" style="width:85%"></div>
+                    </div>
+                    <span class="campaign-health-tag tag--ending-soon">Ending soon</span>
+                  </div>
+                </div>
+              </div>
             </article>
-            <article class="card chart-card">
-              <div class="card__header">
-                <h3 class="h5">Distribution of Donations (Donut)</h3>
-                <span class="text-muted">Source mix</span>
+          </div>
+        </section>
+
+        <section class="overview-section overview-section--funnel" aria-labelledby="mini-charts-title">
+          <div class="mini-charts-grid">
+            <article class="card mini-chart-card">
+              <header class="card-header">
+                <h3 class="card-title">Donation funnel</h3>
+                <span class="card-meta">Last 30 days</span>
+              </header>
+              <p class="mini-chart-note">Conversion from visitors to completed donations: 32%</p>
+              <div class="card-body">
+                <div id="donation-funnel-chart" class="mini-chart" aria-label="Donation funnel chart"></div>
               </div>
-              <div id="donations-donut-chart" class="chart" aria-label="Donations donut chart"></div>
+            </article>
+            <article class="card mini-chart-card">
+              <header class="card-header">
+                <h3 class="card-title">Donor retention</h3>
+                <span class="card-meta">New vs returning donors</span>
+              </header>
+              <p class="mini-chart-note">Returning donors increasing for four months in a row.</p>
+              <div class="card-body">
+                <div id="donor-retention-chart" class="mini-chart" aria-label="Donor retention chart"></div>
+              </div>
             </article>
           </div>
         </section>
 
         <section class="overview-section overview-section--regions" aria-labelledby="regions-title">
           <div class="overview-section__header">
+            <p class="overview-section__label">Regions</p>
             <h2 class="section-title" id="regions-title">Donations by region</h2>
             <p class="section-subtitle">See where campaigns are gaining traction across cities and countries.</p>
           </div>
@@ -446,61 +579,86 @@
           </div>
         </section>
 
-        <section class="card table-card" aria-labelledby="table-title">
-          <div class="card__header">
-            <div>
-              <p class="eyebrow">Activity</p>
-              <h2 id="table-title" class="h5">Latest Donations</h2>
-            </div>
-            <button class="link-button" type="button">View all</button>
+        <section class="overview-section overview-section--alerts" aria-labelledby="alerts-title">
+          <div class="overview-section__header">
+            <p class="overview-section__label">Alerts & activity</p>
+            <h2 id="alerts-title" class="section-title">Action center</h2>
+            <p class="section-subtitle">Stay ahead of urgent tasks and live donor activity.</p>
           </div>
-          <div class="table-wrapper" role="region" aria-live="polite" aria-label="Latest donations table">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th scope="col">Donor</th>
-                  <th scope="col">Campaign</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Method</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-label="Donor">Alex Morgan</td>
-                  <td data-label="Campaign">Clean Water Drive</td>
-                  <td data-label="Amount">$1,200</td>
-                  <td data-label="Method">Credit Card</td>
-                  <td data-label="Date">Jan 12, 2025</td>
-                  <td data-label="Status"><span class="status-pill status-pill--success">Completed</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Donor">Priya Patel</td>
-                  <td data-label="Campaign">Education For All</td>
-                  <td data-label="Amount">$600</td>
-                  <td data-label="Method">Bank Transfer</td>
-                  <td data-label="Date">Jan 11, 2025</td>
-                  <td data-label="Status"><span class="status-pill status-pill--pending">Pending</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Donor">Diego Ramirez</td>
-                  <td data-label="Campaign">Emergency Relief</td>
-                  <td data-label="Amount">$350</td>
-                  <td data-label="Method">Cash</td>
-                  <td data-label="Date">Jan 10, 2025</td>
-                  <td data-label="Status"><span class="status-pill status-pill--processing">Processing</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Donor">Sara Fischer</td>
-                  <td data-label="Campaign">Healthcare Fund</td>
-                  <td data-label="Amount">$980</td>
-                  <td data-label="Method">Credit Card</td>
-                  <td data-label="Date">Jan 09, 2025</td>
-                  <td data-label="Status"><span class="status-pill status-pill--success">Completed</span></td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="alerts-activity-grid">
+            <article class="card alerts-card">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Alerts & tasks</h3>
+                  <span class="card-meta">What needs your attention</span>
+                </div>
+              </header>
+              <div class="card-body alerts-list">
+                <div class="alert-row alert-row--warning">
+                  <span class="alert-dot" aria-hidden="true"></span>
+                  <div class="alert-main">
+                    <p class="alert-title">3 campaigns ending in next 7 days</p>
+                    <p class="alert-meta">Review budgets and extend timelines if needed.</p>
+                  </div>
+                  <button class="alert-pill" type="button">View campaigns</button>
+                </div>
+                <div class="alert-row alert-row--error">
+                  <span class="alert-dot" aria-hidden="true"></span>
+                  <div class="alert-main">
+                    <p class="alert-title">5 failed payments to review</p>
+                    <p class="alert-meta">Most failures are recurring donors.</p>
+                  </div>
+                  <button class="alert-pill" type="button">Open donations</button>
+                </div>
+                <div class="alert-row alert-row--info">
+                  <span class="alert-dot" aria-hidden="true"></span>
+                  <div class="alert-main">
+                    <p class="alert-title">Large gift flagged for follow-up</p>
+                    <p class="alert-meta">Jordan Sparks donated $1,200.</p>
+                  </div>
+                  <button class="alert-pill" type="button">View donor</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card activity-card">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Latest activity</h3>
+                  <span class="card-meta">Live feed</span>
+                </div>
+              </header>
+              <div class="card-body activity-list">
+                <div class="activity-item">
+                  <span class="activity-icon" aria-hidden="true"><i class="fas fa-tint"></i></span>
+                  <div class="activity-main">
+                    <p class="activity-title">Alex Morgan donated $1,200 to Clean Water Initiative</p>
+                    <p class="activity-meta">2 min ago &bull; Web checkout</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" aria-hidden="true"><i class="fas fa-redo"></i></span>
+                  <div class="activity-main">
+                    <p class="activity-title">New recurring gift started for Healthcare Fund</p>
+                    <p class="activity-meta">18 min ago &bull; Card &bull; $60/month</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" aria-hidden="true"><i class="fas fa-exclamation-triangle"></i></span>
+                  <div class="activity-main">
+                    <p class="activity-title">Payment failed for Diego Ramirez (Emergency Relief)</p>
+                    <p class="activity-meta">34 min ago &bull; Retry suggested</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" aria-hidden="true"><i class="fas fa-bullseye"></i></span>
+                  <div class="activity-main">
+                    <p class="activity-title">Campaign goal surpassed for Youth Literacy</p>
+                    <p class="activity-meta">1h ago &bull; Email thanks queued</p>
+                  </div>
+                </div>
+              </div>
+            </article>
           </div>
         </section>
       </main>

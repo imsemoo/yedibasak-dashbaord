@@ -4,6 +4,46 @@
   // Utility helper to read CSS variables
   const getCssVar = (variable) => getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
 
+  const hexToRgb = (value = "") => {
+    let sanitized = value.replace("#", "").trim();
+    if (!sanitized) return null;
+    if (sanitized.length === 3) {
+      sanitized = sanitized
+        .split("")
+        .map((char) => `${char}${char}`)
+        .join("");
+    }
+    if (sanitized.length !== 6) return null;
+    const intValue = parseInt(sanitized, 16);
+    if (Number.isNaN(intValue)) return null;
+    return [(intValue >> 16) & 255, (intValue >> 8) & 255, intValue & 255];
+  };
+
+  const withAlpha = (value, alpha) => {
+    const trimmed = (value || "").trim();
+    if (!trimmed) return "";
+    if (trimmed.startsWith("rgba")) {
+      return trimmed.replace(/rgba?\(([^)]+)\)/, `rgba($1, ${alpha})`);
+    }
+    if (trimmed.startsWith("rgb(")) {
+      const inner = trimmed.replace("rgb(", "").replace(")", "");
+      return `rgba(${inner}, ${alpha})`;
+    }
+    const rgb = hexToRgb(trimmed);
+    return rgb ? `rgba(${rgb.join(", ")}, ${alpha})` : trimmed;
+  };
+
+  const isReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const overviewMapState = {
+    map: null,
+    markers: new Map(),
+    rows: new Map(),
+    setActiveRegion: null,
+    setHoverRegion: null,
+    currentActive: "",
+  };
+
   // Dropdown controller for notifications and user menu
   const Dropdowns = (() => {
     let toggles = [];
@@ -154,8 +194,12 @@
 
   let barChart;
   let donutChart;
+  let funnelChart;
+  let retentionChart;
   let refreshRegionsMapTheme = () => {};
   let donationsMapInitialized = false;
+  let overviewRegionsLinked = false;
+  const overviewCharts = [];
 
   const getTheme = () => (document.body.dataset.theme === "dark" ? "dark" : "light");
 
@@ -175,37 +219,87 @@
     muted: getCssVar("--color-muted") || "#6B7280",
     surface: getCssVar("--color-surface") || "#FFFFFF",
     background: getCssVar("--color-bg") || "#F6F8FB",
+    accent: getCssVar("--color-accent") || "#22C55E",
   });
 
-  // Refresh chart colors on theme changes without re-instantiating
-  const updateChartsTheme = () => {
-    if (!barChart && !donutChart) return;
-    const palette = chartPalette();
-    const themeMode = getTheme();
+  const registerOverviewChart = (chart) => {
+    if (!chart) return null;
+    overviewCharts.push(chart);
+    return chart;
+  };
 
-    if (barChart) {
-      barChart.updateOptions({
-        colors: [palette.primary],
-        chart: { foreColor: palette.text, background: palette.surface },
-        grid: { borderColor: palette.border },
-        xaxis: {
-          labels: { style: { colors: barCategories.map(() => palette.muted) } },
-          axisBorder: { color: palette.border },
-          axisTicks: { color: palette.border },
-        },
-        yaxis: { labels: { style: { colors: [palette.muted] } } },
-        tooltip: { theme: themeMode },
-        stroke: { colors: [palette.primary] },
-      });
+  const unregisterOverviewChart = (chart) => {
+    if (!chart) return;
+    const index = overviewCharts.indexOf(chart);
+    if (index > -1) {
+      overviewCharts.splice(index, 1);
     }
+  };
 
-    if (donutChart) {
-      donutChart.updateOptions({
-        colors: [palette.primary, palette.primaryStrong, "#22C55E", "#F59E0B"],
-        legend: { labels: { colors: palette.text } },
-        stroke: { colors: [palette.background] },
-        tooltip: { theme: themeMode },
-      });
+  const getApexThemeOptions = (theme) => {
+    const isDark = theme === "dark";
+    const textSoft = getCssVar("--color-text-soft") || getCssVar("--color-text") || "#111827";
+    const textMuted = getCssVar("--color-text-muted") || getCssVar("--color-muted") || textSoft;
+    const borderSubtle = getCssVar("--color-border-subtle") || getCssVar("--color-border") || "#E2E8F3";
+    return {
+      theme: { mode: isDark ? "dark" : "light" },
+      chart: {
+        foreColor: textSoft,
+        background: "transparent",
+      },
+      tooltip: { theme: isDark ? "dark" : "light" },
+      borderColor: borderSubtle,
+      labelColor: textMuted,
+      legendColor: textMuted,
+    };
+  };
+
+  const updateChartsForTheme = (theme) => {
+    if (!overviewCharts.length) return;
+    const themeOptions = getApexThemeOptions(theme);
+    overviewCharts.forEach((chart) => {
+      chart.updateOptions(
+        {
+          theme: themeOptions.theme,
+          chart: {
+            ...themeOptions.chart,
+          },
+          grid: {
+            borderColor: themeOptions.borderColor,
+          },
+          xaxis: {
+            axisBorder: { color: themeOptions.borderColor },
+            axisTicks: { color: themeOptions.borderColor },
+            labels: { style: { colors: themeOptions.labelColor } },
+          },
+          yaxis: {
+            labels: { style: { colors: themeOptions.labelColor } },
+          },
+          legend: {
+            labels: { colors: themeOptions.legendColor },
+          },
+          tooltip: themeOptions.tooltip,
+        },
+        false,
+        true
+      );
+    });
+  };
+
+  const updateMapForTheme = (theme) => {
+    const map = window.donationsMap;
+    const layers = window.donationsMapLayers;
+    if (!map || !layers) return;
+    const targetLayer = theme === "dark" ? layers.dark : layers.light;
+    const fallbackLayer = theme === "dark" ? layers.light : layers.dark;
+    if (fallbackLayer && map.hasLayer(fallbackLayer)) {
+      map.removeLayer(fallbackLayer);
+    }
+    if (targetLayer && !map.hasLayer(targetLayer)) {
+      targetLayer.addTo(map);
+    }
+    if (typeof refreshRegionsMapTheme === "function") {
+      refreshRegionsMapTheme();
     }
   };
 
@@ -271,7 +365,8 @@
     document.body.setAttribute("data-theme", theme);
     localStorage.setItem(STORAGE_KEY, theme);
     syncThemeIcon(theme);
-    updateChartsTheme();
+    updateChartsForTheme(theme);
+    updateMapForTheme(theme);
     refreshRegionsMapTheme();
   };
 
@@ -371,15 +466,20 @@
     if (typeof ApexCharts === "undefined") return;
 
     const palette = chartPalette();
+    const successColor = getCssVar("--color-success") || "#10B981";
+    const warningColor = getCssVar("--color-warning") || "#F59E0B";
     const themeMode = getTheme();
+    const themeOptions = getApexThemeOptions(themeMode);
+
+    overviewCharts.length = 0;
 
     const barOptions = {
+      theme: themeOptions.theme,
       chart: {
+        ...themeOptions.chart,
         type: "bar",
         height: 320,
         toolbar: { show: false },
-        foreColor: palette.text,
-        background: palette.surface,
       },
       series: [
         {
@@ -395,35 +495,39 @@
       },
       colors: [palette.primary],
       grid: {
-        borderColor: palette.border,
+        borderColor: themeOptions.borderColor,
         strokeDashArray: 3,
       },
       xaxis: {
         categories: barCategories,
-        axisBorder: { color: palette.border },
-        axisTicks: { color: palette.border },
+        axisBorder: { color: themeOptions.borderColor },
+        axisTicks: { color: themeOptions.borderColor },
         labels: {
           style: {
-            colors: barCategories.map(() => palette.muted),
+            colors: barCategories.map(() => themeOptions.labelColor),
             fontWeight: 500,
           },
         },
       },
       yaxis: {
         labels: {
-          style: { colors: [palette.muted], fontWeight: 500 },
+          style: { colors: [themeOptions.labelColor], fontWeight: 500 },
         },
       },
+      legend: {
+        labels: { colors: themeOptions.legendColor },
+      },
       tooltip: {
-        theme: themeMode,
+        ...themeOptions.tooltip,
         y: { formatter: (val) => `$${val.toLocaleString()}` },
       },
-      dataLabels: {
-        enabled: false,
-      },
+      dataLabels: { enabled: false },
       states: {
         active: { filter: { type: "none" } },
         hover: { filter: { type: "none" } },
+      },
+      stroke: {
+        colors: [palette.primary],
       },
       responsive: [
         {
@@ -437,23 +541,25 @@
     };
 
     const donutOptions = {
+      theme: themeOptions.theme,
       chart: {
+        ...themeOptions.chart,
         type: "donut",
         height: 320,
       },
       labels: donutLabels,
       series: [44, 26, 18, 12],
-      colors: [palette.primary, palette.primaryStrong, "#22C55E", "#F59E0B"],
+      colors: [palette.primary, palette.primaryStrong, successColor, warningColor],
       stroke: {
         colors: [palette.background],
       },
       legend: {
         position: "bottom",
-        labels: { colors: palette.text },
+        labels: { colors: themeOptions.legendColor },
         fontWeight: 600,
       },
       dataLabels: { enabled: false },
-      tooltip: { theme: themeMode },
+      tooltip: themeOptions.tooltip,
       plotOptions: {
         pie: {
           donut: {
@@ -476,19 +582,196 @@
     const donutEl = document.querySelector("#donations-donut-chart");
 
     if (barEl) {
-      barChart = new ApexCharts(barEl, barOptions);
+      barChart = registerOverviewChart(new ApexCharts(barEl, barOptions));
       barChart.render();
     }
 
     if (donutEl) {
-      donutChart = new ApexCharts(donutEl, donutOptions);
+      donutChart = registerOverviewChart(new ApexCharts(donutEl, donutOptions));
       donutChart.render();
     }
   };
 
   const initCharts = () => {
     buildCharts();
-    updateChartsTheme();
+    updateChartsForTheme(getTheme());
+  };
+
+  const initOverviewMiniCharts = () => {
+    if (typeof ApexCharts === "undefined") return;
+    const funnelEl = document.querySelector("#donation-funnel-chart");
+    const retentionEl = document.querySelector("#donor-retention-chart");
+    if (!funnelEl && !retentionEl) return;
+
+    const palette = chartPalette();
+    const themeOptions = getApexThemeOptions(getTheme());
+    const accentColor = palette.accent;
+    const successColor = getCssVar("--color-success") || "#10B981";
+    const warningColor = getCssVar("--color-warning") || "#F59E0B";
+
+    if (funnelEl) {
+      if (funnelChart) {
+        unregisterOverviewChart(funnelChart);
+        funnelChart.destroy();
+      }
+      const funnelOptions = {
+        theme: themeOptions.theme,
+        chart: {
+          ...themeOptions.chart,
+          type: "bar",
+          height: 230,
+          toolbar: { show: false },
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 8,
+            horizontal: true,
+            barHeight: "56%",
+          },
+        },
+        series: [
+          {
+            name: "Visitors",
+            data: [4200, 2300, 920],
+          },
+        ],
+        colors: [accentColor],
+        grid: {
+          borderColor: themeOptions.borderColor,
+          strokeDashArray: 4,
+          yaxis: { lines: { show: false } },
+          xaxis: { lines: { show: false } },
+        },
+        xaxis: {
+          categories: ["Visitors", "Started checkout", "Completed"],
+          axisBorder: { color: themeOptions.borderColor },
+          axisTicks: { color: themeOptions.borderColor },
+          labels: { style: { colors: themeOptions.labelColor }, show: true },
+        },
+        yaxis: {
+          labels: {
+            style: { colors: [themeOptions.labelColor] },
+          },
+        },
+        dataLabels: { enabled: false },
+        stroke: { colors: [accentColor], width: 3 },
+        tooltip: {
+          ...themeOptions.tooltip,
+          y: { formatter: (val) => val.toLocaleString() },
+        },
+      };
+      funnelChart = registerOverviewChart(new ApexCharts(funnelEl, funnelOptions));
+      funnelChart.render();
+    }
+
+    if (retentionEl) {
+      if (retentionChart) {
+        unregisterOverviewChart(retentionChart);
+        retentionChart.destroy();
+      }
+      const retentionOptions = {
+        theme: themeOptions.theme,
+        chart: {
+          ...themeOptions.chart,
+          type: "area",
+          height: 230,
+          toolbar: { show: false },
+        },
+        series: [
+          { name: "New donors", data: [120, 145, 170, 190, 205, 220] },
+          { name: "Returning donors", data: [90, 110, 130, 150, 178, 185] },
+        ],
+        stroke: {
+          curve: "smooth",
+          width: 3,
+          lineCap: "round",
+        },
+        colors: [palette.primaryStrong, successColor],
+        fill: {
+          type: "gradient",
+          gradient: {
+            shadeIntensity: 0.25,
+            opacityFrom: 0.55,
+            opacityTo: 0.12,
+            stops: [0, 90, 100],
+          },
+        },
+        grid: {
+          borderColor: themeOptions.borderColor,
+          strokeDashArray: 4,
+          padding: { left: 0, right: 6, bottom: 0 },
+        },
+        legend: {
+          position: "top",
+          horizontalAlign: "right",
+          markers: { width: 8, height: 8, radius: 99 },
+          labels: { colors: themeOptions.legendColor },
+        },
+        markers: {
+          size: 4,
+          strokeColors: "#ffffff",
+          strokeWidth: 2,
+          hover: { sizeOffset: 2 },
+        },
+        xaxis: {
+          categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          axisBorder: { color: themeOptions.borderColor },
+          axisTicks: { color: themeOptions.borderColor },
+          labels: { style: { colors: themeOptions.labelColor } },
+        },
+        yaxis: {
+          labels: {
+            style: { colors: [themeOptions.labelColor] },
+          },
+        },
+        tooltip: themeOptions.tooltip,
+        dataLabels: { enabled: false },
+      };
+      retentionChart = registerOverviewChart(new ApexCharts(retentionEl, retentionOptions));
+      retentionChart.render();
+    }
+
+    updateChartsForTheme(getTheme());
+  };
+
+  const initOverviewAnimations = (root) => {
+    if (!root) return;
+    const activityCard = root.querySelector(".activity-card");
+    if (!activityCard) return;
+    if (isReducedMotion()) {
+      activityCard.classList.add("is-animated");
+      return;
+    }
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        activityCard.classList.add("is-animated");
+      }, 160);
+    });
+  };
+
+  const initOverviewRegionsLinking = () => {
+    if (overviewRegionsLinked) return;
+    if (!overviewMapState.rows.size || typeof overviewMapState.setHoverRegion !== "function") return;
+    overviewRegionsLinked = true;
+    overviewMapState.rows.forEach((row, id) => {
+      row.addEventListener("focus", () => {
+        overviewMapState.setHoverRegion(id);
+        row.classList.add("is-highlighted");
+      });
+      row.addEventListener("blur", () => {
+        row.classList.remove("is-highlighted");
+        overviewMapState.setHoverRegion(overviewMapState.currentActive);
+      });
+    });
+  };
+
+  const initOverviewPage = () => {
+    const root = document.querySelector(".overview-page");
+    if (!root) return;
+    initCharts();
+    initDonationsMap();
+    initOverviewMiniCharts();
+    initOverviewAnimations(root);
   };
 
   const initDonationsMap = () => {
@@ -513,19 +796,47 @@
       const primary = getCssVar("--color-primary") || "#15c5ce";
       const primaryStrong = getCssVar("--color-primary-strong") || "#0f9aa2";
       const muted = getCssVar("--color-muted") || "#6b7280";
-      const border = getCssVar("--color-border") || "#e2e8f3";
       return {
-        high: { fill: primary, stroke: border },
-        medium: { fill: primaryStrong, stroke: border },
-        low: { fill: muted, stroke: border },
+        high: {
+          fill: withAlpha(primary, 0.3),
+          stroke: withAlpha(primaryStrong, 0.92),
+        },
+        medium: {
+          fill: withAlpha(primaryStrong, 0.25),
+          stroke: withAlpha(primaryStrong, 0.65),
+        },
+        low: {
+          fill: withAlpha(muted, 0.18),
+          stroke: withAlpha(muted, 0.55),
+        },
       };
+    };
+
+    const baseFillOpacity = (level) => {
+      if (level === "high") return 0.78;
+      if (level === "medium") return 0.64;
+      return 0.52;
     };
 
     const map = L.map(mapContainer, { worldCopyJump: true, zoomControl: false });
     map.setView([12, 10], 2.5);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+
+    const lightTiles = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors",
-    }).addTo(map);
+    });
+    const darkTiles = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: "&copy; CartoDB & OpenStreetMap contributors",
+    });
+
+    window.donationsMapLayers = { light: lightTiles, dark: darkTiles };
+    window.donationsMap = map;
+    const initialTheme = getTheme();
+    if (initialTheme === "dark") {
+      darkTiles.addTo(map);
+    } else {
+      lightTiles.addTo(map);
+    }
+
     L.control.zoom({ position: "bottomright" }).addTo(map);
 
     const updateMarkerStyles = (activeId, hoverId = "") => {
@@ -535,12 +846,15 @@
         const isActive = region.id === activeId;
         const isHover = hoverId && region.id === hoverId && !isActive;
         const radius = baseRadius + (isActive ? 3 : isHover ? 1.5 : 0);
+        const baseOpacity = baseFillOpacity(region.level);
+        const highlightBoost = isActive ? 0.17 : isHover ? 0.1 : 0;
+        const fillOpacity = Math.min(1, baseOpacity + highlightBoost);
         marker.setStyle({
           color: colors.stroke,
           fillColor: colors.fill,
           radius,
-          weight: isActive ? 3 : 2,
-          fillOpacity: isActive ? 0.95 : isHover ? 0.9 : 0.85,
+          weight: isActive ? 3 : isHover ? 2.5 : 2,
+          fillOpacity,
         });
         if (isActive) {
           marker.bringToFront();
@@ -562,6 +876,7 @@
     const setActiveRegion = (regionId, options = {}) => {
       if (!regionId || !markers.has(regionId)) return;
       activeRegionId = regionId;
+      overviewMapState.currentActive = regionId;
       hoverRegionId = "";
       setActiveRow(regionId);
       updateMarkerStyles(regionId);
@@ -588,7 +903,7 @@
         color: colors.stroke,
         weight: 2,
         fillColor: colors.fill,
-        fillOpacity: 0.88,
+        fillOpacity: baseFillOpacity(region.level),
       });
 
       marker.bindPopup(
@@ -613,8 +928,14 @@
         if (!id) return;
         rows.set(id, row);
         row.addEventListener("click", () => setActiveRegion(id, { pan: true, openPopup: true }));
-        row.addEventListener("mouseenter", () => setHoverRegion(id));
-        row.addEventListener("mouseleave", () => setHoverRegion(activeRegionId));
+        row.addEventListener("mouseenter", () => {
+          setHoverRegion(id);
+          row.classList.add("is-highlighted");
+        });
+        row.addEventListener("mouseleave", () => {
+          setHoverRegion(activeRegionId);
+          row.classList.remove("is-highlighted");
+        });
         row.addEventListener("keydown", (event) => {
           if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
             event.preventDefault();
@@ -641,6 +962,12 @@
 
     sortedRegions.forEach(createMarker);
     wireRegionsList();
+
+    overviewMapState.map = map;
+    overviewMapState.markers = markers;
+    overviewMapState.rows = rows;
+    overviewMapState.setActiveRegion = setActiveRegion;
+    overviewMapState.setHoverRegion = setHoverRegion;
     refreshRegionsMapTheme = () => updateMarkerStyles(activeRegionId, hoverRegionId);
     donationsMapInitialized = true;
 
@@ -656,6 +983,8 @@
     }
 
     updateInsightBar();
+    initOverviewRegionsLinking();
+    updateMapForTheme(getTheme());
   };
 
   // Remove unread state and badge for notifications
@@ -2065,7 +2394,7 @@
     initSidebarSubmenus();
     Dropdowns.init();
     initAccessibilityHelpers();
-    initCharts();
+    initOverviewPage();
     initCampaignViewToggle();
     initDonationsViewToggle();
     initCampaignFilters();
@@ -2087,11 +2416,4 @@
     }
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
-    initDonationsMap();
-  });
-
-  window.addEventListener("load", () => {
-    initDonationsMap();
-  });
 })();
