@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard - Manual donation entry</title>
+  <meta name="description" content="Record an offline donation with a flexible manual entry experience." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/manual-donations/new" />
+  <meta property="og:title" content="Donations Dashboard - Manual donation entry" />
+  <meta property="og:description" content="Record an offline donation with a flexible manual entry experience." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/manual-donations/new" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Manual donation entry" />
+  <meta name="twitter:description" content="Record an offline donation with a flexible manual entry experience." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="#" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" width="190" height="44" />
+        </a>
+      </div>
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+        <a class="sidebar__link active" href="manual-donation.html" aria-current="page">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual Donations</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span>More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-file"></i> Reports</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-user-group"></i> Beneficiaries</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-plug"></i> Integrations</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-clipboard-list"></i> System Logs</a></li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Manual donations</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa-regular fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New manual donation added</p>
+                    <p class="notification-meta">Just now · Donations</p>
+                  </div>
+                  <span class="notification-time">Just now</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Recurring donation processed</p>
+                    <p class="notification-meta">2h · Finance</p>
+                  </div>
+                  <span class="notification-time">2h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Refund request approved</p>
+                    <p class="notification-meta">Yesterday · Support</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content" id="main-content" tabindex="-1">
+        <section class="card page-header" aria-labelledby="manual-donation-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="donations.html">Manual donations</a></li>
+                <li aria-current="page">New donation</li>
+              </ol>
+            </nav>
+            <div class="page-header__title">
+              <h1 id="manual-donation-title" class="h3">New manual donation</h1>
+              <p class="page-header__subtitle text-muted">Record an offline gift and keep donor history up to date.</p>
+            </div>
+          </div>
+          <div class="page-header__actions">
+            <a class="btn btn-ghost" href="donations.html">&larr; Back to donations</a>
+            <div class="manual-page-header__actions-stack">
+              <button class="btn btn-ghost js-save-draft" type="button">Save as draft</button>
+              <button class="btn btn-primary js-save-donation" type="button">Save donation</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="details-layout manual-donation-page">
+          <div class="details-layout__main">
+            <form class="card manual-donation-form" action="#" method="post" novalidate>
+              <div class="manual-form-grid">
+                <section class="form-section" aria-labelledby="manual-section-donor">
+                  <p class="form-section__title" id="manual-section-donor">Donor</p>
+                  <p class="form-section__subtitle">Choose an existing donor or capture a new profile inline.</p>
+                  <div class="donor-toggle" role="tablist" aria-label="Donor type">
+                    <label class="donor-toggle__option is-active">
+                      <input type="radio" name="manualDonorMode" value="existing" checked>
+                      <span>Existing donor</span>
+                    </label>
+                    <label class="donor-toggle__option">
+                      <input type="radio" name="manualDonorMode" value="new">
+                      <span>New donor</span>
+                    </label>
+                  </div>
+
+                  <div class="manual-donor-existing">
+                    <div class="form-field">
+                      <label class="form-label" for="existingDonorSearch">Search donors</label>
+                      <div class="donor-search">
+                        <i class="fa-solid fa-search" aria-hidden="true"></i>
+                        <input id="existingDonorSearch" type="search" class="form-control"
+                          placeholder="Search by name, email, or city" autocomplete="off" />
+                      </div>
+                      <p class="form-error is-hidden">Select an existing donor or switch to a new profile.</p>
+                    </div>
+                    <div class="donor-results" role="listbox" aria-label="Matching donors">
+                      <div class="donor-results__list"></div>
+                      <button type="button" class="link-button js-create-new-donor">Create new donor</button>
+                    </div>
+                  </div>
+
+                  <div class="manual-donor-new is-hidden">
+                    <div class="form-grid">
+                      <div class="form-field">
+                        <label class="form-label" for="newDonorName">Full name</label>
+                        <input class="form-control" type="text" id="newDonorName" placeholder="Taylor Rivers" />
+                        <p class="form-error is-hidden">Please enter a donor name.</p>
+                      </div>
+                      <div class="form-field">
+                        <label class="form-label" for="newDonorEmail">Email</label>
+                        <input class="form-control" type="email" id="newDonorEmail" placeholder="taylor@impact.org" />
+                        <p class="form-error is-hidden">Provide a valid email address.</p>
+                      </div>
+                      <div class="form-field">
+                        <label class="form-label" for="newDonorCountry">Country</label>
+                        <select class="form-control" id="newDonorCountry">
+                          <option value="">Select country</option>
+                          <option value="United States">United States</option>
+                          <option value="Kenya">Kenya</option>
+                          <option value="Brazil">Brazil</option>
+                          <option value="Jordan">Jordan</option>
+                          <option value="India">India</option>
+                          <option value="Mexico">Mexico</option>
+                        </select>
+                        <p class="form-error is-hidden">Add a country to help with history.</p>
+                      </div>
+                      <div class="form-field">
+                        <label class="form-label" for="newDonorCity">City</label>
+                        <input class="form-control" type="text" id="newDonorCity" placeholder="City, Region" />
+                        <p class="form-error is-hidden">Please add a city.</p>
+                      </div>
+                    </div>
+                    <div class="form-field form-field--checkbox">
+                      <label>
+                        <input type="checkbox" id="anonymousToggle" />
+                        <span>Mark as anonymous on public reports</span>
+                      </label>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="form-section" aria-labelledby="manual-section-details">
+                  <p class="form-section__title" id="manual-section-details">Donation details</p>
+                  <p class="form-section__subtitle">Capture the amount, currency, cadence, and campaign.</p>
+                  <div class="form-field form-field--inline">
+                    <div>
+                      <label class="form-label" for="manualAmount">Amount</label>
+                      <div class="currency-input">
+                        <span class="currency-input__prefix" aria-hidden="true">$</span>
+                        <input class="form-control" type="text" id="manualAmount" inputmode="decimal"
+                          placeholder="0.00" />
+                      </div>
+                      <p class="form-error is-hidden">Enter an amount greater than zero.</p>
+                    </div>
+                    <div>
+                      <label class="form-label" for="manualCurrency">Currency</label>
+                      <select class="form-control" id="manualCurrency">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="TRY">TRY</option>
+                      </select>
+                      <p class="form-error is-hidden">Select a currency.</p>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="form-label">Frequency</label>
+                    <div class="radiogroup" role="radiogroup" aria-label="Donation frequency">
+                      <label class="radiogroup__option">
+                        <input type="radio" name="manualFrequency" value="one-time" data-label="One-time" checked>
+                        <span>One-time</span>
+                      </label>
+                      <label class="radiogroup__option">
+                        <input type="radio" name="manualFrequency" value="monthly" data-label="Monthly recurring">
+                        <span>Monthly recurring</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-field form-field--inline">
+                    <div>
+                      <label class="form-label" for="manualDate">Donation date</label>
+                      <input class="form-control" type="date" id="manualDate" />
+                    </div>
+                    <div>
+                      <label class="form-label" for="manualCampaign">Campaign</label>
+                      <select class="form-control" id="manualCampaign">
+                        <option value="">Select campaign</option>
+                        <option value="Clean Water Initiative">Clean Water Initiative</option>
+                        <option value="Healthcare Fund">Healthcare Fund</option>
+                        <option value="Education for All">Education for All</option>
+                        <option value="Community Kitchen">Community Kitchen</option>
+                        <option value="Emergency Response Team">Emergency Response Team</option>
+                      </select>
+                      <p class="form-error is-hidden">Choose a campaign for this gift.</p>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="form-label" for="allocationNotes">Allocation notes (optional)</label>
+                    <textarea class="form-control" id="allocationNotes" rows="3"
+                      placeholder="Restricted to emergency medical supplies."></textarea>
+                  </div>
+                </section>
+
+                <section class="form-section" aria-labelledby="manual-section-payment">
+                  <p class="form-section__title" id="manual-section-payment">Payment method &amp; reference</p>
+                  <p class="form-section__subtitle">Match the ledger with the payment details and Finance notes.</p>
+                  <div class="form-field">
+                    <label class="form-label" for="paymentMethodField">Payment method</label>
+                    <select class="form-control" id="paymentMethodField">
+                      <option value="">Select method</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Bank transfer">Bank transfer</option>
+                      <option value="Check">Check</option>
+                      <option value="POS terminal">POS terminal</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label" for="paymentReference">Bank / check reference ID</label>
+                    <input class="form-control" type="text" id="paymentReference" placeholder="e.g. BTX-9412" />
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label" for="internalNotes">Internal note</label>
+                    <textarea class="form-control" id="internalNotes" rows="3"
+                      placeholder="Add anything the finance team should know."></textarea>
+                  </div>
+                  <div class="form-field form-field--checkbox">
+                    <label>
+                      <input type="checkbox" id="reconciledCheck" />
+                      <span>Mark as already reconciled</span>
+                    </label>
+                  </div>
+                </section>
+
+                <section class="form-section" aria-labelledby="manual-section-notes">
+                  <p class="form-section__title" id="manual-section-notes">Internal notes &amp; tags</p>
+                  <p class="form-section__subtitle">Track special handling, follow-up reminders, or gift tiers.</p>
+                  <div class="form-field">
+                    <label class="form-label" for="manualInternalNotes">Internal notes</label>
+                    <textarea class="form-control" id="manualInternalNotes" rows="3"
+                      placeholder="This gift needs a stewardship plan."></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label">Tags</label>
+                    <div class="tag-chip-group" role="group" aria-label="Tag filters">
+                      <button type="button" class="tag-chip" data-tag-value="major-gift" data-tag-label="Major gift"
+                        aria-pressed="false">Major gift</button>
+                      <button type="button" class="tag-chip" data-tag-value="first-time" data-tag-label="First-time donor"
+                        aria-pressed="false">First-time donor</button>
+                      <button type="button" class="tag-chip" data-tag-value="follow-up" data-tag-label="Follow-up required"
+                        aria-pressed="false">Follow-up required</button>
+                      <button type="button" class="tag-chip" data-tag-value="stewardship" data-tag-label="Stewardship"
+                        aria-pressed="false">Stewardship</button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <div class="manual-form-actions">
+                <a class="btn btn-ghost" href="donations.html">Cancel</a>
+                <div class="manual-form-actions__group">
+                  <button class="btn btn-ghost js-save-draft" type="button">Save as draft</button>
+                  <button class="btn btn-primary js-save-donation" type="button">Save donation</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <aside class="details-layout__side">
+            <article class="card summary-card">
+              <header class="summary-card__header">
+                <div>
+                  <p class="eyebrow summary-card__eyebrow">Donation summary</p>
+                  <h2 class="h5 summary-card__title">Live preview</h2>
+                </div>
+                <span class="status-pill status-pill--draft js-summary-status">Draft</span>
+              </header>
+              <div class="summary-card__body">
+                <div class="summary-card__donor">
+                  <span class="donor-avatar summary-card__avatar js-summary-avatar" aria-hidden="true">--</span>
+                  <div>
+                    <p class="summary-card__donor-name js-summary-donor">New donor</p>
+                    <p class="summary-card__donor-meta">
+                      <span class="summary-card__donor-email js-summary-email">—</span>
+                      <span class="summary-card__donor-location js-summary-location">—</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="summary-card__amount-block">
+                  <p class="summary-card__amount js-summary-amount">—</p>
+                  <p class="summary-card__currency js-summary-currency">USD</p>
+                  <p class="summary-card__frequency js-summary-frequency">One-time</p>
+                </div>
+                <div class="summary-card__section">
+                  <p class="summary-card__label">Campaign</p>
+                  <p class="summary-card__value js-summary-campaign">—</p>
+                </div>
+                <div class="summary-card__section">
+                  <p class="summary-card__label">Allocation notes</p>
+                  <p class="summary-card__value js-summary-allocation">—</p>
+                </div>
+                <div class="summary-card__section summary-card__payment">
+                  <div>
+                    <p class="summary-card__label">Payment method</p>
+                    <p class="summary-card__value js-summary-method">—</p>
+                  </div>
+                  <div>
+                    <p class="summary-card__label">Date</p>
+                    <p class="summary-card__value js-summary-date">—</p>
+                  </div>
+                  <div>
+                    <p class="summary-card__label">Reference</p>
+                    <p class="summary-card__value js-summary-reference">—</p>
+                  </div>
+                </div>
+                <div class="summary-card__badges" aria-live="polite"></div>
+              </div>
+              <footer class="summary-card__footer">
+                <p class="summary-card__footnote">This donation will appear in donor history and campaign totals once
+                  saved.</p>
+              </footer>
+            </article>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

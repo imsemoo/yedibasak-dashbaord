@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard - Donors</title>
+  <meta name="description" content="Explore and segment your donor relationships within the donations dashboard." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/donors" />
+  <meta property="og:title" content="Donations Dashboard - Donors" />
+  <meta property="og:description"
+    content="Explore and segment your donor relationships within the donations dashboard." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/donors" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Donors" />
+  <meta name="twitter:description"
+    content="Explore and segment your donor relationships within the donations dashboard." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="#" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+        <a class="sidebar__link active" href="donors.html" aria-current="page">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual Donations</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span>More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-file"></i> Reports</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-user-group"></i> Beneficiaries</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-plug"></i> Integrations</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-clipboard-list"></i> System Logs</a></li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Donors</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donor segment created</p>
+                    <p class="notification-meta">Just now ? Donors</p>
+                  </div>
+                  <span class="notification-time">Just now</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Recurring donation processed</p>
+                    <p class="notification-meta">2h ? Finance</p>
+                  </div>
+                  <span class="notification-time">2h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Archive request logged</p>
+                    <p class="notification-meta">Yesterday ? Donors</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content donors-page" id="main-content" tabindex="-1">
+        <section class="card page-header" aria-labelledby="donors-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li aria-current="page">Donors</li>
+              </ol>
+            </nav>
+            <div class="page-header__title">
+              <h1 id="donors-title" class="h3">Donors</h1>
+              <p class="page-header__subtitle text-muted">Explore, segment, and manage your donor relationships.</p>
+            </div>
+          </div>
+          <div class="page-header__actions">
+            <a href="donor-new.html" class="btn btn-primary" type="button">
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+              New donor
+            </a>
+            <button class="btn btn-ghost" type="button">
+              <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+              Export donors
+            </button>
+          </div>
+        </section>
+
+        <section class="card donors-summary" aria-label="Donor key metrics">
+          <div class="donors-summary__grid">
+            <div class="donors-summary__item">
+              <p class="donors-summary__label">Total donors</p>
+              <p class="donors-summary__value js-donors-summary-total">0</p>
+              <p class="donors-summary__meta">+2 this month</p>
+            </div>
+            <div class="donors-summary__item">
+              <p class="donors-summary__label">Active donors</p>
+              <p class="donors-summary__value js-donors-summary-active">0</p>
+              <p class="donors-summary__meta">+1 this quarter</p>
+            </div>
+            <div class="donors-summary__item">
+              <p class="donors-summary__label">Recurring donors</p>
+              <p class="donors-summary__value js-donors-summary-recurring">0</p>
+              <p class="donors-summary__meta">60% engaged</p>
+            </div>
+            <div class="donors-summary__item">
+              <p class="donors-summary__label">High value donors</p>
+              <p class="donors-summary__value js-donors-summary-high">0</p>
+              <p class="donors-summary__meta">2 matches this month</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card donors-toolbar" aria-label="Donor segments">
+          <div class="donors-toolbar__left">
+            <div class="tabs donors-tabs" role="tablist" aria-label="Donor status tabs">
+              <button class="tabs__item donors-tabs__item donors-tabs__item--active" type="button" role="tab"
+                aria-selected="true" data-segment="all">All</button>
+              <button class="tabs__item donors-tabs__item" type="button" role="tab" aria-selected="false"
+                data-segment="active">Active</button>
+              <button class="tabs__item donors-tabs__item" type="button" role="tab" aria-selected="false"
+                data-segment="new">New</button>
+              <button class="tabs__item donors-tabs__item" type="button" role="tab" aria-selected="false"
+                data-segment="lapsed">Lapsed</button>
+              <button class="tabs__item donors-tabs__item" type="button" role="tab" aria-selected="false"
+                data-segment="high-value">High value</button>
+              <button class="tabs__item donors-tabs__item" type="button" role="tab" aria-selected="false"
+                data-segment="recurring">Recurring</button>
+            </div>
+          </div>
+          <div class="donors-toolbar__right">
+            <form class="search donors-search" role="search" aria-label="Search donors">
+              <label class="sr-only" for="donors-search">Search donors</label>
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input id="donors-search" type="search" name="donors-search"
+                placeholder="Search donors by name, email, or campaign." autocomplete="off" />
+            </form>
+            <button class="btn btn-ghost js-open-donors-filters" type="button" aria-expanded="false"
+              aria-controls="donorsFilters">
+              <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+              Filters
+              <span class="filter-count js-filter-count is-hidden" aria-live="polite">0</span>
+            </button>
+            <div class="view-toggle" role="tablist" aria-label="Donors view modes" data-view-context="donors">
+              <button class="view-toggle__btn is-active" type="button" data-view-mode="cards" aria-pressed="true">
+                <i class="fa-solid fa-grip" aria-hidden="true"></i>
+                <span>Cards</span>
+              </button>
+              <button class="view-toggle__btn" type="button" data-view-mode="table" aria-pressed="false">
+                <i class="fa-solid fa-table" aria-hidden="true"></i>
+                <span>Table</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card donors-view donors-view--cards is-active" data-view="cards" aria-label="Donor cards view">
+          <div class="donors-grid">
+            <article class="donor-card card" data-donor-id="jordan-sparks" data-donor-name="Jordan Sparks"
+              data-donor-email="jordan@innovateimpact.org" data-donor-location="Toronto, Canada"
+              data-donor-initials="JS" data-donor-status="Active" data-donor-type="Individual"
+              data-donor-lifetime="$8,420" data-donor-lifetime-value="8420" data-donor-gifts="14"
+              data-donor-average="$601" data-donor-last-gift="Aug 14, 2025" data-donor-last-date="2025-08-14"
+              data-donor-campaigns="4" data-donor-tags="Recurring donor;Major gift;High potential"
+              data-donor-activity="Clean Water Initiative|$1,200|Aug 14, 2025|Completed;Education Access|$420|Jul 03, 2025|Completed;Healthcare Resilience Fund|$320|May 21, 2025|Pending"
+              data-donor-segment="active recurring high-value">
+              <div class="donor-card__header">
+                <div class="donor-card__donor">
+                  <span class="donor-card__avatar" aria-hidden="true">JS</span>
+                  <div>
+                    <p class="donor-card__name">Jordan Sparks</p>
+                    <p class="donor-card__email text-muted">jordan@innovateimpact.org</p>
+                    <p class="donor-card__location text-muted">Toronto, Canada</p>
+                  </div>
+                </div>
+                <div class="donor-card__badges">
+                  <span class="badge badge--subtle">Individual</span>
+                  <span class="status-pill status-pill--success">Active</span>
+                </div>
+              </div>
+              <div class="donor-card__body">
+                <div class="donor-card__stats">
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Lifetime giving</p>
+                    <p class="donor-card__stat-value">$8,420</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Gifts</p>
+                    <p class="donor-card__stat-value">14</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Last gift</p>
+                    <p class="donor-card__stat-value">Aug 14, 2025</p>
+                  </div>
+                </div>
+                <div class="donor-card__tags tag-chip-group">
+                  <span class="tag-chip">Recurring donor</span>
+                  <span class="tag-chip">Major gift</span>
+                  <span class="tag-chip">High potential</span>
+                </div>
+                <p class="donor-card__note text-muted">Supports 4 active campaigns</p>
+              </div>
+              <div class="donor-card__actions">
+                <div class="donor-card__action-buttons">
+                  <button class="btn btn-primary btn-sm js-donor-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <button class="btn btn-outline btn-sm" type="button">
+                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                    <span>Message</span>
+                  </button>
+                </div>
+                <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                  <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button" aria-haspopup="true"
+                    aria-expanded="false" aria-label="More donor actions">
+                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                      <span>View profile</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                      <span>Add note</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa fa-tag" aria-hidden="true"></i>
+                      <span>Add tag</span>
+                    </button>
+                    <button type="button" class="dropdown-item dropdown-item--danger">
+                      <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                      <span>Archive donor</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="donor-card card" data-donor-id="laila-hassan" data-donor-name="Laila Hassan"
+              data-donor-email="laila@greenfutures.org" data-donor-location="Nairobi, Kenya" data-donor-initials="LH"
+              data-donor-status="High value" data-donor-type="Organization" data-donor-lifetime="$14,320"
+              data-donor-lifetime-value="14320" data-donor-gifts="22" data-donor-average="$650"
+              data-donor-last-gift="Aug 02, 2025" data-donor-last-date="2025-08-02" data-donor-campaigns="5"
+              data-donor-tags="Recurring donor;High potential;Corporate partner"
+              data-donor-activity="Climate Action Fund|$2,500|Aug 02, 2025|Completed;Community Kitchens|$1,100|Jun 28, 2025|Completed;Operations Support|$880|Jun 10, 2025|Completed"
+              data-donor-segment="active high-value recurring">
+              <div class="donor-card__header">
+                <div class="donor-card__donor">
+                  <span class="donor-card__avatar" aria-hidden="true">LH</span>
+                  <div>
+                    <p class="donor-card__name">Laila Hassan</p>
+                    <p class="donor-card__email text-muted">laila@greenfutures.org</p>
+                    <p class="donor-card__location text-muted">Nairobi, Kenya</p>
+                  </div>
+                </div>
+                <div class="donor-card__badges">
+                  <span class="badge badge--subtle">Organization</span>
+                  <span class="status-pill status-pill--info">High value</span>
+                </div>
+              </div>
+              <div class="donor-card__body">
+                <div class="donor-card__stats">
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Lifetime giving</p>
+                    <p class="donor-card__stat-value">$14,320</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Gifts</p>
+                    <p class="donor-card__stat-value">22</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Last gift</p>
+                    <p class="donor-card__stat-value">Aug 02, 2025</p>
+                  </div>
+                </div>
+                <div class="donor-card__tags tag-chip-group">
+                  <span class="tag-chip">Recurring donor</span>
+                  <span class="tag-chip">High potential</span>
+                  <span class="tag-chip">Corporate partner</span>
+                </div>
+                <p class="donor-card__note text-muted">Supports 5 active campaigns</p>
+              </div>
+              <div class="donor-card__actions">
+                <div class="donor-card__action-buttons">
+                  <button class="btn btn-primary btn-sm js-donor-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <button class="btn btn-outline btn-sm" type="button">
+                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                    <span>Message</span>
+                  </button>
+                </div>
+                <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                  <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button" aria-haspopup="true"
+                    aria-expanded="false" aria-label="More donor actions">
+                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                      <span>View profile</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                      <span>Add note</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa fa-tag" aria-hidden="true"></i>
+                      <span>Add tag</span>
+                    </button>
+                    <button type="button" class="dropdown-item dropdown-item--danger">
+                      <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                      <span>Archive donor</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="donor-card card" data-donor-id="nadia-clarke" data-donor-name="Nadia Clarke"
+              data-donor-email="nadia@brightfutures.org" data-donor-location="Seattle, USA" data-donor-initials="NC"
+              data-donor-status="New" data-donor-type="Individual" data-donor-lifetime="$1,120"
+              data-donor-lifetime-value="1120" data-donor-gifts="3" data-donor-average="$373"
+              data-donor-last-gift="Aug 10, 2025" data-donor-last-date="2025-08-10" data-donor-campaigns="2"
+              data-donor-tags="Recurring donor;New supporter"
+              data-donor-activity="Education Access|$400|Aug 10, 2025|Completed;Emergency Response|$360|Jul 08, 2025|Completed;Climate Action Fund|$360|Jun 05, 2025|Completed"
+              data-donor-segment="new recurring">
+              <div class="donor-card__header">
+                <div class="donor-card__donor">
+                  <span class="donor-card__avatar" aria-hidden="true">NC</span>
+                  <div>
+                    <p class="donor-card__name">Nadia Clarke</p>
+                    <p class="donor-card__email text-muted">nadia@brightfutures.org</p>
+                    <p class="donor-card__location text-muted">Seattle, USA</p>
+                  </div>
+                </div>
+                <div class="donor-card__badges">
+                  <span class="badge badge--subtle">Individual</span>
+                  <span class="status-pill status-pill--pending">New</span>
+                </div>
+              </div>
+              <div class="donor-card__body">
+                <div class="donor-card__stats">
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Lifetime giving</p>
+                    <p class="donor-card__stat-value">$1,120</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Gifts</p>
+                    <p class="donor-card__stat-value">3</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Last gift</p>
+                    <p class="donor-card__stat-value">Aug 10, 2025</p>
+                  </div>
+                </div>
+                <div class="donor-card__tags tag-chip-group">
+                  <span class="tag-chip">Recurring donor</span>
+                  <span class="tag-chip">New supporter</span>
+                </div>
+                <p class="donor-card__note text-muted">Supports 2 active campaigns</p>
+              </div>
+              <div class="donor-card__actions">
+                <div class="donor-card__action-buttons">
+                  <button class="btn btn-primary btn-sm js-donor-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <button class="btn btn-outline btn-sm" type="button">
+                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                    <span>Message</span>
+                  </button>
+                </div>
+                <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                  <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button" aria-haspopup="true"
+                    aria-expanded="false" aria-label="More donor actions">
+                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                      <span>View profile</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                      <span>Add note</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa fa-tag" aria-hidden="true"></i>
+                      <span>Add tag</span>
+                    </button>
+                    <button type="button" class="dropdown-item dropdown-item--danger">
+                      <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                      <span>Archive donor</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="donor-card card" data-donor-id="tam-nguyen" data-donor-name="Tam Nguyen"
+              data-donor-email="tam@globalgood.org" data-donor-location="Ho Chi Minh City, Vietnam"
+              data-donor-initials="TN" data-donor-status="Lapsed" data-donor-type="Individual"
+              data-donor-lifetime="$3,520" data-donor-lifetime-value="3520" data-donor-gifts="9"
+              data-donor-average="$391" data-donor-last-gift="Mar 19, 2025" data-donor-last-date="2025-03-19"
+              data-donor-campaigns="3" data-donor-tags="At risk;Major gift"
+              data-donor-activity="Clean Water Initiative|$900|Mar 19, 2025|Completed;Health Equity|$720|Jan 12, 2025|Completed;Emergency Relief|$480|Dec 05, 2024|Completed"
+              data-donor-segment="lapsed at-risk">
+              <div class="donor-card__header">
+                <div class="donor-card__donor">
+                  <span class="donor-card__avatar" aria-hidden="true">TN</span>
+                  <div>
+                    <p class="donor-card__name">Tam Nguyen</p>
+                    <p class="donor-card__email text-muted">tam@globalgood.org</p>
+                    <p class="donor-card__location text-muted">Ho Chi Minh City, Vietnam</p>
+                  </div>
+                </div>
+                <div class="donor-card__badges">
+                  <span class="badge badge--subtle">Individual</span>
+                  <span class="status-pill status-pill--warning">Lapsed</span>
+                </div>
+              </div>
+              <div class="donor-card__body">
+                <div class="donor-card__stats">
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Lifetime giving</p>
+                    <p class="donor-card__stat-value">$3,520</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Gifts</p>
+                    <p class="donor-card__stat-value">9</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Last gift</p>
+                    <p class="donor-card__stat-value">Mar 19, 2025</p>
+                  </div>
+                </div>
+                <div class="donor-card__tags tag-chip-group">
+                  <span class="tag-chip">At risk</span>
+                  <span class="tag-chip">Major gift</span>
+                </div>
+                <p class="donor-card__note text-muted">Supports 3 active campaigns</p>
+              </div>
+              <div class="donor-card__actions">
+                <div class="donor-card__action-buttons">
+                  <button class="btn btn-primary btn-sm js-donor-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <button class="btn btn-outline btn-sm" type="button">
+                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                    <span>Message</span>
+                  </button>
+                </div>
+                <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                  <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button" aria-haspopup="true"
+                    aria-expanded="false" aria-label="More donor actions">
+                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                      <span>View profile</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                      <span>Add note</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa fa-tag" aria-hidden="true"></i>
+                      <span>Add tag</span>
+                    </button>
+                    <button type="button" class="dropdown-item dropdown-item--danger">
+                      <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                      <span>Archive donor</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="donor-card card" data-donor-id="petra-novak" data-donor-name="Petra Novak"
+              data-donor-email="petra@transitimpact.org" data-donor-location="Lisbon, Portugal" data-donor-initials="PN"
+              data-donor-status="Recurring" data-donor-type="Organization" data-donor-lifetime="$7,800"
+              data-donor-lifetime-value="7800" data-donor-gifts="18" data-donor-average="$433"
+              data-donor-last-gift="Jul 30, 2025" data-donor-last-date="2025-07-30" data-donor-campaigns="6"
+              data-donor-tags="Recurring donor;Sustainer"
+              data-donor-activity="Urban Resilience|$1,100|Jul 30, 2025|Completed;Community Kitchens|$720|Jun 20, 2025|Completed;Healthcare Resilience Fund|$520|May 15, 2025|Completed"
+              data-donor-segment="active recurring">
+              <div class="donor-card__header">
+                <div class="donor-card__donor">
+                  <span class="donor-card__avatar" aria-hidden="true">PN</span>
+                  <div>
+                    <p class="donor-card__name">Petra Novak</p>
+                    <p class="donor-card__email text-muted">petra@transitimpact.org</p>
+                    <p class="donor-card__location text-muted">Lisbon, Portugal</p>
+                  </div>
+                </div>
+                <div class="donor-card__badges">
+                  <span class="badge badge--subtle">Organization</span>
+                  <span class="status-pill status-pill--processing">Recurring</span>
+                </div>
+              </div>
+              <div class="donor-card__body">
+                <div class="donor-card__stats">
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Lifetime giving</p>
+                    <p class="donor-card__stat-value">$7,800</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Gifts</p>
+                    <p class="donor-card__stat-value">18</p>
+                  </div>
+                  <div>
+                    <p class="donor-card__stat-label text-muted">Last gift</p>
+                    <p class="donor-card__stat-value">Jul 30, 2025</p>
+                  </div>
+                </div>
+                <div class="donor-card__tags tag-chip-group">
+                  <span class="tag-chip">Recurring donor</span>
+                  <span class="tag-chip">Sustainer</span>
+                </div>
+                <p class="donor-card__note text-muted">Supports 6 active campaigns</p>
+              </div>
+              <div class="donor-card__actions">
+                <div class="donor-card__action-buttons">
+                  <button class="btn btn-primary btn-sm js-donor-preview" type="button">
+                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    <span>View</span>
+                  </button>
+                  <button class="btn btn-outline btn-sm" type="button">
+                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                    <span>Message</span>
+                  </button>
+                </div>
+                <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                  <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button" aria-haspopup="true"
+                    aria-expanded="false" aria-label="More donor actions">
+                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                      <span>View profile</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                      <span>Add note</span>
+                    </button>
+                    <button type="button" class="dropdown-item">
+                      <i class="fa fa-tag" aria-hidden="true"></i>
+                      <span>Add tag</span>
+                    </button>
+                    <button type="button" class="dropdown-item dropdown-item--danger">
+                      <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                      <span>Archive donor</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section class="card donors-view donors-view--table" data-view="table" aria-label="Donor table view"
+          aria-hidden="true">
+          <div class="donors-table-wrapper">
+            <div class="donors-table-scroll">
+              <table class="donor-table">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <button class="table-sortable" type="button" data-sort-key="donor"
+                        aria-label="Sort by donor name">
+                        <span>Donor</span>
+                        <span class="table-sortable__icons" aria-hidden="true">
+                          <i class="fa-solid fa-chevron-up"></i>
+                          <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                      </button>
+                    </th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">
+                      <button class="table-sortable" type="button" data-sort-key="lifetime"
+                        aria-label="Sort by lifetime giving">
+                        <span>Lifetime giving</span>
+                        <span class="table-sortable__icons" aria-hidden="true">
+                          <i class="fa-solid fa-chevron-up"></i>
+                          <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      <button class="table-sortable" type="button" data-sort-key="gifts"
+                        aria-label="Sort by gifts count">
+                        <span>Gifts</span>
+                        <span class="table-sortable__icons" aria-hidden="true">
+                          <i class="fa-solid fa-chevron-up"></i>
+                          <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      <button class="table-sortable" type="button" data-sort-key="lastDonation"
+                        aria-label="Sort by last donation">
+                        <span>Last donation</span>
+                        <span class="table-sortable__icons" aria-hidden="true">
+                          <i class="fa-solid fa-chevron-up"></i>
+                          <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                      </button>
+                    </th>
+                    <th scope="col">Tags</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="donor-row" data-donor-id="jordan-sparks" data-donor-name="Jordan Sparks"
+                    data-donor-email="jordan@innovateimpact.org" data-donor-location="Toronto, Canada"
+                    data-donor-initials="JS" data-donor-status="Active" data-donor-type="Individual"
+                    data-donor-lifetime="$8,420" data-donor-lifetime-value="8420" data-donor-gifts="14"
+                    data-donor-average="$601" data-donor-last-gift="Aug 14, 2025" data-donor-last-date="2025-08-14"
+                    data-donor-campaigns="4" data-donor-tags="Recurring donor;Major gift;High potential"
+                    data-donor-activity="Clean Water Initiative|$1,200|Aug 14, 2025|Completed;Education Access|$420|Jul 03, 2025|Completed;Healthcare Resilience Fund|$320|May 21, 2025|Pending"
+                    data-donor-segment="active recurring high-value">
+                    <td data-label="Donor">
+                      <div class="donors-table__donor">
+                        <span class="donors-table__avatar" aria-hidden="true">JS</span>
+                        <div>
+                          <p class="donors-table__donor-name">Jordan Sparks</p>
+                          <p class="text-muted">jordan@innovateimpact.org</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td data-label="Type">
+                      <span class="badge badge--subtle">Individual</span>
+                    </td>
+                    <td data-label="Location">Toronto, Canada</td>
+                    <td data-label="Lifetime giving">$8,420</td>
+                    <td data-label="Gifts">14</td>
+                    <td data-label="Last donation">Aug 14, 2025</td>
+                    <td data-label="Tags">
+                      <div class="donor-table__tags">
+                        <span class="tag-chip">Recurring donor</span>
+                        <span class="tag-chip">Major gift</span>
+                        <span class="tag-chip">High potential</span>
+                      </div>
+                    </td>
+                    <td data-label="Status"><span class="status-pill status-pill--success">Active</span></td>
+                    <td data-label="Actions" class="table-col-actions">
+                      <div class="table-actions">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-donor-preview"
+                          aria-label="View donor">
+                          <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                          <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button"
+                            aria-haspopup="true" aria-expanded="false" aria-label="More donor actions">
+                            <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                              <span>View profile</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                              <span>Add note</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa fa-tag" aria-hidden="true"></i>
+                              <span>Add tag</span>
+                            </button>
+                            <button type="button" class="dropdown-item dropdown-item--danger">
+                              <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                              <span>Archive donor</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="donor-row" data-donor-id="laila-hassan" data-donor-name="Laila Hassan"
+                    data-donor-email="laila@greenfutures.org" data-donor-location="Nairobi, Kenya"
+                    data-donor-initials="LH" data-donor-status="High value" data-donor-type="Organization"
+                    data-donor-lifetime="$14,320" data-donor-lifetime-value="14320" data-donor-gifts="22"
+                    data-donor-average="$650" data-donor-last-gift="Aug 02, 2025" data-donor-last-date="2025-08-02"
+                    data-donor-campaigns="5" data-donor-tags="Recurring donor;High potential;Corporate partner"
+                    data-donor-activity="Climate Action Fund|$2,500|Aug 02, 2025|Completed;Community Kitchens|$1,100|Jun 28, 2025|Completed;Operations Support|$880|Jun 10, 2025|Completed"
+                    data-donor-segment="active high-value recurring">
+                    <td data-label="Donor">
+                      <div class="donors-table__donor">
+                        <span class="donors-table__avatar" aria-hidden="true">LH</span>
+                        <div>
+                          <p class="donors-table__donor-name">Laila Hassan</p>
+                          <p class="text-muted">laila@greenfutures.org</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td data-label="Type">
+                      <span class="badge badge--subtle">Organization</span>
+                    </td>
+                    <td data-label="Location">Nairobi, Kenya</td>
+                    <td data-label="Lifetime giving">$14,320</td>
+                    <td data-label="Gifts">22</td>
+                    <td data-label="Last donation">Aug 02, 2025</td>
+                    <td data-label="Tags">
+                      <div class="donor-table__tags">
+                        <span class="tag-chip">Recurring donor</span>
+                        <span class="tag-chip">High potential</span>
+                        <span class="tag-chip">Corporate partner</span>
+                      </div>
+                    </td>
+                    <td data-label="Status"><span class="status-pill status-pill--info">High value</span></td>
+                    <td data-label="Actions" class="table-col-actions">
+                      <div class="table-actions">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-donor-preview"
+                          aria-label="View donor">
+                          <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                          <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button"
+                            aria-haspopup="true" aria-expanded="false" aria-label="More donor actions">
+                            <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                              <span>View profile</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                              <span>Add note</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa fa-tag" aria-hidden="true"></i>
+                              <span>Add tag</span>
+                            </button>
+                            <button type="button" class="dropdown-item dropdown-item--danger">
+                              <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                              <span>Archive donor</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="donor-row" data-donor-id="nadia-clarke" data-donor-name="Nadia Clarke"
+                    data-donor-email="nadia@brightfutures.org" data-donor-location="Seattle, USA"
+                    data-donor-initials="NC" data-donor-status="New" data-donor-type="Individual"
+                    data-donor-lifetime="$1,120" data-donor-lifetime-value="1120" data-donor-gifts="3"
+                    data-donor-average="$373" data-donor-last-gift="Aug 10, 2025" data-donor-last-date="2025-08-10"
+                    data-donor-campaigns="2" data-donor-tags="Recurring donor;New supporter"
+                    data-donor-activity="Education Access|$400|Aug 10, 2025|Completed;Emergency Response|$360|Jul 08, 2025|Completed;Climate Action Fund|$360|Jun 05, 2025|Completed"
+                    data-donor-segment="new recurring">
+                    <td data-label="Donor">
+                      <div class="donors-table__donor">
+                        <span class="donors-table__avatar" aria-hidden="true">NC</span>
+                        <div>
+                          <p class="donors-table__donor-name">Nadia Clarke</p>
+                          <p class="text-muted">nadia@brightfutures.org</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td data-label="Type">
+                      <span class="badge badge--subtle">Individual</span>
+                    </td>
+                    <td data-label="Location">Seattle, USA</td>
+                    <td data-label="Lifetime giving">$1,120</td>
+                    <td data-label="Gifts">3</td>
+                    <td data-label="Last donation">Aug 10, 2025</td>
+                    <td data-label="Tags">
+                      <div class="donor-table__tags">
+                        <span class="tag-chip">Recurring donor</span>
+                        <span class="tag-chip">New supporter</span>
+                      </div>
+                    </td>
+                    <td data-label="Status"><span class="status-pill status-pill--pending">New</span></td>
+                    <td data-label="Actions" class="table-col-actions">
+                      <div class="table-actions">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-donor-preview"
+                          aria-label="View donor">
+                          <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                          <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button"
+                            aria-haspopup="true" aria-expanded="false" aria-label="More donor actions">
+                            <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                              <span>View profile</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                              <span>Add note</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa fa-tag" aria-hidden="true"></i>
+                              <span>Add tag</span>
+                            </button>
+                            <button type="button" class="dropdown-item dropdown-item--danger">
+                              <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                              <span>Archive donor</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="donor-row" data-donor-id="tam-nguyen" data-donor-name="Tam Nguyen"
+                    data-donor-email="tam@globalgood.org" data-donor-location="Ho Chi Minh City, Vietnam"
+                    data-donor-initials="TN" data-donor-status="Lapsed" data-donor-type="Individual"
+                    data-donor-lifetime="$3,520" data-donor-lifetime-value="3520" data-donor-gifts="9"
+                    data-donor-average="$391" data-donor-last-gift="Mar 19, 2025" data-donor-last-date="2025-03-19"
+                    data-donor-campaigns="3" data-donor-tags="At risk;Major gift"
+                    data-donor-activity="Clean Water Initiative|$900|Mar 19, 2025|Completed;Health Equity|$720|Jan 12, 2025|Completed;Emergency Relief|$480|Dec 05, 2024|Completed"
+                    data-donor-segment="lapsed at-risk">
+                    <td data-label="Donor">
+                      <div class="donors-table__donor">
+                        <span class="donors-table__avatar" aria-hidden="true">TN</span>
+                        <div>
+                          <p class="donors-table__donor-name">Tam Nguyen</p>
+                          <p class="text-muted">tam@globalgood.org</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td data-label="Type">
+                      <span class="badge badge--subtle">Individual</span>
+                    </td>
+                    <td data-label="Location">Ho Chi Minh City, Vietnam</td>
+                    <td data-label="Lifetime giving">$3,520</td>
+                    <td data-label="Gifts">9</td>
+                    <td data-label="Last donation">Mar 19, 2025</td>
+                    <td data-label="Tags">
+                      <div class="donor-table__tags">
+                        <span class="tag-chip">At risk</span>
+                        <span class="tag-chip">Major gift</span>
+                      </div>
+                    </td>
+                    <td data-label="Status"><span class="status-pill status-pill--warning">Lapsed</span></td>
+                    <td data-label="Actions" class="table-col-actions">
+                      <div class="table-actions">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-donor-preview"
+                          aria-label="View donor">
+                          <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                          <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button"
+                            aria-haspopup="true" aria-expanded="false" aria-label="More donor actions">
+                            <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                              <span>View profile</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                              <span>Add note</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa fa-tag" aria-hidden="true"></i>
+                              <span>Add tag</span>
+                            </button>
+                            <button type="button" class="dropdown-item dropdown-item--danger">
+                              <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                              <span>Archive donor</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="donor-row" data-donor-id="petra-novak" data-donor-name="Petra Novak"
+                    data-donor-email="petra@transitimpact.org" data-donor-location="Lisbon, Portugal"
+                    data-donor-initials="PN" data-donor-status="Recurring" data-donor-type="Organization"
+                    data-donor-lifetime="$7,800" data-donor-lifetime-value="7800" data-donor-gifts="18"
+                    data-donor-average="$433" data-donor-last-gift="Jul 30, 2025" data-donor-last-date="2025-07-30"
+                    data-donor-campaigns="6" data-donor-tags="Recurring donor;Sustainer"
+                    data-donor-activity="Urban Resilience|$1,100|Jul 30, 2025|Completed;Community Kitchens|$720|Jun 20, 2025|Completed;Healthcare Resilience Fund|$520|May 15, 2025|Completed"
+                    data-donor-segment="active recurring">
+                    <td data-label="Donor">
+                      <div class="donors-table__donor">
+                        <span class="donors-table__avatar" aria-hidden="true">PN</span>
+                        <div>
+                          <p class="donors-table__donor-name">Petra Novak</p>
+                          <p class="text-muted">petra@transitimpact.org</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td data-label="Type">
+                      <span class="badge badge--subtle">Organization</span>
+                    </td>
+                    <td data-label="Location">Lisbon, Portugal</td>
+                    <td data-label="Lifetime giving">$7,800</td>
+                    <td data-label="Gifts">18</td>
+                    <td data-label="Last donation">Jul 30, 2025</td>
+                    <td data-label="Tags">
+                      <div class="donor-table__tags">
+                        <span class="tag-chip">Recurring donor</span>
+                        <span class="tag-chip">Sustainer</span>
+                      </div>
+                    </td>
+                    <td data-label="Status"><span class="status-pill status-pill--processing">Recurring</span></td>
+                    <td data-label="Actions" class="table-col-actions">
+                      <div class="table-actions">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-donor-preview"
+                          aria-label="View donor">
+                          <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown dropdown-actions dropdown-actions--compact dropdown-donors">
+                          <button class="icon-button icon-button--sm js-donor-actions-toggle" type="button"
+                            aria-haspopup="true" aria-expanded="false" aria-label="More donor actions">
+                            <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+                              <span>View profile</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                              <span>Add note</span>
+                            </button>
+                            <button type="button" class="dropdown-item">
+                              <i class="fa fa-tag" aria-hidden="true"></i>
+                              <span>Add tag</span>
+                            </button>
+                            <button type="button" class="dropdown-item dropdown-item--danger">
+                              <i class="fa-solid fa-archive" aria-hidden="true"></i>
+                              <span>Archive donor</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+  <div class="offcanvas offcanvas-end offcanvas-filters app-offcanvas" id="donorsFilters" aria-hidden="true">
+    <div class="offcanvas-backdrop js-offcanvas-close"></div>
+    <aside class="offcanvas-panel" role="dialog" aria-modal="true" aria-labelledby="donorFiltersTitle">
+      <header class="offcanvas-header">
+        <h2 id="donorFiltersTitle" class="h4">Filters</h2>
+        <button class="icon-button js-offcanvas-close" type="button" aria-label="Close filters">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <div class="offcanvas-body">
+        <div class="filter-group">
+          <label class="filter-label" for="donorCountry">Location</label>
+          <select id="donorCountry" name="country" class="form-control">
+            <option value="">All countries</option>
+            <option value="canada">Canada</option>
+            <option value="kenya">Kenya</option>
+            <option value="usa">United States</option>
+            <option value="portugal">Portugal</option>
+            <option value="vietnam">Vietnam</option>
+          </select>
+          <div class="form-field">
+            <label class="form-label" for="donorCity">City</label>
+            <input id="donorCity" name="city" type="text" class="form-control" placeholder="City" />
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-label">Donor type</p>
+          <div class="filter-chips">
+            <label class="filter-chip">
+              <input type="checkbox" name="donorType" value="individual" />
+              <span>Individual</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="donorType" value="organization" />
+              <span>Organization</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-label">Giving level</p>
+          <div class="filter-chips">
+            <label class="filter-chip">
+              <input type="checkbox" name="givingLevel" value="small" />
+              <span>Small</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="givingLevel" value="medium" />
+              <span>Medium</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="givingLevel" value="major" />
+              <span>Major</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-label">Last donation</p>
+          <div class="filter-presets">
+            <button type="button" class="btn btn-pill btn-pill--soft">Last 30 days</button>
+            <button type="button" class="btn btn-pill btn-pill--soft">Last 90 days</button>
+            <button type="button" class="btn btn-pill btn-pill--soft">Last 12 months</button>
+          </div>
+          <label class="filter-label" for="donorLastGift">Quick range</label>
+          <select id="donorLastGift" name="lastDonation" class="form-control">
+            <option value="">Any time</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="365">Last 12 months</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-label">Tags</p>
+          <div class="filter-chips">
+            <label class="filter-chip">
+              <input type="checkbox" name="donorTag" value="recurring" />
+              <span>Recurring</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="donorTag" value="high-value" />
+              <span>High value</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="donorTag" value="at-risk" />
+              <span>At risk</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="donorTag" value="new-supporter" />
+              <span>New supporter</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-label">Lifetime amount range</p>
+          <div class="filter-range">
+            <div class="form-field">
+              <label class="form-label" for="lifetimeMin">Min</label>
+              <input id="lifetimeMin" name="lifetimeMin" type="number" min="0" class="form-control" placeholder="$0" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="lifetimeMax">Max</label>
+              <input id="lifetimeMax" name="lifetimeMax" type="number" min="0" class="form-control"
+                placeholder="$25,000" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="offcanvas-footer">
+        <button type="button" class="btn btn-outline js-offcanvas-reset">Clear all</button>
+        <button type="button" class="btn btn-primary js-offcanvas-apply">Apply filters</button>
+      </footer>
+    </aside>
+  </div>
+
+  <aside class="donor-preview-panel" aria-hidden="true">
+    <div class="donor-preview__backdrop js-donor-preview-close"></div>
+    <div class="donor-preview__sheet" role="dialog" aria-modal="true" aria-labelledby="donorPreviewTitle">
+      <header class="donor-preview__header">
+        <div class="donor-preview__identity">
+          <span class="donor-preview__avatar js-preview-avatar" aria-hidden="true">DR</span>
+          <div>
+            <p class="donor-preview__eyebrow">Donor spotlight</p>
+            <h2 id="donorPreviewTitle" class="donor-preview__title js-preview-name">Donor name</h2>
+            <a class="donor-preview__email js-preview-email" href="mailto:"></a>
+            <p class="donor-preview__location js-preview-location"></p>
+          </div>
+        </div>
+        <button class="icon-button js-donor-preview-close" type="button" aria-label="Close donor preview">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <div class="donor-preview__status">
+        <span class="badge badge--subtle js-preview-type">Type</span>
+        <span class="status-pill js-preview-status">Status</span>
+      </div>
+      <section class="donor-preview__section donor-preview__section--summary">
+        <div>
+          <p class="donor-preview__label">Lifetime giving</p>
+          <p class="donor-preview__value js-preview-lifetime">$0</p>
+        </div>
+        <div>
+          <p class="donor-preview__label">Gifts</p>
+          <p class="donor-preview__value js-preview-gifts">0</p>
+        </div>
+        <div>
+          <p class="donor-preview__label">Average gift</p>
+          <p class="donor-preview__value js-preview-average">$0</p>
+        </div>
+        <div>
+          <p class="donor-preview__label">Last donation</p>
+          <p class="donor-preview__value js-preview-last">$0</p>
+        </div>
+      </section>
+      <section class="donor-preview__section donor-preview__section--meta">
+        <div class="donor-preview__meta-row">
+          <p class="donor-preview__meta-label">Type</p>
+          <p class="donor-preview__meta-value js-preview-type-meta">Individual</p>
+        </div>
+        <div class="donor-preview__meta-row">
+          <p class="donor-preview__meta-label">Location</p>
+          <p class="donor-preview__meta-value js-preview-location-meta">Toronto, Canada</p>
+        </div>
+        <div class="donor-preview__meta-row">
+          <p class="donor-preview__meta-label">Campaigns supported</p>
+          <p class="donor-preview__meta-value js-preview-campaigns">0 active</p>
+        </div>
+        <div class="donor-preview__tags js-preview-tags"></div>
+        <p class="donor-preview__note js-preview-note">Supports one active campaign.</p>
+      </section>
+      <section class="donor-preview__section donor-preview__section--history">
+        <div class="donor-preview__section-header">
+          <p class="donor-preview__section-title">Recent donations</p>
+          <span class="donor-preview__section-meta">Last 3 gifts</span>
+        </div>
+        <ul class="donor-preview__history-list js-preview-history"></ul>
+      </section>
+      <footer class="donor-preview__footer">
+        <a href="donor-details.html" class="btn btn-primary">
+          <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          <span>Open full profile</span>
+        </a>
+        <button type="button" class="btn btn-ghost">
+          <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+          <span>Add note</span>
+        </button>
+      </footer>
+    </div>
+  </aside>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

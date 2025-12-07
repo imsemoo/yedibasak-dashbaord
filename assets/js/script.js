@@ -131,6 +131,7 @@
   const STORAGE_KEY = "donations-dashboard-theme";
   const CAMPAIGN_VIEW_STORAGE_KEY = "dd_campaigns_view_mode";
   const DONATIONS_VIEW_STORAGE_KEY = "dd_donations_view_mode";
+  const DONORS_VIEW_STORAGE_KEY = "dd_donors_view_mode";
   const mobileQuery = window.matchMedia("(max-width: 1023px)");
   const barCategories = ["Education", "Healthcare", "Emergency Relief", "Operations", "Community"];
   const donutLabels = ["One-time", "Recurring", "Corporate", "In-kind"];
@@ -196,6 +197,7 @@
   let donutChart;
   let funnelChart;
   let retentionChart;
+  let donorGivingChart;
   let refreshRegionsMapTheme = () => {};
   let donationsMapInitialized = false;
   let overviewRegionsLinked = false;
@@ -1605,14 +1607,601 @@
       }
     });
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeMenus();
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenus();
+    }
+  });
+};
+
+const initDonorsViewToggle = () => {
+  const viewToggle = document.querySelector(".view-toggle[data-view-context='donors']");
+  const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
+  const views = Array.from(document.querySelectorAll(".donors-view"));
+  if (!viewToggle || !viewButtons.length || !views.length) return;
+
+  const validModes = viewButtons.map((btn) => btn.dataset.viewMode).filter(Boolean);
+  const stored = localStorage.getItem(DONORS_VIEW_STORAGE_KEY);
+  const fallback = validModes.includes("cards") ? "cards" : validModes[0];
+  const initialMode = stored && validModes.includes(stored) ? stored : fallback;
+
+  const setActiveView = (mode) => {
+    viewButtons.forEach((btn) => {
+      const isActive = btn.dataset.viewMode === mode;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
+    views.forEach((view) => {
+      const isActive = view.dataset.view === mode;
+      view.classList.toggle("is-active", isActive);
+      view.setAttribute("aria-hidden", isActive ? "false" : "true");
+    });
+
+    localStorage.setItem(DONORS_VIEW_STORAGE_KEY, mode);
+  };
+
+  setActiveView(initialMode);
+
+  viewButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const mode = btn.dataset.viewMode;
+      if (mode) {
+        setActiveView(mode);
+      }
+    });
+  });
+};
+
+const initDonorsFilters = () => {
+  const offcanvas = document.getElementById("donorsFilters");
+  const trigger = document.querySelector(".js-open-donors-filters");
+  if (!offcanvas || !trigger) return;
+
+  const backdrop = offcanvas.querySelector(".offcanvas-backdrop");
+  const closeButtons = offcanvas.querySelectorAll(".js-offcanvas-close");
+  const resetButton = offcanvas.querySelector(".js-offcanvas-reset");
+  const applyButton = offcanvas.querySelector(".js-offcanvas-apply");
+  const badge = trigger.querySelector(".js-filter-count");
+  const fields = Array.from(offcanvas.querySelectorAll("input, select"));
+
+  const lockScroll = () => document.body.classList.add("is-locked");
+  const unlockScroll = () => {
+    const app = document.querySelector(".app");
+    if (!app || !app.classList.contains("sidebar-open")) {
+      document.body.classList.remove("is-locked");
+    }
+  };
+
+  const countActiveFilters = () =>
+    fields.reduce((count, field) => {
+      if ((field.type === "checkbox" || field.type === "radio") && field.checked) return count + 1;
+      if (field.value && field.value.trim() !== "") return count + 1;
+      return count;
+    }, 0);
+
+  const updateBadge = () => {
+    const total = countActiveFilters();
+    if (badge) {
+      badge.textContent = total;
+      badge.classList.toggle("is-hidden", total === 0);
+    }
+    trigger.setAttribute("data-has-filters", total > 0 ? "true" : "false");
+  };
+
+  const close = () => {
+    offcanvas.classList.remove("is-open");
+    offcanvas.setAttribute("aria-hidden", "true");
+    trigger.setAttribute("aria-expanded", "false");
+    unlockScroll();
+  };
+
+  const open = () => {
+    offcanvas.classList.add("is-open");
+    offcanvas.setAttribute("aria-hidden", "false");
+    trigger.setAttribute("aria-expanded", "true");
+    lockScroll();
+  };
+
+  const toggle = () => {
+    if (offcanvas.classList.contains("is-open")) {
+      close();
+    } else {
+      open();
+    }
+  };
+
+  trigger.addEventListener("click", toggle);
+  closeButtons.forEach((btn) => btn.addEventListener("click", close));
+  backdrop?.addEventListener("click", close);
+
+  resetButton?.addEventListener("click", () => {
+    fields.forEach((field) => {
+      if (field.type === "checkbox" || field.type === "radio") {
+        field.checked = false;
+      } else {
+        field.value = "";
+      }
+    });
+    updateBadge();
+  });
+
+  applyButton?.addEventListener("click", () => {
+    updateBadge();
+    close();
+  });
+
+  fields.forEach((field) => field.addEventListener("change", updateBadge));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && offcanvas.classList.contains("is-open")) {
+      close();
+    }
+  });
+
+  updateBadge();
+};
+
+const initDonorsActions = () => {
+  const actionToggles = Array.from(document.querySelectorAll(".js-donor-actions-toggle"));
+  const actionMenus = Array.from(document.querySelectorAll(".dropdown-donors .dropdown-menu--actions"));
+  if (!actionToggles.length || !actionMenus.length) return;
+
+  const closeMenus = () => {
+    actionMenus.forEach((menu) => menu.classList.remove("is-open"));
+    actionToggles.forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+  };
+
+  const getMenu = (toggle) => toggle.closest(".dropdown-donors")?.querySelector(".dropdown-menu--actions");
+
+  const toggleMenu = (toggle) => {
+    const menu = getMenu(toggle);
+    if (!menu) return;
+    const isOpen = menu.classList.contains("is-open");
+    closeMenus();
+    if (!isOpen) {
+      menu.classList.add("is-open");
+      toggle.setAttribute("aria-expanded", "true");
+    }
+  };
+
+  actionToggles.forEach((toggle) => {
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleMenu(toggle);
+    });
+    toggle.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+        event.preventDefault();
+        toggleMenu(toggle);
+      }
+    });
+  });
+
+  actionMenus.forEach((menu) => {
+    menu.addEventListener("click", (event) => event.stopPropagation());
+    menu.querySelectorAll(".dropdown-item").forEach((item) => {
+      item.addEventListener("click", closeMenus);
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".dropdown-donors")) {
+      closeMenus();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenus();
+    }
+  });
+};
+
+const initDonorsPreview = () => {
+  const panel = document.querySelector(".donor-preview-panel");
+  if (!panel) return;
+
+  const backdrop = panel.querySelector(".donor-preview__backdrop");
+  const sheet = panel.querySelector(".donor-preview__sheet");
+  const closeButtons = panel.querySelectorAll(".js-donor-preview-close");
+  const nameEl = sheet?.querySelector(".js-preview-name");
+  const emailEl = sheet?.querySelector(".js-preview-email");
+  const locationEl = sheet?.querySelector(".js-preview-location");
+  const locationMeta = sheet?.querySelector(".js-preview-location-meta");
+  const typeBadge = sheet?.querySelector(".js-preview-type");
+  const typeMeta = sheet?.querySelector(".js-preview-type-meta");
+  const statusEl = sheet?.querySelector(".js-preview-status");
+  const avatarEl = sheet?.querySelector(".js-preview-avatar");
+  const lifetimeEl = sheet?.querySelector(".js-preview-lifetime");
+  const giftsEl = sheet?.querySelector(".js-preview-gifts");
+  const averageEl = sheet?.querySelector(".js-preview-average");
+  const lastEl = sheet?.querySelector(".js-preview-last");
+  const campaignsEl = sheet?.querySelector(".js-preview-campaigns");
+  const tagsContainer = sheet?.querySelector(".js-preview-tags");
+  const noteEl = sheet?.querySelector(".js-preview-note");
+  const historyList = sheet?.querySelector(".js-preview-history");
+  const previewButtons = Array.from(document.querySelectorAll(".js-donor-preview"));
+  const rows = Array.from(document.querySelectorAll(".donor-row"));
+  const cards = Array.from(document.querySelectorAll(".donor-card"));
+  const body = document.body;
+
+  if (!previewButtons.length) return;
+
+  const donorStatusClass = (status) => {
+    const normalized = (status || "").toLowerCase();
+    if (normalized.includes("active")) return "status-pill--success";
+    if (normalized.includes("high value")) return "status-pill--info";
+    if (normalized.includes("new")) return "status-pill--pending";
+    if (normalized.includes("lapsed") || normalized.includes("at risk")) return "status-pill--warning";
+    if (normalized.includes("recurring")) return "status-pill--processing";
+    return "status-pill--active";
+  };
+
+  const parseActivity = (value) => {
+    if (!value) return [];
+    return value
+      .split(";")
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+      .map((entry) => {
+        const [campaign, amount, date, status] = entry.split("|").map((segment) => segment.trim());
+        return { campaign, amount, date, status };
+      });
+  };
+
+  const lockScroll = () => body.classList.add("is-locked");
+  const unlockScroll = () => {
+    const app = document.querySelector(".app");
+    if (!app || !app.classList.contains("sidebar-open")) {
+      body.classList.remove("is-locked");
+    }
+  };
+
+  const openPanel = () => {
+    panel.classList.add("is-open");
+    panel.setAttribute("aria-hidden", "false");
+    lockScroll();
+  };
+
+  const closePanel = () => {
+    panel.classList.remove("is-open");
+    panel.setAttribute("aria-hidden", "true");
+    unlockScroll();
+  };
+
+  const renderTags = (dataset) => {
+    if (!tagsContainer) return;
+    tagsContainer.innerHTML = "";
+    const list = (dataset?.donorTags || "").split(";").map((item) => item.trim()).filter(Boolean);
+    if (!list.length) {
+      tagsContainer.innerHTML = `<span class="text-muted">No tags</span>`;
+      return;
+    }
+    list.forEach((label) => {
+      const chip = document.createElement("span");
+      chip.className = "tag-chip";
+      chip.textContent = label;
+      tagsContainer.appendChild(chip);
+    });
+  };
+
+  const renderHistory = (dataset) => {
+    if (!historyList) return;
+    historyList.innerHTML = "";
+    const entries = parseActivity(dataset?.donorActivity);
+    entries.slice(0, 5).forEach((entry) => {
+      const item = document.createElement("li");
+      item.className = "donor-preview__history-item";
+      const statusClass = entry.status ? donorStatusClass(entry.status) : "";
+      item.innerHTML = `
+        <div class="donor-preview__history-row">
+          <strong>${entry.campaign || "Campaign"}</strong>
+          ${entry.status ? `<span class="status-pill ${statusClass}">${entry.status}</span>` : ""}
+        </div>
+        <p class="donor-preview__history-amount">${entry.amount || ""}</p>
+        <time>${entry.date || ""}</time>`;
+      historyList.appendChild(item);
+    });
+    if (!entries.length) {
+      const empty = document.createElement("li");
+      empty.className = "donor-preview__history-item";
+      empty.textContent = "No recent donations logged.";
+      historyList.appendChild(empty);
+    }
+  };
+
+  const fillPanel = (dataset) => {
+    const donorName = dataset?.donorName || "Donor";
+    const donorInitials = dataset?.donorInitials || "";
+    const donorType = dataset?.donorType || "Individual";
+    const donorStatus = dataset?.donorStatus || "Active";
+
+    if (nameEl) {
+      nameEl.textContent = donorName;
+    }
+    if (emailEl) {
+      const emailValue = dataset?.donorEmail || "";
+      emailEl.textContent = emailValue;
+      emailEl.setAttribute("href", emailValue ? `mailto:${emailValue}` : "#");
+    }
+    if (locationEl) {
+      locationEl.textContent = dataset?.donorLocation || "";
+    }
+    if (locationMeta) {
+      locationMeta.textContent = dataset?.donorLocation || "Unknown location";
+    }
+    if (typeBadge) {
+      typeBadge.textContent = donorType;
+    }
+    if (typeMeta) {
+      typeMeta.textContent = donorType;
+    }
+    if (statusEl) {
+      statusEl.textContent = donorStatus;
+      statusEl.className = `status-pill ${donorStatusClass(donorStatus)}`.trim();
+    }
+    if (avatarEl) {
+      avatarEl.textContent = donorInitials || donorName
+        .split(" ")
+        .map((word) => word.charAt(0))
+        .filter(Boolean)
+        .slice(0, 2)
+        .join("")
+        .toUpperCase();
+    }
+    if (lifetimeEl) {
+      lifetimeEl.textContent = dataset?.donorLifetime || "$0";
+    }
+    if (giftsEl) {
+      giftsEl.textContent = dataset?.donorGifts || "0";
+    }
+    if (averageEl) {
+      averageEl.textContent = dataset?.donorAverage || "-";
+    }
+    if (lastEl) {
+      lastEl.textContent = dataset?.donorLastGift || "—";
+    }
+    if (campaignsEl) {
+      const campaignsCount = Number(dataset?.donorCampaigns) || 0;
+      campaignsEl.textContent = `${campaignsCount} active`;
+      if (noteEl) {
+        noteEl.textContent = campaignsCount
+          ? `Supports ${campaignsCount} active campaign${campaignsCount === 1 ? "" : "s"}.`
+          : "No active campaigns tracked yet.";
+      }
+    }
+    renderTags(dataset);
+    renderHistory(dataset);
+  };
+
+  const attachPreview = (element) => {
+    if (!element || !element.dataset) return;
+    fillPanel(element.dataset);
+    openPanel();
+  };
+
+  previewButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const wrapper = event.currentTarget.closest(".donor-card, .donor-row");
+      if (wrapper) {
+        attachPreview(wrapper);
+      }
+    });
+  });
+
+  const handleRowClick = (event) => {
+    if (event.target.closest(".table-actions") || event.target.closest(".dropdown-donors")) return;
+    attachPreview(event.currentTarget);
+  };
+
+  const handleCardClick = (event) => {
+    if (event.target.closest(".donor-card__actions") || event.target.closest(".dropdown-donors")) return;
+    attachPreview(event.currentTarget);
+  };
+
+  rows.forEach((row) => row.addEventListener("click", handleRowClick));
+  cards.forEach((card) => card.addEventListener("click", handleCardClick));
+
+  closeButtons.forEach((btn) =>
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      closePanel();
+    })
+  );
+  backdrop?.addEventListener("click", closePanel);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && panel.classList.contains("is-open")) {
+      closePanel();
+    }
+  });
+};
+
+const initDonorsPage = () => {
+  const root = document.querySelector(".donors-page");
+  if (!root) return;
+
+  const tbody = root.querySelector(".donor-table tbody");
+  if (!tbody) return;
+
+  const summaryTargets = {
+    total: root.querySelector(".js-donors-summary-total"),
+    active: root.querySelector(".js-donors-summary-active"),
+    recurring: root.querySelector(".js-donors-summary-recurring"),
+    high: root.querySelector(".js-donors-summary-high"),
+  };
+  const tabs = Array.from(root.querySelectorAll(".donors-tabs__item"));
+  const cards = Array.from(root.querySelectorAll(".donor-card"));
+  const searchInput = root.querySelector(".donors-search input");
+  const sortableButtons = Array.from(root.querySelectorAll(".table-sortable[data-sort-key]"));
+  const baseRowOrder = Array.from(tbody.querySelectorAll(".donor-row"));
+
+  let activeSegment = "all";
+  let searchTerm = "";
+  let currentSort = { key: null, direction: null };
+
+  const getRows = () => Array.from(tbody.querySelectorAll(".donor-row"));
+
+  const parseCurrencyValue = (value) => {
+    if (!value) return 0;
+    const cleaned = value.toString().replace(/[^\d.-]/g, "");
+    const parsed = Number(cleaned);
+    return Number.isNaN(parsed) ? 0 : parsed;
+  };
+
+  const matchesSegment = (dataset) => {
+    if (activeSegment === "all") return true;
+    const segments = (dataset?.donorSegment || "").toLowerCase().split(" ").filter(Boolean);
+    return segments.includes(activeSegment);
+  };
+
+  const matchesSearch = (dataset) => {
+    if (!searchTerm) return true;
+    const haystack = `${dataset?.donorName || ""} ${dataset?.donorEmail || ""} ${dataset?.donorLocation || ""} ${(dataset?.donorTags || "")
+      .replace(/;/g, " ")}`.toLowerCase();
+    return haystack.includes(searchTerm);
+  };
+
+  const updateSummaryStats = () => {
+    const visibleRows = getRows().filter((row) => !row.classList.contains("is-hidden"));
+    const activeCount = visibleRows.filter((row) => {
+      const status = (row.dataset.donorStatus || "").toLowerCase();
+      const segments = (row.dataset.donorSegment || "").toLowerCase();
+      return status.includes("active") || status.includes("high value") || segments.includes("active");
+    }).length;
+    const recurringCount = visibleRows.filter((row) => (row.dataset.donorSegment || "").toLowerCase().includes("recurring")).length;
+    const highValueCount = visibleRows.filter((row) => {
+      const status = (row.dataset.donorStatus || "").toLowerCase();
+      return status.includes("high value") || (row.dataset.donorSegment || "").toLowerCase().includes("high-value");
+    }).length;
+
+    if (summaryTargets.total) {
+      summaryTargets.total.textContent = visibleRows.length.toString();
+    }
+    if (summaryTargets.active) {
+      summaryTargets.active.textContent = activeCount.toString();
+    }
+    if (summaryTargets.recurring) {
+      summaryTargets.recurring.textContent = recurringCount.toString();
+    }
+    if (summaryTargets.high) {
+      summaryTargets.high.textContent = highValueCount.toString();
+    }
+  };
+
+  const applyFilters = () => {
+    const rows = getRows();
+    rows.forEach((row) => {
+      const dataset = row.dataset;
+      const visible = matchesSegment(dataset) && matchesSearch(dataset);
+      row.classList.toggle("is-hidden", !visible);
+    });
+    cards.forEach((card) => {
+      const dataset = card.dataset;
+      const visible = matchesSegment(dataset) && matchesSearch(dataset);
+      card.classList.toggle("is-hidden", !visible);
+    });
+    updateSummaryStats();
+  };
+
+  const parseSortValue = (row, key) => {
+    const dataset = row?.dataset;
+    if (!dataset) return "";
+    if (key === "donor") {
+      return (dataset.donorName || "").toLowerCase();
+    }
+    if (key === "lifetime") {
+      return Number(dataset.donorLifetimeValue) || parseCurrencyValue(dataset.donorLifetime);
+    }
+    if (key === "gifts") {
+      return Number(dataset.donorGifts) || 0;
+    }
+    if (key === "lastDonation") {
+      const timestamp = new Date(dataset.donorLastDate || dataset.donorLastGift).getTime();
+      return Number.isNaN(timestamp) ? 0 : timestamp;
+    }
+    return "";
+  };
+
+  const compareRows = (a, b, key, direction) => {
+    const valueA = parseSortValue(a, key);
+    const valueB = parseSortValue(b, key);
+    if (valueA === valueB) return 0;
+    if (typeof valueA === "string" && typeof valueB === "string") {
+      return direction === "asc" ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+    }
+    return direction === "asc" ? valueA - valueB : valueB - valueA;
+  };
+
+  const applySortOrder = () => {
+    if (!currentSort.direction || !currentSort.key) {
+      baseRowOrder.forEach((row) => tbody.appendChild(row));
+      return;
+    }
+    const rows = getRows();
+    const sorted = [...rows].sort((a, b) => compareRows(a, b, currentSort.key, currentSort.direction));
+    sorted.forEach((row) => tbody.appendChild(row));
+  };
+
+  const updateSortIndicators = () => {
+    sortableButtons.forEach((button) => {
+      const isCurrent = button.dataset.sortKey === currentSort.key && currentSort.direction;
+      button.classList.toggle("is-active", Boolean(isCurrent));
+      if (isCurrent) {
+        button.setAttribute("data-sort-direction", currentSort.direction);
+      } else {
+        button.removeAttribute("data-sort-direction");
       }
     });
   };
 
-  // Campaign form preview
+  const handleSortClick = (event) => {
+    event.preventDefault();
+    const button = event.currentTarget;
+    const key = button.dataset.sortKey;
+    if (!key) return;
+    let nextDirection = "asc";
+    if (currentSort.key === key) {
+      if (currentSort.direction === "asc") {
+        nextDirection = "desc";
+      } else if (currentSort.direction === "desc") {
+        nextDirection = null;
+      }
+    }
+    currentSort.key = nextDirection ? key : null;
+    currentSort.direction = nextDirection;
+    updateSortIndicators();
+    applySortOrder();
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((btn) => {
+        btn.classList.remove("donors-tabs__item--active");
+        btn.setAttribute("aria-selected", "false");
+      });
+      tab.classList.add("donors-tabs__item--active");
+      tab.setAttribute("aria-selected", "true");
+      activeSegment = tab.dataset.segment || "all";
+      applyFilters();
+    });
+  });
+
+  searchInput?.addEventListener("input", (event) => {
+    searchTerm = (event.target.value || "").toLowerCase().trim();
+    applyFilters();
+  });
+
+  sortableButtons.forEach((button) => button.addEventListener("click", handleSortClick));
+
+  updateSortIndicators();
+  applyFilters();
+};
+
+// Campaign form preview
   const initCampaignFormPreview = () => {
     const form = document.querySelector(".js-campaign-form");
     if (!form) return;
@@ -2379,6 +2968,900 @@
     });
   };
 
+  const initManualDonationPage = () => {
+    const page = document.querySelector(".manual-donation-page");
+    if (!page) return;
+
+    const manualForm = page.querySelector(".manual-donation-form");
+    if (!manualForm) return;
+
+    const searchInput = page.querySelector("#existingDonorSearch");
+    const donorResultsList = page.querySelector(".donor-results__list");
+    const createNewTrigger = page.querySelector(".js-create-new-donor");
+    const existingPanel = page.querySelector(".manual-donor-existing");
+    const newPanel = page.querySelector(".manual-donor-new");
+    const donorToggleOptions = Array.from(page.querySelectorAll(".donor-toggle__option"));
+    const donorModeInputs = Array.from(page.querySelectorAll('input[name="manualDonorMode"]'));
+    const newDonorFields = {
+      name: page.querySelector("#newDonorName"),
+      email: page.querySelector("#newDonorEmail"),
+      country: page.querySelector("#newDonorCountry"),
+      city: page.querySelector("#newDonorCity"),
+    };
+    const amountField = page.querySelector("#manualAmount");
+    const currencyField = page.querySelector("#manualCurrency");
+    const frequencyRadios = Array.from(page.querySelectorAll('input[name="manualFrequency"]'));
+    const dateField = page.querySelector("#manualDate");
+    const campaignField = page.querySelector("#manualCampaign");
+    const allocationField = page.querySelector("#allocationNotes");
+    const paymentMethodField = page.querySelector("#paymentMethodField");
+    const referenceField = page.querySelector("#paymentReference");
+    const tagChips = Array.from(page.querySelectorAll(".tag-chip"));
+    const summaryAvatar = page.querySelector(".js-summary-avatar");
+    const summaryDonor = page.querySelector(".js-summary-donor");
+    const summaryEmail = page.querySelector(".js-summary-email");
+    const summaryLocation = page.querySelector(".js-summary-location");
+    const summaryAmount = page.querySelector(".js-summary-amount");
+    const summaryCurrency = page.querySelector(".js-summary-currency");
+    const summaryFrequency = page.querySelector(".js-summary-frequency");
+    const summaryCampaign = page.querySelector(".js-summary-campaign");
+    const summaryAllocation = page.querySelector(".js-summary-allocation");
+    const summaryMethod = page.querySelector(".js-summary-method");
+    const summaryDate = page.querySelector(".js-summary-date");
+    const summaryReference = page.querySelector(".js-summary-reference");
+    const summaryTags = page.querySelector(".js-summary-tags");
+    const summaryStatus = page.querySelector(".js-summary-status");
+    const currencySymbols = { USD: "$", EUR: "€", TRY: "₺" };
+
+    const donors = [
+      {
+        id: "donor-amina",
+        name: "Amina Rahman",
+        email: "amina@worldhealth.org",
+        city: "Nairobi, Kenya",
+      },
+      {
+        id: "donor-mateo",
+        name: "Mateo Singh",
+        email: "mateo@brightfuture.org",
+        city: "Seattle, USA",
+      },
+      {
+        id: "donor-lena",
+        name: "Lena Ortiz",
+        email: "lena@impactallies.org",
+        city: "Mexico City, Mexico",
+      },
+      {
+        id: "donor-kai",
+        name: "Kai Nakagawa",
+        email: "kai@impact.bbn",
+        city: "Tokyo, Japan",
+      },
+    ];
+
+    let donorMode = "existing";
+    let selectedDonor = null;
+    let selectedDonorId = null;
+    let isRecorded = false;
+    const selectedTags = new Map();
+
+    if (amountField) {
+      amountField.dataset.rawValue = "";
+    }
+
+    const getInitials = (value) => {
+      if (!value) return "";
+      return value
+        .split(" ")
+        .map((part) => part.charAt(0).toUpperCase())
+        .filter(Boolean)
+        .slice(0, 2)
+        .join("");
+    };
+
+    const sanitizeAmountValue = (value) => (value || "").toString().replace(/[^0-9.]/g, "");
+    const formatAmountDisplay = (value) =>
+      Number.isFinite(value) ? value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "0.00";
+
+    const getSelectedFrequencyLabel = () => {
+      const radio = frequencyRadios.find((input) => input.checked);
+      return radio ? radio.dataset.label || radio.value : "One-time";
+    };
+
+    const updateToggleState = () => {
+      donorToggleOptions.forEach((label) => {
+        const input = label.querySelector('input[name="manualDonorMode"]');
+        if (!input) return;
+        label.classList.toggle("is-active", input.value === donorMode);
+      });
+    };
+
+    const setDonorMode = (mode) => {
+      donorMode = mode;
+      donorModeInputs.forEach((input) => {
+        input.checked = input.value === mode;
+      });
+      existingPanel?.classList.toggle("is-hidden", mode !== "existing");
+      newPanel?.classList.toggle("is-hidden", mode !== "new");
+      updateToggleState();
+      if (mode === "existing") {
+        searchInput?.focus();
+      } else {
+        newDonorFields.name?.focus();
+      }
+      updateSummary();
+    };
+
+    const renderTagsSummary = () => {
+      if (!summaryTags) return;
+      summaryTags.innerHTML = "";
+      if (!selectedTags.size) {
+        const noTags = document.createElement("span");
+        noTags.className = "text-muted";
+        noTags.textContent = "No tags selected yet";
+        summaryTags.appendChild(noTags);
+        return;
+      }
+      selectedTags.forEach((label) => {
+        const badge = document.createElement("span");
+        badge.className = "badge badge--tag summary-card__tag";
+        badge.textContent = label;
+        summaryTags.appendChild(badge);
+      });
+    };
+
+    const renderDonorResults = (filter = "") => {
+      if (!donorResultsList) return;
+      const term = (filter || "").toLowerCase().trim();
+      const matches = donors.filter((donor) => {
+        const haystack = `${donor.name} ${donor.email} ${donor.city}`.toLowerCase();
+        return haystack.includes(term);
+      });
+      if (!matches.length) {
+        donorResultsList.innerHTML = `<p class="text-muted">No matching donors</p>`;
+        return;
+      }
+      donorResultsList.innerHTML = matches
+        .map(
+          (donor) => `<button type="button" class="donor-result${selectedDonorId === donor.id ? " is-selected" : ""}" data-donor-id="${donor.id}">
+            <div>
+              <p class="donor-result__name">${donor.name}</p>
+              <p class="donor-result__meta">${donor.email} · ${donor.city}</p>
+            </div>
+            <span class="donor-result__badge">Existing</span>
+          </button>`
+        )
+        .join("");
+      donorResultsList.querySelectorAll(".donor-result").forEach((button) => {
+        button.addEventListener("click", () => {
+          const donor = donors.find((item) => item.id === button.dataset.donorId);
+          if (!donor) return;
+          selectedDonor = donor;
+          selectedDonorId = donor.id;
+          searchInput.value = donor.name;
+          setDonorMode("existing");
+          renderDonorResults(searchInput.value);
+          updateSummary();
+        });
+      });
+    };
+
+    const updateSummary = () => {
+      const donorName =
+        (donorMode === "existing" && selectedDonor?.name) || getFieldValue(newDonorFields.name) || "New donor";
+      const donorEmail = (donorMode === "existing" && selectedDonor?.email) || getFieldValue(newDonorFields.email);
+      const customLocationParts = [];
+      if (donorMode === "existing" && selectedDonor?.city) {
+        customLocationParts.push(selectedDonor.city);
+      } else {
+        const city = getFieldValue(newDonorFields.city);
+        const country = getFieldValue(newDonorFields.country);
+        if (city) customLocationParts.push(city);
+        if (country) customLocationParts.push(country);
+      }
+      const amountValue = Number(amountField?.dataset.rawValue || "0");
+      if (summaryAvatar) {
+        summaryAvatar.textContent = getInitials(donorName) || "--";
+      }
+      if (summaryDonor) {
+        summaryDonor.textContent = donorName;
+      }
+      if (summaryEmail) {
+        summaryEmail.textContent = donorEmail || "—";
+      }
+      if (summaryLocation) {
+        summaryLocation.textContent = customLocationParts.length ? customLocationParts.join(", ") : "—";
+      }
+      if (summaryAmount) {
+        summaryAmount.textContent = amountValue > 0 ? `${currencySymbols[currencyField.value] || ""}${formatAmountDisplay(amountValue)}` : "—";
+      }
+      if (summaryCurrency) {
+        summaryCurrency.textContent = (currencyField.value || "USD").toUpperCase();
+      }
+      if (summaryFrequency) {
+        summaryFrequency.textContent = getSelectedFrequencyLabel();
+      }
+      if (summaryCampaign) {
+        summaryCampaign.textContent = campaignField.value
+          ? campaignField.selectedOptions?.[0]?.textContent?.trim()
+          : "—";
+      }
+      if (summaryAllocation) {
+        summaryAllocation.textContent = allocationField.value.trim() || "—";
+      }
+      if (summaryMethod) {
+        summaryMethod.textContent = paymentMethodField.value
+          ? paymentMethodField.selectedOptions?.[0]?.textContent?.trim()
+          : "—";
+      }
+      if (summaryDate) {
+        summaryDate.textContent = formatPreviewDate(dateField.value) || "—";
+      }
+      if (summaryReference) {
+        summaryReference.textContent = referenceField.value.trim() || "—";
+      }
+      renderTagsSummary();
+
+      if (summaryStatus) {
+        summaryStatus.textContent = isRecorded ? "Recorded" : "Draft";
+        summaryStatus.classList.toggle("status-pill--success", isRecorded);
+        summaryStatus.classList.toggle("status-pill--draft", !isRecorded);
+      }
+    };
+
+    const clearErrorsOnInput = (event) => {
+      if (!event.target) return;
+      clearFieldError(event.target);
+    };
+
+    const validateManualForm = () => {
+      let isValid = true;
+      const amountValue = Number(amountField.dataset.rawValue || "0");
+      if (amountValue <= 0) {
+        setFieldError(amountField, "Enter an amount greater than zero.");
+        isValid = false;
+      }
+      if (!currencyField.value) {
+        setFieldError(currencyField, "Select a currency.");
+        isValid = false;
+      }
+      if (!campaignField.value) {
+        setFieldError(campaignField, "Choose a campaign.");
+        isValid = false;
+      }
+      if (donorMode === "existing") {
+        if (!selectedDonor) {
+          setFieldError(searchInput, "Select an existing donor or switch to a new profile.");
+          isValid = false;
+        }
+      } else {
+        if (!getFieldValue(newDonorFields.name)) {
+          setFieldError(newDonorFields.name, "Please provide a donor name.");
+          isValid = false;
+        }
+        if (!getFieldValue(newDonorFields.email)) {
+          setFieldError(newDonorFields.email, "Please provide an email.");
+          isValid = false;
+        }
+        if (!getFieldValue(newDonorFields.city)) {
+          setFieldError(newDonorFields.city, "Enter a city.");
+          isValid = false;
+        }
+      }
+      return isValid;
+    };
+
+    const handleSaveDonation = () => {
+      if (!validateManualForm()) {
+        const firstInvalid = manualForm.querySelector(".form-field.is-invalid");
+        firstInvalid?.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+      isRecorded = true;
+      showToast("Manual donation recorded successfully.", "success");
+      if (summaryStatus) {
+        summaryStatus.classList.remove("status-pill--draft");
+        summaryStatus.classList.add("status-pill--success");
+      }
+      updateSummary();
+    };
+
+    const handleSaveDraft = () => {
+      showToast("Draft saved. You can complete it later.", "success");
+    };
+
+    const handleTagToggle = (chip) => {
+      const value = chip.dataset.tagValue;
+      if (!value) return;
+      const label = chip.dataset.tagLabel || chip.textContent.trim();
+      const isSelected = selectedTags.has(value);
+      if (isSelected) {
+        selectedTags.delete(value);
+        chip.classList.remove("is-selected");
+        chip.setAttribute("aria-pressed", "false");
+      } else {
+        selectedTags.set(value, label);
+        chip.classList.add("is-selected");
+        chip.setAttribute("aria-pressed", "true");
+      }
+      updateSummary();
+    };
+
+    const handleSearchInput = (event) => {
+      selectedDonor = null;
+      selectedDonorId = null;
+      renderDonorResults(event.target.value);
+      updateSummary();
+    };
+
+    manualForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+    manualForm.addEventListener("input", clearErrorsOnInput);
+
+    amountField?.addEventListener("input", (event) => {
+      const sanitized = sanitizeAmountValue(event.target.value);
+      event.target.dataset.rawValue = sanitized;
+      event.target.value = sanitized;
+      updateSummary();
+    });
+    amountField?.addEventListener("focus", () => {
+      amountField.value = amountField.dataset.rawValue || "";
+    });
+    amountField?.addEventListener("blur", () => {
+      const raw = Number(amountField.dataset.rawValue || "0");
+      amountField.value = raw > 0 ? formatAmountDisplay(raw) : "";
+    });
+
+    currencyField?.addEventListener("change", updateSummary);
+    frequencyRadios.forEach((radio) => {
+      radio.addEventListener("change", updateSummary);
+    });
+    dateField?.addEventListener("change", updateSummary);
+    campaignField?.addEventListener("change", updateSummary);
+    allocationField?.addEventListener("input", updateSummary);
+    paymentMethodField?.addEventListener("change", updateSummary);
+    referenceField?.addEventListener("input", updateSummary);
+
+    tagChips.forEach((chip) => {
+      chip.addEventListener("click", () => handleTagToggle(chip));
+    });
+
+    donorModeInputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (input.checked) {
+          setDonorMode(input.value);
+        }
+      });
+    });
+
+    createNewTrigger?.addEventListener("click", () => setDonorMode("new"));
+
+    searchInput?.addEventListener("input", handleSearchInput);
+
+    const saveButtons = page.querySelectorAll(".js-save-donation");
+    saveButtons.forEach((button) => button.addEventListener("click", handleSaveDonation));
+    const draftButtons = page.querySelectorAll(".js-save-draft");
+    draftButtons.forEach((button) => button.addEventListener("click", handleSaveDraft));
+
+    if (dateField) {
+      dateField.value = new Date().toISOString().split("T")[0];
+    }
+
+    setDonorMode("existing");
+    renderDonorResults();
+    updateSummary();
+  };
+
+  const buildDonorGivingChart = () => {
+    const chartEl = document.querySelector("#donor-giving-chart");
+    if (!chartEl || typeof ApexCharts === "undefined") return;
+
+    if (donorGivingChart) {
+      unregisterOverviewChart(donorGivingChart);
+      donorGivingChart.destroy();
+    }
+
+    const palette = chartPalette();
+    const themeOptions = getApexThemeOptions(getTheme());
+    const categories = [
+      "Sep 2024",
+      "Oct 2024",
+      "Nov 2024",
+      "Dec 2024",
+      "Jan 2025",
+      "Feb 2025",
+      "Mar 2025",
+      "Apr 2025",
+      "May 2025",
+      "Jun 2025",
+      "Jul 2025",
+      "Aug 2025",
+    ];
+    const seriesData = [420, 560, 480, 620, 710, 520, 830, 910, 870, 960, 1100, 1280];
+
+    const options = {
+      theme: themeOptions.theme,
+      chart: {
+        ...themeOptions.chart,
+        type: "area",
+        height: 280,
+        toolbar: { show: false },
+      },
+      colors: [palette.primary],
+      series: [
+        {
+          name: "Donations",
+          data: seriesData,
+        },
+      ],
+      stroke: {
+        curve: "smooth",
+        width: 3,
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          inverseColors: false,
+          opacityFrom: 0.7,
+          opacityTo: 0.05,
+          stops: [0, 80, 100],
+        },
+      },
+      grid: {
+        borderColor: themeOptions.borderColor,
+        strokeDashArray: 3,
+      },
+      xaxis: {
+        categories,
+        axisBorder: { color: themeOptions.borderColor },
+        axisTicks: { color: themeOptions.borderColor },
+        labels: {
+          style: { colors: themeOptions.labelColor },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: { colors: themeOptions.labelColor },
+        },
+      },
+      tooltip: {
+        ...themeOptions.tooltip,
+        y: {
+          formatter: (value) => `$${value.toLocaleString()}`,
+        },
+      },
+      dataLabels: { enabled: false },
+    };
+
+    donorGivingChart = registerOverviewChart(new ApexCharts(chartEl, options));
+    donorGivingChart.render();
+  };
+
+  const initDonorHistoryFilters = (page) => {
+    const filterButtons = Array.from(page.querySelectorAll(".donor-history-filter"));
+    const rows = Array.from(page.querySelectorAll(".donation-history-table tbody tr"));
+    if (!filterButtons.length || !rows.length) return;
+
+    const applyFilter = (filter) => {
+      rows.forEach((row) => {
+        const status = (row.dataset.historyStatus || "").toLowerCase();
+        const recurring = row.dataset.historyRecurring === "true";
+        let show = true;
+        if (filter && filter !== "all") {
+          if (filter === "recurring") {
+            show = recurring;
+          } else {
+            show = status === filter.toLowerCase();
+          }
+        }
+        row.classList.toggle("is-hidden", !show);
+      });
+    };
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach((btn) => btn.classList.remove("is-active"));
+        button.classList.add("is-active");
+        const filter = button.dataset.filter || "all";
+        applyFilter(filter);
+      });
+    });
+
+    applyFilter("all");
+  };
+
+  const initDonorSegments = (page) => {
+    const chipsContainer = page.querySelector(".donor-segments-card__chips");
+    const tagInput = page.querySelector("#customTagInput");
+    const addTagButton = page.querySelector(".js-add-custom-tag");
+    if (!chipsContainer) return;
+
+    const toggleChip = (chip) => {
+      chip.classList.toggle("is-selected");
+    };
+
+    chipsContainer.addEventListener("click", (event) => {
+      const chip = event.target.closest(".tag-chip");
+      if (!chip) return;
+      toggleChip(chip);
+    });
+
+    const createChip = (label) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "tag-chip is-selected";
+      chip.textContent = label;
+      return chip;
+    };
+
+    const addCustomTag = () => {
+      const value = (tagInput?.value || "").trim();
+      if (!value) return;
+      const existing = Array.from(chipsContainer.querySelectorAll(".tag-chip")).some(
+        (chip) => chip.textContent.trim().toLowerCase() === value.toLowerCase()
+      );
+      if (existing) {
+        tagInput.value = "";
+        return;
+      }
+      const chip = createChip(value);
+      chipsContainer.appendChild(chip);
+      tagInput.value = "";
+    };
+
+    addTagButton?.addEventListener("click", addCustomTag);
+    tagInput?.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addCustomTag();
+      }
+    });
+  };
+
+  const initDonorDetailsPage = () => {
+    const page = document.querySelector(".donor-details-page");
+    if (!page) return;
+    buildDonorGivingChart();
+    initDonorHistoryFilters(page);
+    initDonorSegments(page);
+    setupDonationTimelineReveal(page);
+  };
+
+  const initDonorNewPage = () => {
+    const page = document.querySelector(".donor-new-page");
+    if (!page) return;
+    const form = page.querySelector(".donor-new-form");
+    if (!form) return;
+
+    const donorTypeOptions = Array.from(form.querySelectorAll(".donor-type-toggle__option"));
+    const donorTypeInputs = Array.from(form.querySelectorAll('input[name="donorType"]'));
+    const individualFields = form.querySelector(".donor-type-fields--individual");
+    const organizationFields = form.querySelector(".donor-type-fields--organization");
+    const firstNameField = form.querySelector("#donorFirstName");
+    const lastNameField = form.querySelector("#donorLastName");
+    const orgNameField = form.querySelector("#donorOrgName");
+    const emailField = form.querySelector("#donorEmail");
+    const phoneField = form.querySelector("#donorPhone");
+    const countryField = form.querySelector("#donorCountry");
+    const cityField = form.querySelector("#donorCity");
+    const timezoneField = form.querySelector("#donorTimezone");
+    const languageField = form.querySelector("#donorLanguage");
+    const tagChips = Array.from(form.querySelectorAll(".js-donor-tag"));
+    const interestChips = Array.from(form.querySelectorAll(".js-donor-interest"));
+    const givingChips = Array.from(form.querySelectorAll(".js-donor-giving"));
+    const preferenceInputs = Array.from(form.querySelectorAll('input[name="communicationPreferences"]'));
+    const dncInput = form.querySelector('input[data-pref="doNotContact"]');
+    const preferencesGrid = form.querySelector(".preferences-grid");
+    const previewCard = page.querySelector(".donor-preview-card");
+    const previewAvatar = previewCard?.querySelector("[data-preview-avatar]");
+    const previewName = previewCard?.querySelector("[data-preview-name]");
+    const previewType = previewCard?.querySelector("[data-preview-type]");
+    const previewStatus = previewCard?.querySelector("[data-preview-status]");
+    const previewEmail = previewCard?.querySelector("[data-preview-email]");
+    const previewPhone = previewCard?.querySelector("[data-preview-phone]");
+    const previewLocation = previewCard?.querySelector("[data-preview-location]");
+    const previewTimezone = previewCard?.querySelector("[data-preview-timezone]");
+    const previewLanguage = previewCard?.querySelector("[data-preview-language]");
+    const previewInterests = previewCard?.querySelector("[data-preview-interests]");
+    const previewTags = previewCard?.querySelector("[data-preview-tags]");
+    const previewGiving = previewCard?.querySelector("[data-preview-giving-level]");
+    const previewDncPill = previewCard?.querySelector("[data-preview-dnc]");
+    const selectedTags = new Map();
+    const selectedInterests = new Map();
+    let selectedGivingLevel = "";
+
+    const getSelectedDonorType = () => donorTypeInputs.find((input) => input.checked)?.value || "individual";
+
+    const deriveInitials = (value) => {
+      if (!value) return "ND";
+      const parts = value
+        .split(" ")
+        .map((part) => part.charAt(0).toUpperCase())
+        .filter(Boolean);
+      const initials = parts.slice(0, 2).join("");
+      return initials || "ND";
+    };
+
+    const formatSelectText = (select) =>
+      select?.selectedOptions?.[0]?.textContent?.trim() || "";
+
+    const updateDonorTypeDisplay = (type) => {
+      donorTypeOptions.forEach((option) => {
+        const input = option.querySelector('input[name="donorType"]');
+        const isActive = input?.value === type;
+        option.classList.toggle("is-active", isActive);
+        if (isActive && input) {
+          input.checked = true;
+        }
+      });
+      const isIndividual = type !== "organization";
+      individualFields?.classList.toggle("is-hidden", !isIndividual);
+      organizationFields?.classList.toggle("is-hidden", isIndividual);
+    };
+
+    const getDisplayName = () => {
+      const type = getSelectedDonorType();
+      if (type === "organization") {
+        return getFieldValue(orgNameField) || "New donor";
+      }
+      const first = getFieldValue(firstNameField);
+      const last = getFieldValue(lastNameField);
+      if (first || last) {
+        return `${first} ${last}`.trim();
+      }
+      return "New donor";
+    };
+
+    const updateHeaderPreview = () => {
+      const type = getSelectedDonorType();
+      const name = getDisplayName();
+      if (previewName) {
+        previewName.textContent = name;
+      }
+      if (previewType) {
+        previewType.textContent = type === "organization" ? "Organization" : "Individual";
+      }
+      if (previewAvatar) {
+        previewAvatar.textContent = deriveInitials(name);
+      }
+    };
+
+    const updateContactPreview = () => {
+      const email = getFieldValue(emailField);
+      if (previewEmail) {
+        previewEmail.textContent = email || "Not set yet";
+      }
+      const phone = getFieldValue(phoneField);
+      if (previewPhone) {
+        previewPhone.textContent = phone || "Not set yet";
+      }
+    };
+
+    const updateLocationPreview = () => {
+      const city = getFieldValue(cityField);
+      const country = getFieldValue(countryField);
+      const locationText = [city, country].filter(Boolean).join(", ") || "Not set yet";
+      if (previewLocation) {
+        previewLocation.textContent = locationText;
+      }
+      const timezoneText = formatSelectText(timezoneField) || "Select time zone";
+      if (previewTimezone) {
+        previewTimezone.textContent = timezoneText;
+      }
+      const languageText = formatSelectText(languageField) || "Select language";
+      if (previewLanguage) {
+        previewLanguage.textContent = languageText;
+      }
+    };
+
+    const updatePreferenceSummary = () => {
+      const isDoNotContact = Boolean(dncInput?.checked);
+      preferencesGrid?.classList.toggle("is-muted", isDoNotContact);
+      previewCard?.classList.toggle("donor-preview-card--no-contact", isDoNotContact);
+      previewDncPill?.classList.toggle("is-hidden", !isDoNotContact);
+    };
+
+    const updateTagPreview = () => {
+      if (!previewTags) return;
+      previewTags.innerHTML = "";
+      if (!selectedTags.size) {
+        previewTags.innerHTML = `<span class="preview-empty">No tags selected.</span>`;
+        return;
+      }
+      selectedTags.forEach((label) => {
+        const badge = document.createElement("span");
+        badge.className = "badge badge--tag";
+        badge.textContent = label;
+        previewTags.appendChild(badge);
+      });
+    };
+
+    const updateInterestPreview = () => {
+      if (!previewInterests) return;
+      previewInterests.innerHTML = "";
+      if (!selectedInterests.size) {
+        previewInterests.innerHTML = `<span class="preview-empty">No interests added yet.</span>`;
+        return;
+      }
+      selectedInterests.forEach((label) => {
+        const chip = document.createElement("span");
+        chip.className = "preview-pill preview-pill--active";
+        chip.textContent = label;
+        previewInterests.appendChild(chip);
+      });
+    };
+
+    const updateGivingPreview = () => {
+      if (!previewGiving) return;
+      previewGiving.textContent = selectedGivingLevel || "Not set";
+      previewGiving.classList.toggle("preview-pill--active", Boolean(selectedGivingLevel));
+      previewGiving.classList.toggle("preview-pill--muted", !selectedGivingLevel);
+    };
+
+    const refreshPreview = () => {
+      updateHeaderPreview();
+      updateContactPreview();
+      updateLocationPreview();
+      updatePreferenceSummary();
+      updateGivingPreview();
+      updateInterestPreview();
+      updateTagPreview();
+    };
+
+    const toggleTag = (chip) => {
+      const value = chip.dataset.tagValue;
+      if (!value) return;
+      const label = chip.dataset.tagLabel || chip.textContent.trim();
+      const wasSelected = selectedTags.has(value);
+      if (wasSelected) {
+        selectedTags.delete(value);
+        chip.classList.remove("is-selected");
+        chip.setAttribute("aria-pressed", "false");
+      } else {
+        selectedTags.set(value, label);
+        chip.classList.add("is-selected");
+        chip.setAttribute("aria-pressed", "true");
+      }
+      refreshPreview();
+    };
+
+    const toggleInterest = (chip) => {
+      const value = chip.dataset.interestValue;
+      if (!value) return;
+      const label = chip.textContent.trim() || value;
+      const wasSelected = selectedInterests.has(value);
+      if (wasSelected) {
+        selectedInterests.delete(value);
+        chip.classList.remove("is-selected");
+        chip.setAttribute("aria-pressed", "false");
+      } else {
+        selectedInterests.set(value, label);
+        chip.classList.add("is-selected");
+        chip.setAttribute("aria-pressed", "true");
+      }
+      refreshPreview();
+    };
+
+    const selectGivingLevel = (chip) => {
+      const level = chip.dataset.givingLevel;
+      if (!level) return;
+      selectedGivingLevel = level;
+      givingChips.forEach((button) => {
+        const isActive = button === chip;
+        button.classList.toggle("is-selected", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+      refreshPreview();
+    };
+
+    const validateDonorForm = () => {
+      let isValid = true;
+      const type = getSelectedDonorType();
+      if (type === "organization") {
+        if (!getFieldValue(orgNameField)) {
+          setFieldError(orgNameField, "Please add an organization name.");
+          isValid = false;
+        }
+      } else {
+        if (!getFieldValue(firstNameField)) {
+          setFieldError(firstNameField, "Please add a first name.");
+          isValid = false;
+        }
+        if (!getFieldValue(lastNameField)) {
+          setFieldError(lastNameField, "Please add a last name.");
+          isValid = false;
+        }
+      }
+      if (!getFieldValue(emailField)) {
+        setFieldError(emailField, "Please add an email.");
+        isValid = false;
+      }
+      return isValid;
+    };
+
+    const handleSaveDonor = (event) => {
+      if (event) {
+        event.preventDefault();
+      }
+      if (!validateDonorForm()) {
+        const firstInvalid = form.querySelector(".form-field.is-invalid");
+        firstInvalid?.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+      showToast("Donor profile created.", "success");
+      if (previewStatus) {
+        previewStatus.textContent = "Active";
+        previewStatus.classList.remove("status-pill--draft");
+        previewStatus.classList.add("status-pill--active");
+      }
+      // TODO: send data to API; e.g. window.location.href = "donors.html";
+    };
+
+    const handleSaveDraft = (event) => {
+      event?.preventDefault();
+      showToast("Draft saved. You can complete it later.", "success");
+    };
+
+    donorTypeInputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (input.checked) {
+          updateDonorTypeDisplay(input.value);
+          refreshPreview();
+        }
+      });
+    });
+
+    tagChips.forEach((chip) => {
+      chip.addEventListener("click", () => toggleTag(chip));
+    });
+
+    interestChips.forEach((chip) => {
+      chip.addEventListener("click", () => toggleInterest(chip));
+    });
+
+    givingChips.forEach((chip) => {
+      chip.addEventListener("click", () => selectGivingLevel(chip));
+    });
+
+    preferenceInputs.forEach((input) => {
+      input.addEventListener("change", refreshPreview);
+    });
+
+    form.addEventListener("input", (event) => {
+      if (!(event.target instanceof HTMLElement)) return;
+      clearFieldError(event.target);
+      refreshPreview();
+    });
+
+    form.addEventListener("change", (event) => {
+      if (!(event.target instanceof HTMLSelectElement)) return;
+      refreshPreview();
+    });
+
+    form.addEventListener("submit", handleSaveDonor);
+
+    const externalSaveButtons = Array.from(page.querySelectorAll(".js-save-donor")).filter(
+      (button) => !form.contains(button)
+    );
+    externalSaveButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        form.requestSubmit();
+      });
+    });
+
+    const draftButtons = Array.from(page.querySelectorAll(".js-save-draft"));
+    draftButtons.forEach((button) => {
+      button.addEventListener("click", handleSaveDraft);
+    });
+
+    updateDonorTypeDisplay(getSelectedDonorType());
+    refreshPreview();
+  };
+
   const initDonationDetailsPage = () => {
     const page = document.querySelector(".donation-details-page");
     if (!page) return;
@@ -2397,18 +3880,26 @@
     initOverviewPage();
     initCampaignViewToggle();
     initDonationsViewToggle();
+    initDonorsViewToggle();
     initCampaignFilters();
     initDonationsFilters();
+    initDonorsFilters();
     initCampaignActions();
     initDonationsActions();
+    initDonorsActions();
     initCampaignPreview();
     initDonationsPreview();
+    initDonorsPreview();
+    initDonorsPage();
     initMultiSelectTags();
     initCampaignImageUpload();
     initCampaignFormFormatting();
     initCampaignFormPreview();
     initCampaignFormValidation();
     initDonationDetailsPage();
+    initDonorDetailsPage();
+    initManualDonationPage();
+    initDonorNewPage && initDonorNewPage();
 
     const markAllNotifications = document.querySelector(".js-mark-notifications");
     if (markAllNotifications) {
