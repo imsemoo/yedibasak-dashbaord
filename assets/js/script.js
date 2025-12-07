@@ -198,7 +198,7 @@
   let funnelChart;
   let retentionChart;
   let donorGivingChart;
-  let refreshRegionsMapTheme = () => {};
+  let refreshRegionsMapTheme = () => { };
   let donationsMapInitialized = false;
   let overviewRegionsLinked = false;
   const overviewCharts = [];
@@ -1607,601 +1607,601 @@
       }
     });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeMenus();
-    }
-  });
-};
-
-const initDonorsViewToggle = () => {
-  const viewToggle = document.querySelector(".view-toggle[data-view-context='donors']");
-  const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
-  const views = Array.from(document.querySelectorAll(".donors-view"));
-  if (!viewToggle || !viewButtons.length || !views.length) return;
-
-  const validModes = viewButtons.map((btn) => btn.dataset.viewMode).filter(Boolean);
-  const stored = localStorage.getItem(DONORS_VIEW_STORAGE_KEY);
-  const fallback = validModes.includes("cards") ? "cards" : validModes[0];
-  const initialMode = stored && validModes.includes(stored) ? stored : fallback;
-
-  const setActiveView = (mode) => {
-    viewButtons.forEach((btn) => {
-      const isActive = btn.dataset.viewMode === mode;
-      btn.classList.toggle("is-active", isActive);
-      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
-
-    views.forEach((view) => {
-      const isActive = view.dataset.view === mode;
-      view.classList.toggle("is-active", isActive);
-      view.setAttribute("aria-hidden", isActive ? "false" : "true");
-    });
-
-    localStorage.setItem(DONORS_VIEW_STORAGE_KEY, mode);
-  };
-
-  setActiveView(initialMode);
-
-  viewButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const mode = btn.dataset.viewMode;
-      if (mode) {
-        setActiveView(mode);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenus();
       }
     });
-  });
-};
-
-const initDonorsFilters = () => {
-  const offcanvas = document.getElementById("donorsFilters");
-  const trigger = document.querySelector(".js-open-donors-filters");
-  if (!offcanvas || !trigger) return;
-
-  const backdrop = offcanvas.querySelector(".offcanvas-backdrop");
-  const closeButtons = offcanvas.querySelectorAll(".js-offcanvas-close");
-  const resetButton = offcanvas.querySelector(".js-offcanvas-reset");
-  const applyButton = offcanvas.querySelector(".js-offcanvas-apply");
-  const badge = trigger.querySelector(".js-filter-count");
-  const fields = Array.from(offcanvas.querySelectorAll("input, select"));
-
-  const lockScroll = () => document.body.classList.add("is-locked");
-  const unlockScroll = () => {
-    const app = document.querySelector(".app");
-    if (!app || !app.classList.contains("sidebar-open")) {
-      document.body.classList.remove("is-locked");
-    }
   };
 
-  const countActiveFilters = () =>
-    fields.reduce((count, field) => {
-      if ((field.type === "checkbox" || field.type === "radio") && field.checked) return count + 1;
-      if (field.value && field.value.trim() !== "") return count + 1;
-      return count;
-    }, 0);
+  const initDonorsViewToggle = () => {
+    const viewToggle = document.querySelector(".view-toggle[data-view-context='donors']");
+    const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
+    const views = Array.from(document.querySelectorAll(".donors-view"));
+    if (!viewToggle || !viewButtons.length || !views.length) return;
 
-  const updateBadge = () => {
-    const total = countActiveFilters();
-    if (badge) {
-      badge.textContent = total;
-      badge.classList.toggle("is-hidden", total === 0);
-    }
-    trigger.setAttribute("data-has-filters", total > 0 ? "true" : "false");
-  };
+    const validModes = viewButtons.map((btn) => btn.dataset.viewMode).filter(Boolean);
+    const stored = localStorage.getItem(DONORS_VIEW_STORAGE_KEY);
+    const fallback = validModes.includes("cards") ? "cards" : validModes[0];
+    const initialMode = stored && validModes.includes(stored) ? stored : fallback;
 
-  const close = () => {
-    offcanvas.classList.remove("is-open");
-    offcanvas.setAttribute("aria-hidden", "true");
-    trigger.setAttribute("aria-expanded", "false");
-    unlockScroll();
-  };
-
-  const open = () => {
-    offcanvas.classList.add("is-open");
-    offcanvas.setAttribute("aria-hidden", "false");
-    trigger.setAttribute("aria-expanded", "true");
-    lockScroll();
-  };
-
-  const toggle = () => {
-    if (offcanvas.classList.contains("is-open")) {
-      close();
-    } else {
-      open();
-    }
-  };
-
-  trigger.addEventListener("click", toggle);
-  closeButtons.forEach((btn) => btn.addEventListener("click", close));
-  backdrop?.addEventListener("click", close);
-
-  resetButton?.addEventListener("click", () => {
-    fields.forEach((field) => {
-      if (field.type === "checkbox" || field.type === "radio") {
-        field.checked = false;
-      } else {
-        field.value = "";
-      }
-    });
-    updateBadge();
-  });
-
-  applyButton?.addEventListener("click", () => {
-    updateBadge();
-    close();
-  });
-
-  fields.forEach((field) => field.addEventListener("change", updateBadge));
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && offcanvas.classList.contains("is-open")) {
-      close();
-    }
-  });
-
-  updateBadge();
-};
-
-const initDonorsActions = () => {
-  const actionToggles = Array.from(document.querySelectorAll(".js-donor-actions-toggle"));
-  const actionMenus = Array.from(document.querySelectorAll(".dropdown-donors .dropdown-menu--actions"));
-  if (!actionToggles.length || !actionMenus.length) return;
-
-  const closeMenus = () => {
-    actionMenus.forEach((menu) => menu.classList.remove("is-open"));
-    actionToggles.forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
-  };
-
-  const getMenu = (toggle) => toggle.closest(".dropdown-donors")?.querySelector(".dropdown-menu--actions");
-
-  const toggleMenu = (toggle) => {
-    const menu = getMenu(toggle);
-    if (!menu) return;
-    const isOpen = menu.classList.contains("is-open");
-    closeMenus();
-    if (!isOpen) {
-      menu.classList.add("is-open");
-      toggle.setAttribute("aria-expanded", "true");
-    }
-  };
-
-  actionToggles.forEach((toggle) => {
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.addEventListener("click", (event) => {
-      event.stopPropagation();
-      toggleMenu(toggle);
-    });
-    toggle.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
-        event.preventDefault();
-        toggleMenu(toggle);
-      }
-    });
-  });
-
-  actionMenus.forEach((menu) => {
-    menu.addEventListener("click", (event) => event.stopPropagation());
-    menu.querySelectorAll(".dropdown-item").forEach((item) => {
-      item.addEventListener("click", closeMenus);
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!event.target.closest(".dropdown-donors")) {
-      closeMenus();
-    }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeMenus();
-    }
-  });
-};
-
-const initDonorsPreview = () => {
-  const panel = document.querySelector(".donor-preview-panel");
-  if (!panel) return;
-
-  const backdrop = panel.querySelector(".donor-preview__backdrop");
-  const sheet = panel.querySelector(".donor-preview__sheet");
-  const closeButtons = panel.querySelectorAll(".js-donor-preview-close");
-  const nameEl = sheet?.querySelector(".js-preview-name");
-  const emailEl = sheet?.querySelector(".js-preview-email");
-  const locationEl = sheet?.querySelector(".js-preview-location");
-  const locationMeta = sheet?.querySelector(".js-preview-location-meta");
-  const typeBadge = sheet?.querySelector(".js-preview-type");
-  const typeMeta = sheet?.querySelector(".js-preview-type-meta");
-  const statusEl = sheet?.querySelector(".js-preview-status");
-  const avatarEl = sheet?.querySelector(".js-preview-avatar");
-  const lifetimeEl = sheet?.querySelector(".js-preview-lifetime");
-  const giftsEl = sheet?.querySelector(".js-preview-gifts");
-  const averageEl = sheet?.querySelector(".js-preview-average");
-  const lastEl = sheet?.querySelector(".js-preview-last");
-  const campaignsEl = sheet?.querySelector(".js-preview-campaigns");
-  const tagsContainer = sheet?.querySelector(".js-preview-tags");
-  const noteEl = sheet?.querySelector(".js-preview-note");
-  const historyList = sheet?.querySelector(".js-preview-history");
-  const previewButtons = Array.from(document.querySelectorAll(".js-donor-preview"));
-  const rows = Array.from(document.querySelectorAll(".donor-row"));
-  const cards = Array.from(document.querySelectorAll(".donor-card"));
-  const body = document.body;
-
-  if (!previewButtons.length) return;
-
-  const donorStatusClass = (status) => {
-    const normalized = (status || "").toLowerCase();
-    if (normalized.includes("active")) return "status-pill--success";
-    if (normalized.includes("high value")) return "status-pill--info";
-    if (normalized.includes("new")) return "status-pill--pending";
-    if (normalized.includes("lapsed") || normalized.includes("at risk")) return "status-pill--warning";
-    if (normalized.includes("recurring")) return "status-pill--processing";
-    return "status-pill--active";
-  };
-
-  const parseActivity = (value) => {
-    if (!value) return [];
-    return value
-      .split(";")
-      .map((entry) => entry.trim())
-      .filter(Boolean)
-      .map((entry) => {
-        const [campaign, amount, date, status] = entry.split("|").map((segment) => segment.trim());
-        return { campaign, amount, date, status };
+    const setActiveView = (mode) => {
+      viewButtons.forEach((btn) => {
+        const isActive = btn.dataset.viewMode === mode;
+        btn.classList.toggle("is-active", isActive);
+        btn.setAttribute("aria-pressed", isActive ? "true" : "false");
       });
-  };
 
-  const lockScroll = () => body.classList.add("is-locked");
-  const unlockScroll = () => {
-    const app = document.querySelector(".app");
-    if (!app || !app.classList.contains("sidebar-open")) {
-      body.classList.remove("is-locked");
-    }
-  };
+      views.forEach((view) => {
+        const isActive = view.dataset.view === mode;
+        view.classList.toggle("is-active", isActive);
+        view.setAttribute("aria-hidden", isActive ? "false" : "true");
+      });
 
-  const openPanel = () => {
-    panel.classList.add("is-open");
-    panel.setAttribute("aria-hidden", "false");
-    lockScroll();
-  };
+      localStorage.setItem(DONORS_VIEW_STORAGE_KEY, mode);
+    };
 
-  const closePanel = () => {
-    panel.classList.remove("is-open");
-    panel.setAttribute("aria-hidden", "true");
-    unlockScroll();
-  };
+    setActiveView(initialMode);
 
-  const renderTags = (dataset) => {
-    if (!tagsContainer) return;
-    tagsContainer.innerHTML = "";
-    const list = (dataset?.donorTags || "").split(";").map((item) => item.trim()).filter(Boolean);
-    if (!list.length) {
-      tagsContainer.innerHTML = `<span class="text-muted">No tags</span>`;
-      return;
-    }
-    list.forEach((label) => {
-      const chip = document.createElement("span");
-      chip.className = "tag-chip";
-      chip.textContent = label;
-      tagsContainer.appendChild(chip);
+    viewButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.viewMode;
+        if (mode) {
+          setActiveView(mode);
+        }
+      });
     });
   };
 
-  const renderHistory = (dataset) => {
-    if (!historyList) return;
-    historyList.innerHTML = "";
-    const entries = parseActivity(dataset?.donorActivity);
-    entries.slice(0, 5).forEach((entry) => {
-      const item = document.createElement("li");
-      item.className = "donor-preview__history-item";
-      const statusClass = entry.status ? donorStatusClass(entry.status) : "";
-      item.innerHTML = `
+  const initDonorsFilters = () => {
+    const offcanvas = document.getElementById("donorsFilters");
+    const trigger = document.querySelector(".js-open-donors-filters");
+    if (!offcanvas || !trigger) return;
+
+    const backdrop = offcanvas.querySelector(".offcanvas-backdrop");
+    const closeButtons = offcanvas.querySelectorAll(".js-offcanvas-close");
+    const resetButton = offcanvas.querySelector(".js-offcanvas-reset");
+    const applyButton = offcanvas.querySelector(".js-offcanvas-apply");
+    const badge = trigger.querySelector(".js-filter-count");
+    const fields = Array.from(offcanvas.querySelectorAll("input, select"));
+
+    const lockScroll = () => document.body.classList.add("is-locked");
+    const unlockScroll = () => {
+      const app = document.querySelector(".app");
+      if (!app || !app.classList.contains("sidebar-open")) {
+        document.body.classList.remove("is-locked");
+      }
+    };
+
+    const countActiveFilters = () =>
+      fields.reduce((count, field) => {
+        if ((field.type === "checkbox" || field.type === "radio") && field.checked) return count + 1;
+        if (field.value && field.value.trim() !== "") return count + 1;
+        return count;
+      }, 0);
+
+    const updateBadge = () => {
+      const total = countActiveFilters();
+      if (badge) {
+        badge.textContent = total;
+        badge.classList.toggle("is-hidden", total === 0);
+      }
+      trigger.setAttribute("data-has-filters", total > 0 ? "true" : "false");
+    };
+
+    const close = () => {
+      offcanvas.classList.remove("is-open");
+      offcanvas.setAttribute("aria-hidden", "true");
+      trigger.setAttribute("aria-expanded", "false");
+      unlockScroll();
+    };
+
+    const open = () => {
+      offcanvas.classList.add("is-open");
+      offcanvas.setAttribute("aria-hidden", "false");
+      trigger.setAttribute("aria-expanded", "true");
+      lockScroll();
+    };
+
+    const toggle = () => {
+      if (offcanvas.classList.contains("is-open")) {
+        close();
+      } else {
+        open();
+      }
+    };
+
+    trigger.addEventListener("click", toggle);
+    closeButtons.forEach((btn) => btn.addEventListener("click", close));
+    backdrop?.addEventListener("click", close);
+
+    resetButton?.addEventListener("click", () => {
+      fields.forEach((field) => {
+        if (field.type === "checkbox" || field.type === "radio") {
+          field.checked = false;
+        } else {
+          field.value = "";
+        }
+      });
+      updateBadge();
+    });
+
+    applyButton?.addEventListener("click", () => {
+      updateBadge();
+      close();
+    });
+
+    fields.forEach((field) => field.addEventListener("change", updateBadge));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && offcanvas.classList.contains("is-open")) {
+        close();
+      }
+    });
+
+    updateBadge();
+  };
+
+  const initDonorsActions = () => {
+    const actionToggles = Array.from(document.querySelectorAll(".js-donor-actions-toggle"));
+    const actionMenus = Array.from(document.querySelectorAll(".dropdown-donors .dropdown-menu--actions"));
+    if (!actionToggles.length || !actionMenus.length) return;
+
+    const closeMenus = () => {
+      actionMenus.forEach((menu) => menu.classList.remove("is-open"));
+      actionToggles.forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+    };
+
+    const getMenu = (toggle) => toggle.closest(".dropdown-donors")?.querySelector(".dropdown-menu--actions");
+
+    const toggleMenu = (toggle) => {
+      const menu = getMenu(toggle);
+      if (!menu) return;
+      const isOpen = menu.classList.contains("is-open");
+      closeMenus();
+      if (!isOpen) {
+        menu.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+      }
+    };
+
+    actionToggles.forEach((toggle) => {
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleMenu(toggle);
+      });
+      toggle.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+          event.preventDefault();
+          toggleMenu(toggle);
+        }
+      });
+    });
+
+    actionMenus.forEach((menu) => {
+      menu.addEventListener("click", (event) => event.stopPropagation());
+      menu.querySelectorAll(".dropdown-item").forEach((item) => {
+        item.addEventListener("click", closeMenus);
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".dropdown-donors")) {
+        closeMenus();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenus();
+      }
+    });
+  };
+
+  const initDonorsPreview = () => {
+    const panel = document.querySelector(".donor-preview-panel");
+    if (!panel) return;
+
+    const backdrop = panel.querySelector(".donor-preview__backdrop");
+    const sheet = panel.querySelector(".donor-preview__sheet");
+    const closeButtons = panel.querySelectorAll(".js-donor-preview-close");
+    const nameEl = sheet?.querySelector(".js-preview-name");
+    const emailEl = sheet?.querySelector(".js-preview-email");
+    const locationEl = sheet?.querySelector(".js-preview-location");
+    const locationMeta = sheet?.querySelector(".js-preview-location-meta");
+    const typeBadge = sheet?.querySelector(".js-preview-type");
+    const typeMeta = sheet?.querySelector(".js-preview-type-meta");
+    const statusEl = sheet?.querySelector(".js-preview-status");
+    const avatarEl = sheet?.querySelector(".js-preview-avatar");
+    const lifetimeEl = sheet?.querySelector(".js-preview-lifetime");
+    const giftsEl = sheet?.querySelector(".js-preview-gifts");
+    const averageEl = sheet?.querySelector(".js-preview-average");
+    const lastEl = sheet?.querySelector(".js-preview-last");
+    const campaignsEl = sheet?.querySelector(".js-preview-campaigns");
+    const tagsContainer = sheet?.querySelector(".js-preview-tags");
+    const noteEl = sheet?.querySelector(".js-preview-note");
+    const historyList = sheet?.querySelector(".js-preview-history");
+    const previewButtons = Array.from(document.querySelectorAll(".js-donor-preview"));
+    const rows = Array.from(document.querySelectorAll(".donor-row"));
+    const cards = Array.from(document.querySelectorAll(".donor-card"));
+    const body = document.body;
+
+    if (!previewButtons.length) return;
+
+    const donorStatusClass = (status) => {
+      const normalized = (status || "").toLowerCase();
+      if (normalized.includes("active")) return "status-pill--success";
+      if (normalized.includes("high value")) return "status-pill--info";
+      if (normalized.includes("new")) return "status-pill--pending";
+      if (normalized.includes("lapsed") || normalized.includes("at risk")) return "status-pill--warning";
+      if (normalized.includes("recurring")) return "status-pill--processing";
+      return "status-pill--active";
+    };
+
+    const parseActivity = (value) => {
+      if (!value) return [];
+      return value
+        .split(";")
+        .map((entry) => entry.trim())
+        .filter(Boolean)
+        .map((entry) => {
+          const [campaign, amount, date, status] = entry.split("|").map((segment) => segment.trim());
+          return { campaign, amount, date, status };
+        });
+    };
+
+    const lockScroll = () => body.classList.add("is-locked");
+    const unlockScroll = () => {
+      const app = document.querySelector(".app");
+      if (!app || !app.classList.contains("sidebar-open")) {
+        body.classList.remove("is-locked");
+      }
+    };
+
+    const openPanel = () => {
+      panel.classList.add("is-open");
+      panel.setAttribute("aria-hidden", "false");
+      lockScroll();
+    };
+
+    const closePanel = () => {
+      panel.classList.remove("is-open");
+      panel.setAttribute("aria-hidden", "true");
+      unlockScroll();
+    };
+
+    const renderTags = (dataset) => {
+      if (!tagsContainer) return;
+      tagsContainer.innerHTML = "";
+      const list = (dataset?.donorTags || "").split(";").map((item) => item.trim()).filter(Boolean);
+      if (!list.length) {
+        tagsContainer.innerHTML = `<span class="text-muted">No tags</span>`;
+        return;
+      }
+      list.forEach((label) => {
+        const chip = document.createElement("span");
+        chip.className = "tag-chip";
+        chip.textContent = label;
+        tagsContainer.appendChild(chip);
+      });
+    };
+
+    const renderHistory = (dataset) => {
+      if (!historyList) return;
+      historyList.innerHTML = "";
+      const entries = parseActivity(dataset?.donorActivity);
+      entries.slice(0, 5).forEach((entry) => {
+        const item = document.createElement("li");
+        item.className = "donor-preview__history-item";
+        const statusClass = entry.status ? donorStatusClass(entry.status) : "";
+        item.innerHTML = `
         <div class="donor-preview__history-row">
           <strong>${entry.campaign || "Campaign"}</strong>
           ${entry.status ? `<span class="status-pill ${statusClass}">${entry.status}</span>` : ""}
         </div>
         <p class="donor-preview__history-amount">${entry.amount || ""}</p>
         <time>${entry.date || ""}</time>`;
-      historyList.appendChild(item);
-    });
-    if (!entries.length) {
-      const empty = document.createElement("li");
-      empty.className = "donor-preview__history-item";
-      empty.textContent = "No recent donations logged.";
-      historyList.appendChild(empty);
-    }
-  };
-
-  const fillPanel = (dataset) => {
-    const donorName = dataset?.donorName || "Donor";
-    const donorInitials = dataset?.donorInitials || "";
-    const donorType = dataset?.donorType || "Individual";
-    const donorStatus = dataset?.donorStatus || "Active";
-
-    if (nameEl) {
-      nameEl.textContent = donorName;
-    }
-    if (emailEl) {
-      const emailValue = dataset?.donorEmail || "";
-      emailEl.textContent = emailValue;
-      emailEl.setAttribute("href", emailValue ? `mailto:${emailValue}` : "#");
-    }
-    if (locationEl) {
-      locationEl.textContent = dataset?.donorLocation || "";
-    }
-    if (locationMeta) {
-      locationMeta.textContent = dataset?.donorLocation || "Unknown location";
-    }
-    if (typeBadge) {
-      typeBadge.textContent = donorType;
-    }
-    if (typeMeta) {
-      typeMeta.textContent = donorType;
-    }
-    if (statusEl) {
-      statusEl.textContent = donorStatus;
-      statusEl.className = `status-pill ${donorStatusClass(donorStatus)}`.trim();
-    }
-    if (avatarEl) {
-      avatarEl.textContent = donorInitials || donorName
-        .split(" ")
-        .map((word) => word.charAt(0))
-        .filter(Boolean)
-        .slice(0, 2)
-        .join("")
-        .toUpperCase();
-    }
-    if (lifetimeEl) {
-      lifetimeEl.textContent = dataset?.donorLifetime || "$0";
-    }
-    if (giftsEl) {
-      giftsEl.textContent = dataset?.donorGifts || "0";
-    }
-    if (averageEl) {
-      averageEl.textContent = dataset?.donorAverage || "-";
-    }
-    if (lastEl) {
-      lastEl.textContent = dataset?.donorLastGift || "—";
-    }
-    if (campaignsEl) {
-      const campaignsCount = Number(dataset?.donorCampaigns) || 0;
-      campaignsEl.textContent = `${campaignsCount} active`;
-      if (noteEl) {
-        noteEl.textContent = campaignsCount
-          ? `Supports ${campaignsCount} active campaign${campaignsCount === 1 ? "" : "s"}.`
-          : "No active campaigns tracked yet.";
-      }
-    }
-    renderTags(dataset);
-    renderHistory(dataset);
-  };
-
-  const attachPreview = (element) => {
-    if (!element || !element.dataset) return;
-    fillPanel(element.dataset);
-    openPanel();
-  };
-
-  previewButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.stopPropagation();
-      const wrapper = event.currentTarget.closest(".donor-card, .donor-row");
-      if (wrapper) {
-        attachPreview(wrapper);
-      }
-    });
-  });
-
-  const handleRowClick = (event) => {
-    if (event.target.closest(".table-actions") || event.target.closest(".dropdown-donors")) return;
-    attachPreview(event.currentTarget);
-  };
-
-  const handleCardClick = (event) => {
-    if (event.target.closest(".donor-card__actions") || event.target.closest(".dropdown-donors")) return;
-    attachPreview(event.currentTarget);
-  };
-
-  rows.forEach((row) => row.addEventListener("click", handleRowClick));
-  cards.forEach((card) => card.addEventListener("click", handleCardClick));
-
-  closeButtons.forEach((btn) =>
-    btn.addEventListener("click", (event) => {
-      event.preventDefault();
-      closePanel();
-    })
-  );
-  backdrop?.addEventListener("click", closePanel);
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && panel.classList.contains("is-open")) {
-      closePanel();
-    }
-  });
-};
-
-const initDonorsPage = () => {
-  const root = document.querySelector(".donors-page");
-  if (!root) return;
-
-  const tbody = root.querySelector(".donor-table tbody");
-  if (!tbody) return;
-
-  const summaryTargets = {
-    total: root.querySelector(".js-donors-summary-total"),
-    active: root.querySelector(".js-donors-summary-active"),
-    recurring: root.querySelector(".js-donors-summary-recurring"),
-    high: root.querySelector(".js-donors-summary-high"),
-  };
-  const tabs = Array.from(root.querySelectorAll(".donors-tabs__item"));
-  const cards = Array.from(root.querySelectorAll(".donor-card"));
-  const searchInput = root.querySelector(".donors-search input");
-  const sortableButtons = Array.from(root.querySelectorAll(".table-sortable[data-sort-key]"));
-  const baseRowOrder = Array.from(tbody.querySelectorAll(".donor-row"));
-
-  let activeSegment = "all";
-  let searchTerm = "";
-  let currentSort = { key: null, direction: null };
-
-  const getRows = () => Array.from(tbody.querySelectorAll(".donor-row"));
-
-  const parseCurrencyValue = (value) => {
-    if (!value) return 0;
-    const cleaned = value.toString().replace(/[^\d.-]/g, "");
-    const parsed = Number(cleaned);
-    return Number.isNaN(parsed) ? 0 : parsed;
-  };
-
-  const matchesSegment = (dataset) => {
-    if (activeSegment === "all") return true;
-    const segments = (dataset?.donorSegment || "").toLowerCase().split(" ").filter(Boolean);
-    return segments.includes(activeSegment);
-  };
-
-  const matchesSearch = (dataset) => {
-    if (!searchTerm) return true;
-    const haystack = `${dataset?.donorName || ""} ${dataset?.donorEmail || ""} ${dataset?.donorLocation || ""} ${(dataset?.donorTags || "")
-      .replace(/;/g, " ")}`.toLowerCase();
-    return haystack.includes(searchTerm);
-  };
-
-  const updateSummaryStats = () => {
-    const visibleRows = getRows().filter((row) => !row.classList.contains("is-hidden"));
-    const activeCount = visibleRows.filter((row) => {
-      const status = (row.dataset.donorStatus || "").toLowerCase();
-      const segments = (row.dataset.donorSegment || "").toLowerCase();
-      return status.includes("active") || status.includes("high value") || segments.includes("active");
-    }).length;
-    const recurringCount = visibleRows.filter((row) => (row.dataset.donorSegment || "").toLowerCase().includes("recurring")).length;
-    const highValueCount = visibleRows.filter((row) => {
-      const status = (row.dataset.donorStatus || "").toLowerCase();
-      return status.includes("high value") || (row.dataset.donorSegment || "").toLowerCase().includes("high-value");
-    }).length;
-
-    if (summaryTargets.total) {
-      summaryTargets.total.textContent = visibleRows.length.toString();
-    }
-    if (summaryTargets.active) {
-      summaryTargets.active.textContent = activeCount.toString();
-    }
-    if (summaryTargets.recurring) {
-      summaryTargets.recurring.textContent = recurringCount.toString();
-    }
-    if (summaryTargets.high) {
-      summaryTargets.high.textContent = highValueCount.toString();
-    }
-  };
-
-  const applyFilters = () => {
-    const rows = getRows();
-    rows.forEach((row) => {
-      const dataset = row.dataset;
-      const visible = matchesSegment(dataset) && matchesSearch(dataset);
-      row.classList.toggle("is-hidden", !visible);
-    });
-    cards.forEach((card) => {
-      const dataset = card.dataset;
-      const visible = matchesSegment(dataset) && matchesSearch(dataset);
-      card.classList.toggle("is-hidden", !visible);
-    });
-    updateSummaryStats();
-  };
-
-  const parseSortValue = (row, key) => {
-    const dataset = row?.dataset;
-    if (!dataset) return "";
-    if (key === "donor") {
-      return (dataset.donorName || "").toLowerCase();
-    }
-    if (key === "lifetime") {
-      return Number(dataset.donorLifetimeValue) || parseCurrencyValue(dataset.donorLifetime);
-    }
-    if (key === "gifts") {
-      return Number(dataset.donorGifts) || 0;
-    }
-    if (key === "lastDonation") {
-      const timestamp = new Date(dataset.donorLastDate || dataset.donorLastGift).getTime();
-      return Number.isNaN(timestamp) ? 0 : timestamp;
-    }
-    return "";
-  };
-
-  const compareRows = (a, b, key, direction) => {
-    const valueA = parseSortValue(a, key);
-    const valueB = parseSortValue(b, key);
-    if (valueA === valueB) return 0;
-    if (typeof valueA === "string" && typeof valueB === "string") {
-      return direction === "asc" ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
-    }
-    return direction === "asc" ? valueA - valueB : valueB - valueA;
-  };
-
-  const applySortOrder = () => {
-    if (!currentSort.direction || !currentSort.key) {
-      baseRowOrder.forEach((row) => tbody.appendChild(row));
-      return;
-    }
-    const rows = getRows();
-    const sorted = [...rows].sort((a, b) => compareRows(a, b, currentSort.key, currentSort.direction));
-    sorted.forEach((row) => tbody.appendChild(row));
-  };
-
-  const updateSortIndicators = () => {
-    sortableButtons.forEach((button) => {
-      const isCurrent = button.dataset.sortKey === currentSort.key && currentSort.direction;
-      button.classList.toggle("is-active", Boolean(isCurrent));
-      if (isCurrent) {
-        button.setAttribute("data-sort-direction", currentSort.direction);
-      } else {
-        button.removeAttribute("data-sort-direction");
-      }
-    });
-  };
-
-  const handleSortClick = (event) => {
-    event.preventDefault();
-    const button = event.currentTarget;
-    const key = button.dataset.sortKey;
-    if (!key) return;
-    let nextDirection = "asc";
-    if (currentSort.key === key) {
-      if (currentSort.direction === "asc") {
-        nextDirection = "desc";
-      } else if (currentSort.direction === "desc") {
-        nextDirection = null;
-      }
-    }
-    currentSort.key = nextDirection ? key : null;
-    currentSort.direction = nextDirection;
-    updateSortIndicators();
-    applySortOrder();
-  };
-
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach((btn) => {
-        btn.classList.remove("donors-tabs__item--active");
-        btn.setAttribute("aria-selected", "false");
+        historyList.appendChild(item);
       });
-      tab.classList.add("donors-tabs__item--active");
-      tab.setAttribute("aria-selected", "true");
-      activeSegment = tab.dataset.segment || "all";
+      if (!entries.length) {
+        const empty = document.createElement("li");
+        empty.className = "donor-preview__history-item";
+        empty.textContent = "No recent donations logged.";
+        historyList.appendChild(empty);
+      }
+    };
+
+    const fillPanel = (dataset) => {
+      const donorName = dataset?.donorName || "Donor";
+      const donorInitials = dataset?.donorInitials || "";
+      const donorType = dataset?.donorType || "Individual";
+      const donorStatus = dataset?.donorStatus || "Active";
+
+      if (nameEl) {
+        nameEl.textContent = donorName;
+      }
+      if (emailEl) {
+        const emailValue = dataset?.donorEmail || "";
+        emailEl.textContent = emailValue;
+        emailEl.setAttribute("href", emailValue ? `mailto:${emailValue}` : "#");
+      }
+      if (locationEl) {
+        locationEl.textContent = dataset?.donorLocation || "";
+      }
+      if (locationMeta) {
+        locationMeta.textContent = dataset?.donorLocation || "Unknown location";
+      }
+      if (typeBadge) {
+        typeBadge.textContent = donorType;
+      }
+      if (typeMeta) {
+        typeMeta.textContent = donorType;
+      }
+      if (statusEl) {
+        statusEl.textContent = donorStatus;
+        statusEl.className = `status-pill ${donorStatusClass(donorStatus)}`.trim();
+      }
+      if (avatarEl) {
+        avatarEl.textContent = donorInitials || donorName
+          .split(" ")
+          .map((word) => word.charAt(0))
+          .filter(Boolean)
+          .slice(0, 2)
+          .join("")
+          .toUpperCase();
+      }
+      if (lifetimeEl) {
+        lifetimeEl.textContent = dataset?.donorLifetime || "$0";
+      }
+      if (giftsEl) {
+        giftsEl.textContent = dataset?.donorGifts || "0";
+      }
+      if (averageEl) {
+        averageEl.textContent = dataset?.donorAverage || "-";
+      }
+      if (lastEl) {
+        lastEl.textContent = dataset?.donorLastGift || "—";
+      }
+      if (campaignsEl) {
+        const campaignsCount = Number(dataset?.donorCampaigns) || 0;
+        campaignsEl.textContent = `${campaignsCount} active`;
+        if (noteEl) {
+          noteEl.textContent = campaignsCount
+            ? `Supports ${campaignsCount} active campaign${campaignsCount === 1 ? "" : "s"}.`
+            : "No active campaigns tracked yet.";
+        }
+      }
+      renderTags(dataset);
+      renderHistory(dataset);
+    };
+
+    const attachPreview = (element) => {
+      if (!element || !element.dataset) return;
+      fillPanel(element.dataset);
+      openPanel();
+    };
+
+    previewButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const wrapper = event.currentTarget.closest(".donor-card, .donor-row");
+        if (wrapper) {
+          attachPreview(wrapper);
+        }
+      });
+    });
+
+    const handleRowClick = (event) => {
+      if (event.target.closest(".table-actions") || event.target.closest(".dropdown-donors")) return;
+      attachPreview(event.currentTarget);
+    };
+
+    const handleCardClick = (event) => {
+      if (event.target.closest(".donor-card__actions") || event.target.closest(".dropdown-donors")) return;
+      attachPreview(event.currentTarget);
+    };
+
+    rows.forEach((row) => row.addEventListener("click", handleRowClick));
+    cards.forEach((card) => card.addEventListener("click", handleCardClick));
+
+    closeButtons.forEach((btn) =>
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        closePanel();
+      })
+    );
+    backdrop?.addEventListener("click", closePanel);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && panel.classList.contains("is-open")) {
+        closePanel();
+      }
+    });
+  };
+
+  const initDonorsPage = () => {
+    const root = document.querySelector(".donors-page");
+    if (!root) return;
+
+    const tbody = root.querySelector(".donor-table tbody");
+    if (!tbody) return;
+
+    const summaryTargets = {
+      total: root.querySelector(".js-donors-summary-total"),
+      active: root.querySelector(".js-donors-summary-active"),
+      recurring: root.querySelector(".js-donors-summary-recurring"),
+      high: root.querySelector(".js-donors-summary-high"),
+    };
+    const tabs = Array.from(root.querySelectorAll(".donors-tabs__item"));
+    const cards = Array.from(root.querySelectorAll(".donor-card"));
+    const searchInput = root.querySelector(".donors-search input");
+    const sortableButtons = Array.from(root.querySelectorAll(".table-sortable[data-sort-key]"));
+    const baseRowOrder = Array.from(tbody.querySelectorAll(".donor-row"));
+
+    let activeSegment = "all";
+    let searchTerm = "";
+    let currentSort = { key: null, direction: null };
+
+    const getRows = () => Array.from(tbody.querySelectorAll(".donor-row"));
+
+    const parseCurrencyValue = (value) => {
+      if (!value) return 0;
+      const cleaned = value.toString().replace(/[^\d.-]/g, "");
+      const parsed = Number(cleaned);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    };
+
+    const matchesSegment = (dataset) => {
+      if (activeSegment === "all") return true;
+      const segments = (dataset?.donorSegment || "").toLowerCase().split(" ").filter(Boolean);
+      return segments.includes(activeSegment);
+    };
+
+    const matchesSearch = (dataset) => {
+      if (!searchTerm) return true;
+      const haystack = `${dataset?.donorName || ""} ${dataset?.donorEmail || ""} ${dataset?.donorLocation || ""} ${(dataset?.donorTags || "")
+        .replace(/;/g, " ")}`.toLowerCase();
+      return haystack.includes(searchTerm);
+    };
+
+    const updateSummaryStats = () => {
+      const visibleRows = getRows().filter((row) => !row.classList.contains("is-hidden"));
+      const activeCount = visibleRows.filter((row) => {
+        const status = (row.dataset.donorStatus || "").toLowerCase();
+        const segments = (row.dataset.donorSegment || "").toLowerCase();
+        return status.includes("active") || status.includes("high value") || segments.includes("active");
+      }).length;
+      const recurringCount = visibleRows.filter((row) => (row.dataset.donorSegment || "").toLowerCase().includes("recurring")).length;
+      const highValueCount = visibleRows.filter((row) => {
+        const status = (row.dataset.donorStatus || "").toLowerCase();
+        return status.includes("high value") || (row.dataset.donorSegment || "").toLowerCase().includes("high-value");
+      }).length;
+
+      if (summaryTargets.total) {
+        summaryTargets.total.textContent = visibleRows.length.toString();
+      }
+      if (summaryTargets.active) {
+        summaryTargets.active.textContent = activeCount.toString();
+      }
+      if (summaryTargets.recurring) {
+        summaryTargets.recurring.textContent = recurringCount.toString();
+      }
+      if (summaryTargets.high) {
+        summaryTargets.high.textContent = highValueCount.toString();
+      }
+    };
+
+    const applyFilters = () => {
+      const rows = getRows();
+      rows.forEach((row) => {
+        const dataset = row.dataset;
+        const visible = matchesSegment(dataset) && matchesSearch(dataset);
+        row.classList.toggle("is-hidden", !visible);
+      });
+      cards.forEach((card) => {
+        const dataset = card.dataset;
+        const visible = matchesSegment(dataset) && matchesSearch(dataset);
+        card.classList.toggle("is-hidden", !visible);
+      });
+      updateSummaryStats();
+    };
+
+    const parseSortValue = (row, key) => {
+      const dataset = row?.dataset;
+      if (!dataset) return "";
+      if (key === "donor") {
+        return (dataset.donorName || "").toLowerCase();
+      }
+      if (key === "lifetime") {
+        return Number(dataset.donorLifetimeValue) || parseCurrencyValue(dataset.donorLifetime);
+      }
+      if (key === "gifts") {
+        return Number(dataset.donorGifts) || 0;
+      }
+      if (key === "lastDonation") {
+        const timestamp = new Date(dataset.donorLastDate || dataset.donorLastGift).getTime();
+        return Number.isNaN(timestamp) ? 0 : timestamp;
+      }
+      return "";
+    };
+
+    const compareRows = (a, b, key, direction) => {
+      const valueA = parseSortValue(a, key);
+      const valueB = parseSortValue(b, key);
+      if (valueA === valueB) return 0;
+      if (typeof valueA === "string" && typeof valueB === "string") {
+        return direction === "asc" ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+      }
+      return direction === "asc" ? valueA - valueB : valueB - valueA;
+    };
+
+    const applySortOrder = () => {
+      if (!currentSort.direction || !currentSort.key) {
+        baseRowOrder.forEach((row) => tbody.appendChild(row));
+        return;
+      }
+      const rows = getRows();
+      const sorted = [...rows].sort((a, b) => compareRows(a, b, currentSort.key, currentSort.direction));
+      sorted.forEach((row) => tbody.appendChild(row));
+    };
+
+    const updateSortIndicators = () => {
+      sortableButtons.forEach((button) => {
+        const isCurrent = button.dataset.sortKey === currentSort.key && currentSort.direction;
+        button.classList.toggle("is-active", Boolean(isCurrent));
+        if (isCurrent) {
+          button.setAttribute("data-sort-direction", currentSort.direction);
+        } else {
+          button.removeAttribute("data-sort-direction");
+        }
+      });
+    };
+
+    const handleSortClick = (event) => {
+      event.preventDefault();
+      const button = event.currentTarget;
+      const key = button.dataset.sortKey;
+      if (!key) return;
+      let nextDirection = "asc";
+      if (currentSort.key === key) {
+        if (currentSort.direction === "asc") {
+          nextDirection = "desc";
+        } else if (currentSort.direction === "desc") {
+          nextDirection = null;
+        }
+      }
+      currentSort.key = nextDirection ? key : null;
+      currentSort.direction = nextDirection;
+      updateSortIndicators();
+      applySortOrder();
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((btn) => {
+          btn.classList.remove("donors-tabs__item--active");
+          btn.setAttribute("aria-selected", "false");
+        });
+        tab.classList.add("donors-tabs__item--active");
+        tab.setAttribute("aria-selected", "true");
+        activeSegment = tab.dataset.segment || "all";
+        applyFilters();
+      });
+    });
+
+    searchInput?.addEventListener("input", (event) => {
+      searchTerm = (event.target.value || "").toLowerCase().trim();
       applyFilters();
     });
-  });
 
-  searchInput?.addEventListener("input", (event) => {
-    searchTerm = (event.target.value || "").toLowerCase().trim();
+    sortableButtons.forEach((button) => button.addEventListener("click", handleSortClick));
+
+    updateSortIndicators();
     applyFilters();
-  });
+  };
 
-  sortableButtons.forEach((button) => button.addEventListener("click", handleSortClick));
-
-  updateSortIndicators();
-  applyFilters();
-};
-
-// Campaign form preview
+  // Campaign form preview
   const initCampaignFormPreview = () => {
     const form = document.querySelector(".js-campaign-form");
     if (!form) return;
@@ -3862,6 +3862,239 @@ const initDonorsPage = () => {
     refreshPreview();
   };
 
+  const initMessagesPage = () => {
+    const page = document.querySelector(".messages-page");
+    if (!page) return;
+    const layout = page.querySelector(".messages-layout");
+    if (!layout) return;
+
+    const folderButtons = Array.from(page.querySelectorAll(".messages-folder"));
+    const filterButtons = Array.from(page.querySelectorAll(".messages-filter"));
+    const conversationItems = Array.from(page.querySelectorAll(".conversation-item"));
+    const conversationButtons = Array.from(page.querySelectorAll(".conversation-item__button"));
+    const threads = Array.from(page.querySelectorAll(".thread"));
+    const backButtons = Array.from(page.querySelectorAll("[data-thread-back]"));
+    const foldersPanel = page.querySelector("[data-folders-panel]");
+    const foldersToggle = page.querySelector("[data-folders-toggle]");
+
+    const isMobile = () => window.innerWidth <= 1024;
+
+    const toggleGroup = (buttons, activeButton) => {
+      buttons.forEach((button) => {
+        const isActive = button === activeButton;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    };
+
+    const activateLayoutForMobile = () => {
+      if (isMobile()) {
+        layout.classList.add("show-thread");
+      }
+    };
+
+    const setActiveConversation = (item, { markAsRead = true } = {}) => {
+      if (!item) return;
+      const conversationId = item.dataset.conversationId;
+      if (!conversationId) return;
+      conversationItems.forEach((conversation) => conversation.classList.remove("is-active"));
+      item.classList.add("is-active");
+      if (markAsRead) {
+        item.classList.remove("is-unread");
+      }
+      threads.forEach((thread) => {
+        thread.classList.toggle("thread--active", thread.dataset.threadId === conversationId);
+      });
+      activateLayoutForMobile();
+    };
+
+    conversationButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const parent = button.closest(".conversation-item");
+        if (!parent) return;
+        setActiveConversation(parent);
+      });
+    });
+
+    const initialConversation =
+      conversationItems.find((item) => item.classList.contains("is-active")) || conversationItems[0];
+    if (initialConversation) {
+      setActiveConversation(initialConversation, { markAsRead: false });
+    }
+
+    const searchInput = page.querySelector("#messages-search");
+    searchInput?.addEventListener("input", (event) => {
+      const query = (event.target.value || "").trim().toLowerCase();
+      conversationItems.forEach((item) => {
+        const haystack = item.textContent?.toLowerCase() || "";
+        const matches = !query || haystack.includes(query);
+        item.classList.toggle("is-hidden", !matches);
+      });
+    });
+
+    folderButtons.forEach((button) => {
+      button.addEventListener("click", () => toggleGroup(folderButtons, button));
+    });
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => toggleGroup(filterButtons, button));
+    });
+
+    backButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        layout.classList.remove("show-thread");
+      });
+    });
+
+    foldersToggle?.addEventListener("click", () => {
+      if (!foldersPanel) return;
+      const isOpen = foldersPanel.classList.toggle("is-open");
+      foldersToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+
+    const handleResize = () => {
+      if (!isMobile()) {
+        layout.classList.remove("show-thread");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    const templateText = "Thank you for your generous support. I will follow up shortly with the details.";
+    const replyForms = Array.from(page.querySelectorAll("[data-thread-reply]"));
+    replyForms.forEach((form) => {
+      const textarea = form.querySelector(".thread-reply__textarea");
+      const templateButton = form.querySelector("[data-insert-template]");
+
+      templateButton?.addEventListener("click", () => {
+        if (!textarea) return;
+        textarea.value = templateText;
+        textarea.focus();
+      });
+
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (textarea) {
+          textarea.value = "";
+        }
+      });
+    });
+
+    const composePanel = page.querySelector(".compose-panel");
+    const composeBody = page.querySelector("#compose-body");
+    const composeTemplate = page.querySelector("#compose-template");
+    const composeForm = page.querySelector(".compose-form");
+
+    if (composePanel) {
+      const openButtons = page.querySelectorAll("[data-open-compose]");
+      const closeButtons = composePanel.querySelectorAll("[data-compose-close]");
+
+      const openCompose = () => {
+        composePanel.classList.add("is-open");
+        composePanel.setAttribute("aria-hidden", "false");
+        if (composeBody) composeBody.focus();
+      };
+
+      const closeCompose = () => {
+        composePanel.classList.remove("is-open");
+        composePanel.setAttribute("aria-hidden", "true");
+      };
+
+      openButtons.forEach((button) => button.addEventListener("click", openCompose));
+      closeButtons.forEach((button) => button.addEventListener("click", closeCompose));
+
+      const handleEscape = (event) => {
+        if (event.key === "Escape" && composePanel.classList.contains("is-open")) {
+          closeCompose();
+        }
+      };
+
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    if (composeTemplate && composeBody) {
+      composeTemplate.addEventListener("change", function () {
+        let text = "";
+        switch (this.value) {
+          case "thankyou":
+            text = "Thank you for your generous donation. We truly appreciate your support.";
+            break;
+          case "failed":
+            text =
+              "We noticed an issue processing your recent donation. Could you please confirm your payment details or preferred method?";
+            break;
+          case "recurring":
+            text =
+              "We can help you adjust your recurring gift. Let us know if you would like to increase, decrease, or pause it.";
+            break;
+          case "update":
+            text =
+              "Here is a quick update on the impact your support is making on our latest campaign...";
+            break;
+          default:
+            text = "";
+        }
+
+        if (text) {
+          composeBody.value = text;
+          composeBody.focus();
+        }
+      });
+    }
+
+    if (composeForm) {
+      composeForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        // Placeholder submit handler; backend will handle actual sending later.
+      });
+    }
+  };
+
+  const initSettingsPage = () => {
+    const page = document.querySelector(".settings-page");
+    if (!page) return;
+
+    const navItems = Array.from(page.querySelectorAll(".settings-nav__item"));
+    const panels = Array.from(page.querySelectorAll(".settings-panel"));
+    const previewLabel = page.querySelector("[data-theme-preview-value]");
+    const themeRadios = Array.from(page.querySelectorAll('input[name="preferences-theme"]'));
+
+    const activateTab = (tab) => {
+      if (!tab) return;
+      navItems.forEach((item) => {
+        item.classList.toggle("is-active", item.dataset.settingsTab === tab);
+      });
+
+      panels.forEach((panel) => {
+        panel.classList.toggle("settings-panel--active", panel.dataset.settingsPanel === tab);
+      });
+    };
+
+    const updateThemePreview = () => {
+      if (!previewLabel || !themeRadios.length) return;
+      const active = themeRadios.find((radio) => radio.checked);
+      const previewText = active?.dataset?.preview || active?.value || "System default";
+      previewLabel.textContent = `Theme: ${previewText}`;
+    };
+
+    navItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const tab = item.dataset.settingsTab;
+        activateTab(tab);
+      });
+    });
+
+    themeRadios.forEach((radio) => {
+      radio.addEventListener("change", updateThemePreview);
+    });
+
+    const first = navItems[0];
+    if (first && first.dataset.settingsTab) {
+      activateTab(first.dataset.settingsTab);
+    }
+    updateThemePreview();
+  };
+
   const initDonationDetailsPage = () => {
     const page = document.querySelector(".donation-details-page");
     if (!page) return;
@@ -3900,6 +4133,8 @@ const initDonorsPage = () => {
     initDonorDetailsPage();
     initManualDonationPage();
     initDonorNewPage && initDonorNewPage();
+    initMessagesPage();
+    initSettingsPage();
 
     const markAllNotifications = document.querySelector(".js-mark-notifications");
     if (markAllNotifications) {

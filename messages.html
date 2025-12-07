@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Donations Dashboard - Messages</title>
+  <meta name="description" content="Manage donor conversations directly inside the donations dashboard." />
+  <meta name="theme-color" content="#15C5CE" />
+
+  <!-- Canonical & social meta -->
+  <link rel="canonical" href="https://example.org/dashboard/messages" />
+  <meta property="og:title" content="Donations Dashboard - Messages" />
+  <meta property="og:description" content="Manage donor conversations directly inside the donations dashboard." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/messages" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Messages" />
+  <meta name="twitter:description" content="Manage donor conversations directly inside the donations dashboard." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+
+  <!-- Favicons & fonts -->
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <!-- Skip link for keyboard users -->
+
+  <div class="app">
+    <!-- Sidebar: primary navigation -->
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="#" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <!-- Main nav links -->
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual Donations</span>
+        </a>
+        <a class="sidebar__link active" href="messages.html" aria-current="page">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+        <a class="sidebar__link" href="#">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- "More" expandable group (left as <li> to match existing CSS) -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span>More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-file"></i> Reports</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-user-group"></i> Beneficiaries</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-plug"></i> Integrations</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-clipboard-list"></i> System Logs</a></li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+    <!-- /Sidebar -->
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <!-- App header: search, theme toggle, user menu -->
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <!-- Sidebar toggle (mobile) -->
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Messages</h2>
+          </div>
+        </div>
+
+        <!-- Global search -->
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <!-- Header actions: theme, notifications, user -->
+        <div class="app-header__right">
+          <!-- Theme toggle button -->
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <!-- Notifications dropdown -->
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">
+                  Mark all as read
+                </button>
+              </div>
+
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donor segment created</p>
+                    <p class="notification-meta">Just now · Donors</p>
+                  </div>
+                  <span class="notification-time">Just now</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Recurring donation processed</p>
+                    <p class="notification-meta">2h · Finance</p>
+                  </div>
+                  <span class="notification-time">2h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Archive request logged</p>
+                    <p class="notification-meta">Yesterday · Donors</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- User menu dropdown -->
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+
+              <div class="dropdown-divider"></div>
+
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+
+              <div class="dropdown-divider"></div>
+
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- /App header -->
+
+      <!-- Main content -->
+      <main class="app-content" id="main-content" tabindex="-1">
+        <!-- Page header: title + primary actions -->
+        <section class="card page-header" aria-labelledby="messages-title">
+          <div>
+            <!-- Breadcrumb -->
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li aria-current="page">Messages</li>
+              </ol>
+            </nav>
+
+            <div class="page-header__title">
+              <h1 id="messages-title" class="h3">Messages</h1>
+              <p class="page-header__subtitle text-muted">
+                View and respond to messages from donors.
+              </p>
+            </div>
+          </div>
+
+          <!-- Header actions -->
+          <div class="page-header__actions">
+            <button class="btn btn-primary" type="button" data-open-compose>
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+              <span>New message</span>
+            </button>
+            <a class="btn btn-ghost" href="#" role="button">
+              <i class="fa-solid fa-envelope-circle-check" aria-hidden="true"></i>
+              <span>Bulk message</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Messages workspace: 3-pane layout -->
+        <section class="messages-page" aria-label="Messages workspace">
+          <div class="messages-layout">
+
+            <!-- Middle pane: conversation list -->
+            <section class="messages-pane messages-pane--list" aria-label="Conversation list">
+              <header class="messages-list__header">
+                <!-- Search inside messages -->
+                <form class="search messages-search" role="search" aria-label="Search messages">
+                  <label class="sr-only" for="messages-search">Search messages</label>
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                  <input id="messages-search" type="search" name="messages-search"
+                    placeholder="Search messages or donors" autocomplete="off" />
+                </form>
+
+                <!-- Sort dropdown -->
+                <div class="messages-sort">
+                  <label class="sr-only" for="messages-sort">Sort conversations</label>
+                  <select id="messages-sort" class="form-control">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="name">Donor name</option>
+                    <option value="unread">Unread first</option>
+                  </select>
+                </div>
+              </header>
+
+              <div class="folders-mini" data-folders-panel>
+                <div class="folders-mini__header">
+                  <span class="folders-mini__title">Folders &amp; filters</span>
+                  <button class="icon-button icon-button--ghost folders-mini__toggle" type="button" data-folders-toggle
+                    aria-controls="messages-folders-panel" aria-expanded="false">
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    <span class="sr-only">Toggle folders</span>
+                  </button>
+                </div>
+
+                <div class="folders-mini__content" id="messages-folders-panel">
+                  <div class="folders-mini__section">
+                    <p class="folders-mini__section-label">Folders</p>
+                    <ul class="messages-folders folders-mini__list">
+                      <li>
+                        <button type="button" class="messages-folder is-active" data-folder="inbox" aria-pressed="true">
+                          <span>Inbox</span>
+                          <span class="messages-folder__count">8</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="messages-folder" data-folder="starred" aria-pressed="false">
+                          <span>Starred</span>
+                          <span class="messages-folder__count">2</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="messages-folder" data-folder="sent" aria-pressed="false">
+                          <span>Sent</span>
+                          <span class="messages-folder__count">14</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="messages-folder" data-folder="archived" aria-pressed="false">
+                          <span>Archived</span>
+                          <span class="text-muted">5</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="messages-folder" data-folder="system" aria-pressed="false">
+                          <span>System</span>
+                          <span class="text-muted">3</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="folders-mini__section">
+                    <p class="folders-mini__section-label">Quick filters</p>
+                    <div class="messages-quick-filters folders-mini__list folders-mini__list--filters">
+                      <button type="button" class="messages-filter is-active" data-filter="all" aria-pressed="true">
+                        All
+                      </button>
+                      <button type="button" class="messages-filter" data-filter="unread" aria-pressed="false">
+                        Unread
+                      </button>
+                      <button type="button" class="messages-filter" data-filter="with-donations" aria-pressed="false">
+                        With donations
+                      </button>
+                      <button type="button" class="messages-filter" data-filter="needs-follow-up" aria-pressed="false">
+                        Needs follow-up
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Static sample conversations list -->
+              <div class="messages-list__scroll">
+                <ul class="conversation-list" aria-label="Donor conversations">
+                  <!-- Conversation 1 Jordan -->
+                  <li class="conversation-item is-active is-unread" data-conversation-id="conv-1" data-folder="inbox"
+                    data-filter="with-donations">
+
+                    <!-- Row wrapper clickable as a button via JS -->
+                    <div class="conversation-item__button" role="button" tabindex="0" data-conversation-trigger>
+                      <div class="conversation-item__avatar">JS</div>
+
+                      <div class="conversation-item__body">
+                        <div class="conversation-item__top-row">
+                          <span class="conversation-item__name">Jordan Sparks</span>
+                          <span class="conversation-item__time">2h ago</span>
+                        </div>
+
+                        <div class="conversation-item__meta">
+                          <span class="badge badge--soft">Active</span>
+                          <span class="badge badge--soft">Recurring</span>
+                        </div>
+
+                        <p class="conversation-item__snippet">
+                          Thank you for the update. I would like to adjust my monthly gift starting next quarter...
+                        </p>
+                      </div>
+
+                      <div class="conversation-item__status">
+                        <span class="dot-unread" aria-hidden="true"></span>
+                        <!-- Star action now a real button without nesting -->
+                        <button class="icon-button icon-button--sm conversation-item__star" type="button"
+                          aria-label="Star conversation">
+                          <i class="fa-regular fa-star" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+
+                  <!-- Conversation 2 Amina -->
+                  <li class="conversation-item is-unread" data-conversation-id="conv-2" data-folder="inbox"
+                    data-filter="unread needs-follow-up">
+
+                    <div class="conversation-item__button" role="button" tabindex="0" data-conversation-trigger>
+                      <div class="conversation-item__avatar">AR</div>
+
+                      <div class="conversation-item__body">
+                        <div class="conversation-item__top-row">
+                          <span class="conversation-item__name">Amina Rahman</span>
+                          <span class="conversation-item__time">5h ago</span>
+                        </div>
+
+                        <div class="conversation-item__meta">
+                          <span class="badge badge--soft">Needs follow-up</span>
+                          <span class="badge badge--soft">High potential</span>
+                        </div>
+
+                        <p class="conversation-item__snippet">
+                          Looking for an update on the clinic grant proposal before the board meeting tomorrow...
+                        </p>
+                      </div>
+
+                      <div class="conversation-item__status">
+                        <span class="dot-unread" aria-hidden="true"></span>
+                        <button class="icon-button icon-button--sm conversation-item__star" type="button"
+                          aria-label="Star conversation">
+                          <i class="fa-regular fa-star" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+
+                  <!-- Conversation 3 Rafael -->
+                  <li class="conversation-item" data-conversation-id="conv-3" data-folder="starred"
+                    data-filter="with-donations">
+
+                    <div class="conversation-item__button" role="button" tabindex="0" data-conversation-trigger>
+                      <div class="conversation-item__avatar">RD</div>
+
+                      <div class="conversation-item__body">
+                        <div class="conversation-item__top-row">
+                          <span class="conversation-item__name">Rafael Díaz</span>
+                          <span class="conversation-item__time">Yesterday</span>
+                        </div>
+
+                        <div class="conversation-item__meta">
+                          <span class="badge badge--soft">Starred</span>
+                          <span class="badge badge--soft">Sent receipt</span>
+                        </div>
+
+                        <p class="conversation-item__snippet">
+                          Received the July receipts and want to confirm how the allocation will be acknowledged.
+                        </p>
+                      </div>
+
+                      <div class="conversation-item__status">
+                        <button class="icon-button icon-button--sm conversation-item__star" type="button"
+                          aria-label="Star conversation">
+                          <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+
+                  <!-- Conversation 4 Maria -->
+                  <li class="conversation-item" data-conversation-id="conv-4" data-folder="sent"
+                    data-filter="needs-follow-up">
+
+                    <div class="conversation-item__button" role="button" tabindex="0" data-conversation-trigger>
+                      <div class="conversation-item__avatar">MO</div>
+
+                      <div class="conversation-item__body">
+                        <div class="conversation-item__top-row">
+                          <span class="conversation-item__name">Maria Okafor</span>
+                          <span class="conversation-item__time">Aug 12</span>
+                        </div>
+
+                        <div class="conversation-item__meta">
+                          <span class="badge badge--soft">Sent</span>
+                          <span class="badge badge--soft">Needs receipt</span>
+                        </div>
+
+                        <p class="conversation-item__snippet">
+                          Could you resend the acknowledgement for my $10k gift to the Education Access fund?
+                        </p>
+                      </div>
+
+                      <div class="conversation-item__status">
+                        <button class="icon-button icon-button--sm conversation-item__star" type="button"
+                          aria-label="Star conversation">
+                          <i class="fa-regular fa-star" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+            </section>
+            <!-- /Middle pane -->
+
+            <!-- Right pane: active conversation thread -->
+            <section class="messages-pane messages-pane--thread" aria-label="Active conversation">
+              <div class="thread-container">
+
+                <!-- Thread 1: Jordan -->
+                <article class="thread thread--active" data-thread-id="conv-1">
+                  <header class="thread-header">
+                    <div class="thread-header__left">
+                      <!-- Back button for mobile view -->
+                      <button class="btn btn-ghost btn-ghost--sm thread-header__back" type="button" data-thread-back>
+                        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                        <span>Back to messages</span>
+                      </button>
+
+                      <!-- Donor identity block -->
+                      <div class="thread-header__identity">
+                        <span class="thread-header__avatar">JS</span>
+                        <div>
+                          <h3 class="thread-header__name">Jordan Sparks</h3>
+                          <p class="thread-header__email text-muted">jordan@innovateimpact.org</p>
+                          <p class="thread-header__location text-muted">Toronto, Canada</p>
+                          <div class="thread-header__tags">
+                            <span class="badge badge--soft tag-pill">Active</span>
+                            <span class="badge badge--soft tag-pill">Recurring</span>
+                            <span class="badge badge--soft tag-pill">High value</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="thread-header__right">
+                      <div class="thread-header__actions">
+                        <a href="donor-details.html" class="btn btn-ghost btn-ghost--sm" role="button">
+                          View donor
+                        </a>
+                        <button class="icon-button icon-button--sm" type="button" aria-label="More options">
+                          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </header>
+
+                  <!-- Conversation messages -->
+                  <div class="thread-body">
+                    <div class="thread-day-separator">
+                      <span>Aug 14, 2025</span>
+                    </div>
+
+                    <div class="thread-message thread-message--system">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">System</span>
+                        <span class="thread-message__time">09:13</span>
+                        <span class="thread-message__type">Receipt</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        Receipt emailed for your donation of $1,200 to Clean Water Initiative.
+                      </div>
+                    </div>
+
+                    <div class="thread-message thread-message--donor">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">Jordan Sparks</span>
+                        <span class="thread-message__time">10:01</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        Thank you for the update. I would like to adjust my monthly gift starting next quarter to
+                        $1,250.
+                      </div>
+                    </div>
+
+                    <div class="thread-message thread-message--agent">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">You</span>
+                        <span class="thread-message__time">10:15</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        Absolutely, I can help you with that. Would you like to increase the same campaign or spread it
+                        across partners?
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Reply composer -->
+                  <form class="thread-reply" data-thread-reply>
+                    <textarea class="thread-reply__textarea" rows="3" placeholder="Type your reply..."
+                      aria-label="Reply"></textarea>
+                    <div class="thread-reply__actions">
+                      <button class="btn-text" type="button" data-insert-template>Templates</button>
+                      <div class="spacer" aria-hidden="true"></div>
+                      <button class="icon-button icon-button--sm" type="button" aria-label="Attach file">
+                        <i class="fa-solid fa-paperclip" aria-hidden="true"></i>
+                      </button>
+                      <button class="btn btn-primary" type="submit">Send</button>
+                    </div>
+                  </form>
+                </article>
+                <!-- /Thread 1 -->
+
+                <!-- Thread 2: Amina -->
+                <article class="thread" data-thread-id="conv-2">
+                  <header class="thread-header">
+                    <div class="thread-header__left">
+                      <button class="btn btn-ghost btn-ghost--sm thread-header__back" type="button" data-thread-back>
+                        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                        <span>Back to messages</span>
+                      </button>
+
+                      <div class="thread-header__identity">
+                        <span class="thread-header__avatar">AR</span>
+                        <div>
+                          <h3 class="thread-header__name">Amina Rahman</h3>
+                          <p class="thread-header__email text-muted">amina@worldhealth.org</p>
+                          <p class="thread-header__location text-muted">Nairobi, Kenya</p>
+                          <div class="thread-header__tags">
+                            <span class="badge badge--soft tag-pill">Needs follow-up</span>
+                            <span class="badge badge--soft tag-pill">High potential</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="thread-header__right">
+                      <div class="thread-header__actions">
+                        <a href="donor-details.html" class="btn btn-ghost btn-ghost--sm" role="button">
+                          View donor
+                        </a>
+                        <button class="icon-button icon-button--sm" type="button" aria-label="More options">
+                          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </header>
+
+                  <div class="thread-body">
+                    <div class="thread-day-separator">
+                      <span>Aug 13, 2025</span>
+                    </div>
+
+                    <div class="thread-message thread-message--donor">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">Amina Rahman</span>
+                        <span class="thread-message__time">14:42</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        Do we have an update on the health clinics grant proposal before the board meeting?
+                      </div>
+                    </div>
+
+                    <div class="thread-message thread-message--agent">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">You</span>
+                        <span class="thread-message__time">15:01</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        The team is finalizing the budget breakdown; I can share the draft by tomorrow morning.
+                      </div>
+                    </div>
+                  </div>
+
+                  <form class="thread-reply" data-thread-reply>
+                    <textarea class="thread-reply__textarea" rows="3" placeholder="Type your reply..."
+                      aria-label="Reply"></textarea>
+                    <div class="thread-reply__actions">
+                      <button class="btn-text" type="button" data-insert-template>Templates</button>
+                      <div class="spacer" aria-hidden="true"></div>
+                      <button class="icon-button icon-button--sm" type="button" aria-label="Attach file">
+                        <i class="fa-solid fa-paperclip" aria-hidden="true"></i>
+                      </button>
+                      <button class="btn btn-primary" type="submit">Send</button>
+                    </div>
+                  </form>
+                </article>
+                <!-- /Thread 2 -->
+
+                <!-- Thread 3: Rafael -->
+                <article class="thread" data-thread-id="conv-3">
+                  <header class="thread-header">
+                    <div class="thread-header__left">
+                      <button class="btn btn-ghost btn-ghost--sm thread-header__back" type="button" data-thread-back>
+                        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                        <span>Back to messages</span>
+                      </button>
+
+                      <div class="thread-header__identity">
+                        <span class="thread-header__avatar">RD</span>
+                        <div>
+                          <h3 class="thread-header__name">Rafael Díaz</h3>
+                          <p class="thread-header__email text-muted">rafael@urbanfuture.org</p>
+                          <p class="thread-header__location text-muted">Mexico City, Mexico</p>
+                          <div class="thread-header__tags">
+                            <span class="badge badge--soft tag-pill">Starred</span>
+                            <span class="badge badge--soft tag-pill">Recurring</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="thread-header__right">
+                      <div class="thread-header__actions">
+                        <a href="donor-details.html" class="btn btn-ghost btn-ghost--sm" role="button">
+                          View donor
+                        </a>
+                        <button class="icon-button icon-button--sm" type="button" aria-label="More options">
+                          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </header>
+
+                  <div class="thread-body">
+                    <div class="thread-day-separator">
+                      <span>Aug 12, 2025</span>
+                    </div>
+
+                    <div class="thread-message thread-message--system">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">System</span>
+                        <span class="thread-message__time">08:24</span>
+                        <span class="thread-message__type">Reminder</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        Receipt for your July donations is available under Recent Gifts.
+                      </div>
+                    </div>
+
+                    <div class="thread-message thread-message--donor">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">Rafael Díaz</span>
+                        <span class="thread-message__time">08:46</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        I have the receipts and want to confirm how the allocation will be acknowledged in the report.
+                      </div>
+                    </div>
+                  </div>
+
+                  <form class="thread-reply" data-thread-reply>
+                    <textarea class="thread-reply__textarea" rows="3" placeholder="Type your reply..."
+                      aria-label="Reply"></textarea>
+                    <div class="thread-reply__actions">
+                      <button class="btn-text" type="button" data-insert-template>Templates</button>
+                      <div class="spacer" aria-hidden="true"></div>
+                      <button class="icon-button icon-button--sm" type="button" aria-label="Attach file">
+                        <i class="fa-solid fa-paperclip" aria-hidden="true"></i>
+                      </button>
+                      <button class="btn btn-primary" type="submit">Send</button>
+                    </div>
+                  </form>
+                </article>
+                <!-- /Thread 3 -->
+
+                <!-- Thread 4: Maria -->
+                <article class="thread" data-thread-id="conv-4">
+                  <header class="thread-header">
+                    <div class="thread-header__left">
+                      <button class="btn btn-ghost btn-ghost--sm thread-header__back" type="button" data-thread-back>
+                        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                        <span>Back to messages</span>
+                      </button>
+
+                      <div class="thread-header__identity">
+                        <span class="thread-header__avatar">MO</span>
+                        <div>
+                          <h3 class="thread-header__name">Maria Okafor</h3>
+                          <p class="thread-header__email text-muted">maria@impactallies.ng</p>
+                          <p class="thread-header__location text-muted">Lagos, Nigeria</p>
+                          <div class="thread-header__tags">
+                            <span class="badge badge--soft tag-pill">Sent</span>
+                            <span class="badge badge--soft tag-pill">High value</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="thread-header__right">
+                      <div class="thread-header__actions">
+                        <a href="donor-details.html" class="btn btn-ghost btn-ghost--sm" role="button">
+                          View donor
+                        </a>
+                        <button class="icon-button icon-button--sm" type="button" aria-label="More options">
+                          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </header>
+
+                  <div class="thread-body">
+                    <div class="thread-day-separator">
+                      <span>Aug 10, 2025</span>
+                    </div>
+
+                    <div class="thread-message thread-message--donor">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">Maria Okafor</span>
+                        <span class="thread-message__time">09:17</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        Could you resend the acknowledgement for my $10,000 gift to the Education Access fund?
+                      </div>
+                    </div>
+
+                    <div class="thread-message thread-message--agent">
+                      <div class="thread-message__meta">
+                        <span class="thread-message__author">You</span>
+                        <span class="thread-message__time">09:34</span>
+                      </div>
+                      <div class="thread-message__bubble">
+                        Already on it. The email will go out before noon and I will copy you once it ships.
+                      </div>
+                    </div>
+                  </div>
+
+                  <form class="thread-reply" data-thread-reply>
+                    <textarea class="thread-reply__textarea" rows="3" placeholder="Type your reply..."
+                      aria-label="Reply"></textarea>
+                    <div class="thread-reply__actions">
+                      <button class="btn-text" type="button" data-insert-template>Templates</button>
+                      <div class="spacer" aria-hidden="true"></div>
+                      <button class="icon-button icon-button--sm" type="button" aria-label="Attach file">
+                        <i class="fa-solid fa-paperclip" aria-hidden="true"></i>
+                      </button>
+                      <button class="btn btn-primary" type="submit">Send</button>
+                    </div>
+                  </form>
+                </article>
+                <!-- /Thread 4 -->
+
+              </div>
+            </section>
+            <!-- /Right pane -->
+
+          </div>
+          <!-- /.messages-layout -->
+        </section>
+        <!-- /Messages workspace -->
+
+        <aside class="compose-panel" aria-hidden="true">
+          <div class="compose-panel__backdrop" data-compose-close></div>
+
+          <div class="compose-panel__sheet">
+            <header class="compose-panel__header">
+              <h2>New message</h2>
+              <button type="button" class="icon-button" aria-label="Close" data-compose-close>&times;</button>
+            </header>
+
+            <form class="compose-form" autocomplete="off">
+              <div class="compose-form__group">
+                <label for="compose-to">To</label>
+                <div class="compose-to-field">
+                  <input id="compose-to" type="text" placeholder="Search donor by name or email&hellip;" />
+                  <!-- optional small helper text -->
+                </div>
+              </div>
+
+              <div class="compose-form__group">
+                <label for="compose-subject">Subject</label>
+                <input id="compose-subject" type="text" placeholder="Subject line" />
+              </div>
+
+              <div class="compose-form__group">
+                <div class="compose-form__row">
+                  <label for="compose-template">Templates</label>
+                  <select id="compose-template">
+                    <option value="">Choose a template&hellip;</option>
+                    <option value="thankyou">Thank you for your donation</option>
+                    <option value="failed">Follow-up on failed payment</option>
+                    <option value="recurring">Recurring gift adjustment</option>
+                    <option value="update">Campaign impact update</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="compose-form__group">
+                <label for="compose-body">Message</label>
+                <textarea id="compose-body" rows="8" placeholder="Write your message&hellip;"></textarea>
+              </div>
+
+              <div class="compose-form__footer">
+                <button type="button" class="btn btn-light" data-compose-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Send message</button>
+              </div>
+            </form>
+          </div>
+        </aside>
+
+      </main>
+      <!-- /Main content -->
+
+      <!-- App footer -->
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+    <!-- /.app-main -->
+  </div>
+  <!-- /.app -->
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

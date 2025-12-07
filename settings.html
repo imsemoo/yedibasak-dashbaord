@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard - Settings</title>
+  <meta name="description" content="Configure your profile, organization, and notification preferences." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/settings" />
+  <meta property="og:title" content="Donations Dashboard - Settings" />
+  <meta property="og:description" content="Configure your profile, organization, and notification preferences." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/settings" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Settings" />
+  <meta name="twitter:description" content="Configure your profile, organization, and notification preferences." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="#" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual Donations</span>
+        </a>
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+        <a class="sidebar__link active" href="settings.html" aria-current="page">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span>More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-file"></i> Reports</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-user-group"></i> Beneficiaries</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-plug"></i> Integrations</a></li>
+            <li><a href="#" class="sidebar-sublink"><i class="fa fa-clipboard-list"></i> System Logs</a></li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Settings</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">
+                  Mark all as read
+                </button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Recurring donation processed</p>
+                    <p class="notification-meta">2h &bull; Finance</p>
+                  </div>
+                  <span class="notification-time">2h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donation for Education Access</p>
+                    <p class="notification-meta">4h &bull; Donations</p>
+                  </div>
+                  <span class="notification-time">4h</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-user-info">
+                <strong>Jordan Lee</strong>
+                <span class="text-muted">jordan@donations.org</span>
+              </div>
+              <ul class="dropdown-list">
+                <li>
+                  <button class="dropdown-link" type="button">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Profile
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-link" type="button">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    Security
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-link" type="button">
+                    <i class="fa fa-sign-out-alt" aria-hidden="true"></i>
+                    Sign out
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <section class="page-header">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li>Settings</li>
+              </ol>
+            </nav>
+            <div class="page-header__title">
+              <h1 class="h3">Settings</h1>
+              <p class="page-header__subtitle">Manage your account, organization, and notification preferences.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="settings-page">
+          <div class="settings-shell">
+            <nav class="settings-nav" aria-label="Settings sections">
+              <ul class="settings-nav__list">
+                <li class="settings-nav__item is-active" data-settings-tab="profile">
+                  <button type="button">Profile</button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="organization">
+                  <button type="button">Organization</button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="notifications">
+                  <button type="button">Notifications</button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="security">
+                  <button type="button">Security</button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="preferences">
+                  <button type="button">Preferences</button>
+                </li>
+              </ul>
+            </nav>
+
+            <div class="settings-content">
+              <div class="settings-panel settings-panel--active" data-settings-panel="profile">
+                <div class="settings-panel__header">
+                  <h3>Profile</h3>
+                  <p class="settings-panel__desc">Update the primary account details that appear on receipts and internal notes.</p>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="settings-avatar">
+                    <div class="settings-avatar__circle" aria-hidden="true">JL</div>
+                    <div>
+                      <p class="settings-avatar__label">Account avatar</p>
+                      <p class="text-muted settings-avatar__meta">Visible initials are used across communications.</p>
+                      <button type="button" class="btn btn-outline">Change photo</button>
+                    </div>
+                  </div>
+
+                  <div class="form-field form-field--split">
+                    <div>
+                      <label class="form-label" for="profile-first-name">First name</label>
+                      <input id="profile-first-name" class="form-control" type="text" placeholder="Jordan" />
+                    </div>
+                    <div>
+                      <label class="form-label" for="profile-last-name">Last name</label>
+                      <input id="profile-last-name" class="form-control" type="text" placeholder="Lee" />
+                    </div>
+                  </div>
+
+                  <div class="form-field form-field--split">
+                    <div>
+                      <label class="form-label" for="profile-email">Email</label>
+                      <input id="profile-email" class="form-control" type="email" value="jordan@donations.org" readonly />
+                    </div>
+                    <div>
+                      <label class="form-label" for="profile-role">Role / title</label>
+                      <input id="profile-role" class="form-control" type="text" placeholder="Donor relations manager" />
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="form-label" for="profile-phone">Phone</label>
+                    <input id="profile-phone" class="form-control" type="tel" placeholder="+1 (555) 012-3456" />
+                  </div>
+                </div>
+                <p class="settings-panel__helper text-muted">These details appear on receipts and internal notes.</p>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="organization">
+                <div class="settings-panel__header">
+                  <h3>Organization</h3>
+                  <p class="settings-panel__desc">Keep corporate details consistent across emails and receipts.</p>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="form-field">
+                    <label class="form-label" for="org-name">Organization name</label>
+                    <input id="org-name" class="form-control" type="text" placeholder="Impact Allies" />
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label" for="org-legal">Legal name <span class="text-muted">(optional)</span></label>
+                    <input id="org-legal" class="form-control" type="text" placeholder="Impact Allies Foundation, Inc." />
+                  </div>
+                  <div class="form-field form-field--split">
+                    <div>
+                      <label class="form-label" for="org-from-name">Default "From" name</label>
+                      <input id="org-from-name" class="form-control" type="text" placeholder="Impact Allies" />
+                    </div>
+                    <div>
+                      <label class="form-label" for="org-reply-email">Default "Reply-to" email</label>
+                      <input id="org-reply-email" class="form-control" type="email" placeholder="hello@impactallies.org" />
+                    </div>
+                  </div>
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>Address</h4>
+                      <p class="settings-section__desc">This address is used for mailed receipts and registrations.</p>
+                    </div>
+                    <div class="form-field">
+                      <label class="form-label" for="org-country">Country</label>
+                      <select id="org-country" class="form-control">
+                        <option value="us">United States</option>
+                        <option value="eg">Egypt</option>
+                        <option value="tr">Turkey</option>
+                        <option value="ng">Nigeria</option>
+                      </select>
+                    </div>
+                    <div class="form-field">
+                      <label class="form-label" for="org-city">City</label>
+                      <input id="org-city" class="form-control" type="text" placeholder="Cairo" />
+                    </div>
+                    <div class="form-field">
+                      <label class="form-label" for="org-street">Street address</label>
+                      <input id="org-street" class="form-control" type="text" placeholder="71 Lotus Avenue" />
+                    </div>
+                    <div class="form-field form-field--split">
+                      <div>
+                        <label class="form-label" for="org-postal">Postal code</label>
+                        <input id="org-postal" class="form-control" type="text" placeholder="11412" />
+                      </div>
+                      <div>
+                        <label class="form-label" for="org-tax">Tax ID / Registration number</label>
+                        <input id="org-tax" class="form-control" type="text" placeholder="EG-123456789" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="notifications">
+                <div class="settings-panel__header">
+                  <h3>Notifications</h3>
+                  <p class="settings-panel__desc">Choose which updates should ping you via email.</p>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>Donor activity</h4>
+                      <p class="settings-section__desc">Track every important donation milestone.</p>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>New donation received</h4>
+                        <p class="settings-toggle-row__desc">Get an email each time a new donation is processed.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Failed payment</h4>
+                        <p class="settings-toggle-row__desc">Notify the team if a credit card declines.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>New recurring gift started</h4>
+                        <p class="settings-toggle-row__desc">Know when a donor joins a recurring program.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Recurring gift canceled</h4>
+                        <p class="settings-toggle-row__desc">See when a recurring commitment stops.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>Reports</h4>
+                      <p class="settings-section__desc">Digest emails keep you updated without checking the dashboard.</p>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Weekly summary email</h4>
+                        <p class="settings-toggle-row__desc">Everything that happened this week in one report.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Monthly impact report</h4>
+                        <p class="settings-toggle-row__desc">A snapshot of totals, donors, and grant impact.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>System</h4>
+                      <p class="settings-section__desc">Critical alerts from the platform.</p>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Security alerts</h4>
+                        <p class="settings-toggle-row__desc">Learn about suspicious logins or password resets.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Product updates</h4>
+                        <p class="settings-toggle-row__desc">Hear about new features and improvements.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="security">
+                <div class="settings-panel__header">
+                  <h3>Security</h3>
+                  <p class="settings-panel__desc">Protect your account with strong passwords and session controls.</p>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>Password</h4>
+                      <p class="settings-section__desc">Use a password with at least 12 characters, including a number and symbol.</p>
+                    </div>
+                    <div class="form-field">
+                      <label class="form-label" for="security-current-password">Current password</label>
+                      <input id="security-current-password" class="form-control" type="password" />
+                    </div>
+                    <div class="form-field">
+                      <label class="form-label" for="security-new-password">New password</label>
+                      <input id="security-new-password" class="form-control" type="password" />
+                    </div>
+                    <div class="form-field">
+                      <label class="form-label" for="security-confirm-password">Confirm new password</label>
+                      <input id="security-confirm-password" class="form-control" type="password" />
+                    </div>
+                  </div>
+
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>Two-factor authentication</h4>
+                    </div>
+                    <p class="text-muted">We recommend enabling 2FA for all admin accounts.</p>
+                    <button type="button" class="btn btn-outline">Enable 2FA</button>
+                  </div>
+
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>Active sessions</h4>
+                      <p class="settings-section__desc">Sign out remotely to guard against unattended devices.</p>
+                    </div>
+                    <ul class="settings-sessions">
+                      <li>
+                        <div>
+                          <strong>MacBook Pro</strong>
+                          <p class="text-muted">Cairo, Egypt</p>
+                        </div>
+                        <span class="text-muted">Active now</span>
+                      </li>
+                      <li>
+                        <div>
+                          <strong>Chrome on Windows</strong>
+                          <p class="text-muted">Istanbul, Turkey</p>
+                        </div>
+                        <span class="text-muted">2 days ago</span>
+                      </li>
+                    </ul>
+                    <button type="button" class="btn btn-outline">Sign out from all other sessions</button>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="preferences">
+                <div class="settings-panel__header">
+                  <h3>Preferences</h3>
+                  <p class="settings-panel__desc">Adjust language, currency, time, and theme options.</p>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="form-field">
+                    <label class="form-label" for="preferences-language">Interface language</label>
+                    <select id="preferences-language" class="form-control">
+                      <option value="en">English</option>
+                      <option value="ar">Arabic</option>
+                      <option value="tr">Turkish</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label" for="preferences-currency">Default currency</label>
+                    <select id="preferences-currency" class="form-control">
+                      <option value="usd">USD</option>
+                      <option value="eur">EUR</option>
+                      <option value="try">TRY</option>
+                      <option value="egp">EGP</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label" for="preferences-timezone">Time zone</label>
+                    <select id="preferences-timezone" class="form-control">
+                      <option value="utc-5">UTC-05:00 Eastern Time (US &amp; Canada)</option>
+                      <option value="utc+1">UTC+01:00 Central Europe</option>
+                      <option value="utc+2">UTC+02:00 Cairo, Egypt</option>
+                      <option value="utc+3">UTC+03:00 Istanbul, Turkey</option>
+                    </select>
+                  </div>
+
+                  <div class="settings-form-group">
+                    <p class="form-label">Date format</p>
+                    <div class="settings-preference-options">
+                      <label>
+                        <input type="radio" name="preferences-date" value="ddmmyyyy" checked />
+                        DD/MM/YYYY
+                      </label>
+                      <label>
+                        <input type="radio" name="preferences-date" value="mmddyyyy" />
+                        MM/DD/YYYY
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="settings-form-group">
+                    <p class="form-label">Theme</p>
+                    <div class="settings-preference-options settings-preference-options--theme">
+                      <label class="settings-theme-option">
+                        <input type="radio" name="preferences-theme" value="system" data-preview="System default" checked />
+                        System
+                      </label>
+                      <label class="settings-theme-option">
+                        <input type="radio" name="preferences-theme" value="light" data-preview="Light theme" />
+                        Light
+                      </label>
+                      <label class="settings-theme-option">
+                        <input type="radio" name="preferences-theme" value="dark" data-preview="Dark theme" />
+                        Dark
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="preferences-preview">
+                    <p class="preferences-preview__label">Preview</p>
+                    <div class="preferences-preview__card">
+                      <p class="preferences-preview__title">Impact snapshot</p>
+                      <p class="preferences-preview__subtitle">Donations | Monthly</p>
+                      <p class="preferences-preview__theme" data-theme-preview-value>Theme: System default</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>
