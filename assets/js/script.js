@@ -1,6 +1,9 @@
 (() => {
   "use strict";
 
+  // UI-only module: it wires up behaviors (menus, toggles, charts) without injecting campaign/donation data.
+  // Data points live in the markup, so the backend can later replace them without touching this script.
+
   // Utility helper to read CSS variables
   const getCssVar = (variable) => getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
 
@@ -133,8 +136,12 @@
   const DONATIONS_VIEW_STORAGE_KEY = "dd_donations_view_mode";
   const DONORS_VIEW_STORAGE_KEY = "dd_donors_view_mode";
   const mobileQuery = window.matchMedia("(max-width: 1023px)");
+
+  // These arrays are only mock labels while we wait for the backend to render the real chart data in HTML.
   const barCategories = ["Education", "Healthcare", "Emergency Relief", "Operations", "Community"];
   const donutLabels = ["One-time", "Recurring", "Corporate", "In-kind"];
+
+  // Sample region metadata used for theming/placeholders until backend-driven map markers arrive in the DOM.
   const REGIONS_SAMPLE = [
     {
       id: "nairobi",
@@ -373,6 +380,7 @@
   };
 
   // Persist theme preference and wire up toggle
+  // Maintain the theme toggle and persist the preference so charts and the map stay in sync with the selected palette.
   const initThemeToggle = () => {
     const themeToggle = document.querySelector(".js-theme-toggle");
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -391,6 +399,7 @@
   };
 
   // Handle sidebar for mobile (slide over) and desktop (collapse)
+  // Manage the sidebar's mobile overlay vs desktop collapse behavior without injecting business data.
   const initSidebar = () => {
     const app = document.querySelector(".app");
     const sidebar = document.querySelector(".sidebar");
@@ -464,6 +473,7 @@
   };
 
   // Build ApexCharts instances with responsive options
+  // Build ApexCharts instances with placeholder series so the UI is ready for backend data once HTML is populated.
   const buildCharts = () => {
     if (typeof ApexCharts === "undefined") return;
 
@@ -4050,52 +4060,715 @@
     }
   };
 
-  const initSettingsPage = () => {
-    const page = document.querySelector(".settings-page");
-    if (!page) return;
+    const initSettingsPage = () => {
+      const page = document.querySelector(".settings-page");
+      if (!page) return;
 
-    const navItems = Array.from(page.querySelectorAll(".settings-nav__item"));
-    const panels = Array.from(page.querySelectorAll(".settings-panel"));
-    const previewLabel = page.querySelector("[data-theme-preview-value]");
-    const themeRadios = Array.from(page.querySelectorAll('input[name="preferences-theme"]'));
+      const navItems = Array.from(page.querySelectorAll(".settings-nav__item"));
+      const panels = Array.from(page.querySelectorAll(".settings-panel"));
+      const previewLabel = page.querySelector("[data-theme-preview-value]");
+      const themeRadios = Array.from(page.querySelectorAll('input[name="preferences-theme"]'));
 
-    const activateTab = (tab) => {
-      if (!tab) return;
+      const activateTab = (tab) => {
+        if (!tab) return;
+        navItems.forEach((item) => {
+          item.classList.toggle("is-active", item.dataset.settingsTab === tab);
+        });
+
+        panels.forEach((panel) => {
+          panel.classList.toggle("settings-panel--active", panel.dataset.settingsPanel === tab);
+        });
+      };
+
+      const updateThemePreview = () => {
+        if (!previewLabel || !themeRadios.length) return;
+        const active = themeRadios.find((radio) => radio.checked);
+        const previewText = active?.dataset?.preview || active?.value || "System default";
+        previewLabel.textContent = `Theme: ${previewText}`;
+      };
+
       navItems.forEach((item) => {
-        item.classList.toggle("is-active", item.dataset.settingsTab === tab);
+        item.addEventListener("click", () => {
+          const tab = item.dataset.settingsTab;
+          activateTab(tab);
+        });
       });
 
-      panels.forEach((panel) => {
-        panel.classList.toggle("settings-panel--active", panel.dataset.settingsPanel === tab);
+      themeRadios.forEach((radio) => {
+        radio.addEventListener("change", updateThemePreview);
       });
+
+      const first = navItems[0];
+      if (first && first.dataset.settingsTab) {
+        activateTab(first.dataset.settingsTab);
+      }
+      updateThemePreview();
     };
 
-    const updateThemePreview = () => {
-      if (!previewLabel || !themeRadios.length) return;
-      const active = themeRadios.find((radio) => radio.checked);
-      const previewText = active?.dataset?.preview || active?.value || "System default";
-      previewLabel.textContent = `Theme: ${previewText}`;
+    const ROLE_DEFAULT_PERMS = {
+      admin: [
+        "campaigns.view",
+        "campaigns.edit",
+        "donations.view",
+        "donations.refund",
+        "donors.view",
+        "donors.edit",
+        "messages.send",
+        "messages.bulk",
+        "finance.view",
+        "finance.reconcile",
+        "finance.payouts",
+        "settings.general",
+        "settings.integrations",
+        "team.manage",
+        "security.view-audit",
+      ],
+      manager: [
+        "campaigns.view",
+        "campaigns.edit",
+        "donations.view",
+        "donors.view",
+        "messages.send",
+      ],
+      finance: ["donations.view", "finance.view", "finance.reconcile", "finance.payouts"],
+      support: ["donors.view", "messages.send"],
+      viewer: ["campaigns.view", "donations.view", "donors.view"],
     };
 
-    navItems.forEach((item) => {
-      item.addEventListener("click", () => {
-        const tab = item.dataset.settingsTab;
-        activateTab(tab);
+    const initTeamPage = () => {
+      const root = document.querySelector(".team-page");
+      if (!root) return;
+
+      const tabs = root.querySelectorAll(".team-tab");
+      const panels = root.querySelectorAll(".team-panel");
+      const memberRows = Array.from(root.querySelectorAll(".team-member-row"));
+      const memberCards = Array.from(root.querySelectorAll("[data-member-panel]"));
+      const panel = root.querySelector(".team-member-panel");
+      const panelBackdrop = panel?.querySelector("[data-panel-backdrop]");
+      const panelClose = panel?.querySelector("[data-panel-close]");
+      const panelTitle = panel?.querySelector("[data-panel-title]");
+      const panelEmail = panel?.querySelector("[data-panel-email]");
+
+      const filterSelects = Array.from(root.querySelectorAll(".team-filter select"));
+      const filterSelectsByName = new Map();
+      const chipContainer = root.querySelector(".team-filter-chips");
+      const chipList = root.querySelector(".team-filter-chip-list");
+      const chipLabel = root.querySelector(".team-filter-chips__label");
+      const clearFiltersBtn = root.querySelector("[data-clear-filters]");
+      const activeFilters = new Map();
+
+      const actionDropdowns = Array.from(root.querySelectorAll(".more-actions-dropdown"));
+      let openActionDropdown = null;
+      const roleItems = Array.from(root.querySelectorAll(".roles-list__item"));
+      const rolePanels = Array.from(root.querySelectorAll("[data-role-panel]"));
+      const permToggleButtons = Array.from(root.querySelectorAll("[data-perm-toggle-group]"));
+      const memberActionToggles = Array.from(root.querySelectorAll("[data-member-action-toggle]"));
+      const memberActionMenus = Array.from(root.querySelectorAll("[data-member-action-menu]"));
+      let openMemberActionMenu = null;
+
+      const invitePanel = document.querySelector(".invite-panel");
+      const inviteModeButtons = invitePanel ? Array.from(invitePanel.querySelectorAll("[data-invite-mode]")) : [];
+      const inviteForm = invitePanel?.querySelector(".invite-form");
+      const inviteRole = invitePanel?.querySelector("#invite-role");
+      const inviteEmail = invitePanel?.querySelector("#invite-email");
+      const invitePreviewRole = invitePanel?.querySelector("[data-preview-role]");
+      const invitePreviewEmail = invitePanel?.querySelector("[data-preview-email]");
+      const invitePreviewScopes = invitePanel?.querySelector("[data-preview-scopes]");
+      const inviteScopeInputs = invitePanel ? Array.from(invitePanel.querySelectorAll("input[name=\"inviteScope\"]")) : [];
+
+      const isTabletOrSmaller = () => window.innerWidth <= 1024;
+
+      const activateTab = (id) => {
+        tabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.teamTab === id));
+        panels.forEach((panelElement) =>
+          panelElement.classList.toggle("team-panel--active", panelElement.dataset.teamPanel === id)
+        );
+      };
+
+      const updatePanelHeader = (row) => {
+        if (!row) return;
+        if (panelTitle) panelTitle.textContent = row.dataset.memberName || "";
+        if (panelEmail) panelEmail.textContent = row.dataset.memberEmail || "";
+      };
+
+      const openMemberPanel = () => {
+        if (!panel) return;
+        panel.classList.add("is-open");
+        panel.setAttribute("aria-hidden", "false");
+      };
+
+      const closeMemberPanel = () => {
+        if (!panel) return;
+        panel.classList.remove("is-open");
+        panel.setAttribute("aria-hidden", "true");
+      };
+
+      const setActiveMember = (id, rowRef) => {
+        if (!id) return;
+        const targetRow = rowRef || memberRows.find((row) => row.dataset.memberId === id);
+        memberRows.forEach((row) => row.classList.toggle("is-active", row.dataset.memberId === id));
+        memberCards.forEach((card) => card.classList.toggle("is-active", card.dataset.memberPanel === id));
+        updatePanelHeader(targetRow);
+        openMemberPanel();
+      };
+
+      const renderFilterChips = () => {
+        if (!chipList || !chipContainer) return;
+        chipList.innerHTML = "";
+        const hasFilters = activeFilters.size > 0;
+        chipContainer.classList.toggle("is-empty", !hasFilters);
+        if (chipLabel) chipLabel.setAttribute("aria-hidden", hasFilters ? "false" : "true");
+        if (clearFiltersBtn) clearFiltersBtn.disabled = !hasFilters;
+
+        activeFilters.forEach((meta, key) => {
+          const chip = document.createElement("span");
+          chip.className = "team-filter-chip";
+          chip.dataset.filterChip = key;
+          chip.textContent = `${meta.label}: ${meta.displayValue}`;
+          const removeBtn = document.createElement("button");
+          removeBtn.type = "button";
+          removeBtn.className = "team-filter-chip-remove";
+          removeBtn.setAttribute("aria-label", `Remove ${meta.label} filter`);
+          removeBtn.textContent = "✕";
+          removeBtn.addEventListener("click", () => {
+            const select = filterSelectsByName.get(key);
+            if (select) {
+              select.value = select.dataset.defaultValue || "all";
+              handleFilterChange(select);
+            }
+          });
+          chip.appendChild(removeBtn);
+          chipList.appendChild(chip);
+        });
+      };
+
+      const handleFilterChange = (select) => {
+        const name = select.dataset.filterName;
+        if (!name) return;
+        const label = select.dataset.filterLabel || select.name || name;
+        const defaultValue = select.dataset.defaultValue || "all";
+        if (select.value === defaultValue) {
+          activeFilters.delete(name);
+        } else {
+          const displayValue = select.options[select.selectedIndex]?.textContent.trim() || select.value;
+          activeFilters.set(name, { label, displayValue, value: select.value });
+        }
+        renderFilterChips();
+      };
+
+      const resetFilters = () => {
+        filterSelects.forEach((select) => {
+          const defaultValue = select.dataset.defaultValue || "all";
+          select.value = defaultValue;
+        });
+        activeFilters.clear();
+        renderFilterChips();
+      };
+
+      const closeActionDropdowns = () => {
+        actionDropdowns.forEach((dropdown) => {
+          dropdown.classList.remove("is-open");
+          const toggle = dropdown.querySelector("[data-action-toggle]");
+          if (toggle) toggle.setAttribute("aria-expanded", "false");
+        });
+        openActionDropdown = null;
+      };
+
+      const toggleActionDropdown = (dropdown) => {
+        const toggle = dropdown.querySelector("[data-action-toggle]");
+        if (!toggle) return;
+        const shouldOpen = !dropdown.classList.contains("is-open");
+        closeActionDropdowns();
+        if (shouldOpen) {
+          dropdown.classList.add("is-open");
+          toggle.setAttribute("aria-expanded", "true");
+          openActionDropdown = dropdown;
+        }
+      };
+
+      const updateInvitePreview = () => {
+        if (invitePreviewRole && inviteRole) {
+          const label = inviteRole.selectedOptions[0]?.textContent.trim() || "Manager";
+          invitePreviewRole.textContent = `Role: ${label}`;
+        }
+        if (invitePreviewEmail) {
+          const emailValue = inviteEmail?.value.trim() || "name@organization.org";
+          invitePreviewEmail.textContent = `Email: ${emailValue}`;
+        }
+        if (invitePreviewScopes) {
+          invitePreviewScopes.innerHTML = "";
+          const selections = inviteScopeInputs
+            .filter((input) => input.checked)
+            .map((input) => input.closest("label")?.textContent.trim() || input.value);
+          if (!selections.length) {
+            const placeholder = document.createElement("li");
+            placeholder.textContent = "Default workspace access";
+            invitePreviewScopes.appendChild(placeholder);
+          } else {
+            selections.forEach((text) => {
+              const item = document.createElement("li");
+              item.textContent = text;
+              invitePreviewScopes.appendChild(item);
+            });
+          }
+        }
+      };
+
+      const setInviteMode = (mode) => {
+        if (!inviteForm) return;
+        const isAdvanced = mode === "advanced";
+        inviteForm.classList.toggle("is-advanced", isAdvanced);
+        inviteModeButtons.forEach((button) => {
+          const isActive = button.dataset.inviteMode === mode;
+          button.classList.toggle("is-active", isActive);
+        });
+        updateInvitePreview();
+      };
+
+      const openInvitePanel = () => {
+        if (!invitePanel) return;
+        invitePanel.classList.add("is-open");
+        invitePanel.setAttribute("aria-hidden", "false");
+        inviteEmail?.focus();
+      };
+
+      const closeInvitePanel = () => {
+        if (!invitePanel) return;
+        invitePanel.classList.remove("is-open");
+        invitePanel.setAttribute("aria-hidden", "true");
+      };
+
+      const handleDocumentClick = (event) => {
+        if (panel && panel.classList.contains("is-open") && isTabletOrSmaller()) {
+          const target = event.target;
+          if (!target.closest(".team-member-panel") && !target.closest(".team-member-row__button")) {
+            closeMemberPanel();
+          }
+        }
+        if (openActionDropdown && !event.target.closest(".more-actions-dropdown")) {
+          closeActionDropdowns();
+        }
+        if (openMemberActionMenu && !event.target.closest("[data-member-actions]")) {
+          closeMemberActionMenus();
+        }
+      };
+
+      const applyRolePermissions = (roleId) => {
+        if (!roleId) return;
+        const panel = rolePanels.find((rolePanel) => rolePanel.dataset.rolePanel === roleId);
+        if (!panel) return;
+        const allowed = new Set(ROLE_DEFAULT_PERMS[roleId] || []);
+        panel.querySelectorAll("input[data-perm-key]").forEach((input) => {
+          const key = input.dataset.permKey;
+          input.checked = !!allowed.has(key);
+        });
+      };
+
+      const setActiveRole = (roleId) => {
+        if (!roleId) return;
+        roleItems.forEach((item) => {
+          item.classList.toggle("is-active", item.dataset.roleId === roleId);
+        });
+        rolePanels.forEach((panelElement) => {
+          panelElement.classList.toggle("is-active", panelElement.dataset.rolePanel === roleId);
+        });
+        applyRolePermissions(roleId);
+      };
+
+      const handlePermToggle = (button) => {
+        const section = button.closest(".perm-section");
+        if (!section) return;
+        const inputs = Array.from(section.querySelectorAll("input[data-perm-key]"));
+        if (!inputs.length) return;
+        const shouldCheck = inputs.some((input) => !input.checked);
+        inputs.forEach((input) => {
+          input.checked = shouldCheck;
+        });
+      };
+
+      const closeMemberActionMenus = () => {
+        memberActionMenus.forEach((menu) => menu.classList.remove("is-open"));
+        memberActionToggles.forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+        openMemberActionMenu = null;
+      };
+
+      const toggleMemberActionMenu = (toggle) => {
+        if (!toggle) return;
+        const menuId = toggle.getAttribute("aria-controls");
+        const menu =
+          (menuId ? root.querySelector(`#${menuId}`) : null) ||
+          toggle.nextElementSibling;
+        if (!menu) return;
+        const isOpen = menu.classList.contains("is-open");
+        closeMemberActionMenus();
+        if (!isOpen) {
+          menu.classList.add("is-open");
+          toggle.setAttribute("aria-expanded", "true");
+          openMemberActionMenu = menu;
+        }
+      };
+
+      const handleEscape = (event) => {
+        if (event.key !== "Escape") return;
+        closeMemberPanel();
+        closeInvitePanel();
+        closeActionDropdowns();
+      };
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const id = tab.dataset.teamTab;
+          if (id) activateTab(id);
+        });
       });
-    });
 
-    themeRadios.forEach((radio) => {
-      radio.addEventListener("change", updateThemePreview);
-    });
+      memberRows.forEach((row) => {
+        const button = row.querySelector(".team-member-row__button");
+        button?.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const id = row.dataset.memberId;
+          setActiveMember(id, row);
+        });
+      });
 
-    const first = navItems[0];
-    if (first && first.dataset.settingsTab) {
-      activateTab(first.dataset.settingsTab);
+      filterSelects.forEach((select) => {
+        const name = select.dataset.filterName;
+        if (name) {
+          filterSelectsByName.set(name, select);
+        }
+        select.addEventListener("change", () => handleFilterChange(select));
+      });
+
+      clearFiltersBtn?.addEventListener("click", (event) => {
+        event.preventDefault();
+        resetFilters();
+      });
+
+      actionDropdowns.forEach((dropdown) => {
+        const toggle = dropdown.querySelector("[data-action-toggle]");
+        if (!toggle) return;
+        toggle.addEventListener("click", (event) => {
+          event.stopPropagation();
+          toggleActionDropdown(dropdown);
+        });
+      });
+
+      roleItems.forEach((item) => {
+        const button = item.querySelector(".roles-list__button");
+        button?.addEventListener("click", () => {
+          const id = item.dataset.roleId;
+          if (id) setActiveRole(id);
+        });
+      });
+
+      permToggleButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          handlePermToggle(button);
+        });
+      });
+
+      memberActionToggles.forEach((toggle) => {
+        toggle.addEventListener("click", (event) => {
+          event.stopPropagation();
+          toggleMemberActionMenu(toggle);
+        });
+      });
+
+      memberActionMenus.forEach((menu) => {
+        menu.addEventListener("click", (event) => {
+          const actionTarget = event.target.closest("[data-member-action]");
+          if (actionTarget) {
+            closeMemberActionMenus();
+          }
+        });
+      });
+
+      panelBackdrop?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (isTabletOrSmaller()) {
+          closeMemberPanel();
+        }
+      });
+      panelClose?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closeMemberPanel();
+      });
+
+      document.addEventListener("click", handleDocumentClick);
+      document.addEventListener("keydown", handleEscape);
+
+      if (invitePanel) {
+        const openButtons = document.querySelectorAll("[data-open-invite]");
+        const closeButtons = invitePanel.querySelectorAll("[data-invite-close]");
+        openButtons.forEach((btn) => btn.addEventListener("click", openInvitePanel));
+        closeButtons.forEach((btn) => btn.addEventListener("click", closeInvitePanel));
+
+        inviteModeButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const mode = button.dataset.inviteMode;
+            if (mode) {
+              setInviteMode(mode);
+            }
+          });
+        });
+
+        inviteRole?.addEventListener("change", updateInvitePreview);
+        inviteEmail?.addEventListener("input", updateInvitePreview);
+        inviteScopeInputs.forEach((input) => input.addEventListener("change", updateInvitePreview));
+
+        inviteForm?.addEventListener("submit", (event) => {
+          event.preventDefault();
+          closeInvitePanel();
+        });
+
+        setInviteMode("quick");
+      }
+
+      const firstMember = root.querySelector(".team-member-row[data-member-id]");
+      if (firstMember) {
+        setActiveMember(firstMember.dataset.memberId, firstMember);
+      }
+
+      setActiveRole("admin");
+
+      resetFilters();
+      activateTab("members");
+    };
+
+  // Wire the export modal UI and toasts without touching backend export payloads; data remains in the markup for now.
+  const initExportsPage = () => {
+    const root = document.querySelector(".exports-page");
+    if (!root) return;
+
+    const panel = document.querySelector(".export-panel");
+    const openBtn = root.querySelector("[data-open-export-panel]");
+    const closeEls = panel ? Array.from(panel.querySelectorAll("[data-export-close]")) : [];
+    const toast = root.querySelector("[data-export-toast]");
+    let toastTimer;
+    const toastDefault = toast?.textContent?.trim() || "";
+
+    const showToast = (message) => {
+      if (!toast) return;
+      const text = message || toastDefault;
+      toast.textContent = text;
+      toast.classList.add("is-visible");
+      if (toastTimer) {
+        clearTimeout(toastTimer);
+      }
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("is-visible");
+        toast.textContent = toastDefault;
+      }, 3200);
+    };
+
+    const openPanel = () => {
+      if (!panel) return;
+      panel.classList.add("is-open");
+      panel.setAttribute("aria-hidden", "false");
+      const focusTarget = panel.querySelector("#export-type");
+      if (focusTarget) {
+        focusTarget.focus();
+      }
+    };
+
+    const closePanel = () => {
+      if (!panel) return;
+      panel.classList.remove("is-open");
+      panel.setAttribute("aria-hidden", "true");
+    };
+
+    if (openBtn && panel) {
+      openBtn.addEventListener("click", openPanel);
     }
-    updateThemePreview();
+
+    closeEls.forEach((el) => el.addEventListener("click", closePanel));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closePanel();
+      }
+    });
+
+    const formatGroup = panel && panel.querySelector("[data-export-format-group]");
+    if (formatGroup) {
+      const pills = Array.from(formatGroup.querySelectorAll(".pill-toggle"));
+      pills.forEach((pill) => {
+        pill.addEventListener("click", () => {
+          pills.forEach((current) => current.classList.remove("is-active"));
+          pill.classList.add("is-active");
+        });
+      });
+    }
+
+    const form = panel && panel.querySelector(".export-form");
+    if (form) {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        closePanel();
+        showToast("Export created – it will appear in history shortly.");
+      });
+    }
+
+    const actionButtons = document.querySelectorAll("[data-export-action]");
+    actionButtons.forEach((control) => {
+      control.addEventListener("click", (event) => {
+        const action = control.dataset.exportAction;
+        const target = control.dataset.exportTarget || "this export";
+        if (control.tagName === "A") {
+          event.preventDefault();
+        }
+        let message = "";
+        if (action === "download") {
+          message = `Download prepared for ${target} (mock).`;
+        } else if (action === "actions") {
+          message = `More actions menu for ${target} will arrive soon.`;
+        } else if (action === "edit-schedule") {
+          message = `Schedule editor for ${target} is coming soon.`;
+        }
+        if (message) {
+          showToast(message);
+        }
+      });
+    });
   };
 
-  const initDonationDetailsPage = () => {
+  const initIntegrationsPage = () => {
+    const root = document.querySelector(".integrations-page");
+    if (!root) return;
+
+    const pills = Array.from(root.querySelectorAll(".filter-pill"));
+    const cards = Array.from(root.querySelectorAll(".integration-card"));
+    const searchInput = root.querySelector("[data-integration-search]");
+    let currentCategory = "all";
+
+    const filterCards = () => {
+      const query = (searchInput?.value || "").trim().toLowerCase();
+      cards.forEach((card) => {
+        const cardCategory = card.getAttribute("data-category") || "all";
+        const cardName =
+          (card.dataset.integrationName || card.querySelector("h3")?.textContent || "").toLowerCase();
+        const matchesCategory = currentCategory === "all" || cardCategory === currentCategory;
+        const matchesSearch = !query || cardName.includes(query);
+        card.style.display = matchesCategory && matchesSearch ? "" : "none";
+      });
+    };
+
+    pills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        const category = pill.getAttribute("data-category");
+        if (!category) return;
+        currentCategory = category;
+        pills.forEach((candidate) => candidate.classList.toggle("is-active", candidate === pill));
+        filterCards();
+      });
+    });
+
+    searchInput?.addEventListener("input", filterCards);
+    filterCards();
+
+    const panel = document.querySelector(".integration-panel");
+    if (!panel) return;
+
+    const panelTitle = panel.querySelector(".integration-panel__name");
+    const panelMeta = panel.querySelector("[data-panel-subtitle]");
+    const panelIntro = panel.querySelector("[data-panel-intro]");
+    const panelStatus = panel.querySelector("[data-panel-status]");
+    const panelStatusText = panel.querySelector("[data-panel-status-text]");
+    const panelLogo = panel.querySelector(".integration-panel__logo");
+
+    const populatePanel = (card) => {
+      if (!card) return;
+      const name = (card.dataset.integrationName || card.querySelector("h3")?.textContent || "").trim();
+      const subtitle = card.dataset.panelSubtitle || "";
+      const intro = card.dataset.panelIntro || "";
+      const statusText = card.dataset.panelStatusText || "";
+      const statusVariant = card.dataset.status || "connected";
+      const statusLabel =
+        card.dataset.statusLabel ||
+        statusVariant.charAt(0).toUpperCase() + statusVariant.slice(1).replace(/-/g, " ");
+      const logoText = (card.dataset.panelLogo || name.charAt(0) || "").toUpperCase();
+
+      if (panelTitle) panelTitle.textContent = name;
+      if (panelMeta) panelMeta.textContent = subtitle;
+      if (panelIntro) panelIntro.textContent = intro;
+      if (panelStatusText) panelStatusText.textContent = statusText;
+      if (panelLogo) panelLogo.textContent = logoText;
+      if (panelStatus) {
+        panelStatus.textContent = statusLabel;
+        panelStatus.className = "integration-status";
+        panelStatus.classList.add(`integration-status--${statusVariant}`);
+      }
+    };
+
+    const openPanel = () => {
+      panel.classList.add("is-open");
+      panel.setAttribute("aria-hidden", "false");
+    };
+
+    const closePanel = () => {
+      panel.classList.remove("is-open");
+      panel.setAttribute("aria-hidden", "true");
+    };
+
+    const openButtons = root.querySelectorAll("[data-open-integration-panel]");
+    const closeEls = panel.querySelectorAll("[data-integration-close]");
+
+    openButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const integrationId = btn.dataset.openIntegrationPanel;
+        const card =
+          (integrationId && root.querySelector(`[data-integration-id="${integrationId}"]`)) ||
+          btn.closest(".integration-card");
+        if (card) {
+          populatePanel(card);
+        }
+        openPanel();
+      });
+    });
+
+    closeEls.forEach((el) => el.addEventListener("click", closePanel));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closePanel();
+      }
+    });
+  };
+
+    const initAccessAuditPage = () => {
+      const root = document.querySelector(".access-audit-page");
+      if (!root) return;
+
+      const panel = document.querySelector(".audit-panel");
+      if (!panel) return;
+
+      const openButtons = root.querySelectorAll("[data-open-audit-panel]");
+      const closeEls = panel.querySelectorAll("[data-audit-close]");
+
+      const openPanel = () => {
+        panel.classList.add("is-open");
+      };
+
+      const closePanel = () => {
+        panel.classList.remove("is-open");
+      };
+
+      openButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          openPanel();
+        });
+      });
+
+      closeEls.forEach((el) => el.addEventListener("click", closePanel));
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closePanel();
+        }
+      });
+    };
+
+    const initDonationDetailsPage = () => {
     const page = document.querySelector(".donation-details-page");
     if (!page) return;
 
@@ -4135,6 +4808,12 @@
     initDonorNewPage && initDonorNewPage();
     initMessagesPage();
     initSettingsPage();
+      initTeamPage();
+      initIntegrationsPage();
+      initAccessAuditPage();
+      if (typeof initExportsPage === "function") {
+      initExportsPage();
+    }
 
     const markAllNotifications = document.querySelector(".js-mark-notifications");
     if (markAllNotifications) {

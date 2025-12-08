@@ -1,0 +1,850 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard - Access audit</title>
+  <meta name="description"
+    content="Review sign-ins, role changes, and high-risk activity for the Donations Dashboard." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/access-audit" />
+  <meta property="og:title" content="Donations Dashboard - Access audit" />
+  <meta property="og:description"
+    content="Review sign-ins, role changes, and high-risk activity for the Donations Dashboard." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/access-audit" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Access audit" />
+  <meta name="twitter:description"
+    content="Review sign-ins, role changes, and high-risk activity for the Donations Dashboard." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <!-- Main sections -->
+        <a class="sidebar__link " href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual donations</span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- More submenu -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink active">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Access audit</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="audit-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="audit-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">3 campaigns ending soon</p>
+                    <p class="notification-meta">Today &bull; Campaigns</p>
+                  </div>
+                  <span class="notification-time">2m</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donation: $500 for "Healthcare Fund"</p>
+                    <p class="notification-meta">5h &bull; Donations</p>
+                  </div>
+                  <span class="notification-time">5h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Payout scheduled for tomorrow</p>
+                    <p class="notification-meta">Yesterday &bull; Finance</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar-progress">
+                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                  <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
+                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
+                    stroke-dashoffset="38.5"></circle>
+                </svg>
+                <div class="avatar" aria-hidden="true">JL</div>
+              </div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content access-audit-page">
+        <header class="access-audit-header section-block">
+          <div>
+            <p class="audit-breadcrumb text-muted">Dashboard / Team / Access audit</p>
+            <h1>Access audit</h1>
+            <p class="text-muted">Review sign-ins, permission changes, and security-sensitive activity.</p>
+          </div>
+          <div class="access-audit-header__actions">
+            <span class="audit-pill">Stored for 90 days</span>
+            <a href="exports.html#logs" class="btn btn-ghost btn-small">Export logs</a>
+            <a href="settings.html#security" class="btn btn-ghost btn-small">Security settings</a>
+          </div>
+        </header>
+
+        <section class="audit-filters card">
+          <div class="audit-filters__row">
+            <div class="audit-filters__group">
+              <label for="audit-date-range">Date range</label>
+              <select id="audit-date-range">
+                <option>Last 24 hours</option>
+                <option selected>Last 7 days</option>
+                <option>Last 30 days</option>
+                <option>Last 90 days</option>
+              </select>
+            </div>
+            <div class="audit-filters__group">
+              <label for="audit-event-type">Event type</label>
+              <select id="audit-event-type">
+                <option>All events</option>
+                <option>Sign-in</option>
+                <option>Role change</option>
+                <option>Permission update</option>
+                <option>Export / download</option>
+                <option>Security</option>
+              </select>
+            </div>
+            <div class="audit-filters__group">
+              <label for="audit-status">Status</label>
+              <select id="audit-status">
+                <option>All</option>
+                <option>Success</option>
+                <option>Failed</option>
+                <option>Warning</option>
+              </select>
+            </div>
+            <div class="audit-filters__group">
+              <label for="audit-actor">Actor</label>
+              <select id="audit-actor">
+                <option>Any user</option>
+                <option>Jordan Lee</option>
+                <option>Priya Nanda</option>
+                <option>Marco Santos</option>
+                <option>Lila Petrov</option>
+              </select>
+            </div>
+          </div>
+          <div class="audit-filters__search">
+            <label for="audit-search-field">Search</label>
+            <input id="audit-search-field" type="search" placeholder="Search by user, IP, event, or resource..."
+              autocomplete="off" />
+          </div>
+        </section>
+        <section class="card audit-table-card">
+          <div class="card__header audit-table-card__header">
+            <div>
+              <p class="eyebrow">Full logs</p>
+              <h2 class="h4">Activity log</h2>
+              <p class="text-muted">Chronological feed of access events.</p>
+            </div>
+            <p class="text-muted audit-table-card__meta">Showing last 500 events (static sample).</p>
+          </div>
+
+          <div class="audit-table-wrapper">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th scope="col">Time</th>
+                  <th scope="col">User</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">Target / resource</th>
+                  <th scope="col">IP &middot; Location</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-log-id="log-1021">
+                  <td data-label="Time">Dec 8, 2025 &middot; 10:21</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Jordan Lee</span>
+                      <span class="audit-user__email text-muted">jordan@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Admin</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Signed in</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Sign-in</span>
+                        <span class="audit-event-chip">User session</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Dashboard</td>
+                  <td data-label="IP &middot; Location">198.51.100.42 &middot; London, UK</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1021">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1022">
+                  <td data-label="Time">Dec 8, 2025 &middot; 09:57</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Priya Nanda</span>
+                      <span class="audit-user__email text-muted">priya@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Manager</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Failed sign-in</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Sign-in</span>
+                        <span class="audit-event-chip">Security</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Dashboard - Incorrect password (3 attempts)</td>
+                  <td data-label="IP &middot; Location">203.0.113.21 &middot; Singapore</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--failed">Failed</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1022">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1023">
+                  <td data-label="Time">Dec 7, 2025 &middot; 18:40</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Marco Santos</span>
+                      <span class="audit-user__email text-muted">marco@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Support</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Role updated</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Role change</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">User: Priya Nanda -&gt; Manager</td>
+                  <td data-label="IP &middot; Location">192.0.2.58 &middot; Lisbon, PT</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1023">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1024">
+                  <td data-label="Time">Dec 7, 2025 &middot; 17:12</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Lila Petrov</span>
+                      <span class="audit-user__email text-muted">lila@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Viewer</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Permissions changed</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Permission update</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Role: Support - 2 permissions added</td>
+                  <td data-label="IP &middot; Location">198.51.100.81 &middot; Berlin, DE</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--warning">Warning</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1024">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1025">
+                  <td data-label="Time">Dec 7, 2025 &middot; 16:40</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Jordan Lee</span>
+                      <span class="audit-user__email text-muted">jordan@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Admin</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Export downloaded</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Export / download</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Donations - Last 30 days (CSV)</td>
+                  <td data-label="IP &middot; Location">198.51.100.42 &middot; London, UK</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1025">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1026">
+                  <td data-label="Time">Dec 6, 2025 &middot; 21:10</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Priya Nanda</span>
+                      <span class="audit-user__email text-muted">priya@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Manager</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">2FA enabled</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Security</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Security settings</td>
+                  <td data-label="IP &middot; Location">203.0.113.21 &middot; Singapore</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1026">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1027">
+                  <td data-label="Time">Dec 6, 2025 &middot; 20:02</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Marco Santos</span>
+                      <span class="audit-user__email text-muted">marco@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Support</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">API token created</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Security</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">API token - reporting-service</td>
+                  <td data-label="IP &middot; Location">192.0.2.180 &middot; Barcelona, ES</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1027">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1028">
+                  <td data-label="Time">Dec 6, 2025 &middot; 15:44</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Lila Petrov</span>
+                      <span class="audit-user__email text-muted">lila@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Support</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Role updated</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Role change</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Role: Viewer -&gt; Support</td>
+                  <td data-label="IP &middot; Location">198.51.100.81 &middot; Berlin, DE</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1028">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1029">
+                  <td data-label="Time">Dec 5, 2025 &middot; 14:33</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Jordan Lee</span>
+                      <span class="audit-user__email text-muted">jordan@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Admin</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Signed in</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Sign-in</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Finance dashboard</td>
+                  <td data-label="IP &middot; Location">198.51.100.42 &middot; London, UK</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1029">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1030">
+                  <td data-label="Time">Dec 5, 2025 &middot; 09:58</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Priya Nanda</span>
+                      <span class="audit-user__email text-muted">priya@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Manager</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Export downloaded</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Export / download</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Donations - Recurring donors (XLSX)</td>
+                  <td data-label="IP &middot; Location">203.0.113.21 &middot; Singapore</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1030">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1031">
+                  <td data-label="Time">Dec 4, 2025 &middot; 17:21</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Marco Santos</span>
+                      <span class="audit-user__email text-muted">marco@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Support</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Failed sign-in</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Sign-in</span>
+                        <span class="audit-event-chip">Security</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Admin console - MFA challenge failure</td>
+                  <td data-label="IP &middot; Location">192.0.2.58 &middot; Lisbon, PT</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--failed">Failed</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1031">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1032">
+                  <td data-label="Time">Dec 4, 2025 &middot; 11:05</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Lila Petrov</span>
+                      <span class="audit-user__email text-muted">lila@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Support</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Permissions changed</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Permission update</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Role: Support - 1 scope removed</td>
+                  <td data-label="IP &middot; Location">198.51.100.81 &middot; Berlin, DE</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--warning">Warning</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1032">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1033">
+                  <td data-label="Time">Dec 3, 2025 &middot; 18:55</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Jordan Lee</span>
+                      <span class="audit-user__email text-muted">jordan@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Admin</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Security alert acknowledged</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Security</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Audit queue</td>
+                  <td data-label="IP &middot; Location">198.51.100.42 &middot; London, UK</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1033">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-log-id="log-1034">
+                  <td data-label="Time">Dec 3, 2025 &middot; 16:02</td>
+                  <td data-label="User">
+                    <div class="audit-user">
+                      <span class="audit-user__name">Priya Nanda</span>
+                      <span class="audit-user__email text-muted">priya@donations.org</span>
+                    </div>
+                  </td>
+                  <td data-label="Role">Manager</td>
+                  <td data-label="Event">
+                    <div class="audit-event-cell">
+                      <span class="audit-event-cell__title">Signed in</span>
+                      <div class="audit-event-cell__chips">
+                        <span class="audit-event-chip">Sign-in</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Target / resource">Team workspace</td>
+                  <td data-label="IP &middot; Location">203.0.113.21 &middot; Singapore</td>
+                  <td data-label="Status">
+                    <span class="audit-status audit-status--success">Success</span>
+                  </td>
+                  <td data-label="Details">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
+                      data-open-audit-panel data-log-id="log-1034">
+                      <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="audit-table-card__footer">
+            <span>Showing 1&ndash;20 of 320 events</span>
+            <div class="audit-table-card__pagination">
+              <button class="btn btn-ghost btn-small" type="button">Previous</button>
+              <div class="audit-table-card__page-indicator">Page 1 of 16</div>
+              <button class="btn btn-ghost btn-small" type="button">Next</button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+  <aside class="audit-panel" aria-hidden="true">
+    <div class="audit-panel__backdrop" data-audit-close></div>
+    <div class="audit-panel__sheet">
+      <header class="audit-panel__header">
+        <div>
+          <h2>Event details</h2>
+          <p class="muted">Read-only metadata for this audit entry.</p>
+        </div>
+        <button type="button" class="icon-button" aria-label="Close" data-audit-close>
+          &times;
+        </button>
+      </header>
+
+      <section class="audit-panel__body">
+        <div class="audit-panel__summary">
+          <div class="audit-panel__summary-main">
+            <span class="audit-status audit-status--success">Success</span>
+            <h3>Signed in</h3>
+            <p>Dec 8, 2025 &middot; 10:21 &middot; From web dashboard</p>
+          </div>
+          <div class="audit-panel__summary-meta">
+            <span class="audit-event-chip">Sign-in</span>
+            <span class="audit-event-chip">User session</span>
+          </div>
+        </div>
+
+        <div class="audit-details-grid">
+          <div class="audit-detail">
+            <h4>User</h4>
+            <p>Jordan Lee &middot; jordan@donations.org</p>
+          </div>
+          <div class="audit-detail">
+            <h4>Role at time of event</h4>
+            <p>Admin</p>
+          </div>
+          <div class="audit-detail">
+            <h4>IP address</h4>
+            <p>198.51.100.42</p>
+          </div>
+          <div class="audit-detail">
+            <h4>Location</h4>
+            <p>London, United Kingdom</p>
+          </div>
+          <div class="audit-detail">
+            <h4>Device / browser</h4>
+            <p>MacBook Pro &middot; Safari 18 &middot; iOS 17</p>
+          </div>
+          <div class="audit-detail">
+            <h4>Session ID</h4>
+            <p>sess_9FJ28S0LM4</p>
+          </div>
+        </div>
+
+        <div class="audit-change-summary">
+          <h4>Change summary</h4>
+          <ul>
+            <li>Role changed from <strong>Viewer</strong> to <strong>Manager</strong>.</li>
+            <li>Granted permission: "View finance exports".</li>
+            <li>Revoked permission: "Delete campaigns".</li>
+          </ul>
+        </div>
+
+        <details class="audit-raw">
+          <summary>Show raw payload</summary>
+          <pre>{
+  "event": "role.updated",
+  "user": "jordan@donations.org",
+  "ip": "198.51.100.42",
+  "meta": { "...": "..." }
+}</pre>
+        </details>
+      </section>
+
+      <footer class="audit-panel__footer">
+        <button type="button" class="btn btn-light" data-audit-close>Close</button>
+        <button type="button" class="btn btn-outline btn-sm">Copy event ID</button>
+      </footer>
+    </div>
+  </aside>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

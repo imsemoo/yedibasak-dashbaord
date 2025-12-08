@@ -1,0 +1,673 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard - Exports</title>
+  <meta name="description" content="Generate exports and reports for campaigns, donors, and finance." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/exports" />
+  <meta property="og:title" content="Donations Dashboard - Exports" />
+  <meta property="og:description" content="Generate exports and reports for campaigns, donors, and finance." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/exports" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Exports" />
+  <meta name="twitter:description" content="Generate exports and reports for campaigns, donors, and finance." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <!-- Main sections -->
+        <a class="sidebar__link " href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link " href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link  " href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual donations</span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- More submenu -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink active">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Exports</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="exports-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="exports-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">3 campaigns ending soon</p>
+                    <p class="notification-meta">Today &bull; Campaigns</p>
+                  </div>
+                  <span class="notification-time">2m</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donation: $500 for "Healthcare Fund"</p>
+                    <p class="notification-meta">5h &bull; Donations</p>
+                  </div>
+                  <span class="notification-time">5h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Payout scheduled for tomorrow</p>
+                    <p class="notification-meta">Yesterday &bull; Finance</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar-progress">
+                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                  <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
+                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
+                    stroke-dashoffset="38.5"></circle>
+                </svg>
+                <div class="avatar" aria-hidden="true">JL</div>
+              </div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content exports-page" id="main-content" tabindex="-1">
+        <header class="page-header" aria-labelledby="exports-page-title">
+          <div>
+            <div class="page-header__breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li>Exports</li>
+              </ol>
+            </div>
+            <div class="page-header__title">
+              <h1 id="exports-page-title" class="h3">Exports &amp; reports</h1>
+              <p class="page-header__subtitle">Generate downloadable reports for campaigns, donors, and finance.</p>
+            </div>
+          </div>
+          <div class="page-header__actions">
+            <button class="btn btn-primary" type="button" data-open-export-panel>New export</button>
+            <a class="btn btn-ghost" href="#scheduled-exports">Scheduled exports</a>
+          </div>
+        </header>
+
+        <div class="exports-toast" aria-live="polite" data-export-toast>
+          Export created &ndash; it will appear in history shortly.
+        </div>
+
+        <section class="card quick-exports-card" aria-labelledby="quick-exports-title">
+          <div class="card__header">
+            <div>
+              <p class="eyebrow">Quick exports</p>
+              <h2 id="quick-exports-title" class="h4">Commonly used export presets.</h2>
+            </div>
+          </div>
+          <div class="quick-exports-grid">
+            <article class="quick-export-card">
+              <div>
+                <h3 class="h5">Donations &ndash; Last 30 days</h3>
+                <p class="text-muted">All donations across active campaigns over the prior month.</p>
+              </div>
+              <div class="quick-export-card__meta">
+                <span>Format: CSV</span>
+                <span>~1,200 rows</span>
+              </div>
+              <div class="quick-export-card__actions">
+                <button class="btn btn-primary btn-small" type="button">Run export</button>
+                <button class="link-button" type="button">Adjust filters</button>
+              </div>
+            </article>
+            <article class="quick-export-card">
+              <div>
+                <h3 class="h5">Donors &ndash; Full list</h3>
+                <p class="text-muted">Includes contact info, giving tier, and last activity.</p>
+              </div>
+              <div class="quick-export-card__meta">
+                <span>Format: XLSX</span>
+                <span>~5,400 rows</span>
+              </div>
+              <div class="quick-export-card__actions">
+                <button class="btn btn-primary btn-small" type="button">Run export</button>
+                <button class="link-button" type="button">Adjust filters</button>
+              </div>
+            </article>
+            <article class="quick-export-card">
+              <div>
+                <h3 class="h5">Campaign performance summary</h3>
+                <p class="text-muted">KPIs for live campaigns and recent closes.</p>
+              </div>
+              <div class="quick-export-card__meta">
+                <span>Format: PDF</span>
+                <span>~320 rows</span>
+              </div>
+              <div class="quick-export-card__actions">
+                <button class="btn btn-primary btn-small" type="button">Run export</button>
+                <button class="link-button" type="button">Adjust filters</button>
+              </div>
+            </article>
+            <article class="quick-export-card">
+              <div>
+                <h3 class="h5">Finance reconciliation (monthly)</h3>
+                <p class="text-muted">Bank, payout, and fees data for finance partners.</p>
+              </div>
+              <div class="quick-export-card__meta">
+                <span>Format: ZIP &middot; CSV + PDF</span>
+                <span>~850 rows</span>
+              </div>
+              <div class="quick-export-card__actions">
+                <button class="btn btn-primary btn-small" type="button">Run export</button>
+                <button class="link-button" type="button">Adjust filters</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="card export-history-card" aria-labelledby="export-history-title">
+          <div class="card__header">
+            <div>
+              <p class="eyebrow">History</p>
+              <h2 id="export-history-title" class="h4">Export history</h2>
+              <p class="text-muted">Review completed, processing, and failed exports.</p>
+            </div>
+            <a class="btn btn-ghost btn-small" href="#">Download logs (CSV)</a>
+          </div>
+          <div class="export-history-toolbar">
+            <div class="export-history-filters">
+              <label class="export-filter">
+                <span class="sr-only">Date range</span>
+                <select>
+                  <option>Last 7 days</option>
+                  <option>Last 30 days</option>
+                  <option>Last 90 days</option>
+                </select>
+              </label>
+              <label class="export-filter">
+                <span class="sr-only">Type</span>
+                <select>
+                  <option>All types</option>
+                  <option>Donations</option>
+                  <option>Donors</option>
+                  <option>Campaigns</option>
+                  <option>Finance</option>
+                </select>
+              </label>
+              <label class="export-filter">
+                <span class="sr-only">Status</span>
+                <select>
+                  <option>All statuses</option>
+                  <option>Processing</option>
+                  <option>Completed</option>
+                  <option>Failed</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table export-history-table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Format</th>
+                  <th scope="col">Rows</th>
+                  <th scope="col">Created</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Name">Donations – Last 30 days</td>
+                  <td data-label="Type">Donations</td>
+                  <td data-label="Format">CSV</td>
+                  <td data-label="Rows">1,247</td>
+                  <td data-label="Created">Dec 8, 2025 · 10:14</td>
+                  <td data-label="Status">
+                    <span class="export-status export-status--completed">Completed</span>
+                  </td>
+                  <td data-label="Actions">
+                    <div class="table-actions">
+                      <a href="#" class="icon-button icon-button--sm" aria-label="Download export"
+                        data-export-action="download" data-export-target="Donations – Last 30 days">
+                        <i class="fas fa-download" aria-hidden="true"></i>
+                      </a>
+                      <button class="icon-button icon-button--sm" type="button" aria-label="More actions"
+                        data-export-action="actions" data-export-target="Donations – Last 30 days">
+                        <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Name">Campaign performance summary</td>
+                  <td data-label="Type">Campaigns</td>
+                  <td data-label="Format">PDF</td>
+                  <td data-label="Rows">312</td>
+                  <td data-label="Created">Dec 7, 2025 · 14:02</td>
+                  <td data-label="Status">
+                    <span class="export-status export-status--processing">Processing</span>
+                  </td>
+                  <td data-label="Actions">
+                      <div class="table-actions">
+                        <a href="#" class="icon-button icon-button--sm" aria-label="Download export"
+                          data-export-action="download" data-export-target="Campaign performance summary">
+                          <i class="fas fa-download" aria-hidden="true"></i>
+                        </a>
+                        <button class="icon-button icon-button--sm" type="button" aria-label="More actions"
+                          data-export-action="actions" data-export-target="Campaign performance summary">
+                          <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Name">Donors – Full list</td>
+                  <td data-label="Type">Donors</td>
+                  <td data-label="Format">XLSX</td>
+                  <td data-label="Rows">4,982</td>
+                  <td data-label="Created">Dec 5, 2025 · 09:18</td>
+                  <td data-label="Status">
+                    <span class="export-status export-status--failed">Failed</span>
+                  </td>
+                  <td data-label="Actions">
+                      <div class="table-actions">
+                        <a href="#" class="icon-button icon-button--sm" aria-label="Download export"
+                          data-export-action="download" data-export-target="Donors – Full list">
+                          <i class="fas fa-download" aria-hidden="true"></i>
+                        </a>
+                        <button class="icon-button icon-button--sm" type="button" aria-label="More actions"
+                          data-export-action="actions" data-export-target="Donors – Full list">
+                          <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Name">Finance reconciliation (monthly)</td>
+                  <td data-label="Type">Finance</td>
+                  <td data-label="Format">ZIP · CSV + PDF</td>
+                  <td data-label="Rows">842</td>
+                  <td data-label="Created">Dec 3, 2025 · 08:44</td>
+                  <td data-label="Status">
+                    <span class="export-status export-status--completed">Completed</span>
+                  </td>
+                  <td data-label="Actions">
+                      <div class="table-actions">
+                        <a href="#" class="icon-button icon-button--sm" aria-label="Download export"
+                          data-export-action="download" data-export-target="Finance reconciliation (monthly)">
+                          <i class="fas fa-download" aria-hidden="true"></i>
+                        </a>
+                        <button class="icon-button icon-button--sm" type="button" aria-label="More actions"
+                          data-export-action="actions" data-export-target="Finance reconciliation (monthly)">
+                          <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Name">Campaign leaderboard digest</td>
+                  <td data-label="Type">Campaigns</td>
+                  <td data-label="Format">PDF</td>
+                  <td data-label="Rows">176</td>
+                  <td data-label="Created">Dec 2, 2025 · 17:20</td>
+                  <td data-label="Status">
+                    <span class="export-status export-status--processing">Processing</span>
+                  </td>
+                  <td data-label="Actions">
+                    <div class="table-actions">
+                      <a href="#" class="icon-button icon-button--sm" aria-label="Download export">
+                        <i class="fas fa-download" aria-hidden="true"></i>
+                      </a>
+                      <button class="icon-button icon-button--sm" type="button" aria-label="More actions">
+                        <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="export-history__pagination">
+            <span>Showing 1&ndash;10 of 42</span>
+            <div class="export-history__pagination-actions">
+              <button class="btn btn-ghost btn-small" type="button">Previous</button>
+              <button class="btn btn-ghost btn-small" type="button">Next</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card scheduled-exports-card" id="scheduled-exports" aria-labelledby="scheduled-exports-title">
+          <div class="card__header">
+            <div>
+              <p class="eyebrow">Automation</p>
+              <h2 id="scheduled-exports-title" class="h4">Scheduled exports</h2>
+              <p class="text-muted">Automatically generate reports and email them to your team.</p>
+            </div>
+          </div>
+          <div class="table-wrapper scheduled-exports-table-wrapper">
+            <table class="data-table scheduled-exports-table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Frequency</th>
+                  <th scope="col">Format</th>
+                  <th scope="col">Recipients</th>
+                  <th scope="col">Next run</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Name">Monthly finance pack</td>
+                  <td data-label="Frequency">Every month on the 1st</td>
+                  <td data-label="Format">ZIP &middot; CSV + PDF</td>
+                  <td data-label="Recipients">finance@donations.org</td>
+                  <td data-label="Next run">Jan 1, 2026</td>
+                  <td data-label="Status"><span class="scheduled-status scheduled-status--active">Active</span></td>
+                  <td data-label="Actions">
+                      <button class="icon-button icon-button--sm" type="button" aria-label="Edit schedule"
+                        data-export-action="edit-schedule" data-export-target="Monthly finance pack">
+                        <i class="fas fa-pen" aria-hidden="true"></i>
+                      </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Name">Weekly donor book</td>
+                  <td data-label="Frequency">Every Monday</td>
+                  <td data-label="Format">CSV</td>
+                  <td data-label="Recipients">engage@donations.org</td>
+                  <td data-label="Next run">Dec 15, 2025</td>
+                  <td data-label="Status"><span class="scheduled-status scheduled-status--paused">Paused</span></td>
+                  <td data-label="Actions">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="Edit schedule"
+                      data-export-action="edit-schedule" data-export-target="Weekly donor book">
+                      <i class="fas fa-pen" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Name">
+                    Campaign leaderboards
+                    <small class="text-muted">Overdue</small>
+                  </td>
+                  <td data-label="Frequency">Daily at 03:00</td>
+                  <td data-label="Format">PDF</td>
+                  <td data-label="Recipients">leadership@donations.org</td>
+                  <td data-label="Next run">Dec 9, 2025</td>
+                  <td data-label="Status"><span class="scheduled-status scheduled-status--active">Active</span></td>
+                  <td data-label="Actions">
+                    <button class="icon-button icon-button--sm" type="button" aria-label="Edit schedule"
+                      data-export-action="edit-schedule" data-export-target="Campaign leaderboards">
+                      <i class="fas fa-pen" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <aside class="export-panel" aria-hidden="true">
+    <div class="export-panel__backdrop" data-export-close></div>
+    <div class="export-panel__sheet">
+      <header class="export-panel__header">
+        <div>
+          <h2>New export</h2>
+          <p>Create a downloadable report with custom filters.</p>
+        </div>
+        <button type="button" class="icon-button" aria-label="Close" data-export-close>
+          &times;
+        </button>
+      </header>
+
+      <form class="export-form">
+        <div class="export-form__group">
+          <label for="export-type">Report type</label>
+          <select id="export-type">
+            <option>Donations</option>
+            <option>Donors</option>
+            <option>Campaign performance</option>
+            <option>Finance reconciliation</option>
+          </select>
+        </div>
+
+        <div class="export-form__group">
+          <label>Date range</label>
+          <div class="input-row">
+            <input type="text" placeholder="Start date" />
+            <span class="input-row__separator">&ndash;</span>
+            <input type="text" placeholder="End date" />
+          </div>
+          <p class="field-hint">Static placeholders only; no real date picker.</p>
+        </div>
+
+        <div class="export-form__group">
+          <label>Format</label>
+          <div class="pill-toggle-group" data-export-format-group>
+            <button type="button" class="pill-toggle is-active" data-format="csv">CSV</button>
+            <button type="button" class="pill-toggle" data-format="xlsx">Excel</button>
+            <button type="button" class="pill-toggle" data-format="pdf">PDF</button>
+          </div>
+        </div>
+
+        <div class="export-form__group">
+          <label>Filters (optional)</label>
+          <label class="checkbox-inline">
+            <input type="checkbox" checked />
+            <span>Only completed donations</span>
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" />
+            <span>Include anonymous donors</span>
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" />
+            <span>Group by campaign</span>
+          </label>
+        </div>
+
+        <div class="export-form__group">
+          <label>Delivery</label>
+          <label class="radio-inline">
+            <input type="radio" name="export-delivery" checked />
+            <span>Download only</span>
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="export-delivery" />
+            <span>Email to me</span>
+          </label>
+        </div>
+
+        <div class="export-form__footer">
+          <button type="button" class="btn btn-light" data-export-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Create export</button>
+        </div>
+      </form>
+    </div>
+  </aside>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

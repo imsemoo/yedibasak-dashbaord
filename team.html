@@ -1,0 +1,1658 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard - Team &amp; Roles</title>
+  <meta name="description" content="Control who can access the Donations Dashboard and what they are allowed to do." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/team" />
+  <meta property="og:title" content="Donations Dashboard - Team &amp; Roles" />
+  <meta property="og:description" content="Control who can access the Donations Dashboard and what they can manage." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/team" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Team &amp; Roles" />
+  <meta name="twitter:description" content="Control who can access the Donations Dashboard and what they can manage." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Donations Dashboard",
+          "url": "https://example.org",
+          "logo": "https://example.org/assets/img/og-image.png"
+        },
+        {
+          "@type": "WebSite",
+          "name": "Donations Dashboard",
+          "url": "https://example.org/dashboard",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://example.org/dashboard/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body data-theme="light">
+  <!-- <a class="skip-link" href="#main-content">Skip to main content</a> -->
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <!-- Main sections -->
+        <a class="sidebar__link " href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+
+        <a class="sidebar__link " href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual donations</span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- More submenu -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu active" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink ">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Overview</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">3 campaigns ending soon</p>
+                    <p class="notification-meta">Today &bull; Campaigns</p>
+                  </div>
+                  <span class="notification-time">2m</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donation: $500 for "Healthcare Fund"</p>
+                    <p class="notification-meta">5h &bull; Donations</p>
+                  </div>
+                  <span class="notification-time">5h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Payout scheduled for tomorrow</p>
+                    <p class="notification-meta">Yesterday &bull; Finance</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar-progress">
+                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                  <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
+                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
+                    stroke-dashoffset="38.5"></circle>
+                </svg>
+                <div class="avatar" aria-hidden="true">JL</div>
+              </div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content team-page" id="main-content" tabindex="-1">
+        <div class="page-header__breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="index.html">Dashboard</a></li>
+            <li>Team</li>
+          </ol>
+        </div>
+        <header class="page-header team-page__header">
+
+          <div>
+            <p class="eyebrow">Team</p>
+            <h1 class="h1">Team &amp; roles</h1>
+            <p class="text-muted">Manage who can access the dashboard and what they can do.</p>
+          </div>
+          <div class="team-page__header-actions">
+            <button class="btn btn-primary" type="button" data-open-invite>Invite member</button>
+            <a class="btn btn-ghost" href="access-audit.html" role="button">Access audit</a>
+          </div>
+        </header>
+
+        <div class="team-tabs" role="tablist">
+          <button class="team-tab is-active" type="button" role="tab" data-team-tab="members">Team members</button>
+          <button class="team-tab" type="button" role="tab" data-team-tab="roles">Roles &amp; permissions</button>
+        </div>
+
+        <section class="team-panels">
+          <div class="team-panel team-panel--active" data-team-panel="members">
+            <div class="team-members-layout">
+              <div class="team-members-list">
+                <div class="team-members-toolbar">
+                  <label class="sr-only" for="team-search">Search team by name or email</label>
+                  <div class="team-members-search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input id="team-search" type="search" class="form-control"
+                      placeholder="Search team by name or email" />
+                  </div>
+                  <div class="team-filter">
+                    <label class="sr-only" for="team-role-filter">Filter by role</label>
+                    <select id="team-role-filter" class="form-control" data-filter-name="role" data-default-value="all"
+                      data-filter-label="Role">
+                      <option value="all">Role: All</option>
+                      <option value="admin">Admin</option>
+                      <option value="manager">Manager</option>
+                      <option value="finance">Finance</option>
+                      <option value="support">Support</option>
+                      <option value="viewer">Viewer</option>
+                    </select>
+                  </div>
+                  <div class="team-filter">
+                    <label class="sr-only" for="team-status-filter">Filter by status</label>
+                    <select id="team-status-filter" class="form-control" data-filter-name="status"
+                      data-default-value="all" data-filter-label="Status">
+                      <option value="all">Status: All</option>
+                      <option value="active">Active</option>
+                      <option value="invited">Invited</option>
+                      <option value="suspended">Suspended</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="team-filter-chips is-empty" aria-live="polite">
+                  <span class="team-filter-chips__label">Active filters</span>
+                  <div class="team-filter-chip-list"></div>
+                  <button type="button" class="team-filter-chip-clear" data-clear-filters>Clear all</button>
+                </div>
+                <div class="team-members-rows">
+                  <div class="team-member-row is-active" data-member-id="m-1" data-member-name="Jordan Lee"
+                    data-member-email="jordan@donations.org">
+                    <button class="team-member-row__button" type="button">
+                      <div class="avatar avatar-md" aria-hidden="true">JL</div>
+                      <div class="team-member-row__main">
+                        <div class="team-member-row__top">
+                          <span class="team-member-row__name">Jordan Lee</span>
+                          <span class="badge-role badge-role--admin">Admin</span>
+                        </div>
+                        <div class="team-member-row__meta">
+                          <span class="team-member-row__email">jordan@donations.org</span>
+                          <span class="badge-status badge-status--active badge-small">Active</span>
+                        </div>
+                      </div>
+                      <span class="team-member-row__last-active">Active now</span>
+                    </button>
+                    <div class="team-member-row__actions" data-member-actions="m-1">
+                      <button class="team-member-row__action icon-button" type="button"
+                        aria-label="More actions for Jordan Lee" data-member-action-toggle
+                        aria-controls="member-actions-m-1" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                      </button>
+                      <ul class="team-member-row__action-menu" role="menu" id="member-actions-m-1"
+                        data-member-action-menu>
+                        <li><button type="button" data-member-action="suspend">Suspend access</button></li>
+                        <li><button type="button" data-member-action="remove">Remove from workspace</button></li>
+                        <li><button type="button" data-member-action="reset">Reset password</button></li>
+                        <li><button type="button" data-member-action="audit">View activity log</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="team-member-row" data-member-id="m-2" data-member-name="Priya Nanda"
+                    data-member-email="priya@donations.org">
+                    <button class="team-member-row__button" type="button">
+                      <div class="avatar avatar-md" aria-hidden="true">PN</div>
+                      <div class="team-member-row__main">
+                        <div class="team-member-row__top">
+                          <span class="team-member-row__name">Priya Nanda</span>
+                          <span class="badge-role badge-role--manager">Manager</span>
+                        </div>
+                        <div class="team-member-row__meta">
+                          <span class="team-member-row__email">priya@donations.org</span>
+                          <span class="badge-status badge-status--active badge-small">Active</span>
+                        </div>
+                      </div>
+                      <span class="team-member-row__last-active">Earlier today</span>
+                    </button>
+                    <div class="team-member-row__actions" data-member-actions="m-2">
+                      <button class="team-member-row__action icon-button" type="button"
+                        aria-label="More actions for Priya Nanda" data-member-action-toggle
+                        aria-controls="member-actions-m-2" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                      </button>
+                      <ul class="team-member-row__action-menu" role="menu" id="member-actions-m-2"
+                        data-member-action-menu>
+                        <li><button type="button" data-member-action="suspend">Suspend access</button></li>
+                        <li><button type="button" data-member-action="remove">Remove from workspace</button></li>
+                        <li><button type="button" data-member-action="reset">Reset password</button></li>
+                        <li><button type="button" data-member-action="audit">View activity log</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="team-member-row" data-member-id="m-3" data-member-name="Marco Santos"
+                    data-member-email="marco@donations.org">
+                    <button class="team-member-row__button" type="button">
+                      <div class="avatar avatar-md" aria-hidden="true">MS</div>
+                      <div class="team-member-row__main">
+                        <div class="team-member-row__top">
+                          <span class="team-member-row__name">Marco Santos</span>
+                          <span class="badge-role badge-role--finance">Finance</span>
+                        </div>
+                        <div class="team-member-row__meta">
+                          <span class="team-member-row__email">marco@donations.org</span>
+                          <span class="badge-status badge-status--invited badge-small">Invited</span>
+                        </div>
+                      </div>
+                      <span class="team-member-row__last-active">Invitation sent</span>
+                    </button>
+                    <div class="team-member-row__actions" data-member-actions="m-3">
+                      <button class="team-member-row__action icon-button" type="button"
+                        aria-label="More actions for Marco Santos" data-member-action-toggle
+                        aria-controls="member-actions-m-3" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                      </button>
+                      <ul class="team-member-row__action-menu" role="menu" id="member-actions-m-3"
+                        data-member-action-menu>
+                        <li><button type="button" data-member-action="suspend">Suspend access</button></li>
+                        <li><button type="button" data-member-action="remove">Remove from workspace</button></li>
+                        <li><button type="button" data-member-action="reset">Reset password</button></li>
+                        <li><button type="button" data-member-action="audit">View activity log</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="team-member-row" data-member-id="m-4" data-member-name="Lila Petrov"
+                    data-member-email="lila@donations.org">
+                    <button class="team-member-row__button" type="button">
+                      <div class="avatar avatar-md" aria-hidden="true">LP</div>
+                      <div class="team-member-row__main">
+                        <div class="team-member-row__top">
+                          <span class="team-member-row__name">Lila Petrov</span>
+                          <span class="badge-role badge-role--support">Support</span>
+                        </div>
+                        <div class="team-member-row__meta">
+                          <span class="team-member-row__email">lila@donations.org</span>
+                          <span class="badge-status badge-status--suspended badge-small">Suspended</span>
+                        </div>
+                      </div>
+                      <span class="team-member-row__last-active">Suspended 2d ago</span>
+                    </button>
+                    <div class="team-member-row__actions" data-member-actions="m-4">
+                      <button class="team-member-row__action icon-button" type="button"
+                        aria-label="More actions for Lila Petrov" data-member-action-toggle
+                        aria-controls="member-actions-m-4" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                      </button>
+                      <ul class="team-member-row__action-menu" role="menu" id="member-actions-m-4"
+                        data-member-action-menu>
+                        <li><button type="button" data-member-action="suspend">Suspend access</button></li>
+                        <li><button type="button" data-member-action="remove">Remove from workspace</button></li>
+                        <li><button type="button" data-member-action="reset">Reset password</button></li>
+                        <li><button type="button" data-member-action="audit">View activity log</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="team-member-row" data-member-id="m-5" data-member-name="Theo Morgan"
+                    data-member-email="theo@donations.org">
+                    <button class="team-member-row__button" type="button">
+                      <div class="avatar avatar-md" aria-hidden="true">TM</div>
+                      <div class="team-member-row__main">
+                        <div class="team-member-row__top">
+                          <span class="team-member-row__name">Theo Morgan</span>
+                          <span class="badge-role badge-role--viewer">Viewer</span>
+                        </div>
+                        <div class="team-member-row__meta">
+                          <span class="team-member-row__email">theo@donations.org</span>
+                          <span class="badge-status badge-status--active badge-small">Active</span>
+                        </div>
+                      </div>
+                      <span class="team-member-row__last-active">Yesterday</span>
+                    </button>
+                    <div class="team-member-row__actions" data-member-actions="m-5">
+                      <button class="team-member-row__action icon-button" type="button"
+                        aria-label="More actions for Theo Morgan" data-member-action-toggle
+                        aria-controls="member-actions-m-5" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                      </button>
+                      <ul class="team-member-row__action-menu" role="menu" id="member-actions-m-5"
+                        data-member-action-menu>
+                        <li><button type="button" data-member-action="suspend">Suspend access</button></li>
+                        <li><button type="button" data-member-action="remove">Remove from workspace</button></li>
+                        <li><button type="button" data-member-action="reset">Reset password</button></li>
+                        <li><button type="button" data-member-action="audit">View activity log</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <aside class="team-member-panel" aria-hidden="true">
+                <div class="team-panel-backdrop" data-panel-backdrop></div>
+                <div class="team-member-panel__content">
+                  <div class="team-member-panel__header">
+                    <div>
+                      <p class="eyebrow">Member details</p>
+                      <h3 class="h4" data-panel-title>Jordan Lee</h3>
+                      <p class="text-muted" data-panel-email>jordan@donations.org</p>
+                    </div>
+                    <button class="team-panel-close icon-button" type="button" aria-label="Close member details"
+                      data-panel-close>
+                      <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <div class="team-member-panel__scroll">
+                    <div class="team-member-details-card is-active" data-member-panel="m-1">
+                      <header class="team-member-details__header">
+                        <div class="avatar avatar-lg" aria-hidden="true">JL</div>
+                        <div>
+                          <h3>Jordan Lee</h3>
+                          <p class="text-muted">jordan@donations.org</p>
+                          <div class="tags-inline">
+                            <span class="badge-role badge-role--admin">Admin</span>
+                            <span class="badge-status badge-status--active badge-small">Active</span>
+                          </div>
+                        </div>
+                      </header>
+                      <section class="team-member-details__body">
+                        <div class="details-row">
+                          <span>Role</span>
+                          <select class="form-control">
+                            <option>Admin</option>
+                            <option>Manager</option>
+                            <option>Finance</option>
+                            <option>Support</option>
+                            <option>Viewer</option>
+                          </select>
+                        </div>
+                        <div class="details-row">
+                          <span>Access scope</span>
+                          <p class="text-muted">Full access to campaigns, donors, messages, and settings.</p>
+                        </div>
+                        <div class="details-row">
+                          <span>Last active</span>
+                          <span>Today at 09:24</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Joined</span>
+                          <span>Feb 12, 2024</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Security</span>
+                          <p class="text-muted">2FA enabled ? Logged in from 2 devices.</p>
+                        </div>
+                      </section>
+                      <section class="team-member-activity">
+                        <h4>Recent activity</h4>
+                        <ul>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Jordan updated team role</p>
+                              <span class="text-muted">2h ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Added new member Priya</p>
+                              <span class="text-muted">1d ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Suspended Lila temporarily</p>
+                              <span class="text-muted">2d ago</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </section>
+                      <footer class="team-member-details__footer">
+                        <div class="more-actions-dropdown">
+                          <button class="btn btn-ghost" type="button" data-action-toggle aria-expanded="false">
+                            More actions <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                          </button>
+                          <ul class="more-actions-dropdown__list" role="menu">
+                            <li><button type="button" data-action="suspend">Suspend access</button></li>
+                            <li><button type="button" data-action="remove">Remove from workspace</button></li>
+                            <li><button type="button" data-action="reset">Reset password</button></li>
+                            <li><button type="button" data-action="log">View activity log</button></li>
+                          </ul>
+                        </div>
+                      </footer>
+                    </div>
+                    <div class="team-member-details-card" data-member-panel="m-2">
+                      <header class="team-member-details__header">
+                        <div class="avatar avatar-lg" aria-hidden="true">PN</div>
+                        <div>
+                          <h3>Priya Nanda</h3>
+                          <p class="text-muted">priya@donations.org</p>
+                          <div class="tags-inline">
+                            <span class="badge-role badge-role--manager">Manager</span>
+                            <span class="badge-status badge-status--active badge-small">Active</span>
+                          </div>
+                        </div>
+                      </header>
+                      <section class="team-member-details__body">
+                        <div class="details-row">
+                          <span>Role</span>
+                          <select class="form-control">
+                            <option>Manager</option>
+                            <option>Admin</option>
+                            <option>Finance</option>
+                            <option>Support</option>
+                            <option>Viewer</option>
+                          </select>
+                        </div>
+                        <div class="details-row">
+                          <span>Access scope</span>
+                          <p class="text-muted">Can edit campaigns and review donations.</p>
+                        </div>
+                        <div class="details-row">
+                          <span>Last active</span>
+                          <span>Earlier today</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Joined</span>
+                          <span>Aug 7, 2023</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Security</span>
+                          <p class="text-muted">2FA enabled ? Single device.</p>
+                        </div>
+                      </section>
+                      <section class="team-member-activity">
+                        <h4>Recent activity</h4>
+                        <ul>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Priya reviewed donor insights</p>
+                              <span class="text-muted">5h ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Welcomed Marco to finance</p>
+                              <span class="text-muted">1d ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Updated message workflow</p>
+                              <span class="text-muted">2d ago</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </section>
+                      <footer class="team-member-details__footer">
+                        <div class="more-actions-dropdown">
+                          <button class="btn btn-ghost" type="button" data-action-toggle aria-expanded="false">
+                            More actions <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                          </button>
+                          <ul class="more-actions-dropdown__list" role="menu">
+                            <li><button type="button" data-action="suspend">Suspend access</button></li>
+                            <li><button type="button" data-action="remove">Remove from workspace</button></li>
+                            <li><button type="button" data-action="reset">Reset password</button></li>
+                            <li><button type="button" data-action="log">View activity log</button></li>
+                          </ul>
+                        </div>
+                      </footer>
+                    </div>
+                    <div class="team-member-details-card" data-member-panel="m-3">
+                      <header class="team-member-details__header">
+                        <div class="avatar avatar-lg" aria-hidden="true">MS</div>
+                        <div>
+                          <h3>Marco Santos</h3>
+                          <p class="text-muted">marco@donations.org</p>
+                          <div class="tags-inline">
+                            <span class="badge-role badge-role--finance">Finance</span>
+                            <span class="badge-status badge-status--invited badge-small">Invited</span>
+                          </div>
+                        </div>
+                      </header>
+                      <section class="team-member-details__body">
+                        <div class="details-row">
+                          <span>Role</span>
+                          <select class="form-control">
+                            <option>Finance</option>
+                            <option>Admin</option>
+                            <option>Manager</option>
+                            <option>Support</option>
+                            <option>Viewer</option>
+                          </select>
+                        </div>
+                        <div class="details-row">
+                          <span>Access scope</span>
+                          <p class="text-muted">Finance workspaces and reports only.</p>
+                        </div>
+                        <div class="details-row">
+                          <span>Last active</span>
+                          <span>Invitation pending</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Joined</span>
+                          <span>?</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Security</span>
+                          <p class="text-muted">Awaiting first login.</p>
+                        </div>
+                      </section>
+                      <section class="team-member-activity">
+                        <h4>Recent activity</h4>
+                        <ul>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Marco prepared reconciliation notes</p>
+                              <span class="text-muted">3h ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Reviewed payout approvals</p>
+                              <span class="text-muted">18h ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Shared finance exports</p>
+                              <span class="text-muted">2d ago</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </section>
+                      <footer class="team-member-details__footer">
+                        <div class="more-actions-dropdown">
+                          <button class="btn btn-ghost" type="button" data-action-toggle aria-expanded="false">
+                            More actions <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                          </button>
+                          <ul class="more-actions-dropdown__list" role="menu">
+                            <li><button type="button" data-action="suspend">Suspend access</button></li>
+                            <li><button type="button" data-action="remove">Remove from workspace</button></li>
+                            <li><button type="button" data-action="reset">Reset password</button></li>
+                            <li><button type="button" data-action="log">View activity log</button></li>
+                          </ul>
+                        </div>
+                      </footer>
+                    </div>
+                    <div class="team-member-details-card" data-member-panel="m-4">
+                      <header class="team-member-details__header">
+                        <div class="avatar avatar-lg" aria-hidden="true">LP</div>
+                        <div>
+                          <h3>Lila Petrov</h3>
+                          <p class="text-muted">lila@donations.org</p>
+                          <div class="tags-inline">
+                            <span class="badge-role badge-role--support">Support</span>
+                            <span class="badge-status badge-status--suspended badge-small">Suspended</span>
+                          </div>
+                        </div>
+                      </header>
+                      <section class="team-member-details__body">
+                        <div class="details-row">
+                          <span>Role</span>
+                          <select class="form-control">
+                            <option>Support</option>
+                            <option>Admin</option>
+                            <option>Manager</option>
+                            <option>Finance</option>
+                            <option>Viewer</option>
+                          </select>
+                        </div>
+                        <div class="details-row">
+                          <span>Access scope</span>
+                          <p class="text-muted">Responds to donor tickets and messages.</p>
+                        </div>
+                        <div class="details-row">
+                          <span>Last active</span>
+                          <span>2 days ago</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Joined</span>
+                          <span>Jan 3, 2023</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Security</span>
+                          <p class="text-muted">2FA enabled ? Suspended session.</p>
+                        </div>
+                      </section>
+                      <section class="team-member-activity">
+                        <h4>Recent activity</h4>
+                        <ul>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Lila marked ticket resolved</p>
+                              <span class="text-muted">1d ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Escalated donor issue</p>
+                              <span class="text-muted">2d ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Requested reactivation</p>
+                              <span class="text-muted">3d ago</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </section>
+                      <footer class="team-member-details__footer">
+                        <div class="more-actions-dropdown">
+                          <button class="btn btn-ghost" type="button" data-action-toggle aria-expanded="false">
+                            More actions <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                          </button>
+                          <ul class="more-actions-dropdown__list" role="menu">
+                            <li><button type="button" data-action="suspend">Suspend access</button></li>
+                            <li><button type="button" data-action="remove">Remove from workspace</button></li>
+                            <li><button type="button" data-action="reset">Reset password</button></li>
+                            <li><button type="button" data-action="log">View activity log</button></li>
+                          </ul>
+                        </div>
+                      </footer>
+                    </div>
+                    <div class="team-member-details-card" data-member-panel="m-5">
+                      <header class="team-member-details__header">
+                        <div class="avatar avatar-lg" aria-hidden="true">TM</div>
+                        <div>
+                          <h3>Theo Morgan</h3>
+                          <p class="text-muted">theo@donations.org</p>
+                          <div class="tags-inline">
+                            <span class="badge-role badge-role--viewer">Viewer</span>
+                            <span class="badge-status badge-status--active badge-small">Active</span>
+                          </div>
+                        </div>
+                      </header>
+                      <section class="team-member-details__body">
+                        <div class="details-row">
+                          <span>Role</span>
+                          <select class="form-control">
+                            <option>Viewer</option>
+                            <option>Admin</option>
+                            <option>Manager</option>
+                            <option>Finance</option>
+                            <option>Support</option>
+                          </select>
+                        </div>
+                        <div class="details-row">
+                          <span>Access scope</span>
+                          <p class="text-muted">View-only across donors, donations, and campaigns.</p>
+                        </div>
+                        <div class="details-row">
+                          <span>Last active</span>
+                          <span>Yesterday</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Joined</span>
+                          <span>Apr 19, 2024</span>
+                        </div>
+                        <div class="details-row">
+                          <span>Security</span>
+                          <p class="text-muted">2FA enabled ? Trusted device.</p>
+                        </div>
+                      </section>
+                      <section class="team-member-activity">
+                        <h4>Recent activity</h4>
+                        <ul>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Theo reviewed campaign dashboards</p>
+                              <span class="text-muted">4h ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Shared viewer notes</p>
+                              <span class="text-muted">1d ago</span>
+                            </div>
+                          </li>
+                          <li>
+                            <span class="timeline-dot" aria-hidden="true"></span>
+                            <div>
+                              <p>Joined workspace</p>
+                              <span class="text-muted">Nov 2024</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </section>
+                      <footer class="team-member-details__footer">
+                        <div class="more-actions-dropdown">
+                          <button class="btn btn-ghost" type="button" data-action-toggle aria-expanded="false">
+                            More actions <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                          </button>
+                          <ul class="more-actions-dropdown__list" role="menu">
+                            <li><button type="button" data-action="suspend">Suspend access</button></li>
+                            <li><button type="button" data-action="remove">Remove from workspace</button></li>
+                            <li><button type="button" data-action="reset">Reset password</button></li>
+                            <li><button type="button" data-action="log">View activity log</button></li>
+                          </ul>
+                        </div>
+                      </footer>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+          <div class="team-panel" data-team-panel="roles">
+            <div class="roles-layout">
+              <aside class="roles-list">
+                <ul class="roles-list__items">
+                  <li class="roles-list__item is-active" data-role-id="admin">
+                    <button type="button" class="roles-list__button">
+                      <div class="roles-list__title">
+                        <span>Admin</span>
+                        <span class="badge-role badge-role--admin">Full access</span>
+                      </div>
+                      <p class="roles-list__meta text-muted">4 members</p>
+                    </button>
+                  </li>
+                  <li class="roles-list__item" data-role-id="manager">
+                    <button type="button" class="roles-list__button">
+                      <div class="roles-list__title">
+                        <span>Manager</span>
+                        <span class="badge-role badge-role--manager">Campaigns</span>
+                      </div>
+                      <p class="roles-list__meta text-muted">2 members</p>
+                    </button>
+                  </li>
+                  <li class="roles-list__item" data-role-id="finance">
+                    <button type="button" class="roles-list__button">
+                      <div class="roles-list__title">
+                        <span>Finance</span>
+                        <span class="badge-role badge-role--finance">Finance</span>
+                      </div>
+                      <p class="roles-list__meta text-muted">1 member</p>
+                    </button>
+                  </li>
+                  <li class="roles-list__item" data-role-id="support">
+                    <button type="button" class="roles-list__button">
+                      <div class="roles-list__title">
+                        <span>Support</span>
+                        <span class="badge-role badge-role--support">Support</span>
+                      </div>
+                      <p class="roles-list__meta text-muted">2 members</p>
+                    </button>
+                  </li>
+                  <li class="roles-list__item" data-role-id="viewer">
+                    <button type="button" class="roles-list__button">
+                      <div class="roles-list__title">
+                        <span>Viewer</span>
+                        <span class="badge-role badge-role--viewer">Viewer</span>
+                      </div>
+                      <p class="roles-list__meta text-muted">5 members</p>
+                    </button>
+                  </li>
+                </ul>
+              </aside>
+
+              <section class="role-permissions" aria-live="polite">
+                <section class="role-permissions__card is-active" data-role-panel="admin">
+                  <header class="role-permissions__header">
+                    <h3>Admin permissions</h3>
+                    <p class="text-muted muted">Define what Admins can do across the dashboard.</p>
+                  </header>
+                  <div class="role-permissions__sections">
+                    <div class="perm-section" data-perm-section="campaigns">
+                      <div class="perm-section__head">
+                        <h4>Campaigns &amp; Donations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="campaigns">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.view" />
+                          <span>View campaigns &amp; performance</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.edit" />
+                          <span>Create &amp; edit campaigns</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.view" />
+                          <span>View donations &amp; donor history</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.refund" />
+                          <span>Issue refunds &amp; adjustments</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Donors &amp; Messages</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="donors">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.view" />
+                          <span>View donor profiles</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.edit" />
+                          <span>Edit donor details &amp; tags</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.send" />
+                          <span>Send 1:1 messages to donors</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.bulk" />
+                          <span>Send bulk messages / campaigns</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Finance &amp; Reconciliation</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="finance">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.view" />
+                          <span>View finance reports &amp; exports</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.reconcile" />
+                          <span>Mark donations as reconciled</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.payouts" />
+                          <span>Approve payouts and transfers</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Settings &amp; Integrations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="settings">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.general" />
+                          <span>Change general settings (branding, language)</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.integrations" />
+                          <span>Configure integrations &amp; webhooks</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Team &amp; Security</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="team">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="team.manage" />
+                          <span>Invite and manage team members</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="security.view-audit" />
+                          <span>View access audit logs</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <footer class="role-permissions__footer">
+                    <p class="text-muted muted">Changes are not persisted to a backend. This is a static UI preview
+                      only.</p>
+                    <div class="role-permissions__actions">
+                      <button type="button" class="btn btn-light btn-sm">Reset to default</button>
+                      <button type="button" class="btn btn-primary btn-sm">Save role</button>
+                    </div>
+                  </footer>
+                </section>
+
+                <section class="role-permissions__card" data-role-panel="manager">
+                  <header class="role-permissions__header">
+                    <h3>Manager permissions</h3>
+                    <p class="text-muted muted">Campaign owners with editing access.</p>
+                  </header>
+                  <div class="role-permissions__sections">
+                    <div class="perm-section" data-perm-section="campaigns">
+                      <div class="perm-section__head">
+                        <h4>Campaigns &amp; Donations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="campaigns">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.view" />
+                          <span>View campaigns &amp; performance</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.edit" />
+                          <span>Create &amp; edit campaigns</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.view" />
+                          <span>View donations &amp; donor history</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.refund" />
+                          <span>Issue refunds &amp; adjustments</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Donors &amp; Messages</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="donors">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.view" />
+                          <span>View donor profiles</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.edit" />
+                          <span>Edit donor details &amp; tags</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.send" />
+                          <span>Send 1:1 messages to donors</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.bulk" />
+                          <span>Send bulk messages / campaigns</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Finance &amp; Reconciliation</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="finance">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.view" />
+                          <span>View finance reports &amp; exports</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.reconcile" />
+                          <span>Mark donations as reconciled</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.payouts" />
+                          <span>Approve payouts and transfers</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Settings &amp; Integrations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="settings">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.general" />
+                          <span>Change general settings (branding, language)</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.integrations" />
+                          <span>Configure integrations &amp; webhooks</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Team &amp; Security</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="team">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="team.manage" />
+                          <span>Invite and manage team members</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="security.view-audit" />
+                          <span>View access audit logs</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <footer class="role-permissions__footer">
+                    <p class="text-muted muted">Changes are not persisted to a backend. This is a static UI preview
+                      only.</p>
+                    <div class="role-permissions__actions">
+                      <button type="button" class="btn btn-light btn-sm">Reset to default</button>
+                      <button type="button" class="btn btn-primary btn-sm">Save role</button>
+                    </div>
+                  </footer>
+                </section>
+
+                <section class="role-permissions__card" data-role-panel="finance">
+                  <header class="role-permissions__header">
+                    <h3>Finance permissions</h3>
+                    <p class="text-muted muted">Reconciliation and payout specialists.</p>
+                  </header>
+                  <div class="role-permissions__sections">
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Campaigns &amp; Donations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="campaigns">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.view" />
+                          <span>View campaigns &amp; performance</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.edit" />
+                          <span>Create &amp; edit campaigns</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.view" />
+                          <span>View donations &amp; donor history</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.refund" />
+                          <span>Issue refunds &amp; adjustments</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Donors &amp; Messages</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="donors">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.view" />
+                          <span>View donor profiles</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.edit" />
+                          <span>Edit donor details &amp; tags</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.send" />
+                          <span>Send 1:1 messages to donors</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.bulk" />
+                          <span>Send bulk messages / campaigns</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Finance &amp; Reconciliation</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="finance">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.view" />
+                          <span>View finance reports &amp; exports</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.reconcile" />
+                          <span>Mark donations as reconciled</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.payouts" />
+                          <span>Approve payouts and transfers</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Settings &amp; Integrations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="settings">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.general" />
+                          <span>Change general settings (branding, language)</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.integrations" />
+                          <span>Configure integrations &amp; webhooks</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Team &amp; Security</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="team">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="team.manage" />
+                          <span>Invite and manage team members</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="security.view-audit" />
+                          <span>View access audit logs</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <footer class="role-permissions__footer">
+                    <p class="text-muted muted">Changes are not persisted to a backend. This is a static UI preview
+                      only.</p>
+                    <div class="role-permissions__actions">
+                      <button type="button" class="btn btn-light btn-sm">Reset to default</button>
+                      <button type="button" class="btn btn-primary btn-sm">Save role</button>
+                    </div>
+                  </footer>
+                </section>
+
+                <section class="role-permissions__card" data-role-panel="support">
+                  <header class="role-permissions__header">
+                    <h3>Support permissions</h3>
+                    <p class="text-muted muted">Customer-facing assistants.</p>
+                  </header>
+                  <div class="role-permissions__sections">
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Campaigns &amp; Donations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="campaigns">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.view" />
+                          <span>View campaigns &amp; performance</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.edit" />
+                          <span>Create &amp; edit campaigns</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.view" />
+                          <span>View donations &amp; donor history</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.refund" />
+                          <span>Issue refunds &amp; adjustments</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Donors &amp; Messages</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="donors">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.view" />
+                          <span>View donor profiles</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.edit" />
+                          <span>Edit donor details &amp; tags</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.send" />
+                          <span>Send 1:1 messages to donors</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.bulk" />
+                          <span>Send bulk messages / campaigns</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Finance &amp; Reconciliation</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="finance">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.view" />
+                          <span>View finance reports &amp; exports</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.reconcile" />
+                          <span>Mark donations as reconciled</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.payouts" />
+                          <span>Approve payouts and transfers</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Settings &amp; Integrations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="settings">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.general" />
+                          <span>Change general settings (branding, language)</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.integrations" />
+                          <span>Configure integrations &amp; webhooks</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Team &amp; Security</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="team">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="team.manage" />
+                          <span>Invite and manage team members</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="security.view-audit" />
+                          <span>View access audit logs</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <footer class="role-permissions__footer">
+                    <p class="text-muted muted">Changes are not persisted to a backend. This is a static UI preview
+                      only.</p>
+                    <div class="role-permissions__actions">
+                      <button type="button" class="btn btn-light btn-sm">Reset to default</button>
+                      <button type="button" class="btn btn-primary btn-sm">Save role</button>
+                    </div>
+                  </footer>
+                </section>
+
+                <section class="role-permissions__card" data-role-panel="viewer">
+                  <header class="role-permissions__header">
+                    <h3>Viewer permissions</h3>
+                    <p class="text-muted muted">Read-only observers.</p>
+                  </header>
+                  <div class="role-permissions__sections">
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Campaigns &amp; Donations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="campaigns">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.view" />
+                          <span>View campaigns &amp; performance</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="campaigns.edit" />
+                          <span>Create &amp; edit campaigns</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.view" />
+                          <span>View donations &amp; donor history</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donations.refund" />
+                          <span>Issue refunds &amp; adjustments</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Donors &amp; Messages</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="donors">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.view" />
+                          <span>View donor profiles</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="donors.edit" />
+                          <span>Edit donor details &amp; tags</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.send" />
+                          <span>Send 1:1 messages to donors</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="messages.bulk" />
+                          <span>Send bulk messages / campaigns</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Finance &amp; Reconciliation</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="finance">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.view" />
+                          <span>View finance reports &amp; exports</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.reconcile" />
+                          <span>Mark donations as reconciled</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="finance.payouts" />
+                          <span>Approve payouts and transfers</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Settings &amp; Integrations</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="settings">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.general" />
+                          <span>Change general settings (branding, language)</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="settings.integrations" />
+                          <span>Configure integrations &amp; webhooks</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="perm-section">
+                      <div class="perm-section__head">
+                        <h4>Team &amp; Security</h4>
+                        <button type="button" class="link-button" data-perm-toggle-group="team">Select all</button>
+                      </div>
+                      <div class="perm-section__body">
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="team.manage" />
+                          <span>Invite and manage team members</span>
+                        </label>
+                        <label class="perm-checkbox">
+                          <input type="checkbox" data-perm-key="security.view-audit" />
+                          <span>View access audit logs</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <footer class="role-permissions__footer">
+                    <p class="text-muted muted">Changes are not persisted to a backend. This is a static UI preview
+                      only.</p>
+                    <div class="role-permissions__actions">
+                      <button type="button" class="btn btn-light btn-sm">Reset to default</button>
+                      <button type="button" class="btn btn-primary btn-sm">Save role</button>
+                    </div>
+                  </footer>
+                </section>
+              </section>
+            </div>
+          </div>
+
+        </section>
+        <aside class="invite-panel" aria-hidden="true">
+          <div class="invite-panel__backdrop" data-invite-close></div>
+          <div class="invite-panel__sheet">
+            <header class="invite-panel__header">
+              <h2>Invite team member</h2>
+              <button type="button" class="icon-button" aria-label="Close" data-invite-close>&times;</button>
+            </header>
+            <form class="invite-form">
+              <div class="invite-mode-toggle">
+                <button type="button" class="invite-mode is-active" data-invite-mode="quick">Quick invite</button>
+                <button type="button" class="invite-mode" data-invite-mode="advanced">Advanced invite</button>
+              </div>
+              <div class="invite-form__body">
+                <div class="invite-form__fields">
+                  <div class="invite-form__group">
+                    <label for="invite-email">Email address</label>
+                    <input id="invite-email" type="email" class="form-control" placeholder="name@organization.org"
+                      required />
+                  </div>
+                  <div class="invite-form__group">
+                    <label for="invite-role">Role</label>
+                    <select id="invite-role" class="form-control">
+                      <option value="manager">Manager</option>
+                      <option value="finance">Finance</option>
+                      <option value="support">Support</option>
+                      <option value="viewer">Viewer</option>
+                    </select>
+                  </div>
+                  <div class="invite-form__group invite-form__scope" data-advanced-only>
+                    <label>Access scope</label>
+                    <div class="invite-scope-grid">
+                      <label><input type="checkbox" name="inviteScope" value="campaigns" checked /> Manage
+                        campaigns</label>
+                      <label><input type="checkbox" name="inviteScope" value="donors" checked /> Manage donors</label>
+                      <label><input type="checkbox" name="inviteScope" value="finance" /> View finances</label>
+                      <label><input type="checkbox" name="inviteScope" value="settings" /> Edit settings</label>
+                      <label><input type="checkbox" name="inviteScope" value="messages" /> Messaging permissions</label>
+                    </div>
+                  </div>
+                </div>
+                <aside class="invite-preview" data-invite-preview>
+                  <p class="invite-preview__title">Invite preview</p>
+                  <p class="invite-preview__meta">Recipients see this summary before accepting.</p>
+                  <div class="invite-preview__details">
+                    <span data-preview-role>Role: Manager</span>
+                    <span data-preview-email>Email: name@organization.org</span>
+                  </div>
+                  <ul class="invite-preview__scopes" data-preview-scopes>
+                    <li>Manage campaigns</li>
+                    <li>Manage donors</li>
+                  </ul>
+                </aside>
+              </div>
+              <div class="invite-form__group">
+                <label for="invite-message">Optional message</label>
+                <textarea id="invite-message" class="form-control" rows="3"
+                  placeholder="Add a welcome note for this member…"></textarea>
+              </div>
+              <div class="invite-form__footer">
+                <button type="button" class="btn btn-light" data-invite-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Send invite</button>
+              </div>
+            </form>
+          </div>
+        </aside>
+      </main>
+
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

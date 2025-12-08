@@ -35,53 +35,84 @@
   <div class="app">
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
-        <a class="sidebar__brand" href="#" aria-label="Donations dashboard home">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
           <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
         </a>
       </div>
+
       <nav class="sidebar__nav" aria-label="Primary">
-        <a class="sidebar__link" href="index.html">
+        <!-- Main sections -->
+        <a class="sidebar__link " href="index.html">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
-        <a class="sidebar__link" href="campaigns.html">
+
+        <a class="sidebar__link " href="campaigns.html">
           <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Campaigns</span>
         </a>
-        <a class="sidebar__link active" href="donations.html" aria-current="page">
+
+        <a class="sidebar__link active " href="donations.html">
           <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Donations</span>
         </a>
-        <a class="sidebar__link" href="#">
+
+        <a class="sidebar__link" href="donors.html">
           <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Donors</span>
         </a>
-        <a class="sidebar__link" href="#">
+
+        <a class="sidebar__link" href="manual-donation.html">
           <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
-          <span class="sidebar__label">Manual Donations</span>
+          <span class="sidebar__label">Manual donations</span>
         </a>
-        <a class="sidebar__link" href="#">
+
+        <a class="sidebar__link" href="messages.html">
           <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Messages</span>
         </a>
-        <a class="sidebar__link" href="#">
+
+        <a class="sidebar__link" href="settings.html">
           <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Settings</span>
         </a>
+
+        <!-- More submenu -->
         <li class="sidebar-item sidebar-item--expandable">
           <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
             aria-controls="more-menu" aria-expanded="false">
             <span class="d-flex align-items-center" style="gap: var(--space-3);">
               <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
-              <span>More</span>
+              <span class="sidebar__label">More</span>
             </span>
             <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
           </button>
+
           <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
-            <li><a href="#" class="sidebar-sublink"><i class="fa fa-file"></i> Reports</a></li>
-            <li><a href="#" class="sidebar-sublink"><i class="fa fa-user-group"></i> Beneficiaries</a></li>
-            <li><a href="#" class="sidebar-sublink"><i class="fa fa-plug"></i> Integrations</a></li>
-            <li><a href="#" class="sidebar-sublink"><i class="fa fa-clipboard-list"></i> System Logs</a></li>
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
           </ul>
         </li>
       </nav>

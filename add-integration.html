@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donations Dashboard - Add integration</title>
+  <meta name="description" content="Add a new integration to connect your donations data." />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/add-integration" />
+  <meta property="og:title" content="Donations Dashboard - Add integration" />
+  <meta property="og:description" content="Add a new integration to connect your donations data." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/add-integration" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Add integration" />
+  <meta name="twitter:description" content="Add a new integration to connect your donations data." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Donations Dashboard",
+          "url": "https://example.org",
+          "logo": "https://example.org/assets/img/og-image.png"
+        },
+        {
+          "@type": "WebSite",
+          "name": "Donations Dashboard",
+          "url": "https://example.org/dashboard",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://example.org/dashboard/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body data-theme="light">
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <!-- Main sections -->
+        <a class="sidebar__link " href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual donations</span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- More submenu -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink active">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Add integration</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">3 campaigns ending soon</p>
+                    <p class="notification-meta">Today &bull; Campaigns</p>
+                  </div>
+                  <span class="notification-time">2m</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donation: for "Healthcare Fund"</p>
+                    <p class="notification-meta">5h &bull; Donations</p>
+                  </div>
+                  <span class="notification-time">5h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Payout scheduled for tomorrow</p>
+                    <p class="notification-meta">Yesterday &bull; Finance</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar-progress">
+                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                  <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
+                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
+                    stroke-dashoffset="38.5"></circle>
+                </svg>
+                <div class="avatar" aria-hidden="true">JL</div>
+              </div>
+              <div class="user-details">
+                <span class="user-name">Juliette Lake</span>
+                <span class="user-email">you@email.org</span>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <button class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+              </button>
+              <button class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear"></i>
+                <span>Account settings</span>
+              </button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content add-integration-page" id="main-content" tabindex="-1">
+        <div class="page-header__breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="integrations.html">Integrations</a></li>
+            <li>Add integration</li>
+          </ol>
+        </div>
+        <header class="page-header add-integration-page__header">
+          <div>
+            <p class="eyebrow">Integrations</p>
+            <h1 class="h1">Add integration</h1>
+            <p class="text-muted">Tell us which partner you would like to connect so we can guide you through the setup.
+            </p>
+          </div>
+          <div class="add-integration-page__header-actions">
+            <a class="btn btn-ghost" href="integrations.html" role="button">Back to marketplace</a>
+          </div>
+        </header>
+
+        <section class="card" aria-label="Add integration form">
+          <header class="card__header">
+            <div>
+              <p class="eyebrow">Connect new provider</p>
+              <h2 class="h2">Pick an integration type</h2>
+            </div>
+          </header>
+          <form class="section-block">
+            <label class="eyebrow">Step 1 � Choose platform</label>
+            <div class="d-grid gap-3" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+              <button type="button" class="btn btn-pill btn-pill--soft">Payments</button>
+              <button type="button" class="btn btn-pill btn-pill--soft">Email &amp; messaging</button>
+              <button type="button" class="btn btn-pill btn-pill--soft">Analytics</button>
+              <button type="button" class="btn btn-pill btn-pill--soft">Automation</button>
+              <button type="button" class="btn btn-pill btn-pill--soft">Storage</button>
+            </div>
+            <label class="eyebrow">Step 2 � Select provider</label>
+            <select class="form-control">
+              <option>Stripe</option>
+              <option>PayPal</option>
+              <option>Mailchimp</option>
+              <option>SendGrid</option>
+              <option>Google Analytics</option>
+              <option>Zapier</option>
+            </select>
+            <label class="eyebrow">Step 3 � Provide credentials</label>
+            <div class="field-with-button">
+              <input type="text" placeholder="Enter API key" />
+              <button type="button" class="btn btn-light">Help</button>
+            </div>
+            <div class="field-with-button">
+              <input type="text" placeholder="Webhook URL" />
+              <button type="button" class="btn btn-light">Copy</button>
+            </div>
+            <label class="eyebrow">Step 4 � Notify team</label>
+            <textarea class="form-control" rows="3"
+              placeholder="Add a note for your team about this connection."></textarea>
+            <div class="section-block__actions" style="display:flex;gap:var(--space-2);justify-content:flex-end;">
+              <a class="btn btn-ghost" href="integrations.html" role="button">Cancel</a>
+              <button type="submit" class="btn btn-primary">Save integration</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card" aria-label="Setup checklist">
+          <header class="card__header">
+            <div>
+              <p class="eyebrow">Setup checklist</p>
+              <h2 class="h2">Before you save</h2>
+            </div>
+          </header>
+          <ul class="integration-logs__list">
+            <li class="integration-logs__item">
+              <div class="integration-logs__icon">
+                <i class="fa-solid fa-link" aria-hidden="true"></i>
+              </div>
+              <div>
+                <p class="integration-logs__title">Verify API key and webhook URL</p>
+                <p class="text-muted">We will test the connection when you click Save integration.</p>
+              </div>
+            </li>
+            <li class="integration-logs__item">
+              <div class="integration-logs__icon">
+                <i class="fa-solid fa-user-check" aria-hidden="true"></i>
+              </div>
+              <div>
+                <p class="integration-logs__title">Share access with the finance team</p>
+                <p class="text-muted">Grant at least two team members access in Settings &gt; Team.</p>
+              </div>
+            </li>
+            <li class="integration-logs__item">
+              <div class="integration-logs__icon">
+                <i class="fa-solid fa-shield" aria-hidden="true"></i>
+              </div>
+              <div>
+                <p class="integration-logs__title">Set retention rules</p>
+                <p class="text-muted">Decide how long logs and export files should stay in the dashboard.</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>
