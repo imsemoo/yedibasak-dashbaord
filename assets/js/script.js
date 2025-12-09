@@ -1,10 +1,11 @@
+/**
+ * Dashboard front-end behaviors for campaigns, donors, donations, messaging,
+ * team management, exports, and settings screens.
+ * Runs in the browser and simply wires UI interactions to the existing backend-
+ * rendered pages without adding new API calls yet.
+ */
 (() => {
   "use strict";
-
-  // UI-only module: it wires up behaviors (menus, toggles, charts) without injecting campaign/donation data.
-  // Data points live in the markup, so the backend can later replace them without touching this script.
-
-  // Utility helper to read CSS variables
   const getCssVar = (variable) => getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
 
   const hexToRgb = (value = "") => {
@@ -379,9 +380,12 @@
     refreshRegionsMapTheme();
   };
 
-  // Persist theme preference and wire up toggle
-  // Maintain the theme toggle and persist the preference so charts and the map stay in sync with the selected palette.
-  // Initialize the theme toggle control and hydrate the stored preference.
+  /**
+   * Initialize the persistent theme toggle and icon so the overview charts and map
+   * share the selected light or dark palette.
+   * Expects a `.js-theme-toggle` trigger and uses localStorage STORAGE_KEY plus document body
+   * data-theme to sync the CSS palette and notify charts/maps.
+   */
   const initThemeToggle = () => {
     const themeToggle = document.querySelector(".js-theme-toggle");
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -400,9 +404,11 @@
     }
   };
 
-  // Handle sidebar for mobile (slide over) and desktop (collapse)
-  // Manage the sidebar's mobile overlay vs desktop collapse behavior without injecting business data.
-  // Manage sidebar collapse/overlay behavior and mobile locking.
+  /**
+   * Initialize the responsive sidebar toggles that collapse on desktop and slide over on mobile.
+   * Expects `.app`, `.sidebar`, `.js-sidebar-toggle`, and `.js-sidebar-overlay` elements to keep
+   * aria states, scroll locking, and breakpoint transitions in sync as users toggle the drawer.
+   */
   const initSidebar = () => {
     // Layout nodes used to open/close the sidebar panel and overlay on every breakpoint.
     const app = document.querySelector(".app");
@@ -614,13 +620,20 @@
     }
   };
 
-  // Kick off overview chart rendering and refresh their theme skins.
+  /**
+   * Prepare overview charts with placeholder series and refresh them when the palette changes.
+   * Requires containers `#donations-bar-chart` and `#donations-donut-chart` plus ApexCharts.
+   */
   const initCharts = () => {
     buildCharts();
     updateChartsForTheme(getTheme());
   };
 
-  // Render the mini funnel and retention charts shown on the overview page.
+  /**
+   * Render funnel and retention mini charts on the overview page using ApexCharts.
+   * Data is static and will later be replaced by backend-driven figures.
+   * Expects `#donation-funnel-chart` and `#donor-retention-chart`.
+   */
   const initOverviewMiniCharts = () => {
     if (typeof ApexCharts === "undefined") return;
     const funnelEl = document.querySelector("#donation-funnel-chart");
@@ -758,6 +771,9 @@
     updateChartsForTheme(getTheme());
   };
 
+  /**
+   * Trigger entrance animation on the overview activity card, respecting reduced-motion settings.
+   */
   const initOverviewAnimations = (root) => {
     if (!root) return;
     const activityCard = root.querySelector(".activity-card");
@@ -773,6 +789,9 @@
     });
   };
 
+  /**
+   * Link the overview region rows to the Leaflet map hover/focus so the list highlights the hovered region.
+   */
   const initOverviewRegionsLinking = () => {
     if (overviewRegionsLinked) return;
     if (!overviewMapState.rows.size || typeof overviewMapState.setHoverRegion !== "function") return;
@@ -789,7 +808,10 @@
     });
   };
 
-  // Wire the overview hero, quick actions, and region selection controls.
+  /**
+   * Wire overview hero, quick actions, and the regional map/chart sections for the dashboard landing page.
+   * Expects `.overview-page` root along with chart targets, map container `#donations-map`, and region rows.
+   */
   const initOverviewPage = () => {
     const root = document.querySelector(".overview-page");
     if (!root) return;
@@ -799,6 +821,11 @@
     initOverviewAnimations(root);
   };
 
+  /**
+   * Initialize the Leaflet donations map with static region data, draw markers, and wire list focus/hover.
+   * Requires `#donations-map`, `.regions-list` rows with `data-region-id`, and the sample REGIONS_SAMPLE data
+   * until the backend can hydrate real regions.
+   */
   const initDonationsMap = () => {
     const mapContainer = document.querySelector("#donations-map");
     const regionsList = document.querySelector(".regions-list");
@@ -1025,7 +1052,10 @@
     }
   };
 
-  // Improve keyboard flow for skip link and main focus
+  /**
+   * Improve keyboard navigation helpers, like focusing `#main-content` after skip links.
+   * Only manipulates the DOM, no backend calls.
+   */
   const initAccessibilityHelpers = () => {
     const mainContent = document.querySelector("#main-content");
     const skipLink = document.querySelector(".skip-link");
@@ -1038,7 +1068,10 @@
     });
   };
 
-  // Off-canvas filters for campaigns list
+  /**
+   * Wire the off-canvas campaigns filter drawer and badge counts to reflect active controls.
+   * Expects `.offcanvas-filters`, `.js-open-filters`, and `.js-filter-count`.
+   */
   const initCampaignFilters = () => {
     // Cache the drawer, trigger, and control buttons for the campaign filters panel.
     const offcanvas = document.querySelector(".offcanvas-filters");
@@ -1136,8 +1169,10 @@
     updateBadge();
   };
 
-  // View toggle for campaigns (cards vs table)
-  // Maintain the campaigns view toggle between cards and table layouts.
+  /**
+   * Synchronize the campaigns view toggle between cards and table layouts, persisting the chosen mode in localStorage.
+   * Expects `.view-toggle`, buttons with `data-view-mode`, and `.campaigns-view` containers.
+   */
   const initCampaignViewToggle = () => {
     const viewToggle = document.querySelector(".view-toggle");
     const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
@@ -1177,8 +1212,10 @@
     });
   };
 
-  // Local dropdowns for campaign actions
-  // Attach campaign card/table actions such as publish, archive, and clone.
+  /**
+   * Attach local dropdown menus for campaign cards/rows so publish/archive/clone actions feel interactive.
+   * Relies on `.js-actions-toggle`, `.dropdown-menu--actions`, and `.dropdown-actions` wrappers.
+   */
   const initCampaignActions = () => {
     const actionToggles = Array.from(document.querySelectorAll(".js-actions-toggle"));
     const actionMenus = Array.from(document.querySelectorAll(".dropdown-menu--actions"));
@@ -1238,8 +1275,10 @@
     });
   };
 
-  // Quick campaign preview side sheet
-  // Populate and animate the campaign preview panel from form values.
+  /**
+   * Populate and animate the campaign preview side sheet when users open it via `.js-campaign-preview` triggers.
+   * Expects `.preview-sheet[data-preview="campaign"]` with status/title/description placeholders that reflect dataset attributes.
+   */
   const initCampaignPreview = () => {
     const previewSheet = document.querySelector('.preview-sheet[data-preview="campaign"]');
     if (!previewSheet) return;
@@ -1343,7 +1382,10 @@
     });
   };
 
-  // Keep the donations view (cards/table) toggle in sync with storage.
+  /**
+   * Keep the donations view toggle in sync between cards and table layouts, scoped by [data-view-context='donations'].
+   * Persists the selection via DONATIONS_VIEW_STORAGE_KEY.
+   */
   const initDonationsViewToggle = () => {
     const viewToggle = document.querySelector(".view-toggle[data-view-context='donations']");
     const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
@@ -1383,7 +1425,10 @@
     });
   };
 
-  // Update donation preview highlights used across payments lists.
+  /**
+   * Populate the donation preview slide-over when a `.js-donation-preview` trigger is clicked.
+   * Mirrors data-* attributes from `.donation-card` or `.donation-row` without calling backend.
+   */
   const initDonationsPreview = () => {
     const previewSheet = document.querySelector('.preview-sheet[data-preview="donation"]');
     if (!previewSheet) return;
@@ -1506,7 +1551,10 @@
     });
   };
 
-  // Configure donation filter controls and badges inside the filter panel.
+  /**
+   * Configure the donations filters drawer, badge, and reset/apply controls.
+   * Works with `#donationsFilters`, `.js-open-donations-filters`, and `.js-filter-count`.
+   */
   const initDonationsFilters = () => {
     // Cache the donations filter panel, trigger, and control buttons for the drawer.
     const offcanvas = document.getElementById("donationsFilters");
@@ -1597,7 +1645,10 @@
     updateBadge();
   };
 
-  // Wire action menus for each donation row (retry, refund, details).
+  /**
+   * Wire dropdown actions for each donation row so users can interact with retry/refund links locally.
+   * Relies on `.js-donation-actions-toggle` and `.dropdown-donations .dropdown-menu--actions`.
+   */
   const initDonationsActions = () => {
     const actionToggles = Array.from(document.querySelectorAll(".js-donation-actions-toggle"));
     const actionMenus = Array.from(document.querySelectorAll(".dropdown-donations .dropdown-menu--actions"));
@@ -1657,7 +1708,10 @@
     });
   };
 
-  // Synchronize the donors page view selector and store the setting.
+  /**
+   * Synchronize the donors view toggle between cards and tables, storing the preference under DONORS_VIEW_STORAGE_KEY.
+   * Requires `.view-toggle[data-view-context='donors']` plus `.donors-view` containers.
+   */
   const initDonorsViewToggle = () => {
     const viewToggle = document.querySelector(".view-toggle[data-view-context='donors']");
     const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
@@ -1697,7 +1751,10 @@
     });
   };
 
-  // Hook donors filters, slider toggles, and quick presets in the drawer.
+  /**
+   * Hook the donors filters drawer, slider toggles, and quick presets so filter chips and badge states update live.
+   * Works with `#donorsFilters`, `.js-open-donors-filters`, and `.js-filter-count`.
+   */
   const initDonorsFilters = () => {
     // Capture donor filters drawer elements and form controls for the offcanvas panel.
     const offcanvas = document.getElementById("donorsFilters");
@@ -1793,7 +1850,10 @@
     updateBadge();
   };
 
-  // Manage donor preview buttons and dropdown menus for quick actions.
+  /**
+   * Manage donor action dropdowns for quick commands without submitting forms; purely local UX wiring.
+   * Expects `.js-donor-actions-toggle`, `.dropdown-donors`, and `[data-member-action]` patterns.
+   */
   const initDonorsActions = () => {
     const actionToggles = Array.from(document.querySelectorAll(".js-donor-actions-toggle"));
     const actionMenus = Array.from(document.querySelectorAll(".dropdown-donors .dropdown-menu--actions"));
@@ -1851,7 +1911,10 @@
     });
   };
 
-  // Fill the donor preview sheet with selected donor data and history.
+  /**
+   * Fill the donor preview panel when a card or row is clicked, using data attributes for recipient info and history.
+   * Expects `.donor-preview-panel`, `.donor-card`, `.donor-row`, and dataset tags like `data-donor-activity`.
+   */
   const initDonorsPreview = () => {
     const panel = document.querySelector(".donor-preview-panel");
     if (!panel) return;
@@ -2073,7 +2136,11 @@
     });
   };
 
-  // Handle donor tabs, filters, previews, and table interactions for the donors page.
+  /**
+   * Handle the donors page table, tabs, search, filters, summary stats, and sorting controls.
+   * Relies on `.donors-page`, `.donor-row`, `.donors-tabs__item`, `.donors-search input`, and `.table-sortable` elements,
+   * using data attributes for segments/status and dataset-based metrics.
+   */
   const initDonorsPage = () => {
     // Cache donors page table, cards, and filter widgets for updating visibility.
     const root = document.querySelector(".donors-page");
@@ -2256,8 +2323,10 @@
     applyFilters();
   };
 
-  // Campaign form preview
-  // Update the campaign form preview card while typing.
+  /**
+   * Update the campaign preview card live as the form inputs change.
+   * Watches `.js-campaign-form`, name/description/target fields, image input, and `[data-preview-*]` nodes.
+   */
   const initCampaignFormPreview = () => {
     const form = document.querySelector(".js-campaign-form");
     if (!form) return;
@@ -2373,11 +2442,13 @@
       });
     }
 
+    // Custom events triggered by the image upload widget keep other preview views in sync.
     document.addEventListener("campaign:imageChange", (event) => {
       const detail = event.detail || {};
       handleImageChange(detail.src, detail.isPlaceholder);
     });
 
+    // The multi-select tags component fires campaign:tagsChange so previews always show the current tags.
     document.addEventListener("campaign:tagsChange", (event) => {
       setPreviewTags(event.detail?.tags || []);
       animatePreviewCard();
@@ -2387,8 +2458,10 @@
     setPreviewImage(defaultImage, true);
   };
 
-  // Multi-select for tags/categories
-  // Keep multi-select tag controls and chips synchronized in forms.
+  /**
+   * Keep multi-select tag controls and chips synchronized inside campaign forms.
+   * Requires `[data-multi-select]`, `.multi-select__option` elements, `[data-chips]`, `[data-multi-hidden]`, and `[data-multi-search]`.
+   */
   const initMultiSelectTags = () => {
     const multiSelect = document.querySelector("[data-multi-select]");
     if (!multiSelect) return;
@@ -2425,6 +2498,7 @@
       const tags = Array.from(selected.values());
       hiddenInput.value = tags.join(", ");
       hiddenInput.dispatchEvent(new Event("input", { bubbles: true }));
+      // Notify other widgets (preview, validation) that the selected tags changed.
       document.dispatchEvent(new CustomEvent("campaign:tagsChange", { detail: { tags } }));
     };
 
@@ -2658,8 +2732,10 @@
     primeSelected();
   };
 
-  // Image upload drag/drop with validation + preview bridge
-  // Control campaign image upload buttons and preview containers.
+  /**
+   * Control the campaign image upload drag/drop zone, validate file types/sizes, and update the preview.
+   * Expects `[data-upload]`, `[data-upload-dropzone]`, error placeholders, and `.image-upload__preview-img`.
+   */
   const initCampaignImageUpload = () => {
     const upload = document.querySelector("[data-upload]");
     if (!upload) return;
@@ -2763,8 +2839,10 @@
     resetPreview();
   };
 
-  // Form formatting helpers (currency, capitalization, counters)
-  // Normalize numeric and currency inputs inside campaign forms.
+  /**
+   * Normalize numeric and currency inputs inside campaign forms, add counters, and keep capitalization tidy.
+   * Works with `.js-campaign-form`, `#campaignName`, `#targetAmount`, and `#description-counter`.
+   */
   const initCampaignFormFormatting = () => {
     const form = document.querySelector(".js-campaign-form");
     if (!form) return;
@@ -2814,7 +2892,10 @@
     }
   };
 
-  // Enable the expandable submenu inside the More section of the sidebar.
+  /**
+   * Enable expandable submenu sections inside the sidebar More section.
+   * Expects sidebar items with `.sidebar-item--expandable`, `.sidebar-link--toggle`, and a submenu id.
+   */
   const initSidebarSubmenus = () => {
     const expandableItems = Array.from(document.querySelectorAll(".sidebar-item--expandable"));
     if (!expandableItems.length) return;
@@ -2871,8 +2952,11 @@
     });
   };
 
-  // Soft validation states and submit guardrails
-  // Validate campaign form fields and show inline errors on submit.
+  /**
+   * Validate campaign form fields on submit and display inline errors.
+   * Expected DOM: `.js-campaign-form` with `#campaignName`, `#targetAmount`, `[data-multi-hidden]`, and `.multi-select__control`.
+   * These are soft client-side checks; the backend must still validate every field.
+   */
   const initCampaignFormValidation = () => {
     const form = document.querySelector(".js-campaign-form");
     if (!form) return;
@@ -2882,6 +2966,7 @@
     const tagsHidden = form.querySelector("[data-multi-hidden]");
     const tagsControl = form.querySelector(".multi-select__control");
 
+    // Soft client-side checks; the backend should still enforce these rules when data is submitted.
     const validators = [
       {
         field: nameField,
@@ -2903,8 +2988,8 @@
       });
     }
 
-    form.addEventListener("submit", (event) => {
-      let isValid = true;
+      form.addEventListener("submit", (event) => {
+        let isValid = true;
       validators.forEach((validator) => {
         if (!validator.field || typeof validator.check !== "function") return;
         const passes = validator.check();
@@ -2935,7 +3020,7 @@
     });
   };
 
-  // Show a temporary toast notification in the shared container for feedback.
+  // Show a temporary toast notification in the shared container for feedback (front-end only; backend would send real requests).
   const showToast = (message, variant = "success") => {
     const container = document.querySelector(".toast-container");
     if (!container) return;
@@ -3033,7 +3118,10 @@
     });
   };
 
-  // Power manual donation form behaviors and quick helpers.
+  /**
+   * Power manual donation form behaviors, amount formatting, donor search, and summary syncing.
+   * Works with `.manual-donation-page`, existing/new panels, `.donor-results__list`, `#manualAmount`, `#manualCampaign`, and `.tag-chip` selectors.
+   */
   const initManualDonationPage = () => {
     // Cache the manual donation form, controls, and toast container for live feedback.
     const page = document.querySelector(".manual-donation-page");
@@ -3080,6 +3168,7 @@
     const summaryStatus = page.querySelector(".js-summary-status");
     const currencySymbols = { USD: "$", EUR: "€", TRY: "₺" };
 
+    // Sample donor results used for UI stub until the backend returns real search results.
     const donors = [
       {
         id: "donor-amina",
@@ -3144,6 +3233,7 @@
       });
     };
 
+    // Toggle between new and existing donor panels; purely a UI state switch for now.
     const setDonorMode = (mode) => {
       donorMode = mode;
       donorModeInputs.forEach((input) => {
@@ -3282,6 +3372,7 @@
       clearFieldError(event.target);
     };
 
+    // Validate manual donation form fields client-side (backend should also verify these values).
     const validateManualForm = () => {
       let isValid = true;
       const amountValue = Number(amountField.dataset.rawValue || "0");
@@ -3413,14 +3504,23 @@
     draftButtons.forEach((button) => button.addEventListener("click", handleSaveDraft));
 
     if (dateField) {
-      dateField.value = new Date().toISOString().split("T")[0];
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      dateField.value = `${year}-${month}-${day}`;
     }
+
 
     setDonorMode("existing");
     renderDonorResults();
     updateSummary();
   };
 
+  /**
+   * Build the donor giving area chart (monthly donations) with placeholder data from `categories`/`seriesData`.
+   * Uses ApexCharts and will later consume backend-provided investment data.
+   */
   const buildDonorGivingChart = () => {
     const chartEl = document.querySelector("#donor-giving-chart");
     if (!chartEl || typeof ApexCharts === "undefined") return;
@@ -3507,6 +3607,10 @@
     donorGivingChart.render();
   };
 
+  /**
+   * Filter donor history rows by status or recurring flag on the donor details page.
+   * Targets `.donor-history-filter` buttons and `.donation-history-table` rows with `data-history-*`.
+   */
   const initDonorHistoryFilters = (page) => {
     const filterButtons = Array.from(page.querySelectorAll(".donor-history-filter"));
     const rows = Array.from(page.querySelectorAll(".donation-history-table tbody tr"));
@@ -3540,6 +3644,10 @@
     applyFilter("all");
   };
 
+  /**
+   * Toggle donor segment chips, allow custom tags/levels, and keep UI toggles on the donor details page.
+   * Expects `.donor-segments-card__chips` with `.tag-chip` children and optional `#customTagInput`.
+   */
   const initDonorSegments = (page) => {
     const chipsContainer = page.querySelector(".donor-segments-card__chips");
     const tagInput = page.querySelector("#customTagInput");
@@ -3588,7 +3696,10 @@
     });
   };
 
-  // Bind donor profile tabs, activity lists, and follow-up actions.
+  /**
+   * Initialize donor profile tabs, giving chart, history filters, segments, and timeline reveal for the donor details page.
+   * Requires `.donor-details-page`, `#donor-giving-chart`, and table/list data attributes for history.
+   */
   const initDonorDetailsPage = () => {
     // Bind donor profile tabs, actions, and timeline components.
     const page = document.querySelector(".donor-details-page");
@@ -3599,7 +3710,10 @@
     setupDonationTimelineReveal(page);
   };
 
-  // Drive new donor intake form logic, validation, and previews.
+  /**
+   * Drive the new donor intake form, including type toggles, chips, preference summary, and client-side validation/preview cards.
+   * Expects `.donor-new-page` with `.donor-new-form`, tag/interest/giving chips, and the `.donor-preview-card` markup.
+   */
   const initDonorNewPage = () => {
     // Manage the new donor intake form, preview, and validation helpers.
     const page = document.querySelector(".donor-new-page");
@@ -3908,9 +4022,12 @@
     });
 
     form.addEventListener("change", (event) => {
-      if (!(event.target instanceof HTMLSelectElement)) return;
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      clearFieldError(target);
       refreshPreview();
     });
+
 
     form.addEventListener("submit", handleSaveDonor);
 
@@ -3933,7 +4050,11 @@
     refreshPreview();
   };
 
-  // Manage message threads, quick filters, and channel toggles.
+  /**
+   * Manage the inbox, conversation switching, mobile layout, template replies, and compose drawer on the messages page.
+   * Works with `.messages-page`, `[data-conversation-id]` / `[data-thread-id]` attributes,
+   * the `.messages-layout` container that shows threads vs. list, and template text selectors (#compose-template).
+   */
   const initMessagesPage = () => {
     // Collect messaging pane nodes, inbox list, and thread controls for updates.
     const page = document.querySelector(".messages-page");
@@ -4033,6 +4154,7 @@
 
     window.addEventListener("resize", handleResize);
 
+    // Template replies are hard-coded strings until backend message templating is integrated.
     const templateText = "Thank you for your generous support. I will follow up shortly with the details.";
     const replyForms = Array.from(page.querySelectorAll("[data-thread-reply]"));
     replyForms.forEach((form) => {
@@ -4123,7 +4245,10 @@
     }
   };
 
-  // Wire settings controls and additional preference helpers.
+  /**
+   * Wire settings navigation tabs, theme preview text, and preference radio toggles without saving to backend.
+   * Targets `.settings-page`, `.settings-nav__item`, `.settings-panel`, and theme radio inputs.
+   */
   const initSettingsPage = () => {
     // Wire settings toggles, switches, and form-level helpers.
     const page = document.querySelector(".settings-page");
@@ -4170,6 +4295,8 @@
     updateThemePreview();
   };
 
+  // Map backend role identifiers to the default permission checkboxes currently shown in the UI.
+  // These defaults live purely on the client and mirror the policies the real API will enforce after integration.
   const ROLE_DEFAULT_PERMS = {
     admin: [
       "campaigns.view",
@@ -4200,7 +4327,11 @@
     viewer: ["campaigns.view", "donations.view", "donors.view"],
   };
 
-  // Coordinate team member panels, invite drawer, and role permissions.
+  /**
+   * Coordinate the team page panels, invite drawer, filters, action dropdowns, and role permissions toggles.
+   * Requires `.team-page`, `.team-member-row`, `.team-member-panel`, role lists (`data-role-panel`), invite panel controls, and filter selects.
+   * Role defaults and permission checkboxes mirror ROLE_DEFAULT_PERMS for the UI; backend enforcement is planned later.
+   */
   const initTeamPage = () => {
     // Coordinate team member panels, action menus, and invite drawer behaviors.
     const root = document.querySelector(".team-page");
@@ -4602,10 +4733,12 @@
     activateTab("members");
   };
 
-  // Wire the export modal UI and toasts without touching backend export payloads; data remains in the markup for now.
-  // Show the exports slide-over, toasts, and format toggles on demand.
+  /**
+   * Show the exports slide-over, format toggles, and toast feedback on the exports page.
+   * This is currently UI-only; the backend export API is still pending.
+   * Requires .exports-page, .export-panel, [data-export-toast], and [data-export-action] controls.
+   */
   const initExportsPage = () => {
-    // Show the exports panel, toasts, and format pickers from the exports page.
     const root = document.querySelector(".exports-page");
     if (!root) return;
 
@@ -4616,7 +4749,8 @@
     let toastTimer;
     const toastDefault = toast?.textContent?.trim() || "";
 
-    const showToast = (message) => {
+    // Toast helper operates purely in the UI while backend export wiring is still pending.
+    const showExportToast = (message) => {
       if (!toast) return;
       const text = message || toastDefault;
       toast.textContent = text;
@@ -4674,10 +4808,12 @@
       form.addEventListener("submit", (event) => {
         event.preventDefault();
         closePanel();
-        showToast("Export created – it will appear in history shortly.");
+        showExportToast("Export created - it will appear in history shortly.");
+        // TODO: Wire this submit handler to the real export API endpoint.
       });
     }
 
+    // Action buttons currently only trigger toast feedback; real export actions live on the backend later.
     const actionButtons = document.querySelectorAll("[data-export-action]");
     actionButtons.forEach((control) => {
       control.addEventListener("click", (event) => {
@@ -4695,15 +4831,12 @@
           message = `Schedule editor for ${target} is coming soon.`;
         }
         if (message) {
-          showToast(message);
+          showExportToast(message);
         }
       });
     });
   };
-
-  // Filter integrations, open the slide-over panel, and update previews.
   const initIntegrationsPage = () => {
-    // Filter integration cards and bring up the integration detail slide-over.
     const root = document.querySelector(".integrations-page");
     if (!root) return;
 
@@ -4806,7 +4939,11 @@
     });
   };
 
-  // Open the audit detail drawer while keeping table scroll state.
+  /**
+   * Open the access audit detail drawer while keeping the table scroll state static.
+   * Targets `.access-audit-page`, `.audit-panel`, and panel close triggers.
+   * Currently this just toggles the drawer UI; backend audit data is expected to already be present in the markup.
+   */
   const initAccessAuditPage = () => {
     // Open and close the audit detail drawer without reloading the table.
     const root = document.querySelector(".access-audit-page");
@@ -4841,7 +4978,10 @@
     });
   };
 
-  // Set up donation details overlays, refunds, and toast wiring.
+  /**
+   * Set up donation details overlays, refund modal, sticky bar, and timeline reveal for the donation details page.
+   * Expects `.donation-details-page`, `.details-sticky-actions`, `#refundModal`, and the timeline markup.
+   */
   const initDonationDetailsPage = () => {
     // Initialize donation details overlays, modals, and toast helpers.
     const page = document.querySelector(".donation-details-page");
@@ -4852,7 +4992,7 @@
     setupDonationTimelineReveal(page);
   };
 
-  // Initialize every dashboard module and listener after DOM ready.
+  // Central initializer: DOMContentLoaded safely triggers each init function only where its page root exists.
   document.addEventListener("DOMContentLoaded", () => {
     initThemeToggle();
     initSidebar();
@@ -4898,3 +5038,4 @@
   });
 
 })();
+

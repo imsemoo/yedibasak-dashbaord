@@ -7327,7 +7327,6 @@ body[data-theme="dark"] .donor-preview-card__dnc-pill {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  overflow: hidden;
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   position: relative;
 }
@@ -7335,7 +7334,6 @@ body[data-theme="dark"] .donor-preview-card__dnc-pill {
 .team-member-row:hover {
   border-color: var(--color-primary-soft);
   box-shadow: var(--shadow-card-light);
-  transform: translateY(-1px);
 }
 
 .team-member-row__button {
