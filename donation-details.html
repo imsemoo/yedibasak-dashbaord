@@ -3,10 +3,10 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Donations Dashboard - Donation Details</title>
-  <meta name="description"
-    content="Review the full history, payment metadata, and related campaign for this donation." />
+  <meta name="description" content="Review payment metadata, refund tools, and donor info for a single donation." />
+  <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#15C5CE" />
   <link rel="canonical" href="https://example.org/dashboard/donation-details" />
   <meta property="og:title" content="Donations Dashboard - Donation Details" />
@@ -32,7 +32,9 @@
 
 <body data-theme="light">
   <a class="skip-link" href="#main">Skip to main content</a>
+  <!-- App layout wrapper -->
   <div class="app">
+    <!-- Sidebar navigation section -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
@@ -121,7 +123,9 @@
 
     <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
 
+    <!-- App workspace container -->
     <div class="app-main">
+      <!-- Dashboard header section -->
       <header class="app-header" aria-label="Dashboard header">
         <div class="app-header__left">
           <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
@@ -597,6 +601,7 @@
         </div>
       </main>
 
+      <!-- Application footer -->
       <footer class="app-footer">
         <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
       </footer>

@@ -47,7 +47,6 @@
     currentActive: "",
   };
 
-  // Dropdown controller for notifications and user menu
   const Dropdowns = (() => {
     let toggles = [];
     let panels = [];
@@ -370,6 +369,7 @@
     }
   };
 
+  // Apply the current palette, persist it, and refresh charts plus map layers.
   const applyTheme = (theme) => {
     document.body.setAttribute("data-theme", theme);
     localStorage.setItem(STORAGE_KEY, theme);
@@ -381,6 +381,7 @@
 
   // Persist theme preference and wire up toggle
   // Maintain the theme toggle and persist the preference so charts and the map stay in sync with the selected palette.
+  // Initialize the theme toggle control and hydrate the stored preference.
   const initThemeToggle = () => {
     const themeToggle = document.querySelector(".js-theme-toggle");
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -391,6 +392,7 @@
     syncThemeIcon(initial);
 
     if (themeToggle) {
+      // Clicking the toggle flips between dark and light palettes.
       themeToggle.addEventListener("click", () => {
         const nextTheme = getTheme() === "dark" ? "light" : "dark";
         applyTheme(nextTheme);
@@ -400,7 +402,9 @@
 
   // Handle sidebar for mobile (slide over) and desktop (collapse)
   // Manage the sidebar's mobile overlay vs desktop collapse behavior without injecting business data.
+  // Manage sidebar collapse/overlay behavior and mobile locking.
   const initSidebar = () => {
+    // Layout nodes used to open/close the sidebar panel and overlay on every breakpoint.
     const app = document.querySelector(".app");
     const sidebar = document.querySelector(".sidebar");
     const sidebarToggles = document.querySelectorAll(".js-sidebar-toggle");
@@ -440,19 +444,24 @@
       }
     };
 
+    // Each toggle button opens the sidebar or collapses it depending on the screen size.
     sidebarToggles.forEach((btn) => {
       btn.setAttribute("aria-expanded", "false");
       btn.addEventListener("click", toggleSidebar);
     });
 
+    // Clicking the overlay or pressing Escape should close the mobile sidebar.
     overlay?.addEventListener("click", closeMobileSidebar);
 
+    // Escape key closes the mobile sidebar overlay when it is open.
+    // Allow Escape key to dismiss the drawer for accessibility.
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         closeMobileSidebar();
       }
     });
 
+    // Track breakpoint changes to keep sidebar state consistent per device.
     mobileQuery.addEventListener("change", (event) => {
       if (event.matches) {
         if (app) {
@@ -474,6 +483,7 @@
 
   // Build ApexCharts instances with responsive options
   // Build ApexCharts instances with placeholder series so the UI is ready for backend data once HTML is populated.
+  // Construct overview ApexCharts instances with placeholder data and responsive options.
   const buildCharts = () => {
     if (typeof ApexCharts === "undefined") return;
 
@@ -604,11 +614,13 @@
     }
   };
 
+  // Kick off overview chart rendering and refresh their theme skins.
   const initCharts = () => {
     buildCharts();
     updateChartsForTheme(getTheme());
   };
 
+  // Render the mini funnel and retention charts shown on the overview page.
   const initOverviewMiniCharts = () => {
     if (typeof ApexCharts === "undefined") return;
     const funnelEl = document.querySelector("#donation-funnel-chart");
@@ -777,6 +789,7 @@
     });
   };
 
+  // Wire the overview hero, quick actions, and region selection controls.
   const initOverviewPage = () => {
     const root = document.querySelector(".overview-page");
     if (!root) return;
@@ -1027,6 +1040,7 @@
 
   // Off-canvas filters for campaigns list
   const initCampaignFilters = () => {
+    // Cache the drawer, trigger, and control buttons for the campaign filters panel.
     const offcanvas = document.querySelector(".offcanvas-filters");
     const trigger = document.querySelector(".js-open-filters");
     if (!offcanvas || !trigger) return;
@@ -1084,18 +1098,24 @@
       }
     };
 
+    // Attach interactions so the drawer responds to clicks, overlay taps, and escape keys.
+    // Hook up the triggers and close controls for the donations filters drawer.
     trigger.addEventListener("click", toggle);
     backdrop?.addEventListener("click", close);
     closeButtons.forEach((btn) => btn.addEventListener("click", close));
 
+    // Allow Escape key to close the filters drawer for accessibility.
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && offcanvas.classList.contains("is-open")) {
         close();
       }
     });
 
+    // Update the filter badge whenever any input changes.
+    // Update the filter badge whenever a field changes.
     fields.forEach((field) => field.addEventListener("change", updateBadge));
 
+    // Reset all filter controls when the reset button is triggered.
     resetButton?.addEventListener("click", () => {
       fields.forEach((field) => {
         if (field.type === "checkbox" || field.type === "radio") {
@@ -1107,6 +1127,7 @@
       updateBadge();
     });
 
+    // Apply the selected filters and close the drawer when hitting Apply.
     applyButton?.addEventListener("click", () => {
       updateBadge();
       close();
@@ -1116,6 +1137,7 @@
   };
 
   // View toggle for campaigns (cards vs table)
+  // Maintain the campaigns view toggle between cards and table layouts.
   const initCampaignViewToggle = () => {
     const viewToggle = document.querySelector(".view-toggle");
     const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
@@ -1156,6 +1178,7 @@
   };
 
   // Local dropdowns for campaign actions
+  // Attach campaign card/table actions such as publish, archive, and clone.
   const initCampaignActions = () => {
     const actionToggles = Array.from(document.querySelectorAll(".js-actions-toggle"));
     const actionMenus = Array.from(document.querySelectorAll(".dropdown-menu--actions"));
@@ -1181,10 +1204,12 @@
 
     actionToggles.forEach((toggle) => {
       toggle.setAttribute("aria-expanded", "false");
+      // Toggle the campaign action menu when clicking the kebab button.
       toggle.addEventListener("click", (event) => {
         event.stopPropagation();
         toggleMenu(toggle);
       });
+      // Support keyboard activation (Enter/Space) for each campaign action toggle.
       toggle.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
           event.preventDefault();
@@ -1214,6 +1239,7 @@
   };
 
   // Quick campaign preview side sheet
+  // Populate and animate the campaign preview panel from form values.
   const initCampaignPreview = () => {
     const previewSheet = document.querySelector('.preview-sheet[data-preview="campaign"]');
     if (!previewSheet) return;
@@ -1317,6 +1343,7 @@
     });
   };
 
+  // Keep the donations view (cards/table) toggle in sync with storage.
   const initDonationsViewToggle = () => {
     const viewToggle = document.querySelector(".view-toggle[data-view-context='donations']");
     const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
@@ -1356,6 +1383,7 @@
     });
   };
 
+  // Update donation preview highlights used across payments lists.
   const initDonationsPreview = () => {
     const previewSheet = document.querySelector('.preview-sheet[data-preview="donation"]');
     if (!previewSheet) return;
@@ -1478,7 +1506,9 @@
     });
   };
 
+  // Configure donation filter controls and badges inside the filter panel.
   const initDonationsFilters = () => {
+    // Cache the donations filter panel, trigger, and control buttons for the drawer.
     const offcanvas = document.getElementById("donationsFilters");
     const trigger = document.querySelector(".js-open-donations-filters");
     if (!offcanvas || !trigger) return;
@@ -1567,6 +1597,7 @@
     updateBadge();
   };
 
+  // Wire action menus for each donation row (retry, refund, details).
   const initDonationsActions = () => {
     const actionToggles = Array.from(document.querySelectorAll(".js-donation-actions-toggle"));
     const actionMenus = Array.from(document.querySelectorAll(".dropdown-donations .dropdown-menu--actions"));
@@ -1592,10 +1623,12 @@
 
     actionToggles.forEach((toggle) => {
       toggle.setAttribute("aria-expanded", "false");
+      // Toggle the donor action menu when clicking the kebab button.
       toggle.addEventListener("click", (event) => {
         event.stopPropagation();
         toggleMenu(toggle);
       });
+      // Support keyboard activation (Enter/Space) for each action toggle.
       toggle.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
           event.preventDefault();
@@ -1624,6 +1657,7 @@
     });
   };
 
+  // Synchronize the donors page view selector and store the setting.
   const initDonorsViewToggle = () => {
     const viewToggle = document.querySelector(".view-toggle[data-view-context='donors']");
     const viewButtons = viewToggle ? Array.from(viewToggle.querySelectorAll(".view-toggle__btn")) : [];
@@ -1663,7 +1697,9 @@
     });
   };
 
+  // Hook donors filters, slider toggles, and quick presets in the drawer.
   const initDonorsFilters = () => {
+    // Capture donor filters drawer elements and form controls for the offcanvas panel.
     const offcanvas = document.getElementById("donorsFilters");
     const trigger = document.querySelector(".js-open-donors-filters");
     if (!offcanvas || !trigger) return;
@@ -1721,10 +1757,12 @@
       }
     };
 
+    // Attach the triggers that open or close the donor filters drawer.
     trigger.addEventListener("click", toggle);
     closeButtons.forEach((btn) => btn.addEventListener("click", close));
     backdrop?.addEventListener("click", close);
 
+    // Reset filters when the clear button is clicked.
     resetButton?.addEventListener("click", () => {
       fields.forEach((field) => {
         if (field.type === "checkbox" || field.type === "radio") {
@@ -1736,13 +1774,16 @@
       updateBadge();
     });
 
+    // Apply filters and close the panel when the apply button is used.
     applyButton?.addEventListener("click", () => {
       updateBadge();
       close();
     });
 
+    // Update the badge whenever filter inputs change.
     fields.forEach((field) => field.addEventListener("change", updateBadge));
 
+    // Allow Escape key to close the filters panel for accessibility.
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && offcanvas.classList.contains("is-open")) {
         close();
@@ -1752,6 +1793,7 @@
     updateBadge();
   };
 
+  // Manage donor preview buttons and dropdown menus for quick actions.
   const initDonorsActions = () => {
     const actionToggles = Array.from(document.querySelectorAll(".js-donor-actions-toggle"));
     const actionMenus = Array.from(document.querySelectorAll(".dropdown-donors .dropdown-menu--actions"));
@@ -1809,6 +1851,7 @@
     });
   };
 
+  // Fill the donor preview sheet with selected donor data and history.
   const initDonorsPreview = () => {
     const panel = document.querySelector(".donor-preview-panel");
     if (!panel) return;
@@ -2030,7 +2073,9 @@
     });
   };
 
+  // Handle donor tabs, filters, previews, and table interactions for the donors page.
   const initDonorsPage = () => {
+    // Cache donors page table, cards, and filter widgets for updating visibility.
     const root = document.querySelector(".donors-page");
     if (!root) return;
 
@@ -2212,6 +2257,7 @@
   };
 
   // Campaign form preview
+  // Update the campaign form preview card while typing.
   const initCampaignFormPreview = () => {
     const form = document.querySelector(".js-campaign-form");
     if (!form) return;
@@ -2342,6 +2388,7 @@
   };
 
   // Multi-select for tags/categories
+  // Keep multi-select tag controls and chips synchronized in forms.
   const initMultiSelectTags = () => {
     const multiSelect = document.querySelector("[data-multi-select]");
     if (!multiSelect) return;
@@ -2612,6 +2659,7 @@
   };
 
   // Image upload drag/drop with validation + preview bridge
+  // Control campaign image upload buttons and preview containers.
   const initCampaignImageUpload = () => {
     const upload = document.querySelector("[data-upload]");
     if (!upload) return;
@@ -2716,6 +2764,7 @@
   };
 
   // Form formatting helpers (currency, capitalization, counters)
+  // Normalize numeric and currency inputs inside campaign forms.
   const initCampaignFormFormatting = () => {
     const form = document.querySelector(".js-campaign-form");
     if (!form) return;
@@ -2765,6 +2814,7 @@
     }
   };
 
+  // Enable the expandable submenu inside the More section of the sidebar.
   const initSidebarSubmenus = () => {
     const expandableItems = Array.from(document.querySelectorAll(".sidebar-item--expandable"));
     if (!expandableItems.length) return;
@@ -2822,6 +2872,7 @@
   };
 
   // Soft validation states and submit guardrails
+  // Validate campaign form fields and show inline errors on submit.
   const initCampaignFormValidation = () => {
     const form = document.querySelector(".js-campaign-form");
     if (!form) return;
@@ -2884,11 +2935,15 @@
     });
   };
 
+  // Show a temporary toast notification in the shared container for feedback.
   const showToast = (message, variant = "success") => {
     const container = document.querySelector(".toast-container");
     if (!container) return;
     const toast = document.createElement("div");
     toast.className = `toast toast--${variant}`;
+    toast.setAttribute("role", "alert");
+    toast.setAttribute("aria-live", "assertive");
+    toast.setAttribute("aria-atomic", "true");
     toast.textContent = message;
     container.appendChild(toast);
     setTimeout(() => {
@@ -2978,7 +3033,9 @@
     });
   };
 
+  // Power manual donation form behaviors and quick helpers.
   const initManualDonationPage = () => {
+    // Cache the manual donation form, controls, and toast container for live feedback.
     const page = document.querySelector(".manual-donation-page");
     if (!page) return;
 
@@ -3531,7 +3588,9 @@
     });
   };
 
+  // Bind donor profile tabs, activity lists, and follow-up actions.
   const initDonorDetailsPage = () => {
+    // Bind donor profile tabs, actions, and timeline components.
     const page = document.querySelector(".donor-details-page");
     if (!page) return;
     buildDonorGivingChart();
@@ -3540,7 +3599,9 @@
     setupDonationTimelineReveal(page);
   };
 
+  // Drive new donor intake form logic, validation, and previews.
   const initDonorNewPage = () => {
+    // Manage the new donor intake form, preview, and validation helpers.
     const page = document.querySelector(".donor-new-page");
     if (!page) return;
     const form = page.querySelector(".donor-new-form");
@@ -3872,7 +3933,9 @@
     refreshPreview();
   };
 
+  // Manage message threads, quick filters, and channel toggles.
   const initMessagesPage = () => {
+    // Collect messaging pane nodes, inbox list, and thread controls for updates.
     const page = document.querySelector(".messages-page");
     if (!page) return;
     const layout = page.querySelector(".messages-layout");
@@ -4060,483 +4123,489 @@
     }
   };
 
-    const initSettingsPage = () => {
-      const page = document.querySelector(".settings-page");
-      if (!page) return;
+  // Wire settings controls and additional preference helpers.
+  const initSettingsPage = () => {
+    // Wire settings toggles, switches, and form-level helpers.
+    const page = document.querySelector(".settings-page");
+    if (!page) return;
 
-      const navItems = Array.from(page.querySelectorAll(".settings-nav__item"));
-      const panels = Array.from(page.querySelectorAll(".settings-panel"));
-      const previewLabel = page.querySelector("[data-theme-preview-value]");
-      const themeRadios = Array.from(page.querySelectorAll('input[name="preferences-theme"]'));
+    const navItems = Array.from(page.querySelectorAll(".settings-nav__item"));
+    const panels = Array.from(page.querySelectorAll(".settings-panel"));
+    const previewLabel = page.querySelector("[data-theme-preview-value]");
+    const themeRadios = Array.from(page.querySelectorAll('input[name="preferences-theme"]'));
 
-      const activateTab = (tab) => {
-        if (!tab) return;
-        navItems.forEach((item) => {
-          item.classList.toggle("is-active", item.dataset.settingsTab === tab);
-        });
-
-        panels.forEach((panel) => {
-          panel.classList.toggle("settings-panel--active", panel.dataset.settingsPanel === tab);
-        });
-      };
-
-      const updateThemePreview = () => {
-        if (!previewLabel || !themeRadios.length) return;
-        const active = themeRadios.find((radio) => radio.checked);
-        const previewText = active?.dataset?.preview || active?.value || "System default";
-        previewLabel.textContent = `Theme: ${previewText}`;
-      };
-
+    const activateTab = (tab) => {
+      if (!tab) return;
       navItems.forEach((item) => {
-        item.addEventListener("click", () => {
-          const tab = item.dataset.settingsTab;
-          activateTab(tab);
+        item.classList.toggle("is-active", item.dataset.settingsTab === tab);
+      });
+
+      panels.forEach((panel) => {
+        panel.classList.toggle("settings-panel--active", panel.dataset.settingsPanel === tab);
+      });
+    };
+
+    const updateThemePreview = () => {
+      if (!previewLabel || !themeRadios.length) return;
+      const active = themeRadios.find((radio) => radio.checked);
+      const previewText = active?.dataset?.preview || active?.value || "System default";
+      previewLabel.textContent = `Theme: ${previewText}`;
+    };
+
+    navItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const tab = item.dataset.settingsTab;
+        activateTab(tab);
+      });
+    });
+
+    themeRadios.forEach((radio) => {
+      radio.addEventListener("change", updateThemePreview);
+    });
+
+    const first = navItems[0];
+    if (first && first.dataset.settingsTab) {
+      activateTab(first.dataset.settingsTab);
+    }
+    updateThemePreview();
+  };
+
+  const ROLE_DEFAULT_PERMS = {
+    admin: [
+      "campaigns.view",
+      "campaigns.edit",
+      "donations.view",
+      "donations.refund",
+      "donors.view",
+      "donors.edit",
+      "messages.send",
+      "messages.bulk",
+      "finance.view",
+      "finance.reconcile",
+      "finance.payouts",
+      "settings.general",
+      "settings.integrations",
+      "team.manage",
+      "security.view-audit",
+    ],
+    manager: [
+      "campaigns.view",
+      "campaigns.edit",
+      "donations.view",
+      "donors.view",
+      "messages.send",
+    ],
+    finance: ["donations.view", "finance.view", "finance.reconcile", "finance.payouts"],
+    support: ["donors.view", "messages.send"],
+    viewer: ["campaigns.view", "donations.view", "donors.view"],
+  };
+
+  // Coordinate team member panels, invite drawer, and role permissions.
+  const initTeamPage = () => {
+    // Coordinate team member panels, action menus, and invite drawer behaviors.
+    const root = document.querySelector(".team-page");
+    if (!root) return;
+
+    const tabs = root.querySelectorAll(".team-tab");
+    const panels = root.querySelectorAll(".team-panel");
+    const memberRows = Array.from(root.querySelectorAll(".team-member-row"));
+    const memberCards = Array.from(root.querySelectorAll("[data-member-panel]"));
+    const panel = root.querySelector(".team-member-panel");
+    const panelBackdrop = panel?.querySelector("[data-panel-backdrop]");
+    const panelClose = panel?.querySelector("[data-panel-close]");
+    const panelTitle = panel?.querySelector("[data-panel-title]");
+    const panelEmail = panel?.querySelector("[data-panel-email]");
+
+    const filterSelects = Array.from(root.querySelectorAll(".team-filter select"));
+    const filterSelectsByName = new Map();
+    const chipContainer = root.querySelector(".team-filter-chips");
+    const chipList = root.querySelector(".team-filter-chip-list");
+    const chipLabel = root.querySelector(".team-filter-chips__label");
+    const clearFiltersBtn = root.querySelector("[data-clear-filters]");
+    const activeFilters = new Map();
+
+    const actionDropdowns = Array.from(root.querySelectorAll(".more-actions-dropdown"));
+    let openActionDropdown = null;
+    const roleItems = Array.from(root.querySelectorAll(".roles-list__item"));
+    const rolePanels = Array.from(root.querySelectorAll("[data-role-panel]"));
+    const permToggleButtons = Array.from(root.querySelectorAll("[data-perm-toggle-group]"));
+    const memberActionToggles = Array.from(root.querySelectorAll("[data-member-action-toggle]"));
+    const memberActionMenus = Array.from(root.querySelectorAll("[data-member-action-menu]"));
+    let openMemberActionMenu = null;
+
+    const invitePanel = document.querySelector(".invite-panel");
+    const inviteModeButtons = invitePanel ? Array.from(invitePanel.querySelectorAll("[data-invite-mode]")) : [];
+    const inviteForm = invitePanel?.querySelector(".invite-form");
+    const inviteRole = invitePanel?.querySelector("#invite-role");
+    const inviteEmail = invitePanel?.querySelector("#invite-email");
+    const invitePreviewRole = invitePanel?.querySelector("[data-preview-role]");
+    const invitePreviewEmail = invitePanel?.querySelector("[data-preview-email]");
+    const invitePreviewScopes = invitePanel?.querySelector("[data-preview-scopes]");
+    const inviteScopeInputs = invitePanel ? Array.from(invitePanel.querySelectorAll("input[name=\"inviteScope\"]")) : [];
+
+    const isTabletOrSmaller = () => window.innerWidth <= 1024;
+
+    const activateTab = (id) => {
+      tabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.teamTab === id));
+      panels.forEach((panelElement) =>
+        panelElement.classList.toggle("team-panel--active", panelElement.dataset.teamPanel === id)
+      );
+    };
+
+    const updatePanelHeader = (row) => {
+      if (!row) return;
+      if (panelTitle) panelTitle.textContent = row.dataset.memberName || "";
+      if (panelEmail) panelEmail.textContent = row.dataset.memberEmail || "";
+    };
+
+    const openMemberPanel = () => {
+      if (!panel) return;
+      panel.classList.add("is-open");
+      panel.setAttribute("aria-hidden", "false");
+    };
+
+    const closeMemberPanel = () => {
+      if (!panel) return;
+      panel.classList.remove("is-open");
+      panel.setAttribute("aria-hidden", "true");
+    };
+
+    const setActiveMember = (id, rowRef) => {
+      if (!id) return;
+      const targetRow = rowRef || memberRows.find((row) => row.dataset.memberId === id);
+      memberRows.forEach((row) => row.classList.toggle("is-active", row.dataset.memberId === id));
+      memberCards.forEach((card) => card.classList.toggle("is-active", card.dataset.memberPanel === id));
+      updatePanelHeader(targetRow);
+      openMemberPanel();
+    };
+
+    const renderFilterChips = () => {
+      if (!chipList || !chipContainer) return;
+      chipList.innerHTML = "";
+      const hasFilters = activeFilters.size > 0;
+      chipContainer.classList.toggle("is-empty", !hasFilters);
+      if (chipLabel) chipLabel.setAttribute("aria-hidden", hasFilters ? "false" : "true");
+      if (clearFiltersBtn) clearFiltersBtn.disabled = !hasFilters;
+
+      activeFilters.forEach((meta, key) => {
+        const chip = document.createElement("span");
+        chip.className = "team-filter-chip";
+        chip.dataset.filterChip = key;
+        chip.textContent = `${meta.label}: ${meta.displayValue}`;
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "team-filter-chip-remove";
+        removeBtn.setAttribute("aria-label", `Remove ${meta.label} filter`);
+        removeBtn.textContent = "✕";
+        removeBtn.addEventListener("click", () => {
+          const select = filterSelectsByName.get(key);
+          if (select) {
+            select.value = select.dataset.defaultValue || "all";
+            handleFilterChange(select);
+          }
         });
+        chip.appendChild(removeBtn);
+        chipList.appendChild(chip);
       });
+    };
 
-      themeRadios.forEach((radio) => {
-        radio.addEventListener("change", updateThemePreview);
-      });
-
-      const first = navItems[0];
-      if (first && first.dataset.settingsTab) {
-        activateTab(first.dataset.settingsTab);
+    const handleFilterChange = (select) => {
+      const name = select.dataset.filterName;
+      if (!name) return;
+      const label = select.dataset.filterLabel || select.name || name;
+      const defaultValue = select.dataset.defaultValue || "all";
+      if (select.value === defaultValue) {
+        activeFilters.delete(name);
+      } else {
+        const displayValue = select.options[select.selectedIndex]?.textContent.trim() || select.value;
+        activeFilters.set(name, { label, displayValue, value: select.value });
       }
-      updateThemePreview();
+      renderFilterChips();
     };
 
-    const ROLE_DEFAULT_PERMS = {
-      admin: [
-        "campaigns.view",
-        "campaigns.edit",
-        "donations.view",
-        "donations.refund",
-        "donors.view",
-        "donors.edit",
-        "messages.send",
-        "messages.bulk",
-        "finance.view",
-        "finance.reconcile",
-        "finance.payouts",
-        "settings.general",
-        "settings.integrations",
-        "team.manage",
-        "security.view-audit",
-      ],
-      manager: [
-        "campaigns.view",
-        "campaigns.edit",
-        "donations.view",
-        "donors.view",
-        "messages.send",
-      ],
-      finance: ["donations.view", "finance.view", "finance.reconcile", "finance.payouts"],
-      support: ["donors.view", "messages.send"],
-      viewer: ["campaigns.view", "donations.view", "donors.view"],
-    };
-
-    const initTeamPage = () => {
-      const root = document.querySelector(".team-page");
-      if (!root) return;
-
-      const tabs = root.querySelectorAll(".team-tab");
-      const panels = root.querySelectorAll(".team-panel");
-      const memberRows = Array.from(root.querySelectorAll(".team-member-row"));
-      const memberCards = Array.from(root.querySelectorAll("[data-member-panel]"));
-      const panel = root.querySelector(".team-member-panel");
-      const panelBackdrop = panel?.querySelector("[data-panel-backdrop]");
-      const panelClose = panel?.querySelector("[data-panel-close]");
-      const panelTitle = panel?.querySelector("[data-panel-title]");
-      const panelEmail = panel?.querySelector("[data-panel-email]");
-
-      const filterSelects = Array.from(root.querySelectorAll(".team-filter select"));
-      const filterSelectsByName = new Map();
-      const chipContainer = root.querySelector(".team-filter-chips");
-      const chipList = root.querySelector(".team-filter-chip-list");
-      const chipLabel = root.querySelector(".team-filter-chips__label");
-      const clearFiltersBtn = root.querySelector("[data-clear-filters]");
-      const activeFilters = new Map();
-
-      const actionDropdowns = Array.from(root.querySelectorAll(".more-actions-dropdown"));
-      let openActionDropdown = null;
-      const roleItems = Array.from(root.querySelectorAll(".roles-list__item"));
-      const rolePanels = Array.from(root.querySelectorAll("[data-role-panel]"));
-      const permToggleButtons = Array.from(root.querySelectorAll("[data-perm-toggle-group]"));
-      const memberActionToggles = Array.from(root.querySelectorAll("[data-member-action-toggle]"));
-      const memberActionMenus = Array.from(root.querySelectorAll("[data-member-action-menu]"));
-      let openMemberActionMenu = null;
-
-      const invitePanel = document.querySelector(".invite-panel");
-      const inviteModeButtons = invitePanel ? Array.from(invitePanel.querySelectorAll("[data-invite-mode]")) : [];
-      const inviteForm = invitePanel?.querySelector(".invite-form");
-      const inviteRole = invitePanel?.querySelector("#invite-role");
-      const inviteEmail = invitePanel?.querySelector("#invite-email");
-      const invitePreviewRole = invitePanel?.querySelector("[data-preview-role]");
-      const invitePreviewEmail = invitePanel?.querySelector("[data-preview-email]");
-      const invitePreviewScopes = invitePanel?.querySelector("[data-preview-scopes]");
-      const inviteScopeInputs = invitePanel ? Array.from(invitePanel.querySelectorAll("input[name=\"inviteScope\"]")) : [];
-
-      const isTabletOrSmaller = () => window.innerWidth <= 1024;
-
-      const activateTab = (id) => {
-        tabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.teamTab === id));
-        panels.forEach((panelElement) =>
-          panelElement.classList.toggle("team-panel--active", panelElement.dataset.teamPanel === id)
-        );
-      };
-
-      const updatePanelHeader = (row) => {
-        if (!row) return;
-        if (panelTitle) panelTitle.textContent = row.dataset.memberName || "";
-        if (panelEmail) panelEmail.textContent = row.dataset.memberEmail || "";
-      };
-
-      const openMemberPanel = () => {
-        if (!panel) return;
-        panel.classList.add("is-open");
-        panel.setAttribute("aria-hidden", "false");
-      };
-
-      const closeMemberPanel = () => {
-        if (!panel) return;
-        panel.classList.remove("is-open");
-        panel.setAttribute("aria-hidden", "true");
-      };
-
-      const setActiveMember = (id, rowRef) => {
-        if (!id) return;
-        const targetRow = rowRef || memberRows.find((row) => row.dataset.memberId === id);
-        memberRows.forEach((row) => row.classList.toggle("is-active", row.dataset.memberId === id));
-        memberCards.forEach((card) => card.classList.toggle("is-active", card.dataset.memberPanel === id));
-        updatePanelHeader(targetRow);
-        openMemberPanel();
-      };
-
-      const renderFilterChips = () => {
-        if (!chipList || !chipContainer) return;
-        chipList.innerHTML = "";
-        const hasFilters = activeFilters.size > 0;
-        chipContainer.classList.toggle("is-empty", !hasFilters);
-        if (chipLabel) chipLabel.setAttribute("aria-hidden", hasFilters ? "false" : "true");
-        if (clearFiltersBtn) clearFiltersBtn.disabled = !hasFilters;
-
-        activeFilters.forEach((meta, key) => {
-          const chip = document.createElement("span");
-          chip.className = "team-filter-chip";
-          chip.dataset.filterChip = key;
-          chip.textContent = `${meta.label}: ${meta.displayValue}`;
-          const removeBtn = document.createElement("button");
-          removeBtn.type = "button";
-          removeBtn.className = "team-filter-chip-remove";
-          removeBtn.setAttribute("aria-label", `Remove ${meta.label} filter`);
-          removeBtn.textContent = "✕";
-          removeBtn.addEventListener("click", () => {
-            const select = filterSelectsByName.get(key);
-            if (select) {
-              select.value = select.dataset.defaultValue || "all";
-              handleFilterChange(select);
-            }
-          });
-          chip.appendChild(removeBtn);
-          chipList.appendChild(chip);
-        });
-      };
-
-      const handleFilterChange = (select) => {
-        const name = select.dataset.filterName;
-        if (!name) return;
-        const label = select.dataset.filterLabel || select.name || name;
-        const defaultValue = select.dataset.defaultValue || "all";
-        if (select.value === defaultValue) {
-          activeFilters.delete(name);
-        } else {
-          const displayValue = select.options[select.selectedIndex]?.textContent.trim() || select.value;
-          activeFilters.set(name, { label, displayValue, value: select.value });
-        }
-        renderFilterChips();
-      };
-
-      const resetFilters = () => {
-        filterSelects.forEach((select) => {
-          const defaultValue = select.dataset.defaultValue || "all";
-          select.value = defaultValue;
-        });
-        activeFilters.clear();
-        renderFilterChips();
-      };
-
-      const closeActionDropdowns = () => {
-        actionDropdowns.forEach((dropdown) => {
-          dropdown.classList.remove("is-open");
-          const toggle = dropdown.querySelector("[data-action-toggle]");
-          if (toggle) toggle.setAttribute("aria-expanded", "false");
-        });
-        openActionDropdown = null;
-      };
-
-      const toggleActionDropdown = (dropdown) => {
-        const toggle = dropdown.querySelector("[data-action-toggle]");
-        if (!toggle) return;
-        const shouldOpen = !dropdown.classList.contains("is-open");
-        closeActionDropdowns();
-        if (shouldOpen) {
-          dropdown.classList.add("is-open");
-          toggle.setAttribute("aria-expanded", "true");
-          openActionDropdown = dropdown;
-        }
-      };
-
-      const updateInvitePreview = () => {
-        if (invitePreviewRole && inviteRole) {
-          const label = inviteRole.selectedOptions[0]?.textContent.trim() || "Manager";
-          invitePreviewRole.textContent = `Role: ${label}`;
-        }
-        if (invitePreviewEmail) {
-          const emailValue = inviteEmail?.value.trim() || "name@organization.org";
-          invitePreviewEmail.textContent = `Email: ${emailValue}`;
-        }
-        if (invitePreviewScopes) {
-          invitePreviewScopes.innerHTML = "";
-          const selections = inviteScopeInputs
-            .filter((input) => input.checked)
-            .map((input) => input.closest("label")?.textContent.trim() || input.value);
-          if (!selections.length) {
-            const placeholder = document.createElement("li");
-            placeholder.textContent = "Default workspace access";
-            invitePreviewScopes.appendChild(placeholder);
-          } else {
-            selections.forEach((text) => {
-              const item = document.createElement("li");
-              item.textContent = text;
-              invitePreviewScopes.appendChild(item);
-            });
-          }
-        }
-      };
-
-      const setInviteMode = (mode) => {
-        if (!inviteForm) return;
-        const isAdvanced = mode === "advanced";
-        inviteForm.classList.toggle("is-advanced", isAdvanced);
-        inviteModeButtons.forEach((button) => {
-          const isActive = button.dataset.inviteMode === mode;
-          button.classList.toggle("is-active", isActive);
-        });
-        updateInvitePreview();
-      };
-
-      const openInvitePanel = () => {
-        if (!invitePanel) return;
-        invitePanel.classList.add("is-open");
-        invitePanel.setAttribute("aria-hidden", "false");
-        inviteEmail?.focus();
-      };
-
-      const closeInvitePanel = () => {
-        if (!invitePanel) return;
-        invitePanel.classList.remove("is-open");
-        invitePanel.setAttribute("aria-hidden", "true");
-      };
-
-      const handleDocumentClick = (event) => {
-        if (panel && panel.classList.contains("is-open") && isTabletOrSmaller()) {
-          const target = event.target;
-          if (!target.closest(".team-member-panel") && !target.closest(".team-member-row__button")) {
-            closeMemberPanel();
-          }
-        }
-        if (openActionDropdown && !event.target.closest(".more-actions-dropdown")) {
-          closeActionDropdowns();
-        }
-        if (openMemberActionMenu && !event.target.closest("[data-member-actions]")) {
-          closeMemberActionMenus();
-        }
-      };
-
-      const applyRolePermissions = (roleId) => {
-        if (!roleId) return;
-        const panel = rolePanels.find((rolePanel) => rolePanel.dataset.rolePanel === roleId);
-        if (!panel) return;
-        const allowed = new Set(ROLE_DEFAULT_PERMS[roleId] || []);
-        panel.querySelectorAll("input[data-perm-key]").forEach((input) => {
-          const key = input.dataset.permKey;
-          input.checked = !!allowed.has(key);
-        });
-      };
-
-      const setActiveRole = (roleId) => {
-        if (!roleId) return;
-        roleItems.forEach((item) => {
-          item.classList.toggle("is-active", item.dataset.roleId === roleId);
-        });
-        rolePanels.forEach((panelElement) => {
-          panelElement.classList.toggle("is-active", panelElement.dataset.rolePanel === roleId);
-        });
-        applyRolePermissions(roleId);
-      };
-
-      const handlePermToggle = (button) => {
-        const section = button.closest(".perm-section");
-        if (!section) return;
-        const inputs = Array.from(section.querySelectorAll("input[data-perm-key]"));
-        if (!inputs.length) return;
-        const shouldCheck = inputs.some((input) => !input.checked);
-        inputs.forEach((input) => {
-          input.checked = shouldCheck;
-        });
-      };
-
-      const closeMemberActionMenus = () => {
-        memberActionMenus.forEach((menu) => menu.classList.remove("is-open"));
-        memberActionToggles.forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
-        openMemberActionMenu = null;
-      };
-
-      const toggleMemberActionMenu = (toggle) => {
-        if (!toggle) return;
-        const menuId = toggle.getAttribute("aria-controls");
-        const menu =
-          (menuId ? root.querySelector(`#${menuId}`) : null) ||
-          toggle.nextElementSibling;
-        if (!menu) return;
-        const isOpen = menu.classList.contains("is-open");
-        closeMemberActionMenus();
-        if (!isOpen) {
-          menu.classList.add("is-open");
-          toggle.setAttribute("aria-expanded", "true");
-          openMemberActionMenu = menu;
-        }
-      };
-
-      const handleEscape = (event) => {
-        if (event.key !== "Escape") return;
-        closeMemberPanel();
-        closeInvitePanel();
-        closeActionDropdowns();
-      };
-
-      tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          const id = tab.dataset.teamTab;
-          if (id) activateTab(id);
-        });
-      });
-
-      memberRows.forEach((row) => {
-        const button = row.querySelector(".team-member-row__button");
-        button?.addEventListener("click", (event) => {
-          event.stopPropagation();
-          const id = row.dataset.memberId;
-          setActiveMember(id, row);
-        });
-      });
-
+    const resetFilters = () => {
       filterSelects.forEach((select) => {
-        const name = select.dataset.filterName;
-        if (name) {
-          filterSelectsByName.set(name, select);
-        }
-        select.addEventListener("change", () => handleFilterChange(select));
+        const defaultValue = select.dataset.defaultValue || "all";
+        select.value = defaultValue;
       });
+      activeFilters.clear();
+      renderFilterChips();
+    };
 
-      clearFiltersBtn?.addEventListener("click", (event) => {
-        event.preventDefault();
-        resetFilters();
-      });
-
+    const closeActionDropdowns = () => {
       actionDropdowns.forEach((dropdown) => {
+        dropdown.classList.remove("is-open");
         const toggle = dropdown.querySelector("[data-action-toggle]");
-        if (!toggle) return;
-        toggle.addEventListener("click", (event) => {
-          event.stopPropagation();
-          toggleActionDropdown(dropdown);
-        });
+        if (toggle) toggle.setAttribute("aria-expanded", "false");
       });
+      openActionDropdown = null;
+    };
 
-      roleItems.forEach((item) => {
-        const button = item.querySelector(".roles-list__button");
-        button?.addEventListener("click", () => {
-          const id = item.dataset.roleId;
-          if (id) setActiveRole(id);
-        });
+    const toggleActionDropdown = (dropdown) => {
+      const toggle = dropdown.querySelector("[data-action-toggle]");
+      if (!toggle) return;
+      const shouldOpen = !dropdown.classList.contains("is-open");
+      closeActionDropdowns();
+      if (shouldOpen) {
+        dropdown.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+        openActionDropdown = dropdown;
+      }
+    };
+
+    const updateInvitePreview = () => {
+      if (invitePreviewRole && inviteRole) {
+        const label = inviteRole.selectedOptions[0]?.textContent.trim() || "Manager";
+        invitePreviewRole.textContent = `Role: ${label}`;
+      }
+      if (invitePreviewEmail) {
+        const emailValue = inviteEmail?.value.trim() || "name@organization.org";
+        invitePreviewEmail.textContent = `Email: ${emailValue}`;
+      }
+      if (invitePreviewScopes) {
+        invitePreviewScopes.innerHTML = "";
+        const selections = inviteScopeInputs
+          .filter((input) => input.checked)
+          .map((input) => input.closest("label")?.textContent.trim() || input.value);
+        if (!selections.length) {
+          const placeholder = document.createElement("li");
+          placeholder.textContent = "Default workspace access";
+          invitePreviewScopes.appendChild(placeholder);
+        } else {
+          selections.forEach((text) => {
+            const item = document.createElement("li");
+            item.textContent = text;
+            invitePreviewScopes.appendChild(item);
+          });
+        }
+      }
+    };
+
+    const setInviteMode = (mode) => {
+      if (!inviteForm) return;
+      const isAdvanced = mode === "advanced";
+      inviteForm.classList.toggle("is-advanced", isAdvanced);
+      inviteModeButtons.forEach((button) => {
+        const isActive = button.dataset.inviteMode === mode;
+        button.classList.toggle("is-active", isActive);
       });
+      updateInvitePreview();
+    };
 
-      permToggleButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          handlePermToggle(button);
-        });
-      });
+    const openInvitePanel = () => {
+      if (!invitePanel) return;
+      invitePanel.classList.add("is-open");
+      invitePanel.setAttribute("aria-hidden", "false");
+      inviteEmail?.focus();
+    };
 
-      memberActionToggles.forEach((toggle) => {
-        toggle.addEventListener("click", (event) => {
-          event.stopPropagation();
-          toggleMemberActionMenu(toggle);
-        });
-      });
+    const closeInvitePanel = () => {
+      if (!invitePanel) return;
+      invitePanel.classList.remove("is-open");
+      invitePanel.setAttribute("aria-hidden", "true");
+    };
 
-      memberActionMenus.forEach((menu) => {
-        menu.addEventListener("click", (event) => {
-          const actionTarget = event.target.closest("[data-member-action]");
-          if (actionTarget) {
-            closeMemberActionMenus();
-          }
-        });
-      });
-
-      panelBackdrop?.addEventListener("click", (event) => {
-        event.stopPropagation();
-        if (isTabletOrSmaller()) {
+    const handleDocumentClick = (event) => {
+      if (panel && panel.classList.contains("is-open") && isTabletOrSmaller()) {
+        const target = event.target;
+        if (!target.closest(".team-member-panel") && !target.closest(".team-member-row__button")) {
           closeMemberPanel();
         }
-      });
-      panelClose?.addEventListener("click", (event) => {
-        event.stopPropagation();
-        closeMemberPanel();
-      });
-
-      document.addEventListener("click", handleDocumentClick);
-      document.addEventListener("keydown", handleEscape);
-
-      if (invitePanel) {
-        const openButtons = document.querySelectorAll("[data-open-invite]");
-        const closeButtons = invitePanel.querySelectorAll("[data-invite-close]");
-        openButtons.forEach((btn) => btn.addEventListener("click", openInvitePanel));
-        closeButtons.forEach((btn) => btn.addEventListener("click", closeInvitePanel));
-
-        inviteModeButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const mode = button.dataset.inviteMode;
-            if (mode) {
-              setInviteMode(mode);
-            }
-          });
-        });
-
-        inviteRole?.addEventListener("change", updateInvitePreview);
-        inviteEmail?.addEventListener("input", updateInvitePreview);
-        inviteScopeInputs.forEach((input) => input.addEventListener("change", updateInvitePreview));
-
-        inviteForm?.addEventListener("submit", (event) => {
-          event.preventDefault();
-          closeInvitePanel();
-        });
-
-        setInviteMode("quick");
       }
-
-      const firstMember = root.querySelector(".team-member-row[data-member-id]");
-      if (firstMember) {
-        setActiveMember(firstMember.dataset.memberId, firstMember);
+      if (openActionDropdown && !event.target.closest(".more-actions-dropdown")) {
+        closeActionDropdowns();
       }
-
-      setActiveRole("admin");
-
-      resetFilters();
-      activateTab("members");
+      if (openMemberActionMenu && !event.target.closest("[data-member-actions]")) {
+        closeMemberActionMenus();
+      }
     };
 
+    const applyRolePermissions = (roleId) => {
+      if (!roleId) return;
+      const panel = rolePanels.find((rolePanel) => rolePanel.dataset.rolePanel === roleId);
+      if (!panel) return;
+      const allowed = new Set(ROLE_DEFAULT_PERMS[roleId] || []);
+      panel.querySelectorAll("input[data-perm-key]").forEach((input) => {
+        const key = input.dataset.permKey;
+        input.checked = !!allowed.has(key);
+      });
+    };
+
+    const setActiveRole = (roleId) => {
+      if (!roleId) return;
+      roleItems.forEach((item) => {
+        item.classList.toggle("is-active", item.dataset.roleId === roleId);
+      });
+      rolePanels.forEach((panelElement) => {
+        panelElement.classList.toggle("is-active", panelElement.dataset.rolePanel === roleId);
+      });
+      applyRolePermissions(roleId);
+    };
+
+    const handlePermToggle = (button) => {
+      const section = button.closest(".perm-section");
+      if (!section) return;
+      const inputs = Array.from(section.querySelectorAll("input[data-perm-key]"));
+      if (!inputs.length) return;
+      const shouldCheck = inputs.some((input) => !input.checked);
+      inputs.forEach((input) => {
+        input.checked = shouldCheck;
+      });
+    };
+
+    const closeMemberActionMenus = () => {
+      memberActionMenus.forEach((menu) => menu.classList.remove("is-open"));
+      memberActionToggles.forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+      openMemberActionMenu = null;
+    };
+
+    const toggleMemberActionMenu = (toggle) => {
+      if (!toggle) return;
+      const menuId = toggle.getAttribute("aria-controls");
+      const menu =
+        (menuId ? root.querySelector(`#${menuId}`) : null) ||
+        toggle.nextElementSibling;
+      if (!menu) return;
+      const isOpen = menu.classList.contains("is-open");
+      closeMemberActionMenus();
+      if (!isOpen) {
+        menu.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+        openMemberActionMenu = menu;
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key !== "Escape") return;
+      closeMemberPanel();
+      closeInvitePanel();
+      closeActionDropdowns();
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const id = tab.dataset.teamTab;
+        if (id) activateTab(id);
+      });
+    });
+
+    memberRows.forEach((row) => {
+      const button = row.querySelector(".team-member-row__button");
+      button?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const id = row.dataset.memberId;
+        setActiveMember(id, row);
+      });
+    });
+
+    filterSelects.forEach((select) => {
+      const name = select.dataset.filterName;
+      if (name) {
+        filterSelectsByName.set(name, select);
+      }
+      select.addEventListener("change", () => handleFilterChange(select));
+    });
+
+    clearFiltersBtn?.addEventListener("click", (event) => {
+      event.preventDefault();
+      resetFilters();
+    });
+
+    actionDropdowns.forEach((dropdown) => {
+      const toggle = dropdown.querySelector("[data-action-toggle]");
+      if (!toggle) return;
+      toggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleActionDropdown(dropdown);
+      });
+    });
+
+    roleItems.forEach((item) => {
+      const button = item.querySelector(".roles-list__button");
+      button?.addEventListener("click", () => {
+        const id = item.dataset.roleId;
+        if (id) setActiveRole(id);
+      });
+    });
+
+    permToggleButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        handlePermToggle(button);
+      });
+    });
+
+    memberActionToggles.forEach((toggle) => {
+      toggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleMemberActionMenu(toggle);
+      });
+    });
+
+    memberActionMenus.forEach((menu) => {
+      menu.addEventListener("click", (event) => {
+        const actionTarget = event.target.closest("[data-member-action]");
+        if (actionTarget) {
+          closeMemberActionMenus();
+        }
+      });
+    });
+
+    panelBackdrop?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      if (isTabletOrSmaller()) {
+        closeMemberPanel();
+      }
+    });
+    panelClose?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      closeMemberPanel();
+    });
+
+    document.addEventListener("click", handleDocumentClick);
+    document.addEventListener("keydown", handleEscape);
+
+    if (invitePanel) {
+      const openButtons = document.querySelectorAll("[data-open-invite]");
+      const closeButtons = invitePanel.querySelectorAll("[data-invite-close]");
+      openButtons.forEach((btn) => btn.addEventListener("click", openInvitePanel));
+      closeButtons.forEach((btn) => btn.addEventListener("click", closeInvitePanel));
+
+      inviteModeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const mode = button.dataset.inviteMode;
+          if (mode) {
+            setInviteMode(mode);
+          }
+        });
+      });
+
+      inviteRole?.addEventListener("change", updateInvitePreview);
+      inviteEmail?.addEventListener("input", updateInvitePreview);
+      inviteScopeInputs.forEach((input) => input.addEventListener("change", updateInvitePreview));
+
+      inviteForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        closeInvitePanel();
+      });
+
+      setInviteMode("quick");
+    }
+
+    const firstMember = root.querySelector(".team-member-row[data-member-id]");
+    if (firstMember) {
+      setActiveMember(firstMember.dataset.memberId, firstMember);
+    }
+
+    setActiveRole("admin");
+
+    resetFilters();
+    activateTab("members");
+  };
+
   // Wire the export modal UI and toasts without touching backend export payloads; data remains in the markup for now.
+  // Show the exports slide-over, toasts, and format toggles on demand.
   const initExportsPage = () => {
+    // Show the exports panel, toasts, and format pickers from the exports page.
     const root = document.querySelector(".exports-page");
     if (!root) return;
 
@@ -4632,7 +4701,9 @@
     });
   };
 
+  // Filter integrations, open the slide-over panel, and update previews.
   const initIntegrationsPage = () => {
+    // Filter integration cards and bring up the integration detail slide-over.
     const root = document.querySelector(".integrations-page");
     if (!root) return;
 
@@ -4735,40 +4806,44 @@
     });
   };
 
-    const initAccessAuditPage = () => {
-      const root = document.querySelector(".access-audit-page");
-      if (!root) return;
+  // Open the audit detail drawer while keeping table scroll state.
+  const initAccessAuditPage = () => {
+    // Open and close the audit detail drawer without reloading the table.
+    const root = document.querySelector(".access-audit-page");
+    if (!root) return;
 
-      const panel = document.querySelector(".audit-panel");
-      if (!panel) return;
+    const panel = document.querySelector(".audit-panel");
+    if (!panel) return;
 
-      const openButtons = root.querySelectorAll("[data-open-audit-panel]");
-      const closeEls = panel.querySelectorAll("[data-audit-close]");
+    const openButtons = root.querySelectorAll("[data-open-audit-panel]");
+    const closeEls = panel.querySelectorAll("[data-audit-close]");
 
-      const openPanel = () => {
-        panel.classList.add("is-open");
-      };
-
-      const closePanel = () => {
-        panel.classList.remove("is-open");
-      };
-
-      openButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          openPanel();
-        });
-      });
-
-      closeEls.forEach((el) => el.addEventListener("click", closePanel));
-
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          closePanel();
-        }
-      });
+    const openPanel = () => {
+      panel.classList.add("is-open");
     };
 
-    const initDonationDetailsPage = () => {
+    const closePanel = () => {
+      panel.classList.remove("is-open");
+    };
+
+    openButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        openPanel();
+      });
+    });
+
+    closeEls.forEach((el) => el.addEventListener("click", closePanel));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closePanel();
+      }
+    });
+  };
+
+  // Set up donation details overlays, refunds, and toast wiring.
+  const initDonationDetailsPage = () => {
+    // Initialize donation details overlays, modals, and toast helpers.
     const page = document.querySelector(".donation-details-page");
     if (!page) return;
 
@@ -4777,6 +4852,7 @@
     setupDonationTimelineReveal(page);
   };
 
+  // Initialize every dashboard module and listener after DOM ready.
   document.addEventListener("DOMContentLoaded", () => {
     initThemeToggle();
     initSidebar();
@@ -4808,10 +4884,10 @@
     initDonorNewPage && initDonorNewPage();
     initMessagesPage();
     initSettingsPage();
-      initTeamPage();
-      initIntegrationsPage();
-      initAccessAuditPage();
-      if (typeof initExportsPage === "function") {
+    initTeamPage();
+    initIntegrationsPage();
+    initAccessAuditPage();
+    if (typeof initExportsPage === "function") {
       initExportsPage();
     }
 

@@ -1,4 +1,4 @@
-﻿/* Font faces */
+﻿/* ===== Font faces ===== */
 @font-face {
   font-family: "Jost";
   src: url("../fonts/Jost-Regular.ttf") format("truetype");
@@ -31,7 +31,7 @@
   font-display: swap;
 }
 
-/* Design tokens */
+/* ===== Global variables ===== */
 :root {
   --color-primary: #15c5ce;
   --color-primary-strong: #0f9aa2;
@@ -103,7 +103,7 @@ body[data-theme="dark"] {
   --color-overlay: rgba(5, 8, 22, 0.55);
 }
 
-/* Global resets */
+/* ===== Global resets ===== */
 *,
 *::before,
 *::after {
@@ -220,7 +220,7 @@ img {
   margin: 0 0 var(--space-1);
 }
 
-/* Buttons & chips */
+/* ===== Components: buttons & chips ===== */
 .icon-button {
   width: 42px;
   height: 42px;
@@ -303,7 +303,7 @@ img {
   cursor: pointer;
 }
 
-/* Layout */
+/* ===== Layout: sidebar, header, footer ===== */
 .app {
   display: flex;
   min-height: 100vh;
@@ -394,6 +394,7 @@ img {
   border-color: var(--color-primary-soft);
 }
 
+/* Sidebar submenu uses max-height transitions to animate list expansion. */
 .sidebar-submenu {
   margin: 0;
   padding: 0;
@@ -682,6 +683,7 @@ img {
   transition: background var(--transition-fast);
 }
 
+/* ===== Components: cards & sections ===== */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -4762,7 +4764,7 @@ body[data-theme="dark"] .details-sticky-actions {
   box-shadow: 0 -16px 34px rgba(0, 0, 0, 0.55);
 }
 
-/* Manual donation entry */
+/* ===== Page: Manual donation ===== */
 .manual-page-header__actions-stack {
   margin-left: auto;
   display: flex;
@@ -5169,6 +5171,7 @@ body[data-theme="dark"] .tag-chip.is-selected {
 }
 
 /* Messages center */
+/* ===== Page: Messages ===== */
 .messages-page {
   display: flex;
   flex-direction: column;
@@ -6858,7 +6861,7 @@ body[data-theme="dark"] .donor-preview-card__dnc-pill {
   background: rgba(239, 68, 68, 0.18);
 }
 
-/* Settings page */
+/* ===== Page: Settings ===== */
 .settings-page {
   width: 100%;
 }
@@ -8303,7 +8306,7 @@ body[data-theme="dark"] .invite-panel__backdrop {
   background: rgba(0, 0, 0, 0.75);
 }
 
-/* Exports & reports */
+/* ===== Page: Exports ===== */
 .exports-page {
   display: flex;
   flex-direction: column;
@@ -8715,7 +8718,7 @@ body[data-theme="dark"] .pill-toggle.is-active {
 }
 
 
-/* Integrations page */
+/* ===== Page: Integrations ===== */
 .integrations-page {
   display: flex;
   flex-direction: column;
@@ -9245,7 +9248,7 @@ body[data-theme="dark"] .integration-panel__status-text {
   }
 }
 
-/* Access audit page */
+/* ===== Page: Access audit ===== */
 .access-audit-page {
   --audit-chip-bg: rgba(21, 197, 206, 0.15);
   --audit-chip-text: #0f9aa2;

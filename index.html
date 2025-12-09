@@ -1,27 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
+  <!-- ================== Global head & SEO metadata ================== -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Donations Dashboard - Overview</title>
-  <meta name="description" content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
+  <meta name="description" content="Monitor donation totals, alerts, and regional performance at a glance." />
+  <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#15C5CE" />
+  <meta name="application-name" content="Donations Dashboard" />
+  <meta name="author" content="Donations Dashboard Team" />
+  <meta name="keywords"
+    content="donations dashboard, nonprofit analytics, fundraising campaigns, donor management, charity CRM" />
+
+  <!-- Canonical URL to avoid duplicate content issues -->
   <link rel="canonical" href="https://example.org/dashboard" />
+
+  <!-- Open Graph / Social sharing metadata -->
   <meta property="og:title" content="Donations Dashboard - Overview" />
   <meta property="og:description" content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://example.org/dashboard" />
   <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta property="og:site_name" content="Donations Dashboard" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card metadata -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Donations Dashboard - Overview" />
   <meta name="twitter:description"
     content="Monitor donations, campaigns, and donor engagement in a single dashboard." />
   <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
-  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
-  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
 
-  <!-- Stylesheets -->
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+
+  <!-- Performance hints (fonts & CDN connections) -->
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <!-- ================== Core styles & vendor CSS ================== -->
   <link rel="stylesheet" href="assets/css/normalize.css" />
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
@@ -30,6 +52,7 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="assets/css/style.css" />
 
+  <!-- ================== Structured data (JSON-LD for SEO) ================== -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -56,8 +79,13 @@
 </head>
 
 <body data-theme="light">
-  <!-- <a class="skip-link" href="#main-content">Skip to main content</a> -->
+  <!-- Accessible skip link for keyboard users (improves UX & SEO) -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ================== App layout wrapper ================== -->
   <div class="app">
+    <!-- ========== Sidebar navigation ========== -->
+    <!-- Primary app navigation for the dashboard -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
@@ -65,9 +93,10 @@
         </a>
       </div>
 
+      <!-- Main navigation links -->
       <nav class="sidebar__nav" aria-label="Primary">
         <!-- Main sections -->
-        <a class="sidebar__link active" href="index.html">
+        <a class="sidebar__link active" href="index.html" aria-current="page">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
@@ -102,10 +131,10 @@
           <span class="sidebar__label">Settings</span>
         </a>
 
-        <!-- More submenu -->
+        <!-- "More" expandable submenu (secondary sections) -->
         <li class="sidebar-item sidebar-item--expandable">
           <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
-            aria-controls="more-menu" aria-expanded="false">
+            aria-controls="more-menu" aria-expanded="false" aria-haspopup="true">
             <span class="d-flex align-items-center" style="gap: var(--space-3);">
               <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
               <span class="sidebar__label">More</span>
@@ -143,22 +172,28 @@
       </nav>
     </aside>
 
-
+    <!-- Overlay used for mobile sidebar toggle -->
     <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
 
+    <!-- ================== Main workspace ================== -->
     <div class="app-main">
+      <!-- ========== Dashboard header / top bar ========== -->
       <header class="app-header" aria-label="Dashboard header">
         <div class="app-header__left">
+          <!-- Sidebar toggle for small screens -->
           <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
             aria-controls="sidebar" aria-expanded="false">
             <i class="fas fa-bars" aria-hidden="true"></i>
           </button>
+
+          <!-- Page titles (context for current view) -->
           <div class="app-header__titles">
             <p class="eyebrow">Dashboard</p>
             <h2 class="h4">Overview</h2>
           </div>
         </div>
 
+        <!-- Global search across dashboard entities -->
         <div class="app-header__center">
           <form class="search" role="search" aria-label="Search dashboard">
             <label class="sr-only" for="dashboard-search">Search dashboard</label>
@@ -168,11 +203,14 @@
           </form>
         </div>
 
+        <!-- Header actions: theme, notifications, user menu -->
         <div class="app-header__right">
+          <!-- Theme toggle (light / dark) -->
           <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
             <i class="fas fa-sun" aria-hidden="true"></i>
           </button>
 
+          <!-- Notifications dropdown -->
           <div class="dropdown-group">
             <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
               data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
@@ -180,12 +218,14 @@
               <span class="badge-dot"></span>
               <i class="fa fa-bell" aria-hidden="true"></i>
             </button>
+
             <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
               role="menu" aria-label="Notifications">
               <div class="dropdown-header">
                 <span class="dropdown-title">Notifications</span>
-                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
-                  read</button>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">
+                  Mark all as read
+                </button>
               </div>
               <ul class="dropdown-list">
                 <li class="dropdown-notification is-unread" role="menuitem">
@@ -219,6 +259,7 @@
             </div>
           </div>
 
+          <!-- User account dropdown -->
           <div class="dropdown-group dropdown-user">
             <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
               data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
@@ -236,6 +277,7 @@
                 <div class="user-email text-muted">jordan@donations.org</div>
               </div>
             </button>
+
             <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
               aria-label="User menu">
               <div class="dropdown-header dropdown-user-header">
@@ -264,7 +306,9 @@
         </div>
       </header>
 
+      <!-- ========== Main dashboard content ========== -->
       <main class="app-content overview-page" id="main-content" tabindex="-1">
+        <!-- Hero section: welcome + key actions -->
         <section class="card overview-hero" aria-labelledby="welcome-title">
           <div class="overview-hero__main">
             <p class="overview-hero__eyebrow">Welcome back</p>
@@ -300,13 +344,16 @@
             </div>
           </div>
         </section>
+
         <div class="section-divider" aria-hidden="true"></div>
 
+        <!-- Key stats / KPI cards -->
         <section class="section-block overview-section" aria-labelledby="stats-title">
           <div class="section-block__header overview-section__header">
             <p class="eyebrow overview-section__label">Key metrics</p>
             <h2 id="stats-title" class="h4">Donations at a glance</h2>
           </div>
+
           <div class="stats-grid">
             <article class="card stat-card" aria-label="Total Donations">
               <div class="stat-card__icon">
@@ -371,18 +418,19 @@
                 </div>
               </div>
             </article>
-
           </div>
+
+          <!-- Contextual insight bar for the KPI section -->
           <div class="insight-bar" aria-live="polite">
             <i class="fa fa-lightbulb insight-bar__icon" aria-hidden="true"></i>
             <p class="insight-bar__text">
               Top regions this month: <strong>Gaza City</strong> and <strong>Nairobi</strong> &mdash; contributing 54%
-              of
-              tracked donations.
+              of tracked donations.
             </p>
           </div>
         </section>
 
+        <!-- Today snapshot (short-term KPIs) -->
         <section class="overview-section overview-section--today" aria-label="Today snapshot">
           <div class="today-strip">
             <div class="today-metric">
@@ -408,14 +456,17 @@
           </div>
         </section>
 
+        <!-- Performance charts (campaign & donor mix) -->
         <section class="section-block overview-section" aria-labelledby="charts-title">
           <div class="section-block__header overview-section__header">
             <p class="eyebrow overview-section__label">Performance</p>
             <h2 id="charts-title" class="h4">Campaign and donor mix</h2>
           </div>
+
           <div class="charts-layout">
             <div class="charts-layout__visuals">
               <div class="charts-grid">
+                <!-- Bar chart card -->
                 <article class="card chart-card">
                   <div class="card__header">
                     <h3 class="h5">Distribution of Donations (Bar)</h3>
@@ -424,6 +475,8 @@
                   <p class="chart-insight chart-insight--bar">Highest category: Education • $61k</p>
                   <div id="donations-bar-chart" class="chart" aria-label="Donations bar chart"></div>
                 </article>
+
+                <!-- Donut chart card -->
                 <article class="card chart-card">
                   <div class="card__header">
                     <h3 class="h5">Distribution of Donations (Donut)</h3>
@@ -434,6 +487,8 @@
                 </article>
               </div>
             </div>
+
+            <!-- Top campaigns / health list -->
             <article class="card card--top-campaigns">
               <header class="card-header">
                 <div>
@@ -483,6 +538,7 @@
           </div>
         </section>
 
+        <!-- Funnel & retention mini-charts -->
         <section class="overview-section overview-section--funnel" aria-labelledby="mini-charts-title">
           <div class="mini-charts-grid">
             <article class="card mini-chart-card">
@@ -495,6 +551,7 @@
                 <div id="donation-funnel-chart" class="mini-chart" aria-label="Donation funnel chart"></div>
               </div>
             </article>
+
             <article class="card mini-chart-card">
               <header class="card-header">
                 <h3 class="card-title">Donor retention</h3>
@@ -508,6 +565,7 @@
           </div>
         </section>
 
+        <!-- Regions section: map + regional list -->
         <section class="overview-section overview-section--regions" aria-labelledby="regions-title">
           <div class="overview-section__header">
             <p class="overview-section__label">Regions</p>
@@ -516,6 +574,7 @@
           </div>
 
           <div class="regions-layout">
+            <!-- Map card (Leaflet map) -->
             <article class="card card--map h-100">
               <header class="card-header">
                 <div>
@@ -541,6 +600,7 @@
               </footer>
             </article>
 
+            <!-- Top regions list -->
             <article class="card card--regions-list">
               <header class="card-header">
                 <div>
@@ -604,20 +664,21 @@
                     <span class="badge badge--level badge--level-medium">Medium</span>
                   </div>
                 </button>
-
-
               </div>
             </article>
           </div>
         </section>
 
+        <!-- Alerts & live activity section -->
         <section class="overview-section overview-section--alerts" aria-labelledby="alerts-title">
           <div class="overview-section__header">
             <p class="overview-section__label">Alerts & activity</p>
             <h2 id="alerts-title" class="section-title">Action center</h2>
             <p class="section-subtitle">Stay ahead of urgent tasks and live donor activity.</p>
           </div>
+
           <div class="alerts-activity-grid">
+            <!-- Alerts / tasks -->
             <article class="card alerts-card">
               <header class="card-header">
                 <div>
@@ -653,6 +714,7 @@
               </div>
             </article>
 
+            <!-- Live activity feed -->
             <article class="card activity-card">
               <header class="card-header">
                 <div>
@@ -695,19 +757,25 @@
         </section>
       </main>
 
+      <!-- ========== Application footer ========== -->
       <footer class="app-footer">
         <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
       </footer>
     </div>
   </div>
 
-  <!-- JavaScript Files -->
+  <!-- ================== JavaScript: vendor & app logic ================== -->
+  <!-- jQuery and vendor plugins -->
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
   <script src="assets/js/owl.carousel.min.js" defer></script>
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+
+  <!-- Leaflet map library -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+
+  <!-- Main dashboard script (charts, map, dropdowns, theme, etc.) -->
   <script src="assets/js/script.js" defer></script>
 </body>
 

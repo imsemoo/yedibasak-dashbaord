@@ -3,10 +3,10 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Donations Dashboard - Access audit</title>
-  <meta name="description"
-    content="Review sign-ins, role changes, and high-risk activity for the Donations Dashboard." />
+  <meta name="description" content="Track user sign-ins, permission changes, and export history in the access audit center." />
+  <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#15C5CE" />
   <link rel="canonical" href="https://example.org/dashboard/access-audit" />
   <meta property="og:title" content="Donations Dashboard - Access audit" />
@@ -34,7 +34,9 @@
 </head>
 
 <body data-theme="light">
+  <!-- App layout wrapper -->
   <div class="app">
+    <!-- Sidebar navigation section -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
@@ -123,7 +125,9 @@
 
     <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
 
+    <!-- App workspace container -->
     <div class="app-main">
+      <!-- Dashboard header section -->
       <header class="app-header" aria-label="Dashboard header">
         <div class="app-header__left">
           <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
@@ -752,6 +756,7 @@
         </section>
       </main>
 
+      <!-- Application footer -->
       <footer class="app-footer">
         <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
       </footer>

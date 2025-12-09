@@ -3,9 +3,10 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Donations Dashboard - Exports</title>
-  <meta name="description" content="Generate exports and reports for campaigns, donors, and finance." />
+  <meta name="description" content="Schedule exports and download donation, donor, and campaign reports securely." />
+  <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#15C5CE" />
   <link rel="canonical" href="https://example.org/dashboard/exports" />
   <meta property="og:title" content="Donations Dashboard - Exports" />
@@ -31,7 +32,9 @@
 </head>
 
 <body data-theme="light">
+  <!-- App layout wrapper -->
   <div class="app">
+    <!-- Sidebar navigation section -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
@@ -119,7 +122,9 @@
 
     <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
 
+    <!-- App workspace container -->
     <div class="app-main">
+      <!-- Dashboard header section -->
       <header class="app-header" aria-label="Dashboard header">
         <div class="app-header__left">
           <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
@@ -257,7 +262,7 @@
           </div>
         </header>
 
-        <div class="exports-toast" aria-live="polite" data-export-toast>
+        <div class="exports-toast" aria-live="polite" aria-atomic="true" role="alert" data-export-toast>
           Export created &ndash; it will appear in history shortly.
         </div>
 
@@ -575,6 +580,7 @@
         </section>
       </main>
 
+      <!-- Application footer -->
       <footer class="app-footer">
         <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
       </footer>
