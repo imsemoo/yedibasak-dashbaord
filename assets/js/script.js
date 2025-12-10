@@ -200,14 +200,18 @@
     },
   ];
 
-  let barChart;
-  let donutChart;
-  let funnelChart;
-  let retentionChart;
-  let donorGivingChart;
-  let refreshRegionsMapTheme = () => { };
-  let donationsMapInitialized = false;
-  let overviewRegionsLinked = false;
+let barChart;
+let donutChart;
+let funnelChart;
+let retentionChart;
+let donorGivingChart;
+let donorsRetentionChart;
+let donorsLifecycleChart;
+let donorsSegmentsChart;
+let donorsAcquisitionChart;
+let refreshRegionsMapTheme = () => { };
+let donationsMapInitialized = false;
+let overviewRegionsLinked = false;
   const overviewCharts = [];
 
   const getTheme = () => (document.body.dataset.theme === "dark" ? "dark" : "light");
@@ -813,20 +817,286 @@
    * Expects `.overview-page` root along with chart targets, map container `#donations-map`, and region rows.
    */
   const initOverviewPage = () => {
-    const root = document.querySelector(".overview-page");
-    if (!root) return;
-    initCharts();
-    initDonationsMap();
-    initOverviewMiniCharts();
-    initOverviewAnimations(root);
-  };
+  const root = document.querySelector(".overview-page");
+  if (!root) return;
+  initCharts();
+  initDonationsMap();
+  initOverviewMiniCharts();
+  initOverviewAnimations(root);
+};
 
-  /**
-   * Initialize the Leaflet donations map with static region data, draw markers, and wire list focus/hover.
-   * Requires `#donations-map`, `.regions-list` rows with `data-region-id`, and the sample REGIONS_SAMPLE data
-   * until the backend can hydrate real regions.
-   */
-  const initDonationsMap = () => {
+/**
+ * Render the donors overview charts and ensure the map hooks into the same region list.
+ * Relies on `.donors-overview-page` and the chart targets defined inside the new page.
+ */
+const initDonorsOverviewPage = () => {
+  const root = document.querySelector(".donors-overview-page");
+  if (!root) return;
+  if (typeof ApexCharts === "undefined") {
+    window.addEventListener("load", initDonorsOverviewPage, { once: true });
+    return;
+  }
+
+  const retentionEl = root.querySelector("#donors-retention-chart");
+  const lifecycleEl = root.querySelector("#donors-lifecycle-chart");
+  const segmentsEl = root.querySelector("#donors-segments-chart");
+  const acquisitionEl = root.querySelector("#donors-acquisition-chart");
+  const palette = chartPalette();
+  const themeOptions = getApexThemeOptions(getTheme());
+  const successColor = getCssVar("--color-success") || "#10B981";
+  const warningColor = getCssVar("--color-warning") || "#F59E0B";
+  const accentColor = getCssVar("--color-accent") || "#22C55E";
+
+  if (donorsRetentionChart) {
+    unregisterOverviewChart(donorsRetentionChart);
+    donorsRetentionChart.destroy();
+    donorsRetentionChart = null;
+  }
+  if (donorsLifecycleChart) {
+    unregisterOverviewChart(donorsLifecycleChart);
+    donorsLifecycleChart.destroy();
+    donorsLifecycleChart = null;
+  }
+  if (donorsSegmentsChart) {
+    unregisterOverviewChart(donorsSegmentsChart);
+    donorsSegmentsChart.destroy();
+    donorsSegmentsChart = null;
+  }
+  if (donorsAcquisitionChart) {
+    unregisterOverviewChart(donorsAcquisitionChart);
+    donorsAcquisitionChart.destroy();
+    donorsAcquisitionChart = null;
+  }
+
+  if (retentionEl) {
+    const retentionCategories = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const newDonorSeries = [310, 325, 360, 385, 420, 450, 470, 495, 520, 550, 580, 610];
+    const returningSeries = [280, 300, 335, 360, 390, 420, 440, 460, 490, 520, 545, 575];
+
+    const retentionOptions = {
+      theme: themeOptions.theme,
+      chart: {
+        ...themeOptions.chart,
+        type: "area",
+        height: 320,
+        toolbar: { show: false },
+      },
+      series: [
+        { name: "New donors retained", data: newDonorSeries },
+        { name: "Returning donors", data: returningSeries },
+      ],
+      stroke: {
+        curve: "smooth",
+        width: 3,
+        lineCap: "round",
+      },
+      colors: [palette.primaryStrong, successColor],
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 0.25,
+          opacityFrom: 0.55,
+          opacityTo: 0.08,
+          stops: [0, 85, 100],
+        },
+      },
+      grid: {
+        borderColor: themeOptions.borderColor,
+        strokeDashArray: 3,
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "right",
+        labels: { colors: themeOptions.legendColor },
+      },
+      xaxis: {
+        categories: retentionCategories,
+        axisBorder: { color: themeOptions.borderColor },
+        axisTicks: { color: themeOptions.borderColor },
+        labels: { style: { colors: retentionCategories.map(() => themeOptions.labelColor) } },
+      },
+      yaxis: {
+        labels: {
+          style: { colors: [themeOptions.labelColor] },
+        },
+      },
+      tooltip: themeOptions.tooltip,
+      dataLabels: { enabled: false },
+    };
+
+    donorsRetentionChart = registerOverviewChart(new ApexCharts(retentionEl, retentionOptions));
+    donorsRetentionChart.render();
+  }
+
+  if (lifecycleEl) {
+    const lifecycleStages = [
+      "Visitors",
+      "Leads",
+      "First-time donors",
+      "Repeat donors",
+      "Recurring donors",
+    ];
+    const lifecycleSeries = [12000, 4500, 2400, 1200, 800];
+
+    const lifecycleOptions = {
+      theme: themeOptions.theme,
+      chart: {
+        ...themeOptions.chart,
+        type: "bar",
+        height: 300,
+        toolbar: { show: false },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          borderRadius: 12,
+          barHeight: "56%",
+        },
+      },
+      series: [
+        {
+          name: "Donors",
+          data: lifecycleSeries,
+        },
+      ],
+      colors: [accentColor],
+      grid: {
+        borderColor: themeOptions.borderColor,
+        strokeDashArray: 4,
+        xaxis: { lines: { show: false } },
+        yaxis: { lines: { show: false } },
+      },
+      xaxis: {
+        categories: lifecycleStages,
+        axisBorder: { color: themeOptions.borderColor },
+        axisTicks: { color: themeOptions.borderColor },
+        labels: { style: { colors: lifecycleStages.map(() => themeOptions.labelColor) } },
+      },
+      yaxis: {
+        labels: {
+          style: { colors: [themeOptions.labelColor] },
+        },
+      },
+      tooltip: {
+        ...themeOptions.tooltip,
+        y: { formatter: (val) => val.toLocaleString() },
+      },
+      dataLabels: { enabled: false },
+    };
+
+    donorsLifecycleChart = registerOverviewChart(new ApexCharts(lifecycleEl, lifecycleOptions));
+    donorsLifecycleChart.render();
+  }
+
+  if (segmentsEl) {
+    const segmentLabels = ["Individual", "Organization", "Corporate", "Major donor"];
+    const segmentSeries = [48, 22, 18, 12];
+
+    const segmentsOptions = {
+      theme: themeOptions.theme,
+      chart: {
+        ...themeOptions.chart,
+        type: "donut",
+        height: 300,
+        toolbar: { show: false },
+      },
+      labels: segmentLabels,
+      series: segmentSeries,
+      stroke: {
+        colors: [palette.background],
+      },
+      legend: {
+        position: "bottom",
+        labels: { colors: themeOptions.legendColor },
+      },
+      colors: [palette.primary, palette.primaryStrong, accentColor, successColor],
+      plotOptions: {
+        pie: {
+          donut: {
+            size: "60%",
+          },
+        },
+      },
+      tooltip: themeOptions.tooltip,
+      dataLabels: { enabled: false },
+    };
+
+    donorsSegmentsChart = registerOverviewChart(new ApexCharts(segmentsEl, segmentsOptions));
+    donorsSegmentsChart.render();
+  }
+
+  if (acquisitionEl) {
+    const acquisitionChannels = ["Website", "Events", "Social media", "Corporate partners"];
+    const acquisitionData = [7800, 3400, 2600, 1500];
+
+    const acquisitionOptions = {
+      theme: themeOptions.theme,
+      chart: {
+        ...themeOptions.chart,
+        type: "bar",
+        height: 300,
+        toolbar: { show: false },
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 10,
+          columnWidth: "56%",
+        },
+      },
+      series: [
+        {
+          name: "Donors",
+          data: acquisitionData,
+        },
+      ],
+      colors: [palette.primary, palette.primaryStrong, accentColor, warningColor],
+      grid: {
+        borderColor: themeOptions.borderColor,
+        strokeDashArray: 4,
+      },
+      xaxis: {
+        categories: acquisitionChannels,
+        axisBorder: { color: themeOptions.borderColor },
+        axisTicks: { color: themeOptions.borderColor },
+        labels: { style: { colors: acquisitionChannels.map(() => themeOptions.labelColor) } },
+      },
+      yaxis: {
+        labels: {
+          style: { colors: [themeOptions.labelColor] },
+        },
+      },
+      legend: { show: false },
+      tooltip: themeOptions.tooltip,
+      dataLabels: { enabled: false },
+    };
+
+    donorsAcquisitionChart = registerOverviewChart(new ApexCharts(acquisitionEl, acquisitionOptions));
+    donorsAcquisitionChart.render();
+  }
+
+  updateChartsForTheme(getTheme());
+  initDonationsMap();
+};
+
+/**
+ * Initialize the Leaflet donations map with static region data, draw markers, and wire list focus/hover.
+ * Requires `#donations-map`, `.regions-list` rows with `data-region-id`, and the sample REGIONS_SAMPLE data
+ * until the backend can hydrate real regions.
+ */
+const initDonationsMap = () => {
     const mapContainer = document.querySelector("#donations-map");
     const regionsList = document.querySelector(".regions-list");
     const insightText = document.querySelector(".insight-bar__text");
@@ -4979,6 +5249,46 @@
   };
 
   /**
+   * Initializes the donor donations page controls so the table/timeline toggle and filter chips behave visually.
+   */
+  const initDonorDonationsPage = () => {
+    const page = document.querySelector(".donations-page");
+    if (!page) return;
+
+    const tableView = page.querySelector(".donor-donations-table-view");
+    const timelineView = page.querySelector(".donor-donations-timeline-view");
+    const toggleButtons = page.querySelectorAll("[data-view-toggle]");
+
+    if (!tableView || !timelineView || !toggleButtons.length) {
+      return;
+    }
+
+    toggleButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-view-toggle");
+        toggleButtons.forEach((candidate) => candidate.classList.remove("is-active"));
+        btn.classList.add("is-active");
+
+        if (target === "table") {
+          tableView.classList.remove("is-hidden");
+          timelineView.classList.add("is-hidden");
+        } else {
+          tableView.classList.add("is-hidden");
+          timelineView.classList.remove("is-hidden");
+        }
+      });
+    });
+
+    const filterChips = page.querySelectorAll(".donation-filter-chip");
+    filterChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        filterChips.forEach((candidate) => candidate.classList.remove("is-active"));
+        chip.classList.add("is-active");
+      });
+    });
+  };
+
+  /**
    * Set up donation details overlays, refund modal, sticky bar, and timeline reveal for the donation details page.
    * Expects `.donation-details-page`, `.details-sticky-actions`, `#refundModal`, and the timeline markup.
    */
@@ -4994,14 +5304,17 @@
 
   // Central initializer: DOMContentLoaded safely triggers each init function only where its page root exists.
   document.addEventListener("DOMContentLoaded", () => {
-    initThemeToggle();
-    initSidebar();
-    initSidebarSubmenus();
-    Dropdowns.init();
-    initAccessibilityHelpers();
-    initOverviewPage();
-    initCampaignViewToggle();
-    initDonationsViewToggle();
+  initThemeToggle();
+  initSidebar();
+  initSidebarSubmenus();
+  Dropdowns.init();
+  initAccessibilityHelpers();
+  initOverviewPage();
+  if (typeof initDonorsOverviewPage === "function") {
+    initDonorsOverviewPage();
+  }
+  initCampaignViewToggle();
+  initDonationsViewToggle();
     initDonorsViewToggle();
     initCampaignFilters();
     initDonationsFilters();
@@ -5021,6 +5334,9 @@
     initDonationDetailsPage();
     initDonorDetailsPage();
     initManualDonationPage();
+    if (typeof initDonorDonationsPage === "function") {
+      initDonorDonationsPage();
+    }
     initDonorNewPage && initDonorNewPage();
     initMessagesPage();
     initSettingsPage();

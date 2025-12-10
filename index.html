@@ -570,20 +570,20 @@
           <div class="overview-section__header">
             <p class="overview-section__label">Regions</p>
             <h2 class="section-title" id="regions-title">Donations by region</h2>
-            <p class="section-subtitle">See where campaigns are gaining traction across cities and countries.</p>
+            <p class="section-subtitle">High-volume corridors that drive your fundraising.</p>
           </div>
 
-          <div class="regions-layout">
-            <!-- Map card (Leaflet map) -->
-            <article class="card card--map h-100">
-              <header class="card-header">
+          <div class="coverage-row">
+            <!-- Map card -->
+            <article class="card card--map donors-map-card">
+              <div class="card__header">
                 <div>
                   <h3 class="card-title">Geographic distribution</h3>
-                  <span class="card-meta">Sample data for demonstration</span>
+                  <span class="card-meta">High-volume corridors</span>
                 </div>
-              </header>
+              </div>
               <div class="card-body">
-                <div id="donations-map" class="map-container" aria-label="Donations by region"></div>
+                <div id="donations-map" class="map-container" aria-label="Donations map"></div>
               </div>
               <footer class="card-footer card-footer--map">
                 <div class="map-legend" aria-label="Map legend">
@@ -600,15 +600,15 @@
               </footer>
             </article>
 
-            <!-- Top regions list -->
+            <!-- Regional data card -->
             <article class="card card--regions-list">
-              <header class="card-header">
+              <div class="card__header">
                 <div>
-                  <h3 class="card-title">Top regions</h3>
+                  <h3 class="card-title">Top corridors</h3>
                   <span class="card-meta">Last 30 days</span>
                 </div>
-              </header>
-              <div class="card-body regions-list" aria-label="Top regions by donations">
+              </div>
+              <div class="card-body regions-list" aria-label="Top donor corridors">
                 <button class="region-row" type="button" data-region-id="gaza">
                   <div class="region-row__main">
                     <span class="region-row__name">Gaza City</span>
@@ -616,7 +616,7 @@
                   </div>
                   <div class="region-row__metrics">
                     <span class="region-row__amount">$74,400</span>
-                    <span class="region-row__meta">420 donors | 9 campaigns</span>
+                    <span class="region-row__meta">420 donors · 9 campaigns</span>
                   </div>
                   <div class="region-row__spark">
                     <span class="badge badge--level badge--level-high">High</span>
@@ -630,7 +630,7 @@
                   </div>
                   <div class="region-row__metrics">
                     <span class="region-row__amount">$58,100</span>
-                    <span class="region-row__meta">214 donors | 6 campaigns</span>
+                    <span class="region-row__meta">214 donors · 6 campaigns</span>
                   </div>
                   <div class="region-row__spark">
                     <span class="badge badge--level badge--level-high">High</span>
@@ -640,11 +640,11 @@
                 <button class="region-row" type="button" data-region-id="istanbul">
                   <div class="region-row__main">
                     <span class="region-row__name">Istanbul</span>
-                    <span class="region-row__country">Turkiye</span>
+                    <span class="region-row__country">Türkiye</span>
                   </div>
                   <div class="region-row__metrics">
                     <span class="region-row__amount">$31,400</span>
-                    <span class="region-row__meta">165 donors | 5 campaigns</span>
+                    <span class="region-row__meta">165 donors · 5 campaigns</span>
                   </div>
                   <div class="region-row__spark">
                     <span class="badge badge--level badge--level-medium">Medium</span>
@@ -658,7 +658,7 @@
                   </div>
                   <div class="region-row__metrics">
                     <span class="region-row__amount">$28,500</span>
-                    <span class="region-row__meta">150 donors | 4 campaigns</span>
+                    <span class="region-row__meta">150 donors · 4 campaigns</span>
                   </div>
                   <div class="region-row__spark">
                     <span class="badge badge--level badge--level-medium">Medium</span>

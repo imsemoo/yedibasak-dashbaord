@@ -1,0 +1,775 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- ================== Global head & SEO metadata ================== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - Donors Overview</title>
+  <meta name="description"
+    content="Monitor donor segments, retention, and engagement on the dedicated donors overview." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <meta name="application-name" content="Donations Dashboard" />
+  <meta name="author" content="Donations Dashboard Team" />
+  <meta name="keywords" content="donor analytics, fundraising dashboard, nonprofit donors, retention" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://example.org/dashboard/donors-overview" />
+
+  <!-- Open Graph / Social sharing metadata -->
+  <meta property="og:title" content="Donations Dashboard - Donors Overview" />
+  <meta property="og:description" content="Track donor growth, retention, and key segments in one view." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/donors-overview" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta property="og:site_name" content="Donations Dashboard" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card metadata -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Donors Overview" />
+  <meta name="twitter:description" content="Track donor growth, retention, and key segments in one view." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+
+  <!-- Performance hints -->
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Donations Dashboard",
+          "url": "https://example.org",
+          "logo": "https://example.org/assets/img/og-image.png"
+        },
+        {
+          "@type": "WebSite",
+          "name": "Donations Dashboard",
+          "url": "https://example.org/dashboard/donors-overview",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://example.org/dashboard/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link active" href="donors-overview.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="monthly-giving.html" aria-current="page">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Monthly Giving</span>
+        </a>
+
+
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false" aria-haspopup="true">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team & roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports & reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Donors overview</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donor segment created</p>
+                    <p class="notification-meta">Just now · Donors</p>
+                  </div>
+                  <span class="notification-time">Just now</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Recurring donation processed</p>
+                    <p class="notification-meta">2h · Finance</p>
+                  </div>
+                  <span class="notification-time">2h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Archive request logged</p>
+                    <p class="notification-meta">Yesterday · Donors</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar-progress">
+                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                  <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
+                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
+                    stroke-dashoffset="38.5"></circle>
+                </svg>
+                <div class="avatar" aria-hidden="true">JL</div>
+              </div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="app-content donors-overview-page" id="main-content" tabindex="-1">
+        <section class="card donors-overview-hero dashboard-section" aria-label="Donors overview hero">
+          <div>
+            <p class="eyebrow">Dashboard / Donors</p>
+            <h1 class="h2">Donors overview</h1>
+            <p class="text-muted">Track donor growth, retention, and key segments.</p>
+          </div>
+          <div class="donors-overview-hero__actions">
+            <a class="btn btn-primary" href="donor-new.html">New donor</a>
+            <a class="btn btn-pill btn-pill--soft" href="donors.html">View all donors</a>
+          </div>
+        </section>
+
+        <section class="section-block dashboard-section donors-metrics-section" aria-labelledby="donors-metrics-title">
+          <div class="section-block__header">
+            <p class="section-block__label">Key metrics</p>
+            <h2 id="donors-metrics-title" class="h4">Donor health indicators</h2>
+          </div>
+          <div class="stats-grid donors-metrics-grid">
+            <article class="card stat-card" aria-label="Total donors">
+              <div class="stat-card__icon">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <span class="stat-card__tag">All-time</span>
+              <div>
+                <div class="stat-card__label">Total donors</div>
+                <div class="stat-card__value">18,420</div>
+                <div class="stat-card__meta">
+                  <span class="badge badge--positive">+12% vs last year</span>
+                  <span class="text-muted">All-time count</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card stat-card" aria-label="Active donors">
+              <div class="stat-card__icon">
+                <i class="fa-solid fa-heart-pulse"></i>
+              </div>
+              <span class="stat-card__tag">12 months</span>
+              <div>
+                <div class="stat-card__label">Active donors</div>
+                <div class="stat-card__value">5,456</div>
+                <div class="stat-card__meta">
+                  <span class="badge badge--info">+8% vs last period</span>
+                  <span class="text-muted">Active in last 12 months</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card stat-card" aria-label="Recurring donors">
+              <div class="stat-card__icon">
+                <i class="fa-solid fa-sync"></i>
+              </div>
+              <span class="stat-card__tag">Profiles</span>
+              <div>
+                <div class="stat-card__label">Recurring donors</div>
+                <div class="stat-card__value">1,230</div>
+                <div class="stat-card__meta">
+                  <span class="badge badge--positive">+14% recurring</span>
+                  <span class="text-muted">Active recurring profiles</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card stat-card" aria-label="Lapsed donors">
+              <div class="stat-card__icon">
+                <i class="fa-solid fa-user-clock"></i>
+              </div>
+              <span class="stat-card__tag">18+ months</span>
+              <div>
+                <div class="stat-card__label">Lapsed donors</div>
+                <div class="stat-card__value">2,310</div>
+                <div class="stat-card__meta">
+                  <span class="badge badge--warning">-6% vs last year</span>
+                  <span class="text-muted">No gift in 18+ months</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section class="section-block dashboard-section donors-retention-section" aria-labelledby="donors-charts-title">
+          <div class="section-block__header">
+            <p class="section-block__label">Retention</p>
+            <h2 id="donors-charts-title" class="h4">Donor health & lifecycle</h2>
+          </div>
+          <div class="donors-charts-grid dashboard-row dashboard-row--3">
+            <article class="card chart-card">
+              <div class="card__header">
+                <div>
+                  <h3 class="card-title">Donor retention</h3>
+                  <span class="card-meta">Rolling 12 months</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="donors-retention-chart" class="chart donors-chart" aria-label="Donor retention chart"></div>
+              </div>
+              <footer class="card-footer">
+                <a class="card-footer-link" href="donors.html#retention">More details</a>
+              </footer>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card__header">
+                <div>
+                  <h3 class="card-title">Donor lifecycle funnel</h3>
+                  <span class="card-meta">Conversion by action</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="donors-lifecycle-chart" class="chart donors-chart" aria-label="Donor lifecycle funnel"></div>
+              </div>
+              <footer class="card-footer">
+                <a class="card-footer-link" href="donors.html#lifecycle">More details</a>
+              </footer>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card__header">
+                <div>
+                  <h3 class="card-title">Donor segments</h3>
+                  <span class="card-meta">Profile mix</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="donors-segments-chart" class="chart donors-chart" aria-label="Donor segments chart"></div>
+                <div class="donor-segments-legend">
+                  <div>
+                    <span>Individual</span>
+                    <strong>12,360</strong>
+                    <span>48%</span>
+                  </div>
+                  <div>
+                    <span>Organization</span>
+                    <strong>5,660</strong>
+                    <span>22%</span>
+                  </div>
+                  <div>
+                    <span>Corporate</span>
+                    <strong>4,620</strong>
+                    <span>18%</span>
+                  </div>
+                  <div>
+                    <span>Major donor</span>
+                    <strong>3,130</strong>
+                    <span>12%</span>
+                  </div>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <a class="card-footer-link" href="donors.html#segments">More details</a>
+              </footer>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card__header">
+                <div>
+                  <h3 class="card-title">Acquisition channels</h3>
+                  <span class="card-meta">Website & partnerships</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="donors-acquisition-chart" class="chart donors-chart" aria-label="Donor acquisition channels">
+                </div>
+              </div>
+              <footer class="card-footer">
+                <a class="card-footer-link" href="donors.html#acquisition">More details</a>
+              </footer>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block dashboard-section donors-coverage-section" aria-labelledby="donors-regions-title">
+          <div class="section-block__header">
+            <p class="section-block__label">Coverage</p>
+            <h2 id="donors-regions-title" class="h4">Segments by region & channel</h2>
+          </div>
+          <div class="donors-region-grid coverage-row">
+            <article class="card card--map">
+              <div class="card__header">
+                <div>
+                  <h3 class="card-title">Donors by region</h3>
+                  <span class="card-meta">High-volume corridors</span>
+                </div>
+              </div>
+              <div class="card-body donors-map-card">
+                <div id="donations-map" class="map-container" aria-label="Donor distribution map"></div>
+
+              </div>
+              <footer class="card-footer card-footer--map">
+                <div class="map-legend" aria-label="Map legend">
+                  <span class="map-legend__item">
+                    <span class="map-legend__dot map-legend__dot--high"></span> High volume
+                  </span>
+                  <span class="map-legend__item">
+                    <span class="map-legend__dot map-legend__dot--medium"></span> Medium
+                  </span>
+                  <span class="map-legend__item">
+                    <span class="map-legend__dot map-legend__dot--low"></span> Emerging
+                  </span>
+                </div>
+              </footer>
+            </article>
+
+            <article class="card chart-card">
+
+              <div class="card__header">
+
+                <h3 class="card-title">Donors by channel</h3>
+                <span class="card-meta">Acquisition mix</span>
+              </div>
+              <div class="card-body">
+                <div class="regions-list donors-regions-list" aria-label="Top donor regions">
+                  <button class="region-row" type="button" data-region-id="gaza">
+                    <div class="region-row__main">
+                      <span class="region-row__name">Gaza City</span>
+                      <span class="region-row__country">Palestine</span>
+                    </div>
+                    <div class="region-row__metrics">
+                      <span class="region-row__amount">$74,400</span>
+                      <span class="region-row__meta">420 donors · 9 campaigns</span>
+                    </div>
+                    <div class="region-row__spark">
+                      <span class="badge badge--level badge--level-high">High</span>
+                    </div>
+                  </button>
+                  <button class="region-row" type="button" data-region-id="nairobi">
+                    <div class="region-row__main">
+                      <span class="region-row__name">Nairobi</span>
+                      <span class="region-row__country">Kenya</span>
+                    </div>
+                    <div class="region-row__metrics">
+                      <span class="region-row__amount">$58,100</span>
+                      <span class="region-row__meta">214 donors · 6 campaigns</span>
+                    </div>
+                    <div class="region-row__spark">
+                      <span class="badge badge--level badge--level-high">High</span>
+                    </div>
+                  </button>
+                  <button class="region-row" type="button" data-region-id="istanbul">
+                    <div class="region-row__main">
+                      <span class="region-row__name">Istanbul</span>
+                      <span class="region-row__country">Turkey</span>
+                    </div>
+                    <div class="region-row__metrics">
+                      <span class="region-row__amount">$31,400</span>
+                      <span class="region-row__meta">165 donors · 5 campaigns</span>
+                    </div>
+                    <div class="region-row__spark">
+                      <span class="badge badge--level badge--level-medium">Medium</span>
+                    </div>
+                  </button>
+                  <button class="region-row" type="button" data-region-id="kampala">
+                    <div class="region-row__main">
+                      <span class="region-row__name">Kampala</span>
+                      <span class="region-row__country">Uganda</span>
+                    </div>
+                    <div class="region-row__metrics">
+                      <span class="region-row__amount">$28,500</span>
+                      <span class="region-row__meta">150 donors · 4 campaigns</span>
+                    </div>
+                    <div class="region-row__spark">
+                      <span class="badge badge--level badge--level-medium">Medium</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+        <section class="section-block dashboard-section donors-affinity-section" aria-labelledby="donor-table-title">
+          <div class="section-block__header">
+            <p class="section-block__label">Affinity</p>
+            <h2 id="donor-table-title" class="h4">Top donors & key segments</h2>
+          </div>
+          <div class="donors-segments-grid">
+            <article class="card">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Top donors (last 12 months)</h3>
+                  <span class="card-meta">By lifetime giving</span>
+                </div>
+              </header>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table donors-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Donor</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Lifetime giving</th>
+                        <th scope="col">Last gift date</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          Jordan Sparks
+                          <span class="badge badge--positive">High value</span>
+                        </td>
+                        <td>Individual</td>
+                        <td>$24,500</td>
+                        <td>Aug 14, 2025</td>
+                        <td><span class="status-pill status-pill--active">Active</span></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Amina Rahman
+                          <span class="badge badge--positive">Major gift</span>
+                        </td>
+                        <td>Individual</td>
+                        <td>$18,320</td>
+                        <td>Jul 30, 2025</td>
+                        <td><span class="status-pill status-pill--success">High value</span></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Bright Futures Foundation
+                          <span class="badge badge--soft">Partner</span>
+                        </td>
+                        <td>Organization</td>
+                        <td>$76,000</td>
+                        <td>Jun 12, 2025</td>
+                        <td><span class="status-pill status-pill--active">Active</span></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Global Relief Partners
+                          <span class="badge badge--soft">Recurring</span>
+                        </td>
+                        <td>Organization</td>
+                        <td>$52,100</td>
+                        <td>May 21, 2025</td>
+                        <td><span class="status-pill status-pill--success">Major gift</span></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Sanaa Ahmed
+                          <span class="badge badge--positive">Renewed</span>
+                        </td>
+                        <td>Individual</td>
+                        <td>$14,600</td>
+                        <td>May 10, 2025</td>
+                        <td><span class="status-pill status-pill--pending">Recurring</span></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Hope Builders Collective
+                          <span class="badge badge--soft">Community</span>
+                        </td>
+                        <td>Organization</td>
+                        <td>$31,800</td>
+                        <td>Apr 02, 2025</td>
+                        <td><span class="status-pill status-pill--warning">Lapsed</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Segments to watch</h3>
+                  <span class="card-meta">Momentum & risk signals</span>
+                </div>
+              </header>
+              <div class="card-body">
+                <div class="segments-watch">
+                  <div class="segments-watch__row">
+                    <div>
+                      <p class="segments-watch__label">New donors</p>
+                      <p class="segments-watch__meta text-muted">320 · Up 14% vs last month</p>
+                    </div>
+                    <span class="status-pill status-pill--success">Good</span>
+                  </div>
+                  <div class="segments-watch__row">
+                    <div>
+                      <p class="segments-watch__label">Lapsed donors</p>
+                      <p class="segments-watch__meta text-muted">210 · Down 6% vs last month</p>
+                    </div>
+                    <span class="status-pill status-pill--warning">Watch</span>
+                  </div>
+                  <div class="segments-watch__row">
+                    <div>
+                      <p class="segments-watch__label">High value recurring</p>
+                      <p class="segments-watch__meta text-muted">84 · Growing</p>
+                    </div>
+                    <span class="status-pill status-pill--success">Growing</span>
+                  </div>
+                  <div class="segments-watch__row">
+                    <div>
+                      <p class="segments-watch__label">At-risk recurring</p>
+                      <p class="segments-watch__meta text-muted">45 · Missing 2+ payments</p>
+                    </div>
+                    <span class="status-pill status-pill--failed">At risk</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block dashboard-section donors-engagement-section" aria-labelledby="donor-action-title">
+          <div class="section-block__header">
+            <p class="section-block__label">Engagement</p>
+            <h2 id="donor-action-title" class="h4">Action center & latest donor activity</h2>
+          </div>
+          <div class="alerts-activity-grid donors-action-grid dashboard-row dashboard-row--2">
+            <article class="card alerts-card">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Action center</h3>
+                  <span class="card-meta">Stay ahead of donor follow-up and stewardship.</span>
+                </div>
+              </header>
+              <div class="card-body donors-action-list">
+                <div class="donors-action-row">
+                  <div>
+                    <p class="donors-action-row__title">20 donors have not been thanked for their first gift.</p>
+                    <p class="donors-action-row__meta text-muted">Triggered 8-12 days ago</p>
+                  </div>
+                  <a class="btn btn-outline btn-small" href="donors.html#thank-you">View donors</a>
+                </div>
+                <div class="donors-action-row">
+                  <div>
+                    <p class="donors-action-row__title">12 recurring donors are at risk (failed last payment).</p>
+                    <p class="donors-action-row__meta text-muted">Priority review needed</p>
+                  </div>
+                  <a class="btn btn-outline btn-small" href="donors.html#payments">Review payments</a>
+                </div>
+                <div class="donors-action-row">
+                  <div>
+                    <p class="donors-action-row__title">8 lapsed major donors surfaced in the last 90 days.</p>
+                    <p class="donors-action-row__meta text-muted">Book stewardship touchpoints</p>
+                  </div>
+                  <a class="btn btn-outline btn-small" href="donors.html#major">Plan outreach</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card activity-card">
+              <header class="card-header">
+                <div>
+                  <h3 class="card-title">Latest donor activity</h3>
+                  <span class="card-meta">Live feed</span>
+                </div>
+                <a class="card-footer-link" href="donors.html#activity">See full activity</a>
+              </header>
+              <div class="card-body activity-list">
+                <div class="activity-item">
+                  <span class="activity-icon" aria-hidden="true"><i class="fas fa-arrow-up"></i></span>
+                  <div class="activity-main">
+                    <p class="activity-title">Alex Morgan increased their monthly gift from $40 to $60.</p>
+                    <p class="activity-meta">3 min ago</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" aria-hidden="true"><i class="fas fa-user-plus"></i></span>
+                  <div class="activity-main">
+                    <p class="activity-title">New donor: Lina Cho gave $250 to Emergency Relief.</p>
+                    <p class="activity-meta">18 min ago</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" aria-hidden="true"><i class="fas fa-exclamation-triangle"></i></span>
+                  <div class="activity-main">
+                    <p class="activity-title">Recurring gift failed for Diego Ramirez (Emergency Relief).</p>
+                    <p class="activity-meta">34 min ago</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" aria-hidden="true"><i class="fas fa-bullseye"></i></span>
+                  <div class="activity-main">
+                    <p class="activity-title">Campaign goal surpassed for Youth Literacy (email thank-you sent).</p>
+                    <p class="activity-meta">1 h ago</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

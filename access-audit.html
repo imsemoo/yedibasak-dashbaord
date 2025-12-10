@@ -1,43 +1,94 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
+  <!-- ================== Global head & SEO metadata ================== -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Donations Dashboard - Access audit</title>
-  <meta name="description"
-    content="Track user sign-ins, permission changes, and export history in the access audit center." />
+  <meta
+    name="description"
+    content="Track user sign-ins, permission changes, and export history in the access audit center."
+  />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#15C5CE" />
+  <meta name="application-name" content="Donations Dashboard" />
+  <meta name="author" content="Donations Dashboard Team" />
+  <meta
+    name="keywords"
+    content="access audit, security logs, sign-in activity, permission changes, export logs, donations dashboard"
+  />
+
+  <!-- Canonical URL to avoid duplicate content issues -->
   <link rel="canonical" href="https://example.org/dashboard/access-audit" />
+
+  <!-- Open Graph / Social sharing metadata -->
   <meta property="og:title" content="Donations Dashboard - Access audit" />
-  <meta property="og:description"
-    content="Review sign-ins, role changes, and high-risk activity for the Donations Dashboard." />
+  <meta
+    property="og:description"
+    content="Review sign-ins, role changes, and high-risk activity for the Donations Dashboard."
+  />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://example.org/dashboard/access-audit" />
   <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta property="og:site_name" content="Donations Dashboard" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card metadata -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Donations Dashboard - Access audit" />
-  <meta name="twitter:description"
-    content="Review sign-ins, role changes, and high-risk activity for the Donations Dashboard." />
+  <meta
+    name="twitter:description"
+    content="Review sign-ins, role changes, and high-risk activity for the Donations Dashboard."
+  />
   <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
-  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
-  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
 
-  <!-- Stylesheets -->
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+
+  <!-- Performance hints (fonts & CDN connections) -->
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <!-- ================== Core styles & vendor CSS ================== -->
   <link rel="stylesheet" href="assets/css/normalize.css" />
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
   <link rel="stylesheet" href="assets/css/all.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- ================== Structured data (JSON-LD for SEO) ================== -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Access audit",
+      "url": "https://example.org/dashboard/access-audit",
+      "description": "Access audit center for monitoring sign-ins, role changes, and security-sensitive activity.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Donations Dashboard",
+        "url": "https://example.org/dashboard"
+      }
+    }
+  </script>
 </head>
 
 <body data-theme="light">
-  <!-- App layout wrapper -->
+  <!-- Accessible skip link for keyboard users -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ================== App layout wrapper ================== -->
   <div class="app">
-    <!-- Sidebar navigation section -->
+    <!-- ========== Sidebar navigation ========== -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
@@ -45,9 +96,10 @@
         </a>
       </div>
 
+      <!-- Main navigation links -->
       <nav class="sidebar__nav" aria-label="Primary">
         <!-- Main sections -->
-        <a class="sidebar__link " href="index.html">
+        <a class="sidebar__link" href="index.html">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
@@ -82,10 +134,16 @@
           <span class="sidebar__label">Settings</span>
         </a>
 
-        <!-- More submenu -->
+        <!-- "More" expandable submenu (secondary sections) -->
         <li class="sidebar-item sidebar-item--expandable">
-          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
-            aria-controls="more-menu" aria-expanded="false">
+          <button
+            class="sidebar-link sidebar-link--toggle"
+            type="button"
+            data-submenu="more-menu"
+            aria-controls="more-menu"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
             <span class="d-flex align-items-center" style="gap: var(--space-3);">
               <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
               <span class="sidebar__label">More</span>
@@ -113,7 +171,11 @@
               </a>
             </li>
             <li>
-              <a href="access-audit.html" class="sidebar-sublink active">
+              <a
+                href="access-audit.html"
+                class="sidebar-sublink active"
+                aria-current="page"
+              >
                 <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
                 <span>Access audit</span>
               </a>
@@ -123,51 +185,87 @@
       </nav>
     </aside>
 
-
+    <!-- Overlay used for mobile sidebar toggle -->
     <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
 
-    <!-- App workspace container -->
+    <!-- ================== Main workspace ================== -->
     <div class="app-main">
-      <!-- Dashboard header section -->
+      <!-- ========== Dashboard header / top bar ========== -->
       <header class="app-header" aria-label="Dashboard header">
         <div class="app-header__left">
-          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
-            aria-controls="sidebar" aria-expanded="false">
+          <!-- Sidebar toggle for small screens -->
+          <button
+            class="icon-button js-sidebar-toggle"
+            type="button"
+            aria-label="Toggle sidebar"
+            aria-controls="sidebar"
+            aria-expanded="false"
+          >
             <i class="fas fa-bars" aria-hidden="true"></i>
           </button>
+
+          <!-- Page titles (context for current view) -->
           <div class="app-header__titles">
             <p class="eyebrow">Dashboard</p>
             <h2 class="h4">Access audit</h2>
           </div>
         </div>
 
+        <!-- Global search across dashboard entities -->
         <div class="app-header__center">
           <form class="search" role="search" aria-label="Search dashboard">
             <label class="sr-only" for="audit-search">Search dashboard</label>
             <i class="fas fa-search" aria-hidden="true"></i>
-            <input id="audit-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
-              autocomplete="off" />
+            <input
+              id="audit-search"
+              type="search"
+              name="q"
+              placeholder="Search donors, campaigns, or messages"
+              autocomplete="off"
+            />
           </form>
         </div>
 
+        <!-- Header actions: theme, notifications, user menu -->
         <div class="app-header__right">
-          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+          <!-- Theme toggle (light / dark) -->
+          <button
+            class="icon-button js-theme-toggle"
+            type="button"
+            aria-label="Toggle theme"
+          >
             <i class="fas fa-sun" aria-hidden="true"></i>
           </button>
 
+          <!-- Notifications dropdown -->
           <div class="dropdown-group">
-            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
-              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
-              aria-controls="notifications-menu" aria-label="Open notifications">
+            <button
+              class="icon-button js-dropdown-toggle js-notifications-toggle"
+              id="notifications-toggle"
+              data-dropdown-target="notifications"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="notifications-menu"
+              aria-label="Open notifications"
+            >
               <span class="badge-dot"></span>
               <i class="fa fa-bell" aria-hidden="true"></i>
             </button>
-            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
-              role="menu" aria-label="Notifications">
+            <div
+              class="dropdown dropdown-notifications"
+              id="notifications-menu"
+              data-dropdown-panel="notifications"
+              role="menu"
+              aria-label="Notifications"
+            >
               <div class="dropdown-header">
                 <span class="dropdown-title">Notifications</span>
-                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
-                  read</button>
+                <button
+                  class="dropdown-link dropdown-mark-all js-mark-notifications"
+                  type="button"
+                >
+                  Mark all as read
+                </button>
               </div>
               <ul class="dropdown-list">
                 <li class="dropdown-notification is-unread" role="menuitem">
@@ -201,15 +299,33 @@
             </div>
           </div>
 
+          <!-- User account dropdown -->
           <div class="dropdown-group dropdown-user">
-            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
-              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
-              aria-controls="user-menu">
+            <button
+              class="header-user js-dropdown-toggle js-user-menu-toggle"
+              id="user-menu-toggle"
+              data-dropdown-target="user-menu"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="user-menu"
+            >
               <div class="avatar-progress">
-                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                <svg
+                  class="avatar-progress__ring"
+                  viewBox="0 0 52 52"
+                  role="presentation"
+                  aria-hidden="true"
+                >
                   <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
-                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
-                    stroke-dashoffset="38.5"></circle>
+                  <circle
+                    class="avatar-progress__value"
+                    cx="26"
+                    cy="26"
+                    r="22"
+                    stroke-dasharray="138.2"
+                    stroke-dashoffset="38.5"
+                  ></circle>
                 </svg>
                 <div class="avatar" aria-hidden="true">JL</div>
               </div>
@@ -218,8 +334,13 @@
                 <div class="user-email text-muted">jordan@donations.org</div>
               </div>
             </button>
-            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
-              aria-label="User menu">
+            <div
+              class="dropdown dropdown-user-menu"
+              id="user-menu"
+              data-dropdown-panel="user-menu"
+              role="menu"
+              aria-label="User menu"
+            >
               <div class="dropdown-header dropdown-user-header">
                 <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
                 <div class="dropdown-user-info">
@@ -237,7 +358,11 @@
                 <span>Account settings</span>
               </a>
               <div class="dropdown-divider"></div>
-              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+              <button
+                type="button"
+                class="dropdown-item dropdown-item-danger"
+                role="menuitem"
+              >
                 <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
                 <span>Sign out</span>
               </button>
@@ -246,12 +371,21 @@
         </div>
       </header>
 
-      <main class="app-content access-audit-page">
+      <!-- ========== Main access audit content ========== -->
+      <main
+        class="app-content access-audit-page"
+        id="main-content"
+        tabindex="-1"
+        aria-label="Access audit center"
+      >
+        <!-- Page header: title, breadcrumb, quick actions -->
         <header class="access-audit-header section-block">
           <div>
             <p class="audit-breadcrumb text-muted">Dashboard / Team / Access audit</p>
             <h1>Access audit</h1>
-            <p class="text-muted">Review sign-ins, permission changes, and security-sensitive activity.</p>
+            <p class="text-muted">
+              Review sign-ins, permission changes, and security-sensitive activity.
+            </p>
           </div>
           <div class="access-audit-header__actions">
             <span class="audit-pill">Stored for 90 days</span>
@@ -260,11 +394,12 @@
           </div>
         </header>
 
-        <section class="audit-filters card">
+        <!-- Filters & search for audit logs -->
+        <section class="audit-filters card" aria-label="Filter access logs">
           <div class="audit-filters__row">
             <div class="audit-filters__group">
               <label for="audit-date-range">Date range</label>
-              <select id="audit-date-range">
+              <select id="audit-date-range" name="date_range">
                 <option>Last 24 hours</option>
                 <option selected>Last 7 days</option>
                 <option>Last 30 days</option>
@@ -273,7 +408,7 @@
             </div>
             <div class="audit-filters__group">
               <label for="audit-event-type">Event type</label>
-              <select id="audit-event-type">
+              <select id="audit-event-type" name="event_type">
                 <option>All events</option>
                 <option>Sign-in</option>
                 <option>Role change</option>
@@ -284,7 +419,7 @@
             </div>
             <div class="audit-filters__group">
               <label for="audit-status">Status</label>
-              <select id="audit-status">
+              <select id="audit-status" name="status">
                 <option>All</option>
                 <option>Success</option>
                 <option>Failed</option>
@@ -293,7 +428,7 @@
             </div>
             <div class="audit-filters__group">
               <label for="audit-actor">Actor</label>
-              <select id="audit-actor">
+              <select id="audit-actor" name="actor">
                 <option>Any user</option>
                 <option>Jordan Lee</option>
                 <option>Priya Nanda</option>
@@ -304,11 +439,17 @@
           </div>
           <div class="audit-filters__search">
             <label for="audit-search-field">Search</label>
-            <input id="audit-search-field" type="search" placeholder="Search by user, IP, event, or resource..."
-              autocomplete="off" />
+            <input
+              id="audit-search-field"
+              type="search"
+              placeholder="Search by user, IP, event, or resource..."
+              autocomplete="off"
+            />
           </div>
         </section>
-        <section class="card audit-table-card">
+
+        <!-- Main audit table with activity logs -->
+        <section class="card audit-table-card" aria-label="Activity log table">
           <div class="card__header audit-table-card__header">
             <div>
               <p class="eyebrow">Full logs</p>
@@ -333,6 +474,7 @@
                 </tr>
               </thead>
               <tbody>
+                <!-- Example row: successful sign-in -->
                 <tr data-log-id="log-1021">
                   <td data-label="Time">Dec 8, 2025 &middot; 10:21</td>
                   <td data-label="User">
@@ -357,12 +499,19 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1021">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1021"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: failed sign-in -->
                 <tr data-log-id="log-1022">
                   <td data-label="Time">Dec 8, 2025 &middot; 09:57</td>
                   <td data-label="User">
@@ -381,18 +530,27 @@
                       </div>
                     </div>
                   </td>
-                  <td data-label="Target / resource">Dashboard - Incorrect password (3 attempts)</td>
+                  <td data-label="Target / resource">
+                    Dashboard - Incorrect password (3 attempts)
+                  </td>
                   <td data-label="IP &middot; Location">203.0.113.21 &middot; Singapore</td>
                   <td data-label="Status">
                     <span class="audit-status audit-status--failed">Failed</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1022">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1022"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: role updated -->
                 <tr data-log-id="log-1023">
                   <td data-label="Time">Dec 7, 2025 &middot; 18:40</td>
                   <td data-label="User">
@@ -416,12 +574,19 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1023">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1023"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: permissions changed -->
                 <tr data-log-id="log-1024">
                   <td data-label="Time">Dec 7, 2025 &middot; 17:12</td>
                   <td data-label="User">
@@ -445,12 +610,19 @@
                     <span class="audit-status audit-status--warning">Warning</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1024">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1024"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: export downloaded -->
                 <tr data-log-id="log-1025">
                   <td data-label="Time">Dec 7, 2025 &middot; 16:40</td>
                   <td data-label="User">
@@ -474,12 +646,19 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1025">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1025"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: 2FA enabled -->
                 <tr data-log-id="log-1026">
                   <td data-label="Time">Dec 6, 2025 &middot; 21:10</td>
                   <td data-label="User">
@@ -503,12 +682,19 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1026">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1026"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: API token created -->
                 <tr data-log-id="log-1027">
                   <td data-label="Time">Dec 6, 2025 &middot; 20:02</td>
                   <td data-label="User">
@@ -532,12 +718,19 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1027">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1027"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: role updated -->
                 <tr data-log-id="log-1028">
                   <td data-label="Time">Dec 6, 2025 &middot; 15:44</td>
                   <td data-label="User">
@@ -561,13 +754,20 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1028">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1028"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
-                <tr data-log-id="log-1029">
+
+                <!-- Example row: failed sign-in with MFA issue -->
+                <tr data-log-id="log-1031">
                   <td data-label="Time">Dec 5, 2025 &middot; 14:33</td>
                   <td data-label="User">
                     <div class="audit-user">
@@ -590,12 +790,19 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1029">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1031"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: export downloaded (recurring donors) -->
                 <tr data-log-id="log-1030">
                   <td data-label="Time">Dec 5, 2025 &middot; 09:58</td>
                   <td data-label="User">
@@ -613,18 +820,27 @@
                       </div>
                     </div>
                   </td>
-                  <td data-label="Target / resource">Donations - Recurring donors (XLSX)</td>
+                  <td data-label="Target / resource">
+                    Donations - Recurring donors (XLSX)
+                  </td>
                   <td data-label="IP &middot; Location">203.0.113.21 &middot; Singapore</td>
                   <td data-label="Status">
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1030">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1030"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: failed sign-in (MFA failure) -->
                 <tr data-log-id="log-1031">
                   <td data-label="Time">Dec 4, 2025 &middot; 17:21</td>
                   <td data-label="User">
@@ -643,18 +859,27 @@
                       </div>
                     </div>
                   </td>
-                  <td data-label="Target / resource">Admin console - MFA challenge failure</td>
+                  <td data-label="Target / resource">
+                    Admin console - MFA challenge failure
+                  </td>
                   <td data-label="IP &middot; Location">192.0.2.58 &middot; Lisbon, PT</td>
                   <td data-label="Status">
                     <span class="audit-status audit-status--failed">Failed</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1031">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1031"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: permissions changed (scope removed) -->
                 <tr data-log-id="log-1032">
                   <td data-label="Time">Dec 4, 2025 &middot; 11:05</td>
                   <td data-label="User">
@@ -672,18 +897,27 @@
                       </div>
                     </div>
                   </td>
-                  <td data-label="Target / resource">Role: Support - 1 scope removed</td>
+                  <td data-label="Target / resource">
+                    Role: Support - 1 scope removed
+                  </td>
                   <td data-label="IP &middot; Location">198.51.100.81 &middot; Berlin, DE</td>
                   <td data-label="Status">
                     <span class="audit-status audit-status--warning">Warning</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1032">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1032"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: security alert acknowledged -->
                 <tr data-log-id="log-1033">
                   <td data-label="Time">Dec 3, 2025 &middot; 18:55</td>
                   <td data-label="User">
@@ -707,12 +941,19 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1033">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1033"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
                 </tr>
+
+                <!-- Example row: signed in -->
                 <tr data-log-id="log-1034">
                   <td data-label="Time">Dec 3, 2025 &middot; 16:02</td>
                   <td data-label="User">
@@ -736,8 +977,13 @@
                     <span class="audit-status audit-status--success">Success</span>
                   </td>
                   <td data-label="Details">
-                    <button class="icon-button icon-button--sm" type="button" aria-label="View log details"
-                      data-open-audit-panel data-log-id="log-1034">
+                    <button
+                      class="icon-button icon-button--sm"
+                      type="button"
+                      aria-label="View log details"
+                      data-open-audit-panel
+                      data-log-id="log-1034"
+                    >
                       <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                   </td>
@@ -746,6 +992,7 @@
             </table>
           </div>
 
+          <!-- Simple static pagination summary -->
           <div class="audit-table-card__footer">
             <span>Showing 1&ndash;20 of 320 events</span>
             <div class="audit-table-card__pagination">
@@ -757,13 +1004,21 @@
         </section>
       </main>
 
-      <!-- Application footer -->
+      <!-- ========== Application footer ========== -->
       <footer class="app-footer">
         <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
       </footer>
     </div>
   </div>
-  <aside class="audit-panel" aria-hidden="true">
+
+  <!-- ========== Slide-over panel for log details (driven by JS) ========== -->
+  <aside
+    class="audit-panel"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Audit event details"
+  >
     <div class="audit-panel__backdrop" data-audit-close></div>
     <div class="audit-panel__sheet">
       <header class="audit-panel__header">
@@ -771,7 +1026,7 @@
           <h2>Event details</h2>
           <p class="muted">Read-only metadata for this audit entry.</p>
         </div>
-        <button type="button" class="icon-button" aria-label="Close" data-audit-close>
+        <button type="button" class="icon-button" aria-label="Close details panel" data-audit-close>
           &times;
         </button>
       </header>
@@ -843,14 +1098,17 @@
     </div>
   </aside>
 
-  <!-- JavaScript Files -->
+  <!-- ================== JavaScript: vendor & app logic ================== -->
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
   <script src="assets/js/owl.carousel.min.js" defer></script>
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+    defer
+  ></script>
   <script src="assets/js/script.js" defer></script>
 </body>
-
 </html>
