@@ -263,8 +263,8 @@
           </div>
         </section>
 
-        <section class="card campaigns-toolbar" aria-label="Campaign filters">
-          <div class="campaigns-toolbar__left">
+        <section class="card campaigns-toolbar flex-column " aria-label="Campaign filters">
+          <div class="d-flex align-items-center justify-content-between w-100">
             <div class="tabs" role="tablist" aria-label="Campaign status tabs">
               <button class="tabs__item tabs__item--active" type="button" role="tab" aria-selected="true">All</button>
               <button class="tabs__item" type="button" role="tab" aria-selected="false">Active</button>
@@ -272,19 +272,6 @@
               <button class="tabs__item" type="button" role="tab" aria-selected="false">Completed</button>
               <button class="tabs__item" type="button" role="tab" aria-selected="false">Archived</button>
             </div>
-          </div>
-          <div class="campaigns-toolbar__right">
-            <form class="search campaigns-search" role="search" aria-label="Search campaigns">
-              <label class="sr-only" for="campaign-search">Search campaigns</label>
-              <i class="fas fa-search" aria-hidden="true"></i>
-              <input id="campaign-search" type="search" name="campaign-search" placeholder="Search campaigns..." />
-            </form>
-            <button class="btn btn-ghost js-open-filters" type="button" aria-expanded="false"
-              aria-controls="campaignFilters">
-              <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-              Filters
-              <span class="filter-count js-filter-count is-hidden" aria-live="polite">0</span>
-            </button>
             <div class="view-toggle" role="tablist" aria-label="Campaigns view mode">
               <button class="view-toggle__btn is-active" type="button" data-view-mode="cards" aria-pressed="true">
                 <i class="fa-solid fa-grip" aria-hidden="true"></i>
@@ -293,6 +280,32 @@
               <button class="view-toggle__btn" type="button" data-view-mode="table" aria-pressed="false">
                 <i class="fa-solid fa-table" aria-hidden="true"></i>
                 <span>Table</span>
+              </button>
+            </div>
+
+          </div>
+          <div class="d-flex align-items-center justify-content-between w-100">
+            <form class="search campaigns-search" role="search" aria-label="Search campaigns">
+              <label class="sr-only" for="campaign-search">Search campaigns</label>
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input id="campaign-search" type="search" name="campaign-search" placeholder="Search campaigns..." />
+            </form>
+
+            <div class="d-flex align-items-center gap-2">
+              <div class="campaigns-toolbar__sort d-flex gap-2 align-items-center">
+                <label class="sr-only" for="campaignSort">Sort campaigns</label>
+                <span class="text-muted">Sort:</span>
+                <select id="campaignSort" class="form-control form-control--sm js-campaign-sort" name="campaignSort">
+                  <option value="newest">Newest</option>
+                  <option value="ending-soon">Ending soon</option>
+                  <option value="most-funded">Most funded</option>
+                </select>
+              </div>
+              <button class="btn btn-ghost js-open-filters" type="button" aria-expanded="false"
+                aria-controls="campaignFilters">
+                <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+                Filters
+                <span class="filter-count js-filter-count is-hidden" aria-live="polite">0</span>
               </button>
             </div>
           </div>
@@ -305,7 +318,10 @@
               data-campaign-title="Clean Water Initiative" data-campaign-status="Active"
               data-campaign-type="Water &amp; Sanitation" data-campaign-target="$50,000"
               data-campaign-raised="$36,200 (72%)" data-campaign-country="Kenya" data-campaign-dates="Feb 10 - May 30"
-              data-campaign-description="Delivering sustainable water access and hygiene training for rural communities.">
+              data-campaign-description="Delivering sustainable water access and hygiene training for rural communities."
+              data-progress="72" data-target-try="50000" data-raised-try="36200" data-created-at="2025-10-05"
+              data-ends-in-days="62" data-campaign-city="Nairobi" data-campaign-category="Water"
+              data-target-label="target" data-raised-label="raised" data-campaign-featured="true">
               <div class="campaign-card__header">
                 <span class="campaign-card__status status-active">Active</span>
                 <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -338,8 +354,8 @@
                     <span class="campaign-progress__bar" style="width: 72%;"></span>
                   </div>
                   <div class="campaign-card__progress-meta">
-                    <span>$50,000 target</span>
-                    <span>$36,200 raised (72%)</span>
+                    <span data-amount-field="target">$50,000 target</span>
+                    <span data-amount-field="raised">$36,200 raised (72%)</span>
                   </div>
                 </div>
                 <div class="campaign-card__meta">
@@ -389,7 +405,10 @@
             <article class="card campaign-card" data-campaign-id="stem-labs" data-campaign-title="STEM Labs for Schools"
               data-campaign-status="Draft" data-campaign-type="Education" data-campaign-target="$80,000"
               data-campaign-raised="$22,400 (28%)" data-campaign-country="Brazil" data-campaign-dates="Mar 5 - Jul 10"
-              data-campaign-description="Building modular science and robotics labs to spark innovation in underserved schools.">
+              data-campaign-description="Building modular science and robotics labs to spark innovation in underserved schools."
+              data-progress="28" data-target-try="80000" data-raised-try="22400" data-created-at="2025-11-14"
+              data-ends-in-days="94" data-campaign-city="Rio de Janeiro" data-campaign-category="Education"
+              data-target-label="target" data-raised-label="pledged">
               <div class="campaign-card__header">
                 <span class="campaign-card__status status-draft">Draft</span>
                 <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -422,8 +441,8 @@
                     <span class="campaign-progress__bar" style="width: 28%;"></span>
                   </div>
                   <div class="campaign-card__progress-meta">
-                    <span>$80,000 target</span>
-                    <span>$22,400 pledged (28%)</span>
+                    <span data-amount-field="target">$80,000 target</span>
+                    <span data-amount-field="raised">$22,400 pledged (28%)</span>
                   </div>
                 </div>
                 <div class="campaign-card__meta">
@@ -473,7 +492,10 @@
               data-campaign-title="Emergency Relief Fund" data-campaign-status="Completed"
               data-campaign-type="Emergency" data-campaign-target="$120,000" data-campaign-raised="$124,500 (103%)"
               data-campaign-country="Global" data-campaign-dates="Jan 1 - Mar 1"
-              data-campaign-description="Rapid response fund supporting families displaced by sudden natural disasters.">
+              data-campaign-description="Rapid response fund supporting families displaced by sudden natural disasters."
+              data-progress="103" data-target-try="120000" data-raised-try="124500" data-created-at="2025-09-03"
+              data-ends-in-days="0" data-campaign-city="Global" data-campaign-category="Emergency"
+              data-target-label="target" data-raised-label="raised">
               <div class="campaign-card__header">
                 <span class="campaign-card__status status-completed">Completed</span>
                 <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -507,8 +529,8 @@
                     <span class="campaign-progress__bar" style="width: 100%;"></span>
                   </div>
                   <div class="campaign-card__progress-meta">
-                    <span>$120,000 target</span>
-                    <span>$124,500 raised (103%)</span>
+                    <span data-amount-field="target">$120,000 target</span>
+                    <span data-amount-field="raised">$124,500 raised (103%)</span>
                   </div>
                 </div>
                 <div class="campaign-card__meta">
@@ -558,7 +580,10 @@
               data-campaign-title="Community Health Clinics" data-campaign-status="Active"
               data-campaign-type="Healthcare" data-campaign-target="$65,000" data-campaign-raised="$41,600 (64%)"
               data-campaign-country="Nepal" data-campaign-dates="Apr 18 - Aug 22"
-              data-campaign-description="Pop-up clinics delivering preventative screenings and primary care in remote villages.">
+              data-campaign-description="Pop-up clinics delivering preventative screenings and primary care in remote villages."
+              data-progress="64" data-target-try="65000" data-raised-try="41600" data-created-at="2025-11-02"
+              data-ends-in-days="36" data-campaign-city="Kathmandu" data-campaign-category="Healthcare"
+              data-target-label="target" data-raised-label="raised">
               <div class="campaign-card__header">
                 <span class="campaign-card__status status-active">Active</span>
                 <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -591,8 +616,8 @@
                     <span class="campaign-progress__bar" style="width: 64%;"></span>
                   </div>
                   <div class="campaign-card__progress-meta">
-                    <span>$65,000 target</span>
-                    <span>$41,600 raised (64%)</span>
+                    <span data-amount-field="target">$65,000 target</span>
+                    <span data-amount-field="raised">$41,600 raised (64%)</span>
                   </div>
                 </div>
                 <div class="campaign-card__meta">
@@ -642,7 +667,10 @@
               data-campaign-title="Solar Lights for Refugees" data-campaign-status="Archived"
               data-campaign-type="Energy" data-campaign-target="$35,000" data-campaign-raised="$30,800 (88%)"
               data-campaign-country="Jordan" data-campaign-dates="Sep 4 - Nov 12"
-              data-campaign-description="Providing clean, portable lighting to families in temporary settlements.">
+              data-campaign-description="Providing clean, portable lighting to families in temporary settlements."
+              data-progress="88" data-target-try="35000" data-raised-try="30800" data-created-at="2025-10-20"
+              data-ends-in-days="5" data-campaign-city="Amman" data-campaign-category="Energy"
+              data-target-label="target" data-raised-label="raised">
               <div class="campaign-card__header">
                 <span class="campaign-card__status status-archived">Archived</span>
                 <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -675,8 +703,8 @@
                     <span class="campaign-progress__bar" style="width: 88%;"></span>
                   </div>
                   <div class="campaign-card__progress-meta">
-                    <span>$35,000 target</span>
-                    <span>$30,800 raised (88%)</span>
+                    <span data-amount-field="target">$35,000 target</span>
+                    <span data-amount-field="raised">$30,800 raised (88%)</span>
                   </div>
                 </div>
                 <div class="campaign-card__meta">
@@ -726,7 +754,10 @@
               data-campaign-status="Completed" data-campaign-type="Food Security" data-campaign-target="$42,000"
               data-campaign-raised="$40,320 (96%)" data-campaign-country="United States"
               data-campaign-dates="Jun 8 - Oct 15"
-              data-campaign-description="Creating neighborhood-based food hubs connecting farmers and families.">
+              data-campaign-description="Creating neighborhood-based food hubs connecting farmers and families."
+              data-progress="96" data-target-try="42000" data-raised-try="40320" data-created-at="2025-07-12"
+              data-ends-in-days="12" data-campaign-city="Los Angeles" data-campaign-category="Food Security"
+              data-target-label="target" data-raised-label="raised">
               <div class="campaign-card__header">
                 <span class="campaign-card__status status-completed">Completed</span>
                 <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -759,8 +790,8 @@
                     <span class="campaign-progress__bar" style="width: 96%;"></span>
                   </div>
                   <div class="campaign-card__progress-meta">
-                    <span>$42,000 target</span>
-                    <span>$40,320 raised (96%)</span>
+                    <span data-amount-field="target">$42,000 target</span>
+                    <span data-amount-field="raised">$40,320 raised (96%)</span>
                   </div>
                 </div>
                 <div class="campaign-card__meta">
@@ -830,7 +861,10 @@
                     data-campaign-status="Active" data-campaign-type="Water &amp; Sanitation"
                     data-campaign-target="$50,000" data-campaign-raised="$36,200 (72%)" data-campaign-country="Kenya"
                     data-campaign-dates="Feb 10 - May 30"
-                    data-campaign-description="Delivering sustainable water access and hygiene training for rural communities.">
+                    data-campaign-description="Delivering sustainable water access and hygiene training for rural communities."
+                    data-progress="72" data-target-try="50000" data-raised-try="36200" data-created-at="2025-10-05"
+                    data-ends-in-days="62" data-campaign-city="Nairobi" data-campaign-category="Water"
+                    data-target-label="target" data-raised-label="raised" data-campaign-featured="true">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Clean Water Initiative</span>
@@ -841,8 +875,8 @@
                       <span class="status-pill status-pill--active">Active</span>
                     </td>
                     <td data-label="Type">Water &amp; Sanitation</td>
-                    <td data-label="Target">$50,000</td>
-                    <td data-label="Raised">$36,200 (72%)</td>
+                    <td data-label="Target" data-amount-field="target">$50,000</td>
+                    <td data-label="Raised" data-amount-field="raised">$36,200 (72%)</td>
                     <td data-label="Progress">
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:72%"></div>
@@ -887,7 +921,10 @@
                     data-campaign-status="Draft" data-campaign-type="Education" data-campaign-target="$80,000"
                     data-campaign-raised="$22,400 (28%)" data-campaign-country="Brazil"
                     data-campaign-dates="Mar 5 - Jul 10"
-                    data-campaign-description="Building modular science and robotics labs to spark innovation in underserved schools.">
+                    data-campaign-description="Building modular science and robotics labs to spark innovation in underserved schools."
+                    data-progress="28" data-target-try="80000" data-raised-try="22400" data-created-at="2025-11-14"
+                    data-ends-in-days="94" data-campaign-city="Rio de Janeiro" data-campaign-category="Education"
+                    data-target-label="target" data-raised-label="pledged">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">STEM Labs for Schools</span>
@@ -899,8 +936,8 @@
                       <span class="status-pill status-pill--draft">Draft</span>
                     </td>
                     <td data-label="Type">Education</td>
-                    <td data-label="Target">$80,000</td>
-                    <td data-label="Raised">$22,400 (28%)</td>
+                    <td data-label="Target" data-amount-field="target">$80,000</td>
+                    <td data-label="Raised" data-amount-field="raised">$22,400 (28%)</td>
                     <td data-label="Progress">
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:28%"></div>
@@ -946,7 +983,10 @@
                     data-campaign-type="Emergency" data-campaign-target="$120,000"
                     data-campaign-raised="$124,500 (103%)" data-campaign-country="Global"
                     data-campaign-dates="Jan 1 - Mar 1"
-                    data-campaign-description="Rapid response fund supporting families displaced by disasters.">
+                    data-campaign-description="Rapid response fund supporting families displaced by disasters."
+                    data-progress="103" data-target-try="120000" data-raised-try="124500" data-created-at="2025-09-03"
+                    data-ends-in-days="0" data-campaign-city="Global" data-campaign-category="Emergency"
+                    data-target-label="target" data-raised-label="raised">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Emergency Relief Fund</span>
@@ -958,8 +998,8 @@
                       <span class="status-pill status-pill--completed">Completed</span>
                     </td>
                     <td data-label="Type">Emergency</td>
-                    <td data-label="Target">$120,000</td>
-                    <td data-label="Raised">$124,500 (103%)</td>
+                    <td data-label="Target" data-amount-field="target">$120,000</td>
+                    <td data-label="Raised" data-amount-field="raised">$124,500 (103%)</td>
                     <td data-label="Progress">
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:100%"></div>
@@ -1004,7 +1044,10 @@
                     data-campaign-title="Community Health Clinics" data-campaign-status="Active"
                     data-campaign-type="Healthcare" data-campaign-target="$65,000" data-campaign-raised="$41,600 (64%)"
                     data-campaign-country="Nepal" data-campaign-dates="Apr 18 - Aug 22"
-                    data-campaign-description="Pop-up clinics delivering preventative screenings and care.">
+                    data-campaign-description="Pop-up clinics delivering preventative screenings and care."
+                    data-progress="64" data-target-try="65000" data-raised-try="41600" data-created-at="2025-11-02"
+                    data-ends-in-days="36" data-campaign-city="Kathmandu" data-campaign-category="Healthcare"
+                    data-target-label="target" data-raised-label="raised">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Community Health Clinics</span>
@@ -1016,8 +1059,8 @@
                       <span class="status-pill status-pill--active">Active</span>
                     </td>
                     <td data-label="Type">Healthcare</td>
-                    <td data-label="Target">$65,000</td>
-                    <td data-label="Raised">$41,600 (64%)</td>
+                    <td data-label="Target" data-amount-field="target">$65,000</td>
+                    <td data-label="Raised" data-amount-field="raised">$41,600 (64%)</td>
                     <td data-label="Progress">
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:64%"></div>
@@ -1062,7 +1105,10 @@
                     data-campaign-title="Solar Lights for Refugees" data-campaign-status="Archived"
                     data-campaign-type="Energy" data-campaign-target="$35,000" data-campaign-raised="$30,800 (88%)"
                     data-campaign-country="Jordan" data-campaign-dates="Sep 4 - Nov 12"
-                    data-campaign-description="Providing clean, portable lighting to temporary settlements.">
+                    data-campaign-description="Providing clean, portable lighting to temporary settlements."
+                    data-progress="88" data-target-try="35000" data-raised-try="30800" data-created-at="2025-10-20"
+                    data-ends-in-days="5" data-campaign-city="Amman" data-campaign-category="Energy"
+                    data-target-label="target" data-raised-label="raised">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Solar Lights for Refugees</span>
@@ -1074,8 +1120,8 @@
                       <span class="status-pill status-pill--archived">Archived</span>
                     </td>
                     <td data-label="Type">Energy</td>
-                    <td data-label="Target">$35,000</td>
-                    <td data-label="Raised">$30,800 (88%)</td>
+                    <td data-label="Target" data-amount-field="target">$35,000</td>
+                    <td data-label="Raised" data-amount-field="raised">$30,800 (88%)</td>
                     <td data-label="Progress">
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:88%"></div>
@@ -1120,7 +1166,10 @@
                     data-campaign-status="Completed" data-campaign-type="Food Security" data-campaign-target="$42,000"
                     data-campaign-raised="$40,320 (96%)" data-campaign-country="United States"
                     data-campaign-dates="Jun 8 - Oct 15"
-                    data-campaign-description="Neighborhood-based food hubs connecting farmers and families.">
+                    data-campaign-description="Neighborhood-based food hubs connecting farmers and families."
+                    data-progress="96" data-target-try="42000" data-raised-try="40320" data-created-at="2025-07-12"
+                    data-ends-in-days="12" data-campaign-city="Los Angeles" data-campaign-category="Food Security"
+                    data-target-label="target" data-raised-label="raised">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Fresh Food Network</span>
@@ -1132,8 +1181,8 @@
                       <span class="status-pill status-pill--completed">Completed</span>
                     </td>
                     <td data-label="Type">Food Security</td>
-                    <td data-label="Target">$42,000</td>
-                    <td data-label="Raised">$40,320 (96%)</td>
+                    <td data-label="Target" data-amount-field="target">$42,000</td>
+                    <td data-label="Raised" data-amount-field="raised">$40,320 (96%)</td>
                     <td data-label="Progress">
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:96%"></div>
@@ -1180,6 +1229,41 @@
           </div>
         </section>
 
+        <section class="card campaigns-loading is-hidden" aria-live="polite">
+          <div class="campaigns-loading__header">
+            <h3 class="h4">Loading campaigns</h3>
+            <p class="text-muted">Hang tight while we refresh the latest totals.</p>
+          </div>
+          <div class="cs-skeleton cs-skeleton--grid" aria-hidden="true">
+            <div class="cs-skeleton__card"></div>
+            <div class="cs-skeleton__card"></div>
+            <div class="cs-skeleton__card"></div>
+          </div>
+          <div class="cs-skeleton cs-skeleton--table" aria-hidden="true">
+            <div class="cs-skeleton__row"></div>
+            <div class="cs-skeleton__row"></div>
+            <div class="cs-skeleton__row"></div>
+          </div>
+        </section>
+
+        <section class="card campaigns-error is-hidden" role="status" aria-live="assertive">
+          <div class="campaigns-error__body">
+            <div class="campaigns-error__icon" aria-hidden="true">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+              <h3 class="h4">Unable to load campaigns</h3>
+              <p class="text-muted">Double-check your connection and try again.</p>
+            </div>
+          </div>
+          <div class="campaigns-error__actions">
+            <button type="button" class="btn btn-primary js-campaigns-retry">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              <span>Retry</span>
+            </button>
+          </div>
+        </section>
+
         <section class="card campaigns-empty is-hidden" aria-live="polite">
           <div class="campaigns-empty__icon" aria-hidden="true">
             <i class="fa-regular fa-folder-open"></i>
@@ -1211,6 +1295,9 @@
       </header>
       <div class="offcanvas-body">
         <div class="filter-group">
+          <button type="button" class="btn  btn-outline-danger js-filters-clear">Clear all</button>
+        </div>
+        <div class="filter-group">
           <p class="filter-label">Status</p>
           <div class="filter-chips">
             <label class="filter-chip">
@@ -1236,11 +1323,39 @@
           <label class="filter-label" for="campaignType">Campaign type</label>
           <select id="campaignType" class="form-control" name="campaignType">
             <option value="">Any</option>
-            <option value="food">Food</option>
-            <option value="education">Education</option>
-            <option value="healthcare">Healthcare</option>
-            <option value="emergency">Emergency</option>
-            <option value="other">Other</option>
+            <option value="Water &amp; Sanitation">Water &amp; Sanitation</option>
+            <option value="Education">Education</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Emergency">Emergency</option>
+            <option value="Energy">Energy</option>
+            <option value="Food Security">Food Security</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label" for="campaignCity">City</label>
+          <select id="campaignCity" class="form-control" name="campaignCity">
+            <option value="">Any</option>
+            <option value="Nairobi">Nairobi</option>
+            <option value="Rio de Janeiro">Rio de Janeiro</option>
+            <option value="Kathmandu">Kathmandu</option>
+            <option value="Amman">Amman</option>
+            <option value="Los Angeles">Los Angeles</option>
+            <option value="Global">Global</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label" for="campaignCategory">Category</label>
+          <select id="campaignCategory" class="form-control" name="campaignCategory">
+            <option value="">Any</option>
+            <option value="Water">Water</option>
+            <option value="Education">Education</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Emergency">Emergency</option>
+            <option value="Energy">Energy</option>
+            <option value="Food Security">Food Security</option>
           </select>
         </div>
 
@@ -1353,6 +1468,34 @@
       </footer>
     </aside>
   </div>
+
+  <div class="cs-modal" data-modal="close-campaign" aria-hidden="true">
+    <div class="cs-modal__backdrop" data-modal-close></div>
+    <div class="cs-modal__panel" role="dialog" aria-modal="true" aria-labelledby="closeCampaignTitle">
+      <header class="cs-modal__header">
+        <div>
+          <p class="eyebrow text-muted">Action required</p>
+          <h3 id="closeCampaignTitle" class="h4">Close campaign?</h3>
+        </div>
+        <button type="button" class="icon-button cs-modal__close" data-modal-close aria-label="Cancel close campaign">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <div class="cs-modal__body">
+        <p>This moves the campaign to Completed and prevents new donations.</p>
+      </div>
+      <footer class="cs-modal__footer">
+        <button type="button" class="btn btn-outline" data-modal-close>
+          <span>Cancel</span>
+        </button>
+        <button type="button" class="btn btn-primary cs-btn--danger" data-modal-confirm>
+          <span>Close campaign</span>
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="cs-toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <!-- JavaScript Files -->
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>

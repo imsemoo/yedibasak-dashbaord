@@ -190,6 +190,13 @@
   };
 
   const isReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isCampaignsPage = () =>
+    Boolean(document.querySelector(".campaign-grid")) ||
+    window.location.pathname.split("/").pop()?.toLowerCase() === "campaigns.html";
+  const safeNumber = (value, fallback = 0) => {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : fallback;
+  };
 
   const overviewMapState = {
     map: null,
@@ -1495,7 +1502,8 @@
    * Expects `.offcanvas-filters`, `.js-open-filters`, and `.js-filter-count`.
    */
   const initCampaignFilters = () => {
-    // Cache the drawer, trigger, and control buttons for the campaign filters panel.
+    if (!isCampaignsPage()) return;
+
     const offcanvas = document.querySelector(".offcanvas-filters");
     const trigger = document.querySelector(".js-open-filters");
     if (!offcanvas || !trigger) return;
@@ -1504,8 +1512,16 @@
     const closeButtons = offcanvas.querySelectorAll(".js-offcanvas-close");
     const resetButton = offcanvas.querySelector(".js-offcanvas-reset");
     const applyButton = offcanvas.querySelector(".js-offcanvas-apply");
+    const clearButton = offcanvas.querySelector(".js-filters-clear");
     const badge = trigger.querySelector(".js-filter-count");
     const fields = Array.from(offcanvas.querySelectorAll("input, select"));
+    const statusInputs = Array.from(offcanvas.querySelectorAll("input[name='status']"));
+    const typeSelect = offcanvas.querySelector("#campaignType");
+    const citySelect = offcanvas.querySelector("#campaignCity");
+    const categorySelect = offcanvas.querySelector("#campaignCategory");
+    const countrySelect = offcanvas.querySelector("#campaignCountry");
+    const featuredInput = offcanvas.querySelector("input[name='featuredOnly']");
+    const endingSoonInput = offcanvas.querySelector("input[name='endingSoon']");
 
     const lockScroll = () => document.body.classList.add("is-locked");
     const unlockScroll = () => {
@@ -1522,6 +1538,8 @@
         return count;
       }, 0);
 
+    const normalized = (value) => (value || "").toString().trim().toLowerCase();
+
     const updateBadge = () => {
       const total = countActiveFilters();
       if (badge) {
@@ -1529,6 +1547,65 @@
         badge.classList.toggle("is-hidden", total === 0);
       }
       trigger.setAttribute("data-has-filters", total > 0 ? "true" : "false");
+    };
+
+    const toggleVisibility = (element, visible) => {
+      if (!element) return;
+      element.classList.toggle("is-hidden", !visible);
+      element.setAttribute("aria-hidden", visible ? "false" : "true");
+    };
+
+    const applyFilters = () => {
+      const filterState = {
+        statuses: statusInputs.filter((input) => input.checked).map((input) => normalized(input.value)),
+        type: typeSelect?.value?.trim(),
+        city: citySelect?.value?.trim(),
+        category: categorySelect?.value?.trim(),
+        country: countrySelect?.value?.trim(),
+        featured: Boolean(featuredInput?.checked),
+        endingSoon: Boolean(endingSoonInput?.checked),
+      };
+
+      const matchesFilters = (dataset) => {
+        const datasetStatus = normalized(dataset.campaignStatus);
+        const datasetType = normalized(dataset.campaignType);
+        const datasetCity = normalized(dataset.campaignCity);
+        const datasetCategory = normalized(dataset.campaignCategory);
+        const datasetCountry = normalized(dataset.campaignCountry);
+        const endsInDays = safeNumber(dataset.endsInDays, Number.POSITIVE_INFINITY);
+        const isEndingSoon = endsInDays <= 7;
+        const isFeatured = normalized(dataset.campaignFeatured) === "true";
+
+        const statusMatch =
+          filterState.statuses.length === 0 || filterState.statuses.includes(datasetStatus);
+        const typeMatch = !filterState.type || normalized(filterState.type) === datasetType;
+        const cityMatch = !filterState.city || normalized(filterState.city) === datasetCity;
+        const categoryMatch = !filterState.category || normalized(filterState.category) === datasetCategory;
+        const countryMatch = !filterState.country || normalized(filterState.country) === datasetCountry;
+        const featuredMatch = !filterState.featured || isFeatured;
+        const endingSoonMatch = !filterState.endingSoon || isEndingSoon;
+
+        return (
+          statusMatch && typeMatch && cityMatch && categoryMatch && countryMatch && featuredMatch && endingSoonMatch
+        );
+      };
+
+      Array.from(document.querySelectorAll(".campaign-card")).forEach((card) =>
+        toggleVisibility(card, matchesFilters(card.dataset))
+      );
+      Array.from(document.querySelectorAll(".campaign-row")).forEach((row) =>
+        toggleVisibility(row, matchesFilters(row.dataset))
+      );
+    };
+
+    const resetFilters = () => {
+      fields.forEach((field) => {
+        if (field.type === "checkbox" || field.type === "radio") {
+          field.checked = false;
+        } else {
+          field.value = "";
+        }
+      });
     };
 
     const close = () => {
@@ -1553,42 +1630,41 @@
       }
     };
 
-    // Attach interactions so the drawer responds to clicks, overlay taps, and escape keys.
-    // Hook up the triggers and close controls for the donations filters drawer.
     trigger.addEventListener("click", toggle);
     backdrop?.addEventListener("click", close);
     closeButtons.forEach((btn) => btn.addEventListener("click", close));
-
-    // Allow Escape key to close the filters drawer for accessibility.
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && offcanvas.classList.contains("is-open")) {
         close();
       }
     });
 
-    // Update the filter badge whenever any input changes.
-    // Update the filter badge whenever a field changes.
+    const handleClear = () => {
+      resetFilters();
+      updateBadge();
+      applyFilters();
+    };
+
     fields.forEach((field) => field.addEventListener("change", updateBadge));
 
-    // Reset all filter controls when the reset button is triggered.
-    resetButton?.addEventListener("click", () => {
-      fields.forEach((field) => {
-        if (field.type === "checkbox" || field.type === "radio") {
-          field.checked = false;
-        } else {
-          field.value = "";
-        }
-      });
-      updateBadge();
+    resetButton?.addEventListener("click", (event) => {
+      event.preventDefault();
+      handleClear();
     });
 
-    // Apply the selected filters and close the drawer when hitting Apply.
+    clearButton?.addEventListener("click", (event) => {
+      event.preventDefault();
+      handleClear();
+    });
+
     applyButton?.addEventListener("click", () => {
+      applyFilters();
       updateBadge();
       close();
     });
 
     updateBadge();
+    applyFilters();
   };
 
   /**
@@ -1768,6 +1844,11 @@
         campaignRaised,
         campaignCountry,
         campaignDates,
+        targetTry,
+        raisedTry,
+        targetLabel,
+        raisedLabel,
+        progress,
       } = dataset;
 
       if (titleEl) titleEl.textContent = campaignTitle || "Campaign";
@@ -1779,8 +1860,18 @@
       setStatusPill(campaignStatus);
       if (typeEl) typeEl.textContent = campaignType || "";
       if (descEl) descEl.textContent = campaignDescription || "";
-      if (targetEl) targetEl.textContent = campaignTarget || "";
-      if (raisedEl) raisedEl.textContent = campaignRaised || "";
+      const formattedTarget = targetTry ? formatTRY(targetTry) : campaignTarget || "";
+      const formattedRaised = raisedTry ? formatTRY(raisedTry) : campaignRaised || "";
+      const targetSuffix = targetLabel || "target";
+      const raisedSuffix = raisedLabel || "raised";
+      const progressText = progress ? ` (${progress}%)` : "";
+
+      if (targetEl) {
+        targetEl.textContent = formattedTarget ? `${formattedTarget} ${targetSuffix}` : "";
+      }
+      if (raisedEl) {
+        raisedEl.textContent = formattedRaised ? `${formattedRaised} ${raisedSuffix}${progressText}` : "";
+      }
       if (countryEl) countryEl.textContent = campaignCountry || "";
       if (datesEl) datesEl.textContent = campaignDates || "";
     };
@@ -1801,6 +1892,323 @@
       if (event.key === "Escape" && previewSheet.classList.contains("is-open")) {
         closeSheet();
       }
+    });
+  };
+
+  const formatTRY = (value) => {
+    const amount = Number(value);
+    if (!Number.isFinite(amount)) return "";
+    const hasDecimals = Math.abs(amount % 1) > 0;
+    try {
+      const formatter = new Intl.NumberFormat("tr-TR", {
+        style: "currency",
+        currency: "TRY",
+        minimumFractionDigits: hasDecimals ? 2 : 0,
+        maximumFractionDigits: hasDecimals ? 2 : 0,
+      });
+      return formatter.format(amount);
+    } catch {
+      return amount.toLocaleString("tr-TR", { minimumFractionDigits: hasDecimals ? 2 : 0 });
+    }
+  };
+
+  const hydrateCampaignCurrency = () => {
+    if (!isCampaignsPage()) return;
+
+    const formatTargetText = (value, label) => {
+      if (!value) return "";
+      return `${formatTRY(value)} ${label}`.trim();
+    };
+
+    document.querySelectorAll(".campaign-card").forEach((card) => {
+      const targetSpan = card.querySelector('[data-amount-field="target"]');
+      const raisedSpan = card.querySelector('[data-amount-field="raised"]');
+      const { targetTry, raisedTry, targetLabel, raisedLabel, progress } = card.dataset;
+      if (targetSpan && targetTry) {
+        targetSpan.textContent = formatTargetText(targetTry, targetLabel || "target");
+      }
+      if (raisedSpan && raisedTry) {
+        const progressLabel = progress ? ` (${progress}%)` : "";
+        raisedSpan.textContent = `${formatTargetText(raisedTry, raisedLabel || "raised")}${progressLabel}`.trim();
+      }
+    });
+
+    document.querySelectorAll(".campaign-row").forEach((row) => {
+      const targetCell = row.querySelector('[data-label="Target"][data-amount-field="target"]');
+      const raisedCell = row.querySelector('[data-label="Raised"][data-amount-field="raised"]');
+      const { targetTry, raisedTry, targetLabel, raisedLabel, progress } = row.dataset;
+      if (targetCell && targetTry) {
+        targetCell.textContent = formatTargetText(targetTry, targetLabel || "target");
+      }
+      if (raisedCell && raisedTry) {
+        const progressLabel = progress ? ` (${progress}%)` : "";
+        raisedCell.textContent = `${formatTargetText(raisedTry, raisedLabel || "raised")}${progressLabel}`.trim();
+      }
+    });
+  };
+
+  const applyEndingSoonIndicators = () => {
+    if (!isCampaignsPage()) return;
+    const threshold = 7;
+    const badgeText = "Ending soon";
+
+    document.querySelectorAll(".campaign-card").forEach((card) => {
+      const ends = safeNumber(card.dataset.endsInDays, Number.POSITIVE_INFINITY);
+      if (ends <= threshold) {
+        card.classList.add("cs-card--ending-soon");
+        const footer = card.querySelector(".campaign-card__footer-left");
+        if (footer && !footer.querySelector(".cs-badge--warning")) {
+          const badge = document.createElement("span");
+          badge.className = "badge cs-badge--warning";
+          badge.textContent = badgeText;
+          footer.appendChild(badge);
+        }
+      }
+    });
+
+    document.querySelectorAll(".campaign-row").forEach((row) => {
+      const ends = safeNumber(row.dataset.endsInDays, Number.POSITIVE_INFINITY);
+      if (ends <= threshold) {
+        row.classList.add("cs-card--ending-soon");
+        const title = row.querySelector(".campaigns-table__title");
+        if (title && !title.querySelector(".cs-badge--warning")) {
+          const badge = document.createElement("span");
+          badge.className = "badge cs-badge--warning";
+          badge.textContent = badgeText;
+          title.appendChild(badge);
+        }
+      }
+    });
+  };
+
+  const initCampaignSort = () => {
+    if (!isCampaignsPage()) return;
+    const sortControl = document.querySelector(".js-campaign-sort");
+    const cardGrid = document.querySelector(".campaign-grid");
+    const tableBody = document.querySelector(".campaigns-table tbody");
+    if (!sortControl || !cardGrid || !tableBody) return;
+
+    const getTimestamp = (element) => {
+      const value = element.dataset.createdAt;
+      const parsed = Date.parse(value);
+      return Number.isFinite(parsed) ? parsed : 0;
+    };
+
+    const comparator = (option) => {
+      if (option === "ending-soon") {
+        return (a, b) =>
+          safeNumber(a.dataset.endsInDays, Number.POSITIVE_INFINITY) -
+          safeNumber(b.dataset.endsInDays, Number.POSITIVE_INFINITY);
+      }
+      if (option === "most-funded") {
+        return (a, b) =>
+          safeNumber(b.dataset.progress, 0) - safeNumber(a.dataset.progress, 0);
+      }
+      return (a, b) => getTimestamp(b) - getTimestamp(a);
+    };
+
+    const sortElements = () => {
+      const cards = Array.from(cardGrid.querySelectorAll(".campaign-card"));
+      const rows = Array.from(tableBody.querySelectorAll(".campaign-row"));
+      const compare = comparator(sortControl.value || "newest");
+      cards.sort(compare).forEach((card) => cardGrid.appendChild(card));
+      rows.sort(compare).forEach((row) => tableBody.appendChild(row));
+    };
+
+    sortControl.addEventListener("change", sortElements);
+    sortElements();
+  };
+
+  const toast = (message, type = "success", duration = 3200) => {
+    const container = document.querySelector(".cs-toast-container");
+    if (!container) return;
+    const variant = ["success", "warning", "danger"].includes(type) ? type : "success";
+    const toastEl = document.createElement("div");
+    toastEl.className = `cs-toast cs-toast--${variant}`;
+    toastEl.setAttribute("role", "status");
+    toastEl.textContent = message;
+    container.appendChild(toastEl);
+    toastEl.addEventListener("click", () => toastEl.remove());
+    window.setTimeout(() => {
+      toastEl.remove();
+    }, duration);
+  };
+
+  const setCampaignsState = (state = "ready") => {
+    if (!isCampaignsPage()) return;
+    const cardsView = document.querySelector(".campaigns-view--cards");
+    const tableView = document.querySelector(".campaigns-view--table");
+    const loading = document.querySelector(".campaigns-loading");
+    const empty = document.querySelector(".campaigns-empty");
+    const error = document.querySelector(".campaigns-error");
+
+    const toggleSection = (element, visible) => {
+      if (!element) return;
+      element.classList.toggle("is-hidden", !visible);
+      element.setAttribute("aria-hidden", visible ? "false" : "true");
+    };
+
+    toggleSection(cardsView, state === "ready");
+    toggleSection(tableView, state === "ready");
+    toggleSection(loading, state === "loading");
+    toggleSection(empty, state === "empty");
+    toggleSection(error, state === "error");
+  };
+
+  const initCampaignStateTriggers = () => {
+    const retryButton = document.querySelector(".js-campaigns-retry");
+    retryButton?.addEventListener("click", () => setCampaignsState("ready"));
+  };
+
+  const initCloseCampaignModal = () => {
+    if (!isCampaignsPage()) return;
+    const modal = document.querySelector('.cs-modal[data-modal="close-campaign"]');
+    if (!modal) return;
+
+    const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const closeTriggers = modal.querySelectorAll("[data-modal-close]");
+    const confirmButton = modal.querySelector("[data-modal-confirm]");
+    const menuTemplates = document.querySelectorAll(".dropdown-menu--actions");
+
+    const lockScroll = () => document.body.classList.add("is-locked");
+    const unlockScroll = () => {
+      const app = document.querySelector(".app");
+      if (!app || !app.classList.contains("sidebar-open")) {
+        document.body.classList.remove("is-locked");
+      }
+    };
+
+    let activeCampaign = null;
+    let lastFocused = null;
+    let trapHandler = null;
+
+    const closeActionMenu = (button) => {
+      const dropdown = button.closest(".dropdown");
+      const menu = dropdown?.querySelector(".dropdown-menu--actions");
+      const toggle = dropdown?.querySelector(".js-actions-toggle");
+      menu?.classList.remove("is-open");
+      toggle?.setAttribute("aria-expanded", "false");
+    };
+
+    const createCloseAction = (menu) => {
+      if (menu.querySelector('[data-action="close-campaign"]')) return;
+      const closeButton = document.createElement("button");
+      closeButton.type = "button";
+      closeButton.className = "dropdown-item";
+      closeButton.dataset.action = "close-campaign";
+      closeButton.innerHTML = `<i class="fa-solid fa-lock" aria-hidden="true"></i><span>Close campaign</span>`;
+      const dangerButton = menu.querySelector(".dropdown-item.dropdown-item--danger");
+      if (dangerButton) {
+        menu.insertBefore(closeButton, dangerButton);
+      } else {
+        menu.appendChild(closeButton);
+      }
+      closeButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        closeActionMenu(closeButton);
+        const campaignEl = closeButton.closest(".campaign-card, .campaign-row");
+        openModal(campaignEl);
+      });
+    };
+
+    menuTemplates.forEach(createCloseAction);
+
+    const openModal = (campaignEl) => {
+      if (!campaignEl) return;
+      activeCampaign = campaignEl;
+      lastFocused = document.activeElement;
+      const focusableElements = Array.from(modal.querySelectorAll(focusableSelector)).filter(
+        (el) => !el.hasAttribute("disabled") && el.offsetParent !== null
+      );
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      const handleTrap = (event) => {
+        if (event.key !== "Tab") return;
+        if (!focusableElements.length) {
+          event.preventDefault();
+          return;
+        }
+        if (event.shiftKey && document.activeElement === firstFocusable) {
+          event.preventDefault();
+          lastFocusable?.focus();
+        } else if (!event.shiftKey && document.activeElement === lastFocusable) {
+          event.preventDefault();
+          firstFocusable?.focus();
+        }
+      };
+
+      trapHandler = handleTrap;
+      document.addEventListener("keydown", trapHandler);
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      firstFocusable?.focus();
+      lockScroll();
+    };
+
+    const closeModal = () => {
+      if (modal.getAttribute("aria-hidden") === "true") return;
+      modal.setAttribute("aria-hidden", "true");
+      modal.classList.remove("is-open");
+      document.removeEventListener("keydown", trapHandler);
+      trapHandler = null;
+      unlockScroll();
+      lastFocused?.focus();
+      activeCampaign = null;
+    };
+
+    const updateCampaignStatus = () => {
+      if (!activeCampaign) return;
+      const campaignId = activeCampaign.dataset.campaignId;
+      if (!campaignId) return;
+      const card = document.querySelector(`.campaign-card[data-campaign-id="${campaignId}"]`);
+      const row = document.querySelector(`.campaign-row[data-campaign-id="${campaignId}"]`);
+
+      const updateCard = (element) => {
+        if (!element) return;
+        element.dataset.campaignStatus = "Completed";
+        const headerStatus = element.querySelector(".campaign-card__status");
+        if (headerStatus) {
+          headerStatus.textContent = "Completed";
+          headerStatus.className = "campaign-card__status status-completed";
+        }
+      };
+
+      const updateRow = (element) => {
+        if (!element) return;
+        element.dataset.campaignStatus = "Completed";
+        const pill = element.querySelector(".status-pill");
+        if (pill) {
+          pill.textContent = "Completed";
+          pill.className = "status-pill status-pill--completed";
+        }
+      };
+
+      updateCard(card);
+      updateRow(row);
+
+      const previewSheet = document.querySelector('.preview-sheet[data-preview="campaign"]');
+      if (previewSheet && previewSheet.getAttribute("aria-hidden") === "false") {
+        const previewStatus = previewSheet.querySelector(".js-preview-status");
+        if (previewStatus) {
+          previewStatus.textContent = "Completed";
+          previewStatus.className = "status-pill status-pill--completed js-preview-status";
+        }
+      }
+
+      toast("Campaign closed.", "success");
+    };
+
+    closeTriggers.forEach((triggerEl) => triggerEl.addEventListener("click", (event) => {
+      event.preventDefault();
+      closeModal();
+    }));
+
+    confirmButton?.addEventListener("click", (event) => {
+      event.preventDefault();
+      updateCampaignStatus();
+      closeModal();
     });
   };
 
@@ -5475,6 +5883,12 @@
     initDonationsActions();
     initDonorsActions();
     initCampaignPreview();
+    hydrateCampaignCurrency();
+    applyEndingSoonIndicators();
+    initCampaignSort();
+    initCloseCampaignModal();
+    setCampaignsState("ready");
+    initCampaignStateTriggers();
     initDonationsPreview();
     initDonorsPreview();
     initDonorsPage();
@@ -5506,4 +5920,3 @@
   });
 
 })();
-
