@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -237,7 +237,7 @@
       </header>
 
       <!-- Main content region -->
-      <main class="app-content" id="main-content" tabindex="-1">
+      <main class="app-content cs-campaign-new" id="main-content" tabindex="-1" data-page="campaign-new">
         <section class="card page-header" aria-labelledby="campaign-form-title">
           <div>
             <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
@@ -265,16 +265,16 @@
               <div class="form-grid">
                 <div class="form-field">
                   <label class="form-label" for="campaignName">Campaign Name<span aria-hidden="true">*</span></label>
-                  <input class="form-control" type="text" id="campaignName" name="campaignName"
+                  <input class="form-control" type="text" id="campaignName" name="campaignName" data-role="campaignName"
                     placeholder="Clean Water for All" required aria-required="true" />
                   <p class="form-error is-hidden">Please enter a campaign name.</p>
                 </div>
 
                 <div class="form-field">
                   <label class="form-label" for="campaignDescription">Description</label>
-                  <textarea class="form-control" id="campaignDescription" name="campaignDescription" rows="3"
-                    placeholder="Share the story, impact, and why it matters." data-maxlength="300"
-                    aria-describedby="description-counter"></textarea>
+                  <textarea class="form-control" id="campaignDescription" name="campaignDescription"
+                    data-role="campaignDesc" rows="3" placeholder="Share the story, impact, and why it matters."
+                    data-maxlength="300" aria-describedby="description-counter"></textarea>
                   <div class="form-helper">
                     <span class="char-counter" id="description-counter">0 / 300</span>
                     <p class="form-error is-hidden">Please add a brief description.</p>
@@ -284,11 +284,13 @@
                 <div class="form-field form-field--inline">
                   <div>
                     <label class="form-label" for="startDateField">Start date</label>
-                    <input class="form-control" type="date" id="startDateField" name="startDateField" />
+                    <input class="form-control" type="date" id="startDateField" name="startDateField"
+                      data-role="startDate" />
                   </div>
                   <div>
                     <label class="form-label" for="endDateField">End date</label>
-                    <input class="form-control" type="date" id="endDateField" name="endDateField" />
+                    <input class="form-control" type="date" id="endDateField" name="endDateField" data-role="endDate" />
+                    <span class="cs-badge cs-badge--ending is-hidden" data-ending-badge>Ending soon</span>
                   </div>
                 </div>
 
@@ -321,144 +323,262 @@
               <div class="form-grid">
                 <div class="form-field">
                   <label class="form-label" for="targetAmount">Target Amount<span aria-hidden="true">*</span></label>
-                  <input class="form-control" type="text" id="targetAmount" name="targetAmount" placeholder="$50,000"
-                    required aria-required="true" inputmode="numeric" />
+                  <input class="form-control" type="text" id="targetAmount" name="targetAmount" data-role="targetAmount"
+                    placeholder="$50,000" required aria-required="true" inputmode="numeric" />
                   <p class="form-error is-hidden">Please set a target amount.</p>
+                  <p class="cs-helper-text is-hidden" data-target-helper>No target (open donations)</p>
                 </div>
               </div>
             </div>
 
-            <div class="form-section" aria-labelledby="section-classification">
-              <p class="form-section__title" id="section-classification">CLASSIFICATION</p>
+            <div class="form-section" aria-labelledby="section-rules">
+              <p class="form-section__title" id="section-rules">Campaign rules</p>
               <div class="form-grid">
-                <div class="form-field form-field--split">
-                  <div>
-                    <label class="form-label" for="campaignTypeField">Campaign Type</label>
-                    <select class="form-control" id="campaignTypeField" name="campaignTypeField">
-                      <option value="">Select type</option>
-                      <option value="food">Food</option>
-                      <option value="education">Education</option>
-                      <option value="healthcare">Healthcare</option>
-                      <option value="emergency">Emergency</option>
-                      <option value="orphan">Orphan Support</option>
-                      <option value="community">Community</option>
-                      <option value="environment">Environment</option>
-                      <option value="other">Other</option>
-                    </select>
+                <div>
+                  <div class="cs-toggle mb-2">
+                    <div class="cs-toggle__info">
+                      <span class="cs-toggle__label">No financial target</span>
+                      <span class="cs-toggle__helper">Leave the campaign open-ended without a goal.</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="toggleNoTarget" data-role="toggleNoTarget"
+                        data-toggle-target="#targetAmount" data-toggle-helper="[data-target-helper]" />
+                      <span class="switch__control" aria-hidden="true"></span>
+                    </label>
                   </div>
-                  <div>
-                    <label class="form-label" for="campaignLocation">Location</label>
-                    <select class="form-control" id="campaignLocation" name="campaignLocation">
-                      <option value="">Select region</option>
-                      <option value="global">Global</option>
-                      <option value="kenya">Kenya</option>
-                      <option value="usa">United States</option>
-                      <option value="brazil">Brazil</option>
-                      <option value="nepal">Nepal</option>
-                      <option value="jordan">Jordan</option>
-                      <option value="india">India</option>
-                      <option value="philippines">Philippines</option>
-                    </select>
-                  </div>
-                </div>
 
-                <div class="form-field">
-                  <label class="form-label" for="campaignTagsControl">Tags / Categories</label>
-                  <div class="multi-select" data-multi-select data-max-tags="6">
-                    <div class="multi-select__control" id="campaignTagsControl" tabindex="0" role="combobox"
-                      aria-haspopup="listbox" aria-expanded="false" aria-owns="campaignTags-listbox"
-                      aria-label="Select tags or categories">
-                      <div class="multi-select__chips" data-chips aria-live="polite" aria-label="Selected tags">
-                        <span class="multi-select__placeholder" data-multi-placeholder>Search or select tags</span>
-                      </div>
-                      <span class="multi-select__caret" aria-hidden="true"></span>
+                  <div class="cs-toggle">
+                    <div class="cs-toggle__info">
+                      <span class="cs-toggle__label">Open-ended campaign</span>
+                      <span class="cs-toggle__helper">Disable the end date so donations stay open.</span>
                     </div>
-                    <div class="multi-select__dropdown" role="listbox" id="campaignTags-listbox"
-                      aria-multiselectable="true">
-                      <div class="multi-select__search">
-                        <label class="sr-only" for="campaignTagsSearch">Search tags</label>
-                        <i class="fa-solid fa-search" aria-hidden="true"></i>
-                        <input type="search" id="campaignTagsSearch" placeholder="Search tags" autocomplete="off"
-                          data-multi-search />
-                      </div>
-                      <ul class="multi-select__options" data-options>
-                        <li class="multi-select__option" data-value="healthcare" data-label="Healthcare" role="option"
-                          tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="healthcare" />
-                            <span>Healthcare</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="education" data-label="Education" role="option"
-                          tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="education" />
-                            <span>Education</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="food-security" data-label="Food Security"
-                          role="option" tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="food-security" />
-                            <span>Food Security</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="community" data-label="Community" role="option"
-                          tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="community" />
-                            <span>Community</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="emergency" data-label="Emergency Relief"
-                          role="option" tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="emergency" />
-                            <span>Emergency Relief</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="shelter" data-label="Shelter" role="option"
-                          tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="shelter" />
-                            <span>Shelter</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="water" data-label="Water & Sanitation"
-                          role="option" tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="water" />
-                            <span>Water &amp; Sanitation</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="women" data-label="Women & Girls" role="option"
-                          tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="women" />
-                            <span>Women &amp; Girls</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="youth" data-label="Youth" role="option"
-                          tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="youth" />
-                            <span>Youth</span>
-                          </label>
-                        </li>
-                        <li class="multi-select__option" data-value="environment" data-label="Environment & Climate"
-                          role="option" tabindex="-1" aria-selected="false">
-                          <label>
-                            <input type="checkbox" value="environment" />
-                            <span>Environment &amp; Climate</span>
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <input type="hidden" name="campaignTags" id="campaignTags" data-multi-hidden />
+                    <label class="switch">
+                      <input type="checkbox" id="toggleNoEnd" data-role="toggleOpenEnded"
+                        data-toggle-target="#endDateField" data-toggle-helper="[data-end-helper]" />
+                      <span class="switch__control" aria-hidden="true"></span>
+                    </label>
                   </div>
-                  <p class="form-error is-hidden">Select at least one tag.</p>
+                  <p class="cs-helper-text is-hidden" data-end-helper>No end date (rolling donations).</p>
+                </div>
+                <div>
+                  <p class="form-label">Campaign type</p>
+                  <div class="campaign-type-grid" role="radiogroup" aria-label="Campaign type">
+                    <label class="campaign-type-card" data-role="typeCard" data-value="normal">
+                      <input type="radio" name="campaignFlavor" value="normal" data-option-label="Normal (Sadaka)"
+                        checked />
+                      <div>
+                        <i class="fa-regular fa-gem"></i>
+                        <strong>Normal</strong>
+                        <span>Sadaka</span>
+                      </div>
+                    </label>
+                    <label class="campaign-type-card" data-role="typeCard" data-value="zakat">
+                      <input type="radio" name="campaignFlavor" value="zakat" data-option-label="Zakat" />
+                      <div>
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                        <strong>Zakat</strong>
+                        <span>Zakat al-mal / al-fitr</span>
+                      </div>
+                    </label>
+                    <label class="campaign-type-card" data-role="typeCard" data-value="qurban">
+                      <input type="radio" name="campaignFlavor" value="qurban" data-option-label="Qurban (Udhiya)" />
+                      <div>
+                        <i class="fa-solid fa-sun"></i>
+                        <strong>Qurban</strong>
+                        <span>Udhiya gifts</span>
+                      </div>
+                    </label>
+                    <label class="campaign-type-card" data-role="typeCard" data-value="gift">
+                      <input type="radio" name="campaignFlavor" value="gift" data-option-label="Gift" />
+                      <div>
+                        <i class="fa-solid fa-gift"></i>
+                        <strong>Gift</strong>
+                        <span>Special giving</span>
+                      </div>
+                    </label>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            <div class="form-section" aria-labelledby="section-media">
+              <p class="form-section__title" id="section-media">Media selection</p>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label">Media type</label>
+                  <div class="cs-media-control" data-media-control>
+                    <button type="button" class="cs-media-control__pill is-active" data-role="mediaTab"
+                      data-media-type="image">Image</button>
+                    <button type="button" class="cs-media-control__pill" data-role="mediaTab"
+                      data-media-type="video">Video</button>
+                    <button type="button" class="cs-media-control__pill" data-role="mediaTab"
+                      data-media-type="gif">GIF</button>
+                  </div>
+                  <label class="media-dropzone" for="campaignMedia" data-role="mediaDropzone" data-media-dropzone>
+                    <i class="fa fa-cloud-arrow-up" aria-hidden="true"></i>
+                    <strong data-media-helper data-role="mediaHelper">Drop files or browse</strong>
+                    <span class="cs-helper-text">JPG, PNG, WebP 5MB or MP4 up to 15MB.</span>
+                    <input class="sr-only" type="file" id="campaignMedia" name="campaignMedia"
+                      accept="image/*,video/*" />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section" aria-labelledby="section-location">
+              <p class="form-section__title" id="section-location">Location</p>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="campaignCountry">Country</label>
+                  <select class="form-control" id="campaignCountry" name="campaignCountry">
+                    <option value="">Select country</option>
+                    <option value="turkey">TÃ¼rkiye</option>
+                    <option value="kenya">Kenya</option>
+                    <option value="palestine">Palestine</option>
+                    <option value="egypt">Egypt</option>
+                    <option value="indonesia">Indonesia</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="form-label" for="campaignCity">City</label>
+                  <select class="form-control" id="campaignCity" name="campaignCity">
+                    <option value="">Select city</option>
+                    <option value="istanbul">Istanbul</option>
+                    <option value="nairobi">Nairobi</option>
+                    <option value="amman">Amman</option>
+                    <option value="jakarta">Jakarta</option>
+                    <option value="cairo">Cairo</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="form-label" for="campaignRegion">Region</label>
+                  <select class="form-control" id="campaignRegion" name="campaignRegion">
+                    <option value="">Select region</option>
+                    <option value="north">North District</option>
+                    <option value="east">East Province</option>
+                    <option value="coastal">Coastal Zone</option>
+                    <option value="urban">Urban center</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-multiselect js-cs-multiselect" data-name="campaignTags"
+              data-placeholder="Choose primary categories">
+              <button type="button" class="cs-multiselect__control" data-control aria-haspopup="listbox"
+                aria-expanded="false">
+                <span class="cs-multiselect__placeholder" data-placeholder>Choose primary categories</span>
+                <div class="cs-multiselect__chips" data-chips></div>
+                <span class="cs-multiselect__chev" aria-hidden="true">▾</span>
+              </button>
+
+              <div class="cs-multiselect__dropdown is-hidden" data-dropdown role="listbox" aria-multiselectable="true">
+                <button type="button" class="cs-multiselect__option" data-value="qurban" data-label="Qurban">
+                  Qurban · Udhiya, Gift, Other
+                </button>
+                <button type="button" class="cs-multiselect__option" data-value="zakat" data-label="Zakat">
+                  Zakat · al-mal, al-fitr
+                </button>
+                <button type="button" class="cs-multiselect__option" data-value="sadaka" data-label="Sadaka">
+                  Sadaka · General giving
+                </button>
+                <button type="button" class="cs-multiselect__option" data-value="gift" data-label="Gift">
+                  Gift · Seasonal programs
+                </button>
+              </div>
+
+              <!-- hidden input (comma separated) -->
+              <input type="hidden" name="campaignTags" data-hidden />
+            </div>
+
+            <div class="form-section" aria-labelledby="section-advanced">
+              <p class="form-section__title" id="section-advanced">Advanced settings</p>
+              <details class="cs-accordion">
+                <summary>
+                  <span>Show additional campaign controls</span>
+                  <span class="text-muted">Adjust donor visibility, thresholds, and featured flags.</span>
+                </summary>
+                <div class="cs-accordion__body">
+                  <div class="cs-toggle">
+                    <div class="cs-toggle__info">
+                      <span class="cs-toggle__label">Show donor count</span>
+                      <span class="cs-toggle__helper">Display the donor tally on landing cards.</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" data-role="toggleDonorCount" checked />
+                      <span class="switch__control" aria-hidden="true"></span>
+                    </label>
+                  </div>
+
+                  <div class="cs-toggle">
+                    <div class="cs-toggle__info">
+                      <span class="cs-toggle__label">Hide raised amount until threshold</span>
+                      <span class="cs-toggle__helper">Keep totals private until the threshold is reached.</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" data-role="toggleThreshold" data-threshold-toggle
+                        data-threshold-target="#thresholdAmount" />
+                      <span class="switch__control" aria-hidden="true"></span>
+                    </label>
+                  </div>
+                  <div class="form-field is-hidden" data-role="thresholdField">
+                    <label class="form-label" for="thresholdAmount">Threshold amount</label>
+                    <input class="form-control" type="text" id="thresholdAmount" name="thresholdAmount"
+                      data-role="thresholdAmount" placeholder="â‚º 10,000" disabled />
+                  </div>
+
+                  <div>
+                    <p class="form-label">Suggested donation amounts</p>
+                    <div class="suggested-chips" data-role="suggestedAmounts">
+                      <button type="button" class="is-selected" data-role="suggestedChip" data-suggested="10"
+                        aria-label="Donate 10">
+                        10
+                      </button>
+
+                      <button type="button" data-role="suggestedChip" data-suggested="20" aria-label="Donate 20">
+                        20
+                      </button>
+
+                      <button type="button" data-role="suggestedChip" data-suggested="100" aria-label="Donate 100">
+                        100
+                      </button>
+
+                      <button type="button" data-role="suggestedChip" data-suggested="custom"
+                        aria-label="Enter custom amount">
+                        Custom amount
+                      </button>
+                    </div>
+
+                    <div class="form-field cs-helper-text is-hidden" data-role="customAmountWrapper">
+                      <label class="form-label" for="customAmountInput">Custom amount</label>
+                      <input class="form-control" type="text" id="customAmountInput" data-role="customAmountInput"
+                        placeholder="â‚º 65,000" />
+                    </div>
+                  </div>
+
+                  <div class="cs-toggle">
+                    <div class="cs-toggle__info">
+                      <span class="cs-toggle__label">Enable monthly subscription</span>
+                      <span class="cs-toggle__helper">Allow recurring donations for this campaign.</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" data-role="toggleMonthly" />
+                      <span class="switch__control" aria-hidden="true"></span>
+                    </label>
+                  </div>
+
+                  <div class="cs-toggle">
+                    <div class="cs-toggle__info">
+                      <span class="cs-toggle__label">Featured campaign flag</span>
+                      <span class="cs-toggle__helper">Boost this campaign in checkout suggestions.</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" data-role="toggleFeatured" />
+                      <span class="switch__control" aria-hidden="true"></span>
+                    </label>
+                  </div>
+                </div>
+              </details>
             </div>
 
             <div class="form-actions">
@@ -467,13 +587,22 @@
             </div>
           </form>
 
-          <aside class="card campaign-preview" aria-live="polite">
+          <aside class="card campaign-preview cs-card-preview" aria-live="polite" data-preview-card
+            data-preview-end-date="2025-12-18">
+            <div class="cs-ribbon is-hidden" data-ending-ribbon>Ending soon</div>
             <div class="campaign-preview__header">
               <div>
                 <p class="eyebrow">Preview</p>
-                <h3 class="h4 js-preview-title">Campaign title</h3>
+                <h3 class="h4 js-preview-title" data-preview="title">Campaign title</h3>
               </div>
-              <span class="status-pill status-pill--draft js-preview-status">Draft</span>
+              <div class="d-flex" style="gap: var(--space-2); align-items: center;">
+                <span class="status-pill status-pill--draft js-preview-status">Draft</span>
+                <span class="badge badge--pill badge--success is-hidden" data-preview="featuredBadge">Featured</span>
+                <button type="button" class="icon-button icon-button--sm" data-open-qr="campaignQrModal"
+                  aria-label="View QR code" data-role="qrOpen">
+                  <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
             <div class="campaign-preview__image is-empty" data-preview-image-wrapper>
               <div class="campaign-preview__image-overlay" aria-hidden="true"></div>
@@ -483,26 +612,54 @@
                 <i class="fa-regular fa-image" aria-hidden="true"></i>
                 <span>Upload an image to preview</span>
               </div>
+
             </div>
             <div class="campaign-preview__body">
-              <p class="campaign-preview__amount js-preview-amount">$0</p>
-              <p class="campaign-preview__description text-muted js-preview-description">Add a short, compelling story
+              <div class="campaign-preview__qr-badge" role="button" tabindex="0" data-open-qr="campaignQrModal">
+                QR code ready
+                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+              </div>
+              <p class="campaign-preview__amount js-preview-amount" data-preview="amount">₺ 0</p>
+              <p class="campaign-preview__donors text-muted is-hidden" data-preview="donorCount">Donor count: 1,280</p>
+              <p class="campaign-preview__description text-muted js-preview-description" data-preview="description">Add
+                a short, compelling story
                 to inspire donors.</p>
               <div class="campaign-preview__meta">
-                <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> <span class="js-preview-dates">Start
-                    date - End date</span></span>
-                <span><i class="fa-solid fa-tag" aria-hidden="true"></i> <span
-                    class="js-preview-type">Type</span></span>
-                <span><i class="fa-solid fa-earth-americas" aria-hidden="true"></i> <span
-                    class="js-preview-location">Location</span></span>
+                <span>
+                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                  <span class="js-preview-dates" data-preview="dates">Start date - End date</span>
+                  <span class="cs-badge cs-badge--ending is-hidden" data-preview-date-badge>Ending soon</span>
+                </span>
+                <span><i class="fa-solid fa-tag" aria-hidden="true"></i> <span class="js-preview-type"
+                    data-preview="type">Type</span></span>
+                <span><i class="fa-solid fa-earth-americas" aria-hidden="true"></i> <span class="js-preview-location"
+                    data-preview="location">Location</span></span>
               </div>
-              <div class="campaign-preview__tags js-preview-tags">
+              <div class="campaign-preview__media" data-preview="media">
+                <span class="text-muted">Image preview</span>
+              </div>
+              <div class="campaign-preview__tags js-preview-tags" data-preview="categories">
                 <span class="badge badge--tag">Impact</span>
                 <span class="badge badge--tag">Community</span>
+              </div>
+              <div class="campaign-preview__meta campaign-preview__meta--secondary" data-preview="advancedFlags">
               </div>
             </div>
           </aside>
         </section>
+        <div class="cs-modal" id="campaignQrModal" aria-hidden="true" role="dialog" aria-labelledby="qrModalTitle"
+          data-role="qrModal">
+          <div class="cs-modal__backdrop" data-modal-close></div>
+          <div class="cs-modal__panel">
+            <button class="cs-modal__close" type="button" data-modal-close aria-label="Close QR modal">Ã—</button>
+            <p class="eyebrow">Offline giving</p>
+            <h3 id="qrModalTitle" class="h4">Shareable QR code</h3>
+            <div class="chart-wrapper" aria-hidden="true">
+              <span class="text-muted">QR placeholder</span>
+            </div>
+            <button class="btn btn-primary" type="button">Download PNG</button>
+          </div>
+        </div>
       </main>
 
       <!-- Application footer -->

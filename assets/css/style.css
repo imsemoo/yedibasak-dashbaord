@@ -3835,7 +3835,7 @@ body[data-theme="dark"] .preview-sheet__panel {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding: var(--space-3) 0;
+  padding: var(--space-2) 0;
   border-top: 1px solid var(--color-border);
 }
 
@@ -3856,7 +3856,12 @@ body[data-theme="dark"] .preview-sheet__panel {
 .form-grid {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2);
+}
+
+.categories-grid {
+  display: grid;
+  gap: var(--space-2);
 }
 
 .form-field {
@@ -4260,13 +4265,14 @@ body[data-theme="dark"] .preview-sheet__panel {
 .campaign-preview__image-placeholder {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
   gap: var(--space-2);
   color: var(--color-muted);
   font-weight: 700;
   z-index: 3;
   transition: opacity var(--transition-fast), transform var(--transition-fast);
+  align-items: center;
 }
 
 .campaign-preview__image-placeholder i {
@@ -4312,6 +4318,27 @@ body[data-theme="dark"] .preview-sheet__panel {
 
 .campaign-preview .badge {
   background: var(--color-surface-alt);
+}
+
+.campaign-preview__qr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.campaign-preview__qr-badge:hover,
+.campaign-preview__qr-badge:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-surface-alt);
+  color: var(--color-primary);
 }
 
 @keyframes preview-fade {
@@ -10561,6 +10588,7 @@ body[data-theme="dark"] .audit-panel__footer {
 }
 
 @media (max-width: 992px) {
+
   .donor-donations-table thead th:nth-child(4),
   .donor-donations-table thead th:nth-child(5),
   .donor-donations-table tbody td:nth-child(4),
@@ -10637,7 +10665,7 @@ body[data-theme="dark"] .audit-panel__footer {
   background: var(--color-border);
 }
 
-.donation-timeline-group + .donation-timeline-group {
+.donation-timeline-group+.donation-timeline-group {
   margin-top: var(--space-4);
 }
 
@@ -10763,4 +10791,701 @@ body[data-theme="dark"] .audit-panel__footer {
   font-size: 13px;
   font-weight: 600;
   color: var(--color-primary);
+}
+
+/* ===== UI helpers ===== */
+.cs-toggle {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.cs-toggle__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cs-toggle__label {
+  font-weight: 600;
+}
+
+.cs-toggle__helper {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.campaign-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.campaign-type-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.campaign-type-card input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.campaign-type-card strong {
+  font-size: 1rem;
+  display: block;
+}
+
+.campaign-type-card span {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.campaign-type-card i {
+  font-size: 1.2rem;
+  color: var(--color-primary-strong);
+}
+
+.campaign-type-card:hover,
+.campaign-type-card:focus-within {
+  border-color: var(--color-primary);
+}
+
+.campaign-type-card.is-active {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+  background: var(--color-surface-alt);
+}
+
+.cs-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.cs-chip__remove {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-border);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.cs-chip.is-active {
+  background: var(--color-primary);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(21, 197, 206, 0.2);
+}
+
+/* 
+.cs-multiselect {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  background: var(--color-surface);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+} */
+
+.cs-multiselect__control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-height: 48px;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.cs-multiselect__options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.cs-multiselect__options .cs-multiselect__option {
+  width: 100%;
+}
+
+.cs-multiselect__control:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.cs-multiselect__placeholder {
+  color: var(--color-muted);
+}
+
+.cs-multiselect__dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  width: 100%;
+  inset: auto 0 0;
+  margin-top: var(--space-2);
+  z-index: 20;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card-light);
+  z-index: 10;
+  max-height: 220px;
+  min-height: 180px;
+  overflow-y: auto;
+}
+
+.cs-multiselect__dropdown.is-hidden {
+  display: none;
+}
+
+.cs-multiselect.cs-multiselect--disabled {
+  opacity: 0.75;
+}
+
+.cs-multiselect--disabled .cs-multiselect__control {
+  cursor: not-allowed;
+}
+
+.cs-multiselect__option.is-selected {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+.cs-multiselect__option[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cs-multiselect__option {
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cs-multiselect__option:hover {
+  background: var(--color-surface-alt);
+}
+
+.cs-media-control {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  width: max-content;
+}
+
+.cs-media-control__pill {
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.cs-media-control__pill.is-active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ===== MultiSelect (dropdown style) ===== */
+.cs-multiselect {
+  position: relative;
+}
+
+.cs-multiselect__control {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.cs-multiselect__control:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.cs-multiselect__placeholder {
+  color: var(--color-muted);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  text-align: start;
+}
+
+.cs-multiselect__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+}
+
+.cs-multiselect__chev {
+  margin-left: auto;
+  opacity: .75;
+  font-size: 14px;
+}
+
+.cs-multiselect__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card-light);
+  max-height: 260px;
+  overflow: auto;
+  padding: 6px;
+  z-index: 50;
+}
+
+.cs-multiselect__dropdown.is-hidden {
+  display: none;
+}
+
+.cs-multiselect__option {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cs-multiselect__option:hover {
+  background: var(--color-surface-alt);
+}
+
+.cs-multiselect__option.is-selected {
+  background: rgba(21, 197, 206, .12);
+}
+
+.cs-multiselect__option.is-selected::after {
+  content: "✓";
+  color: var(--color-primary);
+  font-weight: 900;
+}
+
+/* chip */
+.cs-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  font-weight: 700;
+  cursor: default;
+}
+
+.cs-chip__x {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 900;
+  opacity: .7;
+}
+
+.cs-chip__x:hover {
+  opacity: 1;
+}
+
+.cs-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid transparent;
+}
+
+.cs-badge--ending {
+  background: var(--status-warning-soft-bg);
+  border-color: var(--status-warning-soft-border);
+  color: var(--color-warning);
+}
+
+.cs-ribbon {
+  position: absolute;
+  top: 12px;
+  right: -26px;
+  transform: rotate(45deg);
+  background: var(--color-warning);
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  padding: var(--space-1) var(--space-3);
+  box-shadow: 0 12px 30px rgba(249, 158, 11, 0.4);
+}
+
+.cs-modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 2000;
+}
+
+.cs-modal.is-open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.cs-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cs-modal.is-open .cs-modal__backdrop {
+  opacity: 1;
+}
+
+.cs-modal__panel {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+  max-width: 420px;
+  width: min(90vw, 420px);
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cs-modal.is-open .cs-modal__panel {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.cs-modal__close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.cs-drawer {
+  position: fixed;
+  inset: auto 0 0;
+  background: var(--color-surface);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  width: 100%;
+  max-height: 480px;
+  overflow-y: auto;
+  z-index: 1800;
+}
+
+.cs-drawer.is-open {
+  transform: translateY(0);
+}
+
+.cs-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cs-drawer__body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cs-permissions {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.32fr) minmax(0, 0.68fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.cs-permissions__roles {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+}
+
+.cs-permissions__roles button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cs-permissions__roles button.is-active {
+  background: var(--color-primary-soft);
+}
+
+.cs-permissions__grid {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.perm-section {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  background: var(--color-surface-alt);
+}
+
+.perm-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.perm-section__body {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.perm-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.perm-checkbox input {
+  width: 16px;
+  height: 16px;
+}
+
+.chart-wrapper {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card-light);
+  padding: var(--space-4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 260px;
+  color: var(--color-muted);
+}
+
+.cs-helper-text {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.media-dropzone {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: var(--space-4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.media-dropzone.is-disabled {
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.suggested-chips {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.suggested-chips button {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: var(--space-2) var(--space-3);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.suggested-chips button.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+.cs-card-preview {
+  position: relative;
+  overflow: hidden;
+}
+
+.cs-accordion {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0;
+  background: var(--color-surface);
+}
+
+.cs-accordion summary {
+  padding: var(--space-3) var(--space-4);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.cs-accordion[open] summary {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cs-accordion summary::-webkit-details-marker,
+.cs-accordion summary::marker {
+  display: none;
+}
+
+.cs-accordion__body {
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cs-card-preview .cs-card-badge {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 900px) {
+  .cs-permissions {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-drawer {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    max-height: 100vh;
+  }
+}
+
+body[data-theme="dark"] .cs-toggle,
+body[data-theme="dark"] .cs-multiselect,
+body[data-theme="dark"] .cs-permissions__grid,
+body[data-theme="dark"] .cs-permissions__roles,
+body[data-theme="dark"] .perm-section {
+  background: #0d1224;
+  border-color: #1f2a3d;
+}
+
+body[data-theme="dark"] .cs-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body[data-theme="dark"] .chart-wrapper {
+  background: #0b1222;
+  border-color: #1f2a3d;
+  color: var(--color-text-soft);
+}
+
+body[data-theme="dark"] .cs-modal__panel,
+body[data-theme="dark"] .cs-drawer {
+  background: #0b1222;
+  border-color: #1f2a3d;
+  color: var(--color-text-soft);
 }
