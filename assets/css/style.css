@@ -11004,7 +11004,7 @@ body[data-theme="dark"] .audit-panel__footer {
 .donation-filter-chip {
   border-radius: 999px;
   border: 1px solid var(--color-border);
-  padding: var(--space-1) var(--space-3);
+  padding: var(--space-2) var(--space-3);
   background: var(--color-surface);
   color: inherit;
   font-weight: 600;
