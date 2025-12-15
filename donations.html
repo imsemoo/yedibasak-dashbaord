@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Donations Dashboard - Donations</title>
-  <meta name="description" content="Browse donations with filters for statuses, amounts, and reliable payment methods." />
+  <meta name="description"
+    content="Browse donations with filters for statuses, amounts, and reliable payment methods." />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#15C5CE" />
   <link rel="canonical" href="https://example.org/dashboard/donations" />
@@ -262,7 +263,7 @@
         </section>
 
         <section class="card donations-toolbar" aria-label="Donation filters">
-          <div class="donations-toolbar__left">
+          <div class="d-flex align-items-center justify-content-between w-100">
             <div class="tabs" role="tablist" aria-label="Donation status tabs">
               <button class="tabs__item tabs__item--active" type="button" role="tab" aria-selected="true">All</button>
               <button class="tabs__item" type="button" role="tab" aria-selected="false">Completed</button>
@@ -270,20 +271,6 @@
               <button class="tabs__item" type="button" role="tab" aria-selected="false">Refunded</button>
               <button class="tabs__item" type="button" role="tab" aria-selected="false">Failed</button>
             </div>
-          </div>
-          <div class="donations-toolbar__right">
-            <form class="search donations-search" role="search" aria-label="Search donations">
-              <label class="sr-only" for="donations-search">Search donations</label>
-              <i class="fas fa-search" aria-hidden="true"></i>
-              <input id="donations-search" type="search" name="donation-search"
-                placeholder="Search donors, campaigns, or amounts" autocomplete="off" />
-            </form>
-            <button class="btn btn-ghost js-open-donations-filters" type="button" aria-expanded="false"
-              aria-controls="donationsFilters">
-              <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-              Filters
-              <span class="filter-count js-filter-count is-hidden" aria-live="polite">0</span>
-            </button>
             <div class="view-toggle" role="tablist" aria-label="Donations view modes" data-view-context="donations">
               <button class="view-toggle__btn is-active" type="button" data-view-mode="cards" aria-pressed="true">
                 <i class="fa-solid fa-grip" aria-hidden="true"></i>
@@ -295,28 +282,120 @@
               </button>
             </div>
           </div>
+          <div class="d-flex align-items-center justify-content-between w-100">
+            <form class="search donations-search" role="search" aria-label="Search donations">
+              <label class="sr-only" for="donations-search">Search donations</label>
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input id="donations-search" type="search" name="donation-search"
+                placeholder="Search donors, campaigns, or amounts" autocomplete="off" />
+            </form>
+
+            <button class="btn btn-ghost js-open-donations-filters" type="button" aria-expanded="false"
+              aria-controls="donationsFilters">
+              <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+              Filters
+              <span class="filter-count js-filter-count is-hidden" aria-live="polite">0</span>
+            </button>
+
+          </div>
+
+          <!-- Added: Sort selector and donation type selector grid -->
+          <div class="donations-toolbar__extras">
+
+            <div class="donation-type-selector" role="radiogroup" aria-label="Donation type selector"
+              aria-orientation="horizontal" data-role="donationTypeSelector">
+              <span class="sr-only">Select donation type</span>
+              <button class="donation-type-selector__option" type="button" role="radio" aria-checked="true" tabindex="0"
+                data-donation-type="general">
+                <span class="donation-type-selector__icon" aria-hidden="true">
+                  <i class="fa-solid fa-hand-holding-heart"></i>
+                </span>
+                <span>
+                  <span class="donation-type-selector__title">General Donation</span>
+                  <span class="donation-type-selector__description">Sadaqah / open-ended</span>
+                </span>
+              </button>
+              <button class="donation-type-selector__option" type="button" role="radio" aria-checked="false"
+                tabindex="-1" data-donation-type="zakat">
+                <span class="donation-type-selector__icon" aria-hidden="true">
+                  <i class="fa-solid fa-coins"></i>
+                </span>
+                <span>
+                  <span class="donation-type-selector__title">Zakat</span>
+                  <span class="donation-type-selector__description">Obligatory almsgiving</span>
+                </span>
+              </button>
+              <button class="donation-type-selector__option" type="button" role="radio" aria-checked="false"
+                tabindex="-1" data-donation-type="qurbani">
+                <span class="donation-type-selector__icon" aria-hidden="true">
+                  <i class="fa-solid fa-drumstick-bite"></i>
+                </span>
+                <span>
+                  <span class="donation-type-selector__title">Qurbani (Udhiya)</span>
+                  <span class="donation-type-selector__description">Livestock offering</span>
+                </span>
+              </button>
+              <button class="donation-type-selector__option" type="button" role="radio" aria-checked="false"
+                tabindex="-1" data-donation-type="gift">
+                <span class="donation-type-selector__icon" aria-hidden="true">
+                  <i class="fa-solid fa-gift"></i>
+                </span>
+                <span>
+                  <span class="donation-type-selector__title">Gift</span>
+                  <span class="donation-type-selector__description">Personalized gift</span>
+                </span>
+              </button>
+              <button class="donation-type-selector__option" type="button" role="radio" aria-checked="false"
+                tabindex="-1" data-donation-type="campaigns">
+                <span class="donation-type-selector__icon" aria-hidden="true">
+                  <i class="fa-solid fa-bullseye"></i>
+                </span>
+                <span>
+                  <span class="donation-type-selector__title">Campaigns</span>
+                  <span class="donation-type-selector__description">Campaign-specific</span>
+                </span>
+              </button>
+            </div>
+            <div class="form-field donations-toolbar__sort">
+              <label class="sr-only" for="donations-sort">Sort donations</label>
+              <select id="donations-sort" class="form-control" data-role="donationsSort" aria-label="Sort donations">
+                <option value="newest" data-sort="newest" selected>Newest</option>
+                <option value="oldest" data-sort="oldest">Oldest</option>
+                <option value="highest" data-sort="highest">Highest amount</option>
+                <option value="ending" data-sort="ending">Ending soon</option>
+                <option value="most-funded" data-sort="most-funded">Most funded</option>
+              </select>
+            </div>
+          </div>
         </section>
 
         <section class="card donations-view donations-view--cards is-active" data-view="cards"
           aria-label="Donation cards view">
           <div class="donations-grid">
+            <!-- Added: TRY amounts are annotated with data-amount for the formatter helper in assets/js/script.js -->
             <article class="donation-card card" data-donor-name="Amina Rahman" data-donor-email="amina@worldhealth.org"
-              data-donor-location="Nairobi, Kenya" data-donor-initials="AR" data-donation-amount="$1,250"
-              data-donation-status="Completed" data-donation-method="ACH transfer" data-donation-date="Nov 21, 2025"
+              data-donor-location="Nairobi, Kenya" data-donor-initials="AR" data-donor-type="individual"
+              data-donation-amount="₺ 1,250" data-amount="1250" data-donation-status="Completed"
+              data-donation-method="ACH transfer" data-donation-date="Nov 21, 2025"
               data-donation-campaign="Healthcare Resilience Fund"
               data-donation-notes="Recorded offline during the Nairobi gala.">
               <div class="donation-card__header">
                 <div class="donation-card__donor">
                   <span class="donation-card__avatar" aria-hidden="true">AR</span>
                   <div>
-                    <p class="donation-card__donor-name">Amina Rahman</p>
+                    <p class="donation-card__donor-name">
+                      Amina Rahman
+                      <span class="status-pill status-pill--info donation-card__donor-type"
+                        aria-hidden="true">Individual</span>
+                      <span class="sr-only">Donor type: Individual</span>
+                    </p>
                     <p class="donation-card__donor-meta">World Health Alliance</p>
                   </div>
                 </div>
                 <span class="status-pill status-pill--success">Completed</span>
               </div>
               <div class="donation-card__body">
-                <p class="donation-card__amount">$1,250</p>
+                <p class="donation-card__amount" data-amount="1250">₺ 1,250</p>
                 <p class="donation-card__campaign">Healthcare Resilience Fund</p>
                 <p class="donation-card__meta">
                   <span>ACH transfer</span>
@@ -339,7 +418,15 @@
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                      <button type="button" class="dropdown-item">
+                      <button type="button" class="dropdown-item" data-action="downloadReceipt">
+                        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                        <span>Download receipt (PDF)</span>
+                      </button>
+                      <button type="button" class="dropdown-item" data-action="emailReceipt">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        <span>Email receipt</span>
+                      </button>
+                      <button type="button" class="dropdown-item" data-action="sendReceipt">
                         <i class="fa-regular fa-receipt" aria-hidden="true"></i>
                         <span>Send receipt</span>
                       </button>
@@ -357,21 +444,27 @@
               </div>
             </article>
             <article class="donation-card card" data-donor-name="Mateo Singh" data-donor-email="mateo@brightfuture.org"
-              data-donor-location="Seattle, USA" data-donor-initials="MS" data-donation-amount="$320"
-              data-donation-status="Pending" data-donation-method="Credit card" data-donation-date="Nov 20, 2025"
+              data-donor-location="Seattle, USA" data-donor-initials="MS" data-donor-type="group"
+              data-donation-amount="₺ 320" data-amount="320" data-donation-status="Pending"
+              data-donation-method="Credit card" data-donation-date="Nov 20, 2025"
               data-donation-campaign="Education Access">
               <div class="donation-card__header">
                 <div class="donation-card__donor">
                   <span class="donation-card__avatar" aria-hidden="true">MS</span>
                   <div>
-                    <p class="donation-card__donor-name">Mateo Singh</p>
+                    <p class="donation-card__donor-name">
+                      Mateo Singh
+                      <span class="status-pill status-pill--warning donation-card__donor-type"
+                        aria-hidden="true">Group</span>
+                      <span class="sr-only">Donor type: Group</span>
+                    </p>
                     <p class="donation-card__donor-meta">Bright Future Collective</p>
                   </div>
                 </div>
                 <span class="status-pill status-pill--pending">Pending</span>
               </div>
               <div class="donation-card__body">
-                <p class="donation-card__amount">$320</p>
+                <p class="donation-card__amount" data-amount="320">₺ 320</p>
                 <p class="donation-card__campaign">Education Access</p>
                 <p class="donation-card__meta">
                   <span>Credit card</span>
@@ -390,7 +483,15 @@
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                      <button type="button" class="dropdown-item">
+                      <button type="button" class="dropdown-item" data-action="downloadReceipt">
+                        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                        <span>Download receipt (PDF)</span>
+                      </button>
+                      <button type="button" class="dropdown-item" data-action="emailReceipt">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        <span>Email receipt</span>
+                      </button>
+                      <button type="button" class="dropdown-item" data-action="sendReceipt">
                         <i class="fa-regular fa-receipt" aria-hidden="true"></i>
                         <span>Send receipt</span>
                       </button>
@@ -408,21 +509,27 @@
               </div>
             </article>
             <article class="donation-card card" data-donor-name="Lena Ortiz" data-donor-email="lena@shorecare.org"
-              data-donor-location="Madrid, Spain" data-donor-initials="LO" data-donation-amount="$980"
-              data-donation-status="Refunded" data-donation-method="PayPal" data-donation-date="Nov 18, 2025"
-              data-donation-campaign="Emergency Relief" data-donation-notes="Refund issued after duplicate gift.">
+              data-donor-location="Madrid, Spain" data-donor-initials="LO" data-donor-type="company"
+              data-donation-amount="₺ 980" data-amount="980" data-donation-status="Refunded"
+              data-donation-method="PayPal" data-donation-date="Nov 18, 2025" data-donation-campaign="Emergency Relief"
+              data-donation-notes="Refund issued after duplicate gift.">
               <div class="donation-card__header">
                 <div class="donation-card__donor">
                   <span class="donation-card__avatar" aria-hidden="true">LO</span>
                   <div>
-                    <p class="donation-card__donor-name">Lena Ortiz</p>
+                    <p class="donation-card__donor-name">
+                      Lena Ortiz
+                      <span class="status-pill status-pill--info donation-card__donor-type"
+                        aria-hidden="true">Company</span>
+                      <span class="sr-only">Donor type: Company</span>
+                    </p>
                     <p class="donation-card__donor-meta">Shorecare Foundation</p>
                   </div>
                 </div>
                 <span class="status-pill status-pill--refunded">Refunded</span>
               </div>
               <div class="donation-card__body">
-                <p class="donation-card__amount">$980</p>
+                <p class="donation-card__amount" data-amount="980">₺ 980</p>
                 <p class="donation-card__campaign">Emergency Relief</p>
                 <p class="donation-card__meta">
                   <span>PayPal</span>
@@ -441,7 +548,15 @@
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                      <button type="button" class="dropdown-item">
+                      <button type="button" class="dropdown-item" data-action="downloadReceipt">
+                        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                        <span>Download receipt (PDF)</span>
+                      </button>
+                      <button type="button" class="dropdown-item" data-action="emailReceipt">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        <span>Email receipt</span>
+                      </button>
+                      <button type="button" class="dropdown-item" data-action="sendReceipt">
                         <i class="fa-regular fa-receipt" aria-hidden="true"></i>
                         <span>Send receipt</span>
                       </button>
@@ -459,21 +574,27 @@
               </div>
             </article>
             <article class="donation-card card" data-donor-name="Kai Morrison" data-donor-email="kai@riverkind.org"
-              data-donor-location="Toronto, Canada" data-donor-initials="KM" data-donation-amount="$120"
-              data-donation-status="Failed" data-donation-method="Bank transfer" data-donation-date="Nov 17, 2025"
+              data-donor-location="Toronto, Canada" data-donor-initials="KM" data-donor-type="group"
+              data-donation-amount="₺ 120" data-amount="120" data-donation-status="Failed"
+              data-donation-method="Bank transfer" data-donation-date="Nov 17, 2025"
               data-donation-campaign="Community Kitchen">
               <div class="donation-card__header">
                 <div class="donation-card__donor">
                   <span class="donation-card__avatar" aria-hidden="true">KM</span>
                   <div>
-                    <p class="donation-card__donor-name">Kai Morrison</p>
+                    <p class="donation-card__donor-name">
+                      Kai Morrison
+                      <span class="status-pill status-pill--warning donation-card__donor-type"
+                        aria-hidden="true">Group</span>
+                      <span class="sr-only">Donor type: Group</span>
+                    </p>
                     <p class="donation-card__donor-meta">Riverkind Collective</p>
                   </div>
                 </div>
                 <span class="status-pill status-pill--failed">Failed</span>
               </div>
               <div class="donation-card__body">
-                <p class="donation-card__amount">$120</p>
+                <p class="donation-card__amount" data-amount="120">₺ 120</p>
                 <p class="donation-card__campaign">Community Kitchen</p>
                 <p class="donation-card__meta">
                   <span>Bank transfer</span>
@@ -492,7 +613,15 @@
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                      <button type="button" class="dropdown-item">
+                      <button type="button" class="dropdown-item" data-action="downloadReceipt">
+                        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                        <span>Download receipt (PDF)</span>
+                      </button>
+                      <button type="button" class="dropdown-item" data-action="emailReceipt">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        <span>Email receipt</span>
+                      </button>
+                      <button type="button" class="dropdown-item" data-action="sendReceipt">
                         <i class="fa-regular fa-receipt" aria-hidden="true"></i>
                         <span>Send receipt</span>
                       </button>
@@ -512,6 +641,39 @@
           </div>
         </section>
 
+        <!-- Added: Donation view states (loading, empty, error) -->
+        <div class="donations-states">
+          <section class="card donations-state donations-state--loading is-hidden" data-state="loading" role="status"
+            aria-label="Loading donations" aria-live="polite">
+            <div class="cs-skeleton cs-skeleton--grid">
+              <div class="cs-skeleton__card"></div>
+              <div class="cs-skeleton__card"></div>
+              <div class="cs-skeleton__card"></div>
+            </div>
+            <div class="cs-skeleton cs-skeleton--table">
+              <div class="cs-skeleton__row"></div>
+              <div class="cs-skeleton__row"></div>
+              <div class="cs-skeleton__row"></div>
+            </div>
+          </section>
+          <section class="card donations-state is-hidden" data-state="empty" role="status" aria-label="No donations"
+            aria-live="assertive">
+            <div class="donations-state__content">
+              <p class="h4">No donations found</p>
+              <p class="text-muted">Try clearing filters or selecting another donation type to find matches.</p>
+              <button type="button" class="btn btn-outline" data-action="clearFilters">Clear filters</button>
+            </div>
+          </section>
+          <section class="card donations-state is-hidden" data-state="error" role="alert"
+            aria-label="Error loading donations" aria-live="assertive">
+            <div class="donations-state__content">
+              <p class="h4">Couldn’t load donations</p>
+              <p class="text-muted">We hit a snag while fetching donations. Retry to try again.</p>
+              <button type="button" class="btn btn-primary" data-action="retry">Retry</button>
+            </div>
+          </section>
+        </div>
+
         <section class="card donations-view donations-view--table" data-view="table" aria-label="Donations table view">
           <div class="donations-table-wrapper">
             <table class="donations-table">
@@ -528,15 +690,21 @@
               </thead>
               <tbody>
                 <tr class="donation-row" data-donor-name="Amina Rahman" data-donor-email="amina@worldhealth.org"
-                  data-donor-location="Nairobi, Kenya" data-donor-initials="AR" data-donation-amount="$1,250"
-                  data-donation-status="Completed" data-donation-method="ACH transfer" data-donation-date="Nov 21, 2025"
+                  data-donor-location="Nairobi, Kenya" data-donor-initials="AR" data-donor-type="individual"
+                  data-donation-amount="₺ 1,250" data-amount="1250" data-donation-status="Completed"
+                  data-donation-method="ACH transfer" data-donation-date="Nov 21, 2025"
                   data-donation-campaign="Healthcare Resilience Fund"
                   data-donation-notes="Recorded offline during the Nairobi gala.">
                   <td data-label="Donor">
                     <div class="donations-table__donor">
                       <span class="donations-table__avatar" aria-hidden="true">AR</span>
                       <div>
-                        <p class="donations-table__donor-name">Amina Rahman</p>
+                        <p class="donations-table__donor-name">
+                          Amina Rahman
+                          <span class="status-pill status-pill--info donations-table__donor-type"
+                            aria-hidden="true">Individual</span>
+                          <span class="sr-only">Donor type: Individual</span>
+                        </p>
                         <p class="text-muted">amina@worldhealth.org</p>
                       </div>
                     </div>
@@ -544,7 +712,7 @@
                   <td data-label="Campaign">
                     <span class="donations-table__campaign">Healthcare Resilience Fund</span>
                   </td>
-                  <td data-label="Amount">$1,250</td>
+                  <td data-label="Amount"><span data-amount="1250">₺ 1,250</span></td>
                   <td data-label="Method">ACH transfer</td>
                   <td data-label="Status"><span class="status-pill status-pill--success">Completed</span></td>
                   <td data-label="Date">Nov 21, 2025</td>
@@ -560,7 +728,15 @@
                           <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                          <button type="button" class="dropdown-item">
+                          <button type="button" class="dropdown-item" data-action="downloadReceipt">
+                            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                            <span>Download receipt (PDF)</span>
+                          </button>
+                          <button type="button" class="dropdown-item" data-action="emailReceipt">
+                            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                            <span>Email receipt</span>
+                          </button>
+                          <button type="button" class="dropdown-item" data-action="sendReceipt">
                             <i class="fa-regular fa-receipt" aria-hidden="true"></i>
                             <span>Send receipt</span>
                           </button>
@@ -578,14 +754,20 @@
                   </td>
                 </tr>
                 <tr class="donation-row" data-donor-name="Mateo Singh" data-donor-email="mateo@brightfuture.org"
-                  data-donor-location="Seattle, USA" data-donor-initials="MS" data-donation-amount="$320"
-                  data-donation-status="Pending" data-donation-method="Credit card" data-donation-date="Nov 20, 2025"
+                  data-donor-location="Seattle, USA" data-donor-initials="MS" data-donor-type="group"
+                  data-donation-amount="₺ 320" data-amount="320" data-donation-status="Pending"
+                  data-donation-method="Credit card" data-donation-date="Nov 20, 2025"
                   data-donation-campaign="Education Access">
                   <td data-label="Donor">
                     <div class="donations-table__donor">
                       <span class="donations-table__avatar" aria-hidden="true">MS</span>
                       <div>
-                        <p class="donations-table__donor-name">Mateo Singh</p>
+                        <p class="donations-table__donor-name">
+                          Mateo Singh
+                          <span class="status-pill status-pill--warning donations-table__donor-type"
+                            aria-hidden="true">Group</span>
+                          <span class="sr-only">Donor type: Group</span>
+                        </p>
                         <p class="text-muted">mateo@brightfuture.org</p>
                       </div>
                     </div>
@@ -593,7 +775,7 @@
                   <td data-label="Campaign">
                     <span class="donations-table__campaign">Education Access</span>
                   </td>
-                  <td data-label="Amount">$320</td>
+                  <td data-label="Amount"><span data-amount="320">₺ 320</span></td>
                   <td data-label="Method">Credit card</td>
                   <td data-label="Status"><span class="status-pill status-pill--pending">Pending</span></td>
                   <td data-label="Date">Nov 20, 2025</td>
@@ -609,7 +791,15 @@
                           <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                          <button type="button" class="dropdown-item">
+                          <button type="button" class="dropdown-item" data-action="downloadReceipt">
+                            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                            <span>Download receipt (PDF)</span>
+                          </button>
+                          <button type="button" class="dropdown-item" data-action="emailReceipt">
+                            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                            <span>Email receipt</span>
+                          </button>
+                          <button type="button" class="dropdown-item" data-action="sendReceipt">
                             <i class="fa-regular fa-receipt" aria-hidden="true"></i>
                             <span>Send receipt</span>
                           </button>
@@ -627,15 +817,21 @@
                   </td>
                 </tr>
                 <tr class="donation-row" data-donor-name="Ariel Chen" data-donor-email="ariel@greenhorizons.org"
-                  data-donor-location="Singapore" data-donor-initials="AC" data-donation-amount="$560"
-                  data-donation-status="Refunded" data-donation-method="PayPal" data-donation-date="Nov 19, 2025"
+                  data-donor-location="Singapore" data-donor-initials="AC" data-donor-type="company"
+                  data-donation-amount="₺ 560" data-amount="560" data-donation-status="Refunded"
+                  data-donation-method="PayPal" data-donation-date="Nov 19, 2025"
                   data-donation-campaign="Clean Water Initiative"
                   data-donation-notes="Refund pending processor approval.">
                   <td data-label="Donor">
                     <div class="donations-table__donor">
                       <span class="donations-table__avatar" aria-hidden="true">AC</span>
                       <div>
-                        <p class="donations-table__donor-name">Ariel Chen</p>
+                        <p class="donations-table__donor-name">
+                          Ariel Chen
+                          <span class="status-pill status-pill--info donations-table__donor-type"
+                            aria-hidden="true">Company</span>
+                          <span class="sr-only">Donor type: Company</span>
+                        </p>
                         <p class="text-muted">ariel@greenhorizons.org</p>
                       </div>
                     </div>
@@ -643,7 +839,7 @@
                   <td data-label="Campaign">
                     <span class="donations-table__campaign">Clean Water Initiative</span>
                   </td>
-                  <td data-label="Amount">$560</td>
+                  <td data-label="Amount"><span data-amount="560">₺ 560</span></td>
                   <td data-label="Method">PayPal</td>
                   <td data-label="Status"><span class="status-pill status-pill--refunded">Refunded</span></td>
                   <td data-label="Date">Nov 19, 2025</td>
@@ -659,7 +855,15 @@
                           <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                          <button type="button" class="dropdown-item">
+                          <button type="button" class="dropdown-item" data-action="downloadReceipt">
+                            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                            <span>Download receipt (PDF)</span>
+                          </button>
+                          <button type="button" class="dropdown-item" data-action="emailReceipt">
+                            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                            <span>Email receipt</span>
+                          </button>
+                          <button type="button" class="dropdown-item" data-action="sendReceipt">
                             <i class="fa-regular fa-receipt" aria-hidden="true"></i>
                             <span>Send receipt</span>
                           </button>
@@ -677,14 +881,20 @@
                   </td>
                 </tr>
                 <tr class="donation-row" data-donor-name="Ivy Delgado" data-donor-email="ivy@climateaction.org"
-                  data-donor-location="Lisbon, Portugal" data-donor-initials="ID" data-donation-amount="$90"
-                  data-donation-status="Failed" data-donation-method="Credit card" data-donation-date="Nov 16, 2025"
+                  data-donor-location="Lisbon, Portugal" data-donor-initials="ID" data-donor-type="individual"
+                  data-donation-amount="₺ 90" data-amount="90" data-donation-status="Failed"
+                  data-donation-method="Credit card" data-donation-date="Nov 16, 2025"
                   data-donation-campaign="Climate Action Fund">
                   <td data-label="Donor">
                     <div class="donations-table__donor">
                       <span class="donations-table__avatar" aria-hidden="true">ID</span>
                       <div>
-                        <p class="donations-table__donor-name">Ivy Delgado</p>
+                        <p class="donations-table__donor-name">
+                          Ivy Delgado
+                          <span class="status-pill status-pill--info donations-table__donor-type"
+                            aria-hidden="true">Individual</span>
+                          <span class="sr-only">Donor type: Individual</span>
+                        </p>
                         <p class="text-muted">ivy@climateaction.org</p>
                       </div>
                     </div>
@@ -692,7 +902,7 @@
                   <td data-label="Campaign">
                     <span class="donations-table__campaign">Climate Action Fund</span>
                   </td>
-                  <td data-label="Amount">$90</td>
+                  <td data-label="Amount"><span data-amount="90">₺ 90</span></td>
                   <td data-label="Method">Credit card</td>
                   <td data-label="Status"><span class="status-pill status-pill--failed">Failed</span></td>
                   <td data-label="Date">Nov 16, 2025</td>
@@ -708,7 +918,15 @@
                           <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                          <button type="button" class="dropdown-item">
+                          <button type="button" class="dropdown-item" data-action="downloadReceipt">
+                            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                            <span>Download receipt (PDF)</span>
+                          </button>
+                          <button type="button" class="dropdown-item" data-action="emailReceipt">
+                            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                            <span>Email receipt</span>
+                          </button>
+                          <button type="button" class="dropdown-item" data-action="sendReceipt">
                             <i class="fa-regular fa-receipt" aria-hidden="true"></i>
                             <span>Send receipt</span>
                           </button>
@@ -740,7 +958,8 @@
 
   <div class="offcanvas offcanvas-end offcanvas-filters app-offcanvas" id="donationsFilters" aria-hidden="true">
     <div class="offcanvas-backdrop js-offcanvas-close"></div>
-    <aside class="offcanvas-panel" role="dialog" aria-modal="true" aria-labelledby="donationFiltersTitle">
+    <aside class="offcanvas-panel" role="dialog" aria-modal="true" aria-labelledby="donationFiltersTitle"
+      data-focus-trap="donationsFilters" tabindex="-1">
       <header class="offcanvas-header">
         <h2 id="donationFiltersTitle" class="h4">Filter donations</h2>
         <button class="icon-button js-offcanvas-close" type="button" aria-label="Close filters">
@@ -756,6 +975,19 @@
             <option value="education">Education Access</option>
             <option value="emergency">Emergency Relief</option>
             <option value="community">Community Kitchen</option>
+          </select>
+        </div>
+
+        <!-- Added: Donation type mirror filter -->
+        <div class="filter-group">
+          <label class="filter-label" for="filterDonationType">Donation type</label>
+          <select id="filterDonationType" name="donationType" class="form-control" data-role="donationTypeFilter">
+            <option value="">All donation types</option>
+            <option value="general">General Donation (Sadaqah)</option>
+            <option value="zakat">Zakat</option>
+            <option value="qurbani">Qurbani (Udhiya)</option>
+            <option value="gift">Gift</option>
+            <option value="campaigns">Campaigns</option>
           </select>
         </div>
 
@@ -781,18 +1013,37 @@
           </div>
         </div>
 
+        <!-- Added: Donor type chips -->
+        <div class="filter-group">
+          <p class="filter-label">Donor type</p>
+          <div class="filter-chips" role="group" aria-label="Donor type">
+            <label class="filter-chip">
+              <input type="checkbox" name="donorType" value="individual" />
+              <span>Individual</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="donorType" value="group" />
+              <span>Group</span>
+            </label>
+            <label class="filter-chip">
+              <input type="checkbox" name="donorType" value="company" />
+              <span>Company</span>
+            </label>
+          </div>
+        </div>
+
         <div class="filter-group">
           <p class="filter-label">Amount range</p>
           <div class="filter-range">
             <div class="form-field">
               <label class="form-label" for="amountMin">Min</label>
               <input id="amountMin" name="amountMin" type="number" min="0" step="10" class="form-control"
-                placeholder="$0" />
+                placeholder="₺0" />
             </div>
             <div class="form-field">
               <label class="form-label" for="amountMax">Max</label>
               <input id="amountMax" name="amountMax" type="number" min="0" step="10" class="form-control"
-                placeholder="$5,000" />
+                placeholder="₺5,000" />
             </div>
           </div>
         </div>

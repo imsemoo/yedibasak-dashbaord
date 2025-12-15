@@ -2232,8 +2232,8 @@ body[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 
 .table-actions .btn {
   border-radius: var(--radius-sm);
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2374,8 +2374,8 @@ body[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .dropdown-actions .icon-button {
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
 }
 
 .dropdown-actions .dropdown-menu {
@@ -2932,7 +2932,6 @@ body[data-theme="dark"] .preview-sheet__panel {
   background: var(--color-surface);
   color: var(--color-text);
   border-color: var(--color-border);
-  height: 40px;
   width: max-content;
 }
 
@@ -3101,9 +3100,10 @@ body[data-theme="dark"] .preview-sheet__panel {
   box-shadow: 0 16px 30px rgba(21, 197, 206, 0.3);
 }
 
+.donations-search,
 .campaigns-search {
   min-width: 240px;
-  max-width: 360px;
+  max-width: 442px;
 }
 
 .tabs {
@@ -3304,6 +3304,139 @@ body[data-theme="dark"] .preview-sheet__panel {
   place-items: center;
   font-size: 14px;
   font-weight: 700;
+}
+
+/* =========================================
+   Donation Type Selector (Toolbar)
+   ========================================= */
+.donations-toolbar__extras {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  justify-content: space-between;
+  width: 100%;
+}
+
+.donation-type-selector {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(170px, 1fr));
+  gap: var(--space-2);
+  align-items: stretch;
+}
+
+.donation-type-selector__option {
+  appearance: none;
+  border: 1px solid var(--border-color);
+  background: var(--background-color);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  min-height: 56px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background-color .12s ease;
+}
+
+.donation-type-selector__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 34px;
+  background: rgba(21, 197, 206, 0.10);
+  color: var(--primary-color, #15C5CE);
+}
+
+.donation-type-selector__option>span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  /* enables ellipsis */
+}
+
+.donation-type-selector__title {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.donation-type-selector__description {
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--text-muted-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.donation-type-selector__option:hover {
+  border-color: rgba(21, 197, 206, 0.35);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.donation-type-selector__option:focus-visible {
+  outline: 3px solid rgba(21, 197, 206, 0.35);
+  outline-offset: 2px;
+}
+
+/* Selected state via ARIA */
+.donation-type-selector__option[aria-checked="true"] {
+  border-color: rgba(21, 197, 206, 0.65);
+  background: rgba(21, 197, 206, 0.08);
+  box-shadow: 0 10px 22px rgba(21, 197, 206, 0.18);
+}
+
+.donation-type-selector__option[aria-checked="true"] .donation-type-selector__icon {
+  background: rgba(21, 197, 206, 0.18);
+}
+
+/* compact mode (if placed in crowded toolbar) */
+.donation-type-selector.is-compact {
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+}
+
+.donation-type-selector.is-compact .donation-type-selector__option {
+  padding: 8px 10px;
+  min-height: 52px;
+}
+
+.donation-type-selector.is-compact .donation-type-selector__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .donation-type-selector {
+    grid-template-columns: repeat(3, minmax(170px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .donation-type-selector {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .donation-type-selector__option {
+    min-height: 54px;
+  }
+}
+
+@media (max-width: 420px) {
+  .donation-type-selector {
+    grid-template-columns: 1fr;
+  }
 }
 
 .preview-donation {
