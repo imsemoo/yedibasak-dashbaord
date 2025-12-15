@@ -110,43 +110,18 @@
     control?.addEventListener('click', () => toggle(ms));
 
     // select option (toggle)
-    const emitChange = () => {
-      ms.dispatchEvent(new CustomEvent('cs-multiselect-change', { bubbles: true }));
-    };
-
-    options.forEach((opt, index) => {
+    options.forEach(opt => {
       opt.setAttribute('role', 'option');
       opt.setAttribute('aria-selected', opt.classList.contains('is-selected') ? 'true' : 'false');
-      opt.tabIndex = 0;
 
-      const toggleOption = (event) => {
-        event.preventDefault();
+      opt.addEventListener('click', (e) => {
+        e.preventDefault();
         const selected = opt.classList.toggle('is-selected');
         opt.setAttribute('aria-selected', selected ? 'true' : 'false');
 
         renderChips(ms);
         syncHidden(ms);
         syncPlaceholder(ms);
-        emitChange();
-      };
-
-      opt.addEventListener('click', toggleOption);
-      opt.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
-          event.preventDefault();
-          const next = options[(index + 1) % options.length];
-          next?.focus();
-          return;
-        }
-        if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-          event.preventDefault();
-          const prev = options[(index - 1 + options.length) % options.length];
-          prev?.focus();
-          return;
-        }
-        if (event.key === 'Enter' || event.key === ' ') {
-          toggleOption(event);
-        }
       });
     });
 
@@ -161,7 +136,6 @@
     } else {
       syncPlaceholder(ms);
     }
-    emitChange();
 
     // keyboard: Esc closes, Enter opens
     control?.addEventListener('keydown', (e) => {
@@ -216,13 +190,6 @@
   };
 
   const isReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const isCampaignsPage = () =>
-    Boolean(document.querySelector(".campaign-grid")) ||
-    window.location.pathname.split("/").pop()?.toLowerCase() === "campaigns.html";
-  const safeNumber = (value, fallback = 0) => {
-    const num = Number(value);
-    return Number.isFinite(num) ? num : fallback;
-  };
 
   const overviewMapState = {
     map: null,
@@ -523,39 +490,6 @@
   const formatCurrencyDisplay = (value) => {
     const number = Number(value) || 0;
     return `$${number.toLocaleString()}`;
-  };
-
-  const parseNumber = (value) => {
-    if (value === null || value === undefined) {
-      return 0;
-    }
-    const cleaned = value
-      .toString()
-      .trim()
-      .replace(/[^0-9.,]/g, "");
-    if (!cleaned) {
-      return 0;
-    }
-    const normalized = cleaned
-      .replace(/,/g, ".")
-      .replace(/\.(?=\d{3}(\D|$))/g, "");
-    const parsed = parseFloat(normalized);
-    return Number.isFinite(parsed) ? parsed : 0;
-  };
-
-  const formatTRY = (value) => {
-    const number = typeof value === "number" ? value : parseNumber(value);
-    if (!Number.isFinite(number)) {
-      return "";
-    }
-    const needsDecimals = Math.abs(number % 1) > 1e-9;
-    const formatter = new Intl.NumberFormat("tr-TR", {
-      style: "currency",
-      currency: "TRY",
-      minimumFractionDigits: needsDecimals ? 2 : 0,
-      maximumFractionDigits: 2,
-    });
-    return formatter.format(number);
   };
 
   const formatPreviewDate = (value) => {
@@ -1561,8 +1495,7 @@
    * Expects `.offcanvas-filters`, `.js-open-filters`, and `.js-filter-count`.
    */
   const initCampaignFilters = () => {
-    if (!isCampaignsPage()) return;
-
+    // Cache the drawer, trigger, and control buttons for the campaign filters panel.
     const offcanvas = document.querySelector(".offcanvas-filters");
     const trigger = document.querySelector(".js-open-filters");
     if (!offcanvas || !trigger) return;
@@ -1571,16 +1504,8 @@
     const closeButtons = offcanvas.querySelectorAll(".js-offcanvas-close");
     const resetButton = offcanvas.querySelector(".js-offcanvas-reset");
     const applyButton = offcanvas.querySelector(".js-offcanvas-apply");
-    const clearButton = offcanvas.querySelector(".js-filters-clear");
     const badge = trigger.querySelector(".js-filter-count");
     const fields = Array.from(offcanvas.querySelectorAll("input, select"));
-    const statusInputs = Array.from(offcanvas.querySelectorAll("input[name='status']"));
-    const typeSelect = offcanvas.querySelector("#campaignType");
-    const citySelect = offcanvas.querySelector("#campaignCity");
-    const categorySelect = offcanvas.querySelector("#campaignCategory");
-    const countrySelect = offcanvas.querySelector("#campaignCountry");
-    const featuredInput = offcanvas.querySelector("input[name='featuredOnly']");
-    const endingSoonInput = offcanvas.querySelector("input[name='endingSoon']");
 
     const lockScroll = () => document.body.classList.add("is-locked");
     const unlockScroll = () => {
@@ -1597,8 +1522,6 @@
         return count;
       }, 0);
 
-    const normalized = (value) => (value || "").toString().trim().toLowerCase();
-
     const updateBadge = () => {
       const total = countActiveFilters();
       if (badge) {
@@ -1606,65 +1529,6 @@
         badge.classList.toggle("is-hidden", total === 0);
       }
       trigger.setAttribute("data-has-filters", total > 0 ? "true" : "false");
-    };
-
-    const toggleVisibility = (element, visible) => {
-      if (!element) return;
-      element.classList.toggle("is-hidden", !visible);
-      element.setAttribute("aria-hidden", visible ? "false" : "true");
-    };
-
-    const applyFilters = () => {
-      const filterState = {
-        statuses: statusInputs.filter((input) => input.checked).map((input) => normalized(input.value)),
-        type: typeSelect?.value?.trim(),
-        city: citySelect?.value?.trim(),
-        category: categorySelect?.value?.trim(),
-        country: countrySelect?.value?.trim(),
-        featured: Boolean(featuredInput?.checked),
-        endingSoon: Boolean(endingSoonInput?.checked),
-      };
-
-      const matchesFilters = (dataset) => {
-        const datasetStatus = normalized(dataset.campaignStatus);
-        const datasetType = normalized(dataset.campaignType);
-        const datasetCity = normalized(dataset.campaignCity);
-        const datasetCategory = normalized(dataset.campaignCategory);
-        const datasetCountry = normalized(dataset.campaignCountry);
-        const endsInDays = safeNumber(dataset.endsInDays, Number.POSITIVE_INFINITY);
-        const isEndingSoon = endsInDays <= 7;
-        const isFeatured = normalized(dataset.campaignFeatured) === "true";
-
-        const statusMatch =
-          filterState.statuses.length === 0 || filterState.statuses.includes(datasetStatus);
-        const typeMatch = !filterState.type || normalized(filterState.type) === datasetType;
-        const cityMatch = !filterState.city || normalized(filterState.city) === datasetCity;
-        const categoryMatch = !filterState.category || normalized(filterState.category) === datasetCategory;
-        const countryMatch = !filterState.country || normalized(filterState.country) === datasetCountry;
-        const featuredMatch = !filterState.featured || isFeatured;
-        const endingSoonMatch = !filterState.endingSoon || isEndingSoon;
-
-        return (
-          statusMatch && typeMatch && cityMatch && categoryMatch && countryMatch && featuredMatch && endingSoonMatch
-        );
-      };
-
-      Array.from(document.querySelectorAll(".campaign-card")).forEach((card) =>
-        toggleVisibility(card, matchesFilters(card.dataset))
-      );
-      Array.from(document.querySelectorAll(".campaign-row")).forEach((row) =>
-        toggleVisibility(row, matchesFilters(row.dataset))
-      );
-    };
-
-    const resetFilters = () => {
-      fields.forEach((field) => {
-        if (field.type === "checkbox" || field.type === "radio") {
-          field.checked = false;
-        } else {
-          field.value = "";
-        }
-      });
     };
 
     const close = () => {
@@ -1689,41 +1553,42 @@
       }
     };
 
+    // Attach interactions so the drawer responds to clicks, overlay taps, and escape keys.
+    // Hook up the triggers and close controls for the donations filters drawer.
     trigger.addEventListener("click", toggle);
     backdrop?.addEventListener("click", close);
     closeButtons.forEach((btn) => btn.addEventListener("click", close));
+
+    // Allow Escape key to close the filters drawer for accessibility.
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && offcanvas.classList.contains("is-open")) {
         close();
       }
     });
 
-    const handleClear = () => {
-      resetFilters();
-      updateBadge();
-      applyFilters();
-    };
-
+    // Update the filter badge whenever any input changes.
+    // Update the filter badge whenever a field changes.
     fields.forEach((field) => field.addEventListener("change", updateBadge));
 
-    resetButton?.addEventListener("click", (event) => {
-      event.preventDefault();
-      handleClear();
+    // Reset all filter controls when the reset button is triggered.
+    resetButton?.addEventListener("click", () => {
+      fields.forEach((field) => {
+        if (field.type === "checkbox" || field.type === "radio") {
+          field.checked = false;
+        } else {
+          field.value = "";
+        }
+      });
+      updateBadge();
     });
 
-    clearButton?.addEventListener("click", (event) => {
-      event.preventDefault();
-      handleClear();
-    });
-
+    // Apply the selected filters and close the drawer when hitting Apply.
     applyButton?.addEventListener("click", () => {
-      applyFilters();
       updateBadge();
       close();
     });
 
     updateBadge();
-    applyFilters();
   };
 
   /**
@@ -1903,11 +1768,6 @@
         campaignRaised,
         campaignCountry,
         campaignDates,
-        targetTry,
-        raisedTry,
-        targetLabel,
-        raisedLabel,
-        progress,
       } = dataset;
 
       if (titleEl) titleEl.textContent = campaignTitle || "Campaign";
@@ -1919,18 +1779,8 @@
       setStatusPill(campaignStatus);
       if (typeEl) typeEl.textContent = campaignType || "";
       if (descEl) descEl.textContent = campaignDescription || "";
-      const formattedTarget = targetTry ? formatTRY(targetTry) : campaignTarget || "";
-      const formattedRaised = raisedTry ? formatTRY(raisedTry) : campaignRaised || "";
-      const targetSuffix = targetLabel || "target";
-      const raisedSuffix = raisedLabel || "raised";
-      const progressText = progress ? ` (${progress}%)` : "";
-
-      if (targetEl) {
-        targetEl.textContent = formattedTarget ? `${formattedTarget} ${targetSuffix}` : "";
-      }
-      if (raisedEl) {
-        raisedEl.textContent = formattedRaised ? `${formattedRaised} ${raisedSuffix}${progressText}` : "";
-      }
+      if (targetEl) targetEl.textContent = campaignTarget || "";
+      if (raisedEl) raisedEl.textContent = campaignRaised || "";
       if (countryEl) countryEl.textContent = campaignCountry || "";
       if (datesEl) datesEl.textContent = campaignDates || "";
     };
@@ -1951,323 +1801,6 @@
       if (event.key === "Escape" && previewSheet.classList.contains("is-open")) {
         closeSheet();
       }
-    });
-  };
-
-  const formatTRY = (value) => {
-    const amount = Number(value);
-    if (!Number.isFinite(amount)) return "";
-    const hasDecimals = Math.abs(amount % 1) > 0;
-    try {
-      const formatter = new Intl.NumberFormat("tr-TR", {
-        style: "currency",
-        currency: "TRY",
-        minimumFractionDigits: hasDecimals ? 2 : 0,
-        maximumFractionDigits: hasDecimals ? 2 : 0,
-      });
-      return formatter.format(amount);
-    } catch {
-      return amount.toLocaleString("tr-TR", { minimumFractionDigits: hasDecimals ? 2 : 0 });
-    }
-  };
-
-  const hydrateCampaignCurrency = () => {
-    if (!isCampaignsPage()) return;
-
-    const formatTargetText = (value, label) => {
-      if (!value) return "";
-      return `${formatTRY(value)} ${label}`.trim();
-    };
-
-    document.querySelectorAll(".campaign-card").forEach((card) => {
-      const targetSpan = card.querySelector('[data-amount-field="target"]');
-      const raisedSpan = card.querySelector('[data-amount-field="raised"]');
-      const { targetTry, raisedTry, targetLabel, raisedLabel, progress } = card.dataset;
-      if (targetSpan && targetTry) {
-        targetSpan.textContent = formatTargetText(targetTry, targetLabel || "target");
-      }
-      if (raisedSpan && raisedTry) {
-        const progressLabel = progress ? ` (${progress}%)` : "";
-        raisedSpan.textContent = `${formatTargetText(raisedTry, raisedLabel || "raised")}${progressLabel}`.trim();
-      }
-    });
-
-    document.querySelectorAll(".campaign-row").forEach((row) => {
-      const targetCell = row.querySelector('[data-label="Target"][data-amount-field="target"]');
-      const raisedCell = row.querySelector('[data-label="Raised"][data-amount-field="raised"]');
-      const { targetTry, raisedTry, targetLabel, raisedLabel, progress } = row.dataset;
-      if (targetCell && targetTry) {
-        targetCell.textContent = formatTargetText(targetTry, targetLabel || "target");
-      }
-      if (raisedCell && raisedTry) {
-        const progressLabel = progress ? ` (${progress}%)` : "";
-        raisedCell.textContent = `${formatTargetText(raisedTry, raisedLabel || "raised")}${progressLabel}`.trim();
-      }
-    });
-  };
-
-  const applyEndingSoonIndicators = () => {
-    if (!isCampaignsPage()) return;
-    const threshold = 7;
-    const badgeText = "Ending soon";
-
-    document.querySelectorAll(".campaign-card").forEach((card) => {
-      const ends = safeNumber(card.dataset.endsInDays, Number.POSITIVE_INFINITY);
-      if (ends <= threshold) {
-        card.classList.add("cs-card--ending-soon");
-        const footer = card.querySelector(".campaign-card__footer-left");
-        if (footer && !footer.querySelector(".cs-badge--warning")) {
-          const badge = document.createElement("span");
-          badge.className = "badge cs-badge--warning";
-          badge.textContent = badgeText;
-          footer.appendChild(badge);
-        }
-      }
-    });
-
-    document.querySelectorAll(".campaign-row").forEach((row) => {
-      const ends = safeNumber(row.dataset.endsInDays, Number.POSITIVE_INFINITY);
-      if (ends <= threshold) {
-        row.classList.add("cs-card--ending-soon");
-        const title = row.querySelector(".campaigns-table__title");
-        if (title && !title.querySelector(".cs-badge--warning")) {
-          const badge = document.createElement("span");
-          badge.className = "badge cs-badge--warning";
-          badge.textContent = badgeText;
-          title.appendChild(badge);
-        }
-      }
-    });
-  };
-
-  const initCampaignSort = () => {
-    if (!isCampaignsPage()) return;
-    const sortControl = document.querySelector(".js-campaign-sort");
-    const cardGrid = document.querySelector(".campaign-grid");
-    const tableBody = document.querySelector(".campaigns-table tbody");
-    if (!sortControl || !cardGrid || !tableBody) return;
-
-    const getTimestamp = (element) => {
-      const value = element.dataset.createdAt;
-      const parsed = Date.parse(value);
-      return Number.isFinite(parsed) ? parsed : 0;
-    };
-
-    const comparator = (option) => {
-      if (option === "ending-soon") {
-        return (a, b) =>
-          safeNumber(a.dataset.endsInDays, Number.POSITIVE_INFINITY) -
-          safeNumber(b.dataset.endsInDays, Number.POSITIVE_INFINITY);
-      }
-      if (option === "most-funded") {
-        return (a, b) =>
-          safeNumber(b.dataset.progress, 0) - safeNumber(a.dataset.progress, 0);
-      }
-      return (a, b) => getTimestamp(b) - getTimestamp(a);
-    };
-
-    const sortElements = () => {
-      const cards = Array.from(cardGrid.querySelectorAll(".campaign-card"));
-      const rows = Array.from(tableBody.querySelectorAll(".campaign-row"));
-      const compare = comparator(sortControl.value || "newest");
-      cards.sort(compare).forEach((card) => cardGrid.appendChild(card));
-      rows.sort(compare).forEach((row) => tableBody.appendChild(row));
-    };
-
-    sortControl.addEventListener("change", sortElements);
-    sortElements();
-  };
-
-  const toast = (message, type = "success", duration = 3200) => {
-    const container = document.querySelector(".cs-toast-container");
-    if (!container) return;
-    const variant = ["success", "warning", "danger"].includes(type) ? type : "success";
-    const toastEl = document.createElement("div");
-    toastEl.className = `cs-toast cs-toast--${variant}`;
-    toastEl.setAttribute("role", "status");
-    toastEl.textContent = message;
-    container.appendChild(toastEl);
-    toastEl.addEventListener("click", () => toastEl.remove());
-    window.setTimeout(() => {
-      toastEl.remove();
-    }, duration);
-  };
-
-  const setCampaignsState = (state = "ready") => {
-    if (!isCampaignsPage()) return;
-    const cardsView = document.querySelector(".campaigns-view--cards");
-    const tableView = document.querySelector(".campaigns-view--table");
-    const loading = document.querySelector(".campaigns-loading");
-    const empty = document.querySelector(".campaigns-empty");
-    const error = document.querySelector(".campaigns-error");
-
-    const toggleSection = (element, visible) => {
-      if (!element) return;
-      element.classList.toggle("is-hidden", !visible);
-      element.setAttribute("aria-hidden", visible ? "false" : "true");
-    };
-
-    toggleSection(cardsView, state === "ready");
-    toggleSection(tableView, state === "ready");
-    toggleSection(loading, state === "loading");
-    toggleSection(empty, state === "empty");
-    toggleSection(error, state === "error");
-  };
-
-  const initCampaignStateTriggers = () => {
-    const retryButton = document.querySelector(".js-campaigns-retry");
-    retryButton?.addEventListener("click", () => setCampaignsState("ready"));
-  };
-
-  const initCloseCampaignModal = () => {
-    if (!isCampaignsPage()) return;
-    const modal = document.querySelector('.cs-modal[data-modal="close-campaign"]');
-    if (!modal) return;
-
-    const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    const closeTriggers = modal.querySelectorAll("[data-modal-close]");
-    const confirmButton = modal.querySelector("[data-modal-confirm]");
-    const menuTemplates = document.querySelectorAll(".dropdown-menu--actions");
-
-    const lockScroll = () => document.body.classList.add("is-locked");
-    const unlockScroll = () => {
-      const app = document.querySelector(".app");
-      if (!app || !app.classList.contains("sidebar-open")) {
-        document.body.classList.remove("is-locked");
-      }
-    };
-
-    let activeCampaign = null;
-    let lastFocused = null;
-    let trapHandler = null;
-
-    const closeActionMenu = (button) => {
-      const dropdown = button.closest(".dropdown");
-      const menu = dropdown?.querySelector(".dropdown-menu--actions");
-      const toggle = dropdown?.querySelector(".js-actions-toggle");
-      menu?.classList.remove("is-open");
-      toggle?.setAttribute("aria-expanded", "false");
-    };
-
-    const createCloseAction = (menu) => {
-      if (menu.querySelector('[data-action="close-campaign"]')) return;
-      const closeButton = document.createElement("button");
-      closeButton.type = "button";
-      closeButton.className = "dropdown-item";
-      closeButton.dataset.action = "close-campaign";
-      closeButton.innerHTML = `<i class="fa-solid fa-lock" aria-hidden="true"></i><span>Close campaign</span>`;
-      const dangerButton = menu.querySelector(".dropdown-item.dropdown-item--danger");
-      if (dangerButton) {
-        menu.insertBefore(closeButton, dangerButton);
-      } else {
-        menu.appendChild(closeButton);
-      }
-      closeButton.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        closeActionMenu(closeButton);
-        const campaignEl = closeButton.closest(".campaign-card, .campaign-row");
-        openModal(campaignEl);
-      });
-    };
-
-    menuTemplates.forEach(createCloseAction);
-
-    const openModal = (campaignEl) => {
-      if (!campaignEl) return;
-      activeCampaign = campaignEl;
-      lastFocused = document.activeElement;
-      const focusableElements = Array.from(modal.querySelectorAll(focusableSelector)).filter(
-        (el) => !el.hasAttribute("disabled") && el.offsetParent !== null
-      );
-      const firstFocusable = focusableElements[0];
-      const lastFocusable = focusableElements[focusableElements.length - 1];
-
-      const handleTrap = (event) => {
-        if (event.key !== "Tab") return;
-        if (!focusableElements.length) {
-          event.preventDefault();
-          return;
-        }
-        if (event.shiftKey && document.activeElement === firstFocusable) {
-          event.preventDefault();
-          lastFocusable?.focus();
-        } else if (!event.shiftKey && document.activeElement === lastFocusable) {
-          event.preventDefault();
-          firstFocusable?.focus();
-        }
-      };
-
-      trapHandler = handleTrap;
-      document.addEventListener("keydown", trapHandler);
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
-      firstFocusable?.focus();
-      lockScroll();
-    };
-
-    const closeModal = () => {
-      if (modal.getAttribute("aria-hidden") === "true") return;
-      modal.setAttribute("aria-hidden", "true");
-      modal.classList.remove("is-open");
-      document.removeEventListener("keydown", trapHandler);
-      trapHandler = null;
-      unlockScroll();
-      lastFocused?.focus();
-      activeCampaign = null;
-    };
-
-    const updateCampaignStatus = () => {
-      if (!activeCampaign) return;
-      const campaignId = activeCampaign.dataset.campaignId;
-      if (!campaignId) return;
-      const card = document.querySelector(`.campaign-card[data-campaign-id="${campaignId}"]`);
-      const row = document.querySelector(`.campaign-row[data-campaign-id="${campaignId}"]`);
-
-      const updateCard = (element) => {
-        if (!element) return;
-        element.dataset.campaignStatus = "Completed";
-        const headerStatus = element.querySelector(".campaign-card__status");
-        if (headerStatus) {
-          headerStatus.textContent = "Completed";
-          headerStatus.className = "campaign-card__status status-completed";
-        }
-      };
-
-      const updateRow = (element) => {
-        if (!element) return;
-        element.dataset.campaignStatus = "Completed";
-        const pill = element.querySelector(".status-pill");
-        if (pill) {
-          pill.textContent = "Completed";
-          pill.className = "status-pill status-pill--completed";
-        }
-      };
-
-      updateCard(card);
-      updateRow(row);
-
-      const previewSheet = document.querySelector('.preview-sheet[data-preview="campaign"]');
-      if (previewSheet && previewSheet.getAttribute("aria-hidden") === "false") {
-        const previewStatus = previewSheet.querySelector(".js-preview-status");
-        if (previewStatus) {
-          previewStatus.textContent = "Completed";
-          previewStatus.className = "status-pill status-pill--completed js-preview-status";
-        }
-      }
-
-      toast("Campaign closed.", "success");
-    };
-
-    closeTriggers.forEach((triggerEl) => triggerEl.addEventListener("click", (event) => {
-      event.preventDefault();
-      closeModal();
-    }));
-
-    confirmButton?.addEventListener("click", (event) => {
-      event.preventDefault();
-      updateCampaignStatus();
-      closeModal();
     });
   };
 
@@ -5867,425 +5400,6 @@
     });
   };
 
-  const initCampaignNewPage = () => {
-    const page = document.querySelector('[data-page="campaign-new"]');
-    if (!page) return;
-
-    const form = page.querySelector(".js-campaign-form");
-    if (!form) return;
-
-    const preview = {
-      amount: page.querySelector('[data-preview="amount"]'),
-      dates: page.querySelector('[data-preview="dates"]'),
-      type: page.querySelector('[data-preview="type"]'),
-      location: page.querySelector('[data-preview="location"]'),
-      categories: page.querySelector('[data-preview="categories"]'),
-      media: page.querySelector('[data-preview="media"]'),
-      featuredBadge: page.querySelector('[data-preview="featuredBadge"]'),
-      donorCount: page.querySelector('[data-preview="donorCount"]'),
-      advancedFlags: page.querySelector('[data-preview="advancedFlags"]'),
-    };
-
-    const nameField = form.querySelector("#campaignName");
-    const targetInput = form.querySelector("#targetAmount");
-    const startDateInput = form.querySelector("#startDateField");
-    const endDateInput = form.querySelector("#endDateField");
-    const descriptionField = form.querySelector("#campaignDescription");
-    const typeCards = Array.from(form.querySelectorAll('[data-role="typeCard"]'));
-    const noTargetToggle = form.querySelector("#toggleNoTarget");
-    const openEndedToggle = form.querySelector("#toggleNoEnd");
-    const targetHelper = form.querySelector('[data-target-helper]');
-    const endHelper = form.querySelector('[data-end-helper]');
-    const thresholdToggle = form.querySelector('[data-role="toggleThreshold"]');
-    const thresholdFieldWrapper = form.querySelector('[data-role="thresholdField"]');
-    const thresholdInput = form.querySelector("#thresholdAmount");
-    const donorCountToggle = form.querySelector('[data-role="toggleDonorCount"]');
-    const monthlyToggle = form.querySelector('[data-role="toggleMonthly"]');
-    const featuredToggle = form.querySelector('[data-role="toggleFeatured"]');
-    const suggestedHidden = form.querySelector('[data-role="suggestedHidden"]');
-    const suggestedChips = Array.from(form.querySelectorAll('[data-role="suggestedChip"]'));
-    const customAmountWrapper = form.querySelector('[data-role="customAmountWrapper"]');
-    const customAmountInput = form.querySelector('[data-role="customAmountInput"]');
-    const multiSelect = form.querySelector(".js-cs-multiselect");
-    const mediaTabs = Array.from(form.querySelectorAll('[data-role="mediaTab"]'));
-    const mediaHelper = form.querySelector('[data-media-helper]');
-    const mediaInput = form.querySelector("#campaignMedia");
-
-    const mediaConfig = {
-      image: { label: "Image", accept: "image/*", helper: "Drop JPG, PNG, or WebP up to 5MB.", preview: "Image preview" },
-      video: { label: "Video", accept: "video/*", helper: "Drop MP4 up to 15MB.", preview: "Video preview" },
-      gif: { label: "GIF", accept: "image/gif", helper: "Drop GIF up to 5MB.", preview: "GIF preview" },
-    };
-    let currentMediaType = "image";
-    let selectedMediaName = "";
-
-    const updatePreviewAmount = () => {
-      if (!preview.amount) return;
-      if (noTargetToggle?.checked) {
-        preview.amount.textContent = "No goal";
-        return;
-      }
-      const value = parseNumber(targetInput?.value);
-      const display = value ? formatTRY(value) : formatTRY(0);
-      preview.amount.textContent = display || "₺0";
-    };
-
-    const updatePreviewDates = () => {
-      if (!preview.dates) return;
-      const start = formatPreviewDate(startDateInput?.value);
-      if (openEndedToggle?.checked) {
-        preview.dates.textContent = start ? `${start} - Open-ended` : "Start date - Open-ended";
-        return;
-      }
-      const end = formatPreviewDate(endDateInput?.value);
-      if (start || end) {
-        preview.dates.textContent = `${start || "Start date"} - ${end || "End date"}`;
-      } else {
-        preview.dates.textContent = "Start date - End date";
-      }
-    };
-
-    const updatePreviewType = () => {
-      if (!preview.type) return;
-      const active = typeCards.find((card) => card.classList.contains("is-active"));
-      const label =
-        active?.querySelector("input")?.dataset.optionLabel ||
-        active?.querySelector("strong")?.textContent?.trim();
-      preview.type.textContent = label || "Type";
-    };
-
-    const updatePreviewLocation = () => {
-      if (!preview.location) return;
-      const selectors = ["#campaignCity", "#campaignRegion", "#campaignCountry"];
-      const values = selectors
-        .map((selector) => form.querySelector(selector))
-        .map((field) => field?.selectedOptions?.[0]?.textContent?.trim())
-        .filter(Boolean);
-      preview.location.textContent = values.length ? values.join(", ") : "Location";
-    };
-
-    const updatePreviewCategories = () => {
-      if (!preview.categories) return;
-      preview.categories.innerHTML = "";
-      const options = multiSelect
-        ? Array.from(multiSelect.querySelectorAll(".cs-multiselect__option.is-selected"))
-        : [];
-      if (!options.length) {
-        const placeholder = document.createElement("span");
-        placeholder.className = "text-muted";
-        placeholder.textContent = "Select categories";
-        preview.categories.appendChild(placeholder);
-        return;
-      }
-      options.forEach((option) => {
-        const badge = document.createElement("span");
-        badge.className = "badge badge--tag";
-        badge.textContent = option.dataset.label || option.textContent.trim();
-        preview.categories.appendChild(badge);
-      });
-    };
-
-    const updatePreviewMedia = () => {
-      if (!preview.media) return;
-      const config = mediaConfig[currentMediaType] || mediaConfig.image;
-      preview.media.textContent = selectedMediaName
-        ? `${config.label}: ${selectedMediaName}`
-        : config.preview;
-    };
-
-    const updateFeaturedBadge = () => {
-      preview.featuredBadge?.classList.toggle("is-hidden", !featuredToggle?.checked);
-    };
-
-    const updateDonorCount = () => {
-      preview.donorCount?.classList.toggle("is-hidden", !donorCountToggle?.checked);
-    };
-
-    const updateAdvancedFlags = () => {
-      if (!preview.advancedFlags) return;
-      preview.advancedFlags.innerHTML = "";
-      const fragment = document.createDocumentFragment();
-      if (thresholdToggle?.checked && thresholdInput?.value.trim()) {
-        const amount = parseNumber(thresholdInput.value);
-        if (amount > 0) {
-          const badge = document.createElement("span");
-          badge.className = "badge badge--pill badge--muted";
-          badge.textContent = `Raised hidden until ${formatTRY(amount)}`;
-          fragment.appendChild(badge);
-        }
-      }
-      if (monthlyToggle?.checked) {
-        const badge = document.createElement("span");
-        badge.className = "badge badge--pill badge--info";
-        badge.textContent = "Monthly recurring enabled";
-        fragment.appendChild(badge);
-      }
-      preview.advancedFlags.appendChild(fragment);
-    };
-
-    const updateMediaSettings = (type) => {
-      const config = mediaConfig[type] || mediaConfig.image;
-      currentMediaType = type;
-      if (mediaHelper) {
-        mediaHelper.textContent = config.helper;
-      }
-      if (mediaInput) {
-        mediaInput.setAttribute("accept", config.accept);
-        mediaInput.value = "";
-      }
-      selectedMediaName = "";
-      updatePreviewMedia();
-    };
-
-    const initCharCounter = () => {
-      const counter = form.querySelector("#description-counter");
-      if (!descriptionField || !counter) return;
-      const limit = Number(descriptionField.dataset.maxlength) || 300;
-      const error = descriptionField.closest(".form-field")?.querySelector(".form-error");
-      const update = () => {
-        const length = descriptionField.value.length;
-        counter.textContent = `${length} / ${limit}`;
-        if (length >= limit) {
-          counter.classList.add("is-invalid");
-          if (error) {
-            error.textContent = "Description cannot exceed 300 characters.";
-            error.classList.remove("is-hidden");
-          }
-        } else {
-          counter.classList.remove("is-invalid");
-          if (error) {
-            error.classList.add("is-hidden");
-          }
-        }
-      };
-      descriptionField.addEventListener("input", () => {
-        if (descriptionField.value.length > limit) {
-          descriptionField.value = descriptionField.value.slice(0, limit);
-        }
-        update();
-      });
-      update();
-    };
-
-    const initNoTargetToggle = () => {
-      const applyState = () => {
-        const disabled = noTargetToggle?.checked;
-        if (targetInput) {
-          targetInput.disabled = Boolean(disabled);
-          targetInput.setAttribute("aria-disabled", String(Boolean(disabled)));
-          if (disabled) {
-            targetInput.value = "";
-            clearFieldError(targetInput);
-          }
-        }
-        targetHelper?.classList.toggle("is-hidden", !disabled);
-        updatePreviewAmount();
-      };
-      noTargetToggle?.addEventListener("change", applyState);
-      applyState();
-    };
-
-    const initOpenEndedToggle = () => {
-      const applyState = () => {
-        const disabled = openEndedToggle?.checked;
-        if (endDateInput) {
-          endDateInput.disabled = Boolean(disabled);
-          endDateInput.setAttribute("aria-disabled", String(Boolean(disabled)));
-          if (disabled) {
-            endDateInput.value = "";
-          }
-        }
-        endHelper?.classList.toggle("is-hidden", !disabled);
-        updatePreviewDates();
-      };
-      openEndedToggle?.addEventListener("change", applyState);
-      applyState();
-    };
-
-    const initTypeCards = () => {
-      if (!typeCards.length) return;
-      const setActive = (card) => {
-        typeCards.forEach((candidate) => {
-          const radio = candidate.querySelector('input[type="radio"]');
-          const isActive = candidate === card;
-          candidate.classList.toggle("is-active", isActive);
-          candidate.setAttribute("aria-checked", isActive ? "true" : "false");
-          if (radio) {
-            radio.checked = isActive;
-          }
-        });
-        updatePreviewType();
-      };
-      typeCards.forEach((card, index) => {
-        card.setAttribute("role", "radio");
-        card.tabIndex = 0;
-        card.setAttribute("aria-checked", card.querySelector("input:checked") ? "true" : "false");
-        const handleSelect = (event) => {
-          event.preventDefault();
-          setActive(card);
-        };
-        card.addEventListener("click", handleSelect);
-        card.addEventListener("keydown", (event) => {
-          if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-            event.preventDefault();
-            const next = typeCards[(index + 1) % typeCards.length];
-            next?.focus();
-            setActive(next);
-          } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-            event.preventDefault();
-            const prev = typeCards[(index - 1 + typeCards.length) % typeCards.length];
-            prev?.focus();
-            setActive(prev);
-          } else if (event.key === "Enter" || event.key === " ") {
-            handleSelect(event);
-          }
-        });
-      });
-      const initial = typeCards.find((card) => card.querySelector("input:checked"));
-      if (initial) {
-        setActive(initial);
-      } else if (typeCards.length) {
-        setActive(typeCards[0]);
-      }
-    };
-
-    const initMediaTabs = () => {
-      if (!mediaTabs.length) return;
-      mediaTabs.forEach((tab) => {
-        tab.addEventListener("click", (event) => {
-          event.preventDefault();
-          const type = tab.dataset.mediaType || "image";
-          mediaTabs.forEach((btn) => btn.classList.toggle("is-active", btn === tab));
-          updateMediaSettings(type);
-        });
-      });
-      updateMediaSettings(currentMediaType);
-      mediaInput?.addEventListener("change", () => {
-        const file = mediaInput.files?.[0];
-        selectedMediaName = file?.name || "";
-        updatePreviewMedia();
-      });
-    };
-
-    const initThresholdToggle = () => {
-      const applyState = () => {
-        const active = thresholdToggle?.checked;
-        thresholdFieldWrapper?.classList.toggle("is-hidden", !active);
-        if (thresholdInput) {
-          thresholdInput.disabled = !active;
-          if (!active) {
-            thresholdInput.value = "";
-          }
-        }
-        updateAdvancedFlags();
-      };
-      thresholdToggle?.addEventListener("change", applyState);
-      thresholdInput?.addEventListener("input", updateAdvancedFlags);
-      applyState();
-    };
-
-    const initSuggestedChips = () => {
-      if (!suggestedChips.length) return;
-      const updateCustomAmount = () => {
-        const value = customAmountInput ? parseNumber(customAmountInput.value) : 0;
-        if (suggestedHidden) {
-          suggestedHidden.value = value ? String(value) : "";
-        }
-      };
-      const selectChip = (chip) => {
-        suggestedChips.forEach((candidate) => candidate.classList.toggle("is-selected", candidate === chip));
-        const isCustom = chip.dataset.suggested === "custom";
-        customAmountWrapper?.classList.toggle("is-hidden", !isCustom);
-        if (!isCustom) {
-          if (customAmountInput) {
-            customAmountInput.value = "";
-          }
-          if (suggestedHidden) {
-            suggestedHidden.value = chip.dataset.suggested || "";
-          }
-        } else {
-          customAmountInput?.focus();
-          updateCustomAmount();
-        }
-      };
-      suggestedChips.forEach((chip) => {
-        chip.addEventListener("click", () => selectChip(chip));
-      });
-      customAmountInput?.addEventListener("input", updateCustomAmount);
-      const initial = suggestedChips.find((chip) => chip.classList.contains("is-selected"));
-      if (initial) {
-        selectChip(initial);
-      }
-    };
-
-    const bindPreviewSync = () => {
-      targetInput?.addEventListener("input", updatePreviewAmount);
-      targetInput?.addEventListener("blur", updatePreviewAmount);
-      startDateInput?.addEventListener("input", updatePreviewDates);
-      endDateInput?.addEventListener("input", updatePreviewDates);
-      ["#campaignCountry", "#campaignCity", "#campaignRegion"].forEach((selector) => {
-        const field = form.querySelector(selector);
-        field?.addEventListener("change", updatePreviewLocation);
-      });
-      multiSelect?.addEventListener("cs-multiselect-change", updatePreviewCategories);
-      thresholdInput?.addEventListener("input", updateAdvancedFlags);
-      monthlyToggle?.addEventListener("change", updateAdvancedFlags);
-      featuredToggle?.addEventListener("change", updateFeaturedBadge);
-      donorCountToggle?.addEventListener("change", updateDonorCount);
-    };
-
-    const bindFormValidation = () => {
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const invalidFields = [];
-        if (nameField) {
-          if (!nameField.value.trim()) {
-            setFieldError(nameField, "Please enter a campaign name.");
-            invalidFields.push(nameField);
-          } else {
-            clearFieldError(nameField);
-          }
-        }
-        if (targetInput) {
-          if (!noTargetToggle?.checked) {
-            const value = parseNumber(targetInput.value);
-            if (!value) {
-              setFieldError(targetInput, "Please set a target amount.");
-              invalidFields.push(targetInput);
-            } else {
-              clearFieldError(targetInput);
-            }
-          } else {
-            clearFieldError(targetInput);
-          }
-        }
-        if (invalidFields.length) {
-          invalidFields[0]?.focus();
-          return;
-        }
-      });
-    };
-
-    initCharCounter();
-    initNoTargetToggle();
-    initOpenEndedToggle();
-    initTypeCards();
-    initMediaTabs();
-    initThresholdToggle();
-    initSuggestedChips();
-    bindPreviewSync();
-    bindFormValidation();
-    updatePreviewAmount();
-    updatePreviewDates();
-    updatePreviewType();
-    updatePreviewLocation();
-    updatePreviewCategories();
-    updatePreviewMedia();
-    updateFeaturedBadge();
-    updateDonorCount();
-    updateAdvancedFlags();
-  };
-
   /**
    * Initializes the donor donations page controls so the table/timeline toggle and filter chips behave visually.
    */
@@ -6361,12 +5475,6 @@
     initDonationsActions();
     initDonorsActions();
     initCampaignPreview();
-    hydrateCampaignCurrency();
-    applyEndingSoonIndicators();
-    initCampaignSort();
-    initCloseCampaignModal();
-    setCampaignsState("ready");
-    initCampaignStateTriggers();
     initDonationsPreview();
     initDonorsPreview();
     initDonorsPage();
@@ -6375,7 +5483,6 @@
     initCampaignFormFormatting();
     initCampaignFormPreview();
     initCampaignFormValidation();
-    initCampaignNewPage();
     initDonationDetailsPage();
     initDonorDetailsPage();
     initManualDonationPage();
@@ -6399,3 +5506,4 @@
   });
 
 })();
+
