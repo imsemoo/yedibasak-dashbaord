@@ -1,0 +1,835 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- ================== Global head & SEO metadata ================== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - Monthly Giving</title>
+  <meta name="description"
+    content="Manage your monthly giving plans, payment methods, and upcoming charges in one place." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <meta name="application-name" content="Donations Dashboard" />
+  <meta name="author" content="Donations Dashboard Team" />
+  <meta name="keywords" content="recurring donations, monthly giving, donor dashboard" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://example.org/dashboard/donor-monthly-giving" />
+
+  <!-- Open Graph / Social sharing metadata -->
+  <meta property="og:title" content="Donations Dashboard - Monthly Giving" />
+  <meta property="og:description"
+    content="Manage your monthly giving plans, payment methods, and upcoming charges in one place." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/donor-monthly-giving" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+  <meta property="og:site_name" content="Donations Dashboard" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card metadata -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Monthly Giving" />
+  <meta name="twitter:description"
+    content="Manage your monthly giving plans, payment methods, and upcoming charges in one place." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+
+  <!-- Performance hints -->
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Donations Dashboard",
+          "url": "https://example.org",
+          "logo": "https://example.org/assets/img/og-image.png"
+        },
+        {
+          "@type": "WebSite",
+          "name": "Donations Dashboard",
+          "url": "https://example.org/dashboard/donor-monthly-giving",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://example.org/dashboard/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body data-theme="light" data-page="donor-monthly-giving">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="donors-overview.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link " href="donor-donations.html" aria-current="page">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link active" href="donor-monthly-giving.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Monthly Giving</span>
+        </a>
+
+
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Monthly giving</h2>
+          </div>
+          <div class="cs-toast-container monthly-giving-toast" aria-live="polite" aria-atomic="true"></div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donor segment created</p>
+                    <p class="notification-meta">Just now ú Donors</p>
+                  </div>
+                  <span class="notification-time">Just now</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Recurring donation processed</p>
+                    <p class="notification-meta">2h ú Finance</p>
+                  </div>
+                  <span class="notification-time">2h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Archive request logged</p>
+                    <p class="notification-meta">Yesterday ú Donors</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar-progress">
+                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                  <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
+                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
+                    stroke-dashoffset="38.5"></circle>
+                </svg>
+                <div class="avatar" aria-hidden="true">JL</div>
+              </div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="app-content donors-dashboard monthly-giving-page" id="main-content" tabindex="-1">
+        <section class="card monthly-giving-hero dashboard-section" aria-label="Monthly giving hero">
+          <div class="monthly-giving-hero__content">
+            <div class="monthly-giving-hero__text">
+              <p class="eyebrow">Dashboard / Monthly giving</p>
+              <h1 class="h2">Monthly giving</h1>
+              <p class="text-muted">Manage your recurring donations, payment methods, and upcoming charges.</p>
+            </div>
+            <div class="monthly-giving-hero__actions">
+              <button class="btn btn-primary" type="button" data-open-modal="startMonthlyGiftModal"
+                aria-controls="startMonthlyGiftModal">Start monthly gift</button>
+              <button class="btn btn-ghost" type="button">Download schedule</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-section" aria-label="Monthly giving metrics">
+          <div class="monthly-metrics-grid">
+            <article class="card monthly-metric-card" aria-label="Active plans">
+              <span class="monthly-metric-card__label">Active plans</span>
+              <h3 class="monthly-metric-card__value">2</h3>
+              <p class="monthly-metric-card__sub">Running</p>
+            </article>
+            <article class="card monthly-metric-card" aria-label="Monthly total">
+              <span class="monthly-metric-card__label">Monthly total</span>
+              <h3 class="monthly-metric-card__value">$110</h3>
+              <p class="monthly-metric-card__sub">Next charge in 12 days</p>
+            </article>
+            <article class="card monthly-metric-card" aria-label="Next charge date">
+              <span class="monthly-metric-card__label">Next charge</span>
+              <h3 class="monthly-metric-card__value">Sep 30, 2025</h3>
+              <p class="monthly-metric-card__sub">Healthcare Fund</p>
+            </article>
+            <article class="card monthly-metric-card" aria-label="Payment method">
+              <span class="monthly-metric-card__label">Payment method</span>
+              <h3 class="monthly-metric-card__value">Visa **** 4242</h3>
+              <p class="monthly-metric-card__sub">Update anytime</p>
+            </article>
+          </div>
+        </section>
+
+        <div class="monthly-giving-layout">
+          <section class="monthly-giving-main">
+            <article class="card plan-list-card">
+              <div class="plan-list-card__header">
+                <div>
+                  <span class="section-block__label">Recurring support</span>
+                  <h2 class="card-title">Your recurring plans</h2>
+                  <p class="card-meta">Manage amount, schedule, and status per campaign.</p>
+                </div>
+                <div class="plan-list-card__hint">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  <span>Changes take effect on your next dispatch.</span>
+                </div>
+              </div>
+              <div class="plan-list__banner" role="status">
+                <i class="fas fa-pause-circle" aria-hidden="true"></i>
+                <span>All recurring gifts are paused.</span>
+              </div>
+              <div class="plan-list">
+                <article class="plan-card" data-plan-id="healthcare">
+                  <div class="plan-card__header">
+                    <div>
+                      <h3 class="h4 plan-card__name">Healthcare Fund</h3>
+                      <p class="plan-card__impact">Supports clinic supplies every month.</p>
+                    </div>
+                    <div class="plan-card__status-group">
+                      <span class="status-pill status-pill--active" data-plan-status
+                        data-plan-state="active">Active</span>
+                      <span class="plan-card__next-badge">Next charge Sep 30, 2025</span>
+                    </div>
+                  </div>
+                  <div class="plan-card__info-grid">
+                    <div>
+                      <p class="plan-card__info-label">Amount</p>
+                      <p class="plan-card__info-value"> / month</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Frequency</p>
+                      <p class="plan-card__info-value">Monthly</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Started</p>
+                      <p class="plan-card__info-value">Jan 12, 2025</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Next charge</p>
+                      <p class="plan-card__info-value">Sep 30, 2025</p>
+                    </div>
+                  </div>
+                  <div class="plan-card__action-group">
+                    <button type="button" class="btn btn-pill plan-card__action plan-card__action--primary"
+                      data-plan-action data-open-modal="editAmountModal">
+                      <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                      Edit amount
+                    </button>
+                    <button type="button" class="btn btn-outline plan-card__action plan-card__action--secondary"
+                      data-plan-action data-plan-toggle data-label-active="Pause" data-label-paused="Resume"
+                      data-icon-active="fa-pause" data-icon-paused="fa-play">
+                      <i class="fas fa-pause" aria-hidden="true"></i>
+                      <span class="plan-card__action-label">Pause</span>
+                    </button>
+                    <button type="button" class="btn btn-outline plan-card__action plan-card__action--danger"
+                      data-plan-action data-open-modal="cancelPlanModal">
+                      <i class="fas fa-ban" aria-hidden="true"></i>
+                      Cancel plan
+                    </button>
+                    <button type="button" class="plan-card__more" aria-expanded="false"
+                      aria-controls="plan-menu-healthcare" aria-label="More plan actions" data-plan-menu-button>
+                      <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                    </button>
+                    <div class="plan-card__menu" id="plan-menu-healthcare" data-plan-menu role="menu"
+                      aria-hidden="true">
+                      <button type="button" class="plan-card__menu-item" role="menuitem">View schedule</button>
+                      <button type="button" class="plan-card__menu-item" role="menuitem">Update payment method</button>
+                      <button type="button" class="plan-card__menu-item" role="menuitem">Duplicate plan</button>
+                    </div>
+                  </div>
+                </article>
+                <article class="plan-card" data-plan-id="education">
+                  <div class="plan-card__header">
+                    <div>
+                      <h3 class="h4 plan-card__name">Education Access</h3>
+                      <p class="plan-card__impact">Keeps tutoring programs funded.</p>
+                    </div>
+                    <div class="plan-card__status-group">
+                      <span class="status-pill status-pill--active" data-plan-status
+                        data-plan-state="active">Active</span>
+                      <span class="plan-card__next-badge">Next charge Oct 10, 2025</span>
+                    </div>
+                  </div>
+                  <div class="plan-card__info-grid">
+                    <div>
+                      <p class="plan-card__info-label">Amount</p>
+                      <p class="plan-card__info-value"> / month</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Frequency</p>
+                      <p class="plan-card__info-value">Monthly</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Started</p>
+                      <p class="plan-card__info-value">Mar 05, 2025</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Next charge</p>
+                      <p class="plan-card__info-value">Oct 10, 2025</p>
+                    </div>
+                  </div>
+                  <div class="plan-card__action-group">
+                    <button type="button" class="btn btn-pill plan-card__action plan-card__action--primary"
+                      data-plan-action data-open-modal="editAmountModal">
+                      <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                      Edit amount
+                    </button>
+                    <button type="button" class="btn btn-outline plan-card__action plan-card__action--secondary"
+                      data-plan-action data-plan-toggle data-label-active="Pause" data-label-paused="Resume"
+                      data-icon-active="fa-pause" data-icon-paused="fa-play">
+                      <i class="fas fa-pause" aria-hidden="true"></i>
+                      <span class="plan-card__action-label">Pause</span>
+                    </button>
+                    <button type="button" class="btn btn-outline plan-card__action plan-card__action--danger"
+                      data-plan-action data-open-modal="cancelPlanModal">
+                      <i class="fas fa-ban" aria-hidden="true"></i>
+                      Cancel plan
+                    </button>
+                    <button type="button" class="plan-card__more" aria-expanded="false"
+                      aria-controls="plan-menu-education" aria-label="More plan actions" data-plan-menu-button>
+                      <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                    </button>
+                    <div class="plan-card__menu" id="plan-menu-education" data-plan-menu role="menu" aria-hidden="true">
+                      <button type="button" class="plan-card__menu-item" role="menuitem">View schedule</button>
+                      <button type="button" class="plan-card__menu-item" role="menuitem">Update payment method</button>
+                      <button type="button" class="plan-card__menu-item" role="menuitem">Duplicate plan</button>
+                    </div>
+                  </div>
+                </article>
+                <article class="plan-card" data-plan-id="community-food">
+                  <div class="plan-card__header">
+                    <div>
+                      <h3 class="h4 plan-card__name">Community Food</h3>
+                      <p class="plan-card__impact">Delivers groceries to families every month.</p>
+                    </div>
+                    <div class="plan-card__status-group">
+                      <span class="status-pill status-pill--paused" data-plan-status
+                        data-plan-state="paused">Paused</span>
+                      <span class="plan-card__next-badge">Paused until Oct 15, 2025</span>
+                    </div>
+                  </div>
+                  <div class="plan-card__info-grid">
+                    <div>
+                      <p class="plan-card__info-label">Amount</p>
+                      <p class="plan-card__info-value"> / month</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Frequency</p>
+                      <p class="plan-card__info-value">Monthly</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Started</p>
+                      <p class="plan-card__info-value">Feb 20, 2025</p>
+                    </div>
+                    <div>
+                      <p class="plan-card__info-label">Paused until</p>
+                      <p class="plan-card__info-value">Oct 15, 2025</p>
+                    </div>
+                  </div>
+                  <div class="plan-card__action-group">
+                    <button type="button" class="btn btn-pill plan-card__action plan-card__action--primary"
+                      data-plan-action data-open-modal="editAmountModal">
+                      <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                      Edit amount
+                    </button>
+                    <button type="button" class="btn btn-outline plan-card__action plan-card__action--secondary"
+                      data-plan-action data-plan-toggle data-label-active="Pause" data-label-paused="Resume"
+                      data-icon-active="fa-pause" data-icon-paused="fa-play">
+                      <i class="fas fa-play" aria-hidden="true"></i>
+                      <span class="plan-card__action-label">Resume</span>
+                    </button>
+                    <button type="button" class="btn btn-outline plan-card__action plan-card__action--danger"
+                      data-plan-action data-open-modal="cancelPlanModal">
+                      <i class="fas fa-ban" aria-hidden="true"></i>
+                      Cancel plan
+                    </button>
+                    <button type="button" class="plan-card__more" aria-expanded="false"
+                      aria-controls="plan-menu-community" aria-label="More plan actions" data-plan-menu-button>
+                      <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                    </button>
+                    <div class="plan-card__menu" id="plan-menu-community" data-plan-menu role="menu" aria-hidden="true">
+                      <button type="button" class="plan-card__menu-item" role="menuitem">View schedule</button>
+                      <button type="button" class="plan-card__menu-item" role="menuitem">Update payment method</button>
+                      <button type="button" class="plan-card__menu-item" role="menuitem">Duplicate plan</button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </article>
+            <article class="card recent-charges-card">
+              <div class="card__header">
+                <div>
+                  <span class="section-block__label">Transactions</span>
+                  <h2 class="card-title">Recent charges</h2>
+                </div>
+                <a class="card-footer-link" href="donor-donations.html">View all donations</a>
+              </div>
+              <div class="recent-charges-table" role="table" aria-label="Recent charges">
+                <div class="recent-charges-table__head" role="row">
+                  <span role="columnheader">Date</span>
+                  <span role="columnheader">Campaign</span>
+                  <span role="columnheader">Amount</span>
+                  <span role="columnheader">Status</span>
+                  <span role="columnheader">Receipt</span>
+                </div>
+                <div class="recent-charges-table__row" data-status="completed" role="row">
+                  <span role="cell">Sep 18, 2025</span>
+                  <span role="cell">Healthcare Fund</span>
+                  <span role="cell"></span>
+                  <span role="cell">
+                    <span class="status-pill status-pill--completed">Completed</span>
+                  </span>
+                  <button class="icon-button" type="button" aria-label="View Healthcare Fund receipt">
+                    <i class="fas fa-receipt" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="recent-charges-table__row" data-status="completed" role="row">
+                  <span role="cell">Sep 08, 2025</span>
+                  <span role="cell">Education Access</span>
+                  <span role="cell"></span>
+                  <span role="cell">
+                    <span class="status-pill status-pill--completed">Completed</span>
+                  </span>
+                  <button class="icon-button" type="button" aria-label="View Education Access receipt">
+                    <i class="fas fa-receipt" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="recent-charges-table__row" data-status="failed" role="row">
+                  <span role="cell">Aug 30, 2025</span>
+                  <span role="cell">Community Food</span>
+                  <span role="cell"></span>
+                  <span role="cell">
+                    <span class="status-pill status-pill--failed">Failed</span>
+                    <p class="recent-charge__meta">Retry scheduled</p>
+                  </span>
+                  <button class="icon-button" type="button" aria-label="View Community Food receipt">
+                    <i class="fas fa-receipt" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="recent-charges-table__row" data-status="completed" role="row">
+                  <span role="cell">Aug 15, 2025</span>
+                  <span role="cell">Healthcare Fund</span>
+                  <span role="cell"></span>
+                  <span role="cell">
+                    <span class="status-pill status-pill--completed">Completed</span>
+                  </span>
+                  <button class="icon-button" type="button" aria-label="View Healthcare Fund receipt">
+                    <i class="fas fa-receipt" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="recent-charges-table__row" data-status="scheduled" role="row">
+                  <span role="cell">Aug 05, 2025</span>
+                  <span role="cell">Education Access</span>
+                  <span role="cell"></span>
+                  <span role="cell">
+                    <span class="status-pill status-pill--scheduled">Scheduled</span>
+                  </span>
+                  <button class="icon-button" type="button" aria-label="View Education Access receipt">
+                    <i class="fas fa-receipt" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </section>
+          <aside class="monthly-giving-side">
+            <article class="card payment-method-card">
+              <div class="card__header">
+                <div>
+                  <h2 class="card-title">Payment method</h2>
+                  <p class="card-meta">Primary card on file</p>
+                </div>
+              </div>
+              <div class="payment-card__body">
+                <div class="payment-card__visual">
+                  <div class="payment-card__brand">Visa **** 4242</div>
+                  <div class="payment-card__meta">Exp: 04/28</div>
+                  <div class="payment-card__meta">Billing country: Canada</div>
+                </div>
+                <button class="btn btn-pill btn-pill--soft" type="button" data-open-modal="updateCardModal">Update
+                  card</button>
+              </div>
+            </article>
+
+            <article class="card preferences-card">
+              <div class="card__header">
+                <div>
+                  <h2 class="card-title">Preferences</h2>
+                  <p class="card-meta">Stay in control of how your monthly gifts process.</p>
+                </div>
+              </div>
+              <div class="preferences-list">
+                <div class="preferences-row">
+                  <div>
+                    <p class="preferences-row__title">Email receipt after each charge</p>
+                  </div>
+                  <label class="preferences-row__toggle" for="prefEmailReceipt">
+                    <input type="checkbox" id="prefEmailReceipt" checked />
+                    <span></span>
+                  </label>
+                </div>
+                <div class="preferences-row">
+                  <div>
+                    <p class="preferences-row__title">Notify me before charging (3 days)</p>
+                  </div>
+                  <label class="preferences-row__toggle" for="prefNotifyBefore">
+                    <input type="checkbox" id="prefNotifyBefore" checked />
+                    <span></span>
+                  </label>
+                </div>
+                <div class="preferences-row">
+                  <div>
+                    <p class="preferences-row__title">Allow amount rounding (+$1)</p>
+                  </div>
+                  <label class="preferences-row__toggle" for="prefRounding">
+                    <input type="checkbox" id="prefRounding" />
+                    <span></span>
+                  </label>
+                </div>
+                <div class="preferences-row">
+                  <div>
+                    <p class="preferences-row__title">Pause all recurring gifts</p>
+                    <p class="preferences-row__hint">Toggles plan actions and shows a banner when enabled.</p>
+                  </div>
+                  <label class="preferences-row__toggle" for="pauseAllRecurring">
+                    <input type="checkbox" id="pauseAllRecurring" />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </article>
+
+            <article class="card help-card">
+              <div class="card__header">
+                <div>
+                  <h2 class="card-title">Need help?</h2>
+                  <p class="card-meta">Resources for recurring donations.</p>
+                </div>
+              </div>
+              <ul class="help-card__list">
+                <li>
+                  <a href="#">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    How monthly giving works
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fas fa-credit-card" aria-hidden="true"></i>
+                    Update payment method
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fas fa-hand-holding-medical" aria-hidden="true"></i>
+                    Refunds & chargebacks
+                  </a>
+                </li>
+              </ul>
+            </article>
+          </aside>
+        </div>
+
+        <div class="monthly-giving-modals">
+          <div class="cs-modal monthly-giving-modal" id="startMonthlyGiftModal" role="dialog" aria-modal="true"
+            aria-labelledby="startMonthlyGiftModalTitle" aria-hidden="true">
+            <div class="cs-modal__backdrop" data-close-modal></div>
+            <div class="cs-modal__panel monthly-giving-modal__panel">
+              <header class="monthly-giving-modal__header">
+                <div>
+                  <h3 id="startMonthlyGiftModalTitle" class="card-title">Start monthly gift</h3>
+                  <p class="text-muted">Create a new recurring plan in a few steps.</p>
+                </div>
+                <button type="button" class="cs-modal__close" data-close-modal
+                  aria-label="Close start monthly gift dialog">
+                  <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+              </header>
+              <form id="startMonthlyGiftForm" class="monthly-giving-modal__form" novalidate>
+                <div class="monthly-giving-modal__grid">
+                  <label class="form-field">
+                    <span class="form-field__label">Select campaign</span>
+                    <select name="campaign" required>
+                      <option value="">Choose campaign</option>
+                      <option>Healthcare Fund</option>
+                      <option>Education Access</option>
+                      <option>Community Food</option>
+                      <option>Youth Literacy</option>
+                      <option>Emergency Relief</option>
+                      <option>Climate Resilience</option>
+                    </select>
+                  </label>
+                  <label class="form-field">
+                    <span class="form-field__label">Amount</span>
+                    <div class="form-field__input-group">
+                      <span class="form-field__prefix" aria-hidden="true">$</span>
+                      <input id="startMonthlyGiftAmount" name="amount" type="number" min="5" step="5"
+                        inputmode="numeric" placeholder="50" required />
+                    </div>
+                    <p class="form-error is-hidden" data-start-error>Amount is required</p>
+                  </label>
+                </div>
+                <div class="monthly-giving-modal__grid monthly-giving-modal__grid--pair">
+                  <div class="form-field">
+                    <span class="form-field__label">Frequency</span>
+                    <div class="segmented-control" role="group" aria-label="Frequency">
+                      <button type="button" class="segmented-control__button is-active" data-frequency="monthly"
+                        aria-pressed="true">Monthly</button>
+                      <button type="button" class="segmented-control__button" data-frequency="quarterly"
+                        aria-pressed="false">Quarterly</button>
+                      <input type="hidden" name="frequency" id="startMonthlyGiftFrequency" value="monthly" />
+                    </div>
+                  </div>
+                  <label class="form-field">
+                    <span class="form-field__label">Start date</span>
+                    <input name="startDate" type="date" required />
+                  </label>
+                </div>
+                <label class="form-field">
+                  <span class="form-field__label">Payment method</span>
+                  <select name="payment" required>
+                    <option value="">Choose payment</option>
+                    <option>Visa **** 4242</option>
+                    <option>Mastercard **** 8811</option>
+                  </select>
+                </label>
+                <label class="form-field">
+                  <span class="form-field__label">Optional note</span>
+                  <textarea name="note" rows="3" placeholder="Add a note or dedication"></textarea>
+                </label>
+                <div class="monthly-giving-modal__footer">
+                  <button type="submit" class="btn btn-primary">Create monthly gift</button>
+                  <button type="button" class="btn btn-outline" data-close-modal>Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="cs-modal monthly-giving-modal" id="editAmountModal" role="dialog" aria-modal="true"
+            aria-hidden="true">
+            <div class="cs-modal__backdrop" data-close-modal></div>
+            <div class="cs-modal__panel">
+              <div class="cs-modal__header">
+                <div>
+                  <h3 class="card-title">Edit amount</h3>
+                  <p class="text-muted">Update the monthly contribution for this campaign.</p>
+                </div>
+                <button type="button" class="cs-modal__close" data-close-modal aria-label="Close modal">
+                  <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="cs-modal__body">
+                <label class="form-field">
+                  <span class="form-field__label">Amount</span>
+                  <input type="number" min="5" step="5" value="60" required />
+                </label>
+              </div>
+              <div class="cs-modal__footer">
+                <button type="button" class="btn btn-primary" data-close-modal>Save changes</button>
+                <button type="button" class="btn btn-outline" data-close-modal>Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-modal monthly-giving-modal" id="cancelPlanModal" role="dialog" aria-modal="true"
+            aria-hidden="true">
+            <div class="cs-modal__backdrop" data-close-modal></div>
+            <div class="cs-modal__panel">
+              <div class="cs-modal__header">
+                <div>
+                  <h3 class="card-title">Cancel this monthly gift?</h3>
+                  <p class="text-muted">Stopping a plan will pause the upcoming charge.</p>
+                </div>
+                <button type="button" class="cs-modal__close" data-close-modal aria-label="Close modal">
+                  <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="cs-modal__body">
+                <p class="text-muted">We will keep your plan paused until you confirm or resume.</p>
+              </div>
+              <div class="cs-modal__footer">
+                <button type="button" class="btn btn-outline" data-close-modal>Keep plan</button>
+                <button type="button" class="btn btn-ghost btn-ghost-danger" data-close-modal>Cancel plan</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-modal monthly-giving-modal" id="updateCardModal" role="dialog" aria-modal="true"
+            aria-hidden="true">
+            <div class="cs-modal__backdrop" data-close-modal></div>
+            <div class="cs-modal__panel">
+              <div class="cs-modal__header">
+                <div>
+                  <h3 class="card-title">Update payment method</h3>
+                  <p class="text-muted">Securely update card details for your monthly gifts.</p>
+                </div>
+                <button type="button" class="cs-modal__close" data-close-modal aria-label="Close modal">
+                  <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="cs-modal__body">
+                <label class="form-field">
+                  <span class="form-field__label">Cardholder name</span>
+                  <input type="text" placeholder="Jordan Lee" required />
+                </label>
+                <label class="form-field">
+                  <span class="form-field__label">Card number</span>
+                  <input type="text" inputmode="numeric" pattern="[0-9 ]*" placeholder="4242 4242 4242 4242" required />
+                </label>
+                <label class="form-field">
+                  <span class="form-field__label">Expiry</span>
+                  <input type="text" placeholder="04 / 28" required />
+                </label>
+                <label class="form-field">
+                  <span class="form-field__label">CVC</span>
+                  <input type="text" inputmode="numeric" maxlength="4" placeholder="123" required />
+                </label>
+                <label class="form-field">
+                  <span class="form-field__label">Billing address (optional)</span>
+                  <input type="text" placeholder="123 Maple St, Toronto" />
+                </label>
+              </div>
+              <div class="cs-modal__footer">
+                <button type="button" class="btn btn-primary" data-close-modal>Save</button>
+                <button type="button" class="btn btn-outline" data-close-modal>Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

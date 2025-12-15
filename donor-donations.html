@@ -101,7 +101,7 @@
           <span class="sidebar__label">Donations</span>
         </a>
 
-        <a class="sidebar__link" href="monthly-giving.html">
+        <a class="sidebar__link " href="donor-monthly-giving.html">
           <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Monthly Giving</span>
         </a>
@@ -113,42 +113,7 @@
           <span class="sidebar__label">Settings</span>
         </a>
 
-        <li class="sidebar-item sidebar-item--expandable">
-          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
-            aria-controls="more-menu" aria-expanded="false" aria-haspopup="true">
-            <span class="d-flex align-items-center" style="gap: var(--space-3);">
-              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
-              <span class="sidebar__label">More</span>
-            </span>
-            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
-          </button>
 
-          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
-            <li>
-              <a href="team.html" class="sidebar-sublink">
-                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
-                <span>Team & roles</span>
-              </a>
-            </li>
-            <li>
-              <a href="exports.html" class="sidebar-sublink">
-                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
-                <span>Exports & reports</span>
-              </a>
-            </li>
-            <li>
-              <a href="integrations.html" class="sidebar-sublink">
-                <i class="fa-solid fa-plug" aria-hidden="true"></i>
-                <span>Integrations</span>
-              </a>
-            </li>
-            <li>
-              <a href="access-audit.html" class="sidebar-sublink">
-                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
-                <span>Access audit</span>
-              </a>
-            </li>
-          </ul>
         </li>
       </nav>
     </aside>
@@ -162,578 +127,575 @@
             aria-controls="sidebar" aria-expanded="false">
             <i class="fas fa-bars" aria-hidden="true"></i>
           </button>
-          <div class="app-header__titles">
-            <p class="eyebrow">Dashboard</p>
-            <h2 class="h4">My donations</h2>
-          </div>
-        </div>
-
-        <div class="app-header__center">
-          <form class="search" role="search" aria-label="Search dashboard">
-            <label class="sr-only" for="dashboard-search">Search dashboard</label>
-            <i class="fas fa-search" aria-hidden="true"></i>
-            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
-              autocomplete="off" />
+          autocomplete="off" />
           </form>
         </div>
+        <div class="app-header__titles">
+          <p class="eyebrow">Dashboard</p>
+          <h2 class="h4">My donations</h2>
+        </div>
+    </div>
 
-        <div class="app-header__right">
-          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
-            <i class="fas fa-sun" aria-hidden="true"></i>
+    <div class="app-header__center">
+      <form class="search" role="search" aria-label="Search dashboard">
+        <label class="sr-only" for="dashboard-search">Search dashboard</label>
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages" <div
+          class="app-header__right">
+        <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+          <i class="fas fa-sun" aria-hidden="true"></i>
+        </button>
+
+        <div class="dropdown-group">
+          <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+            data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
+            aria-controls="notifications-menu" aria-label="Open notifications">
+            <span class="badge-dot"></span>
+            <i class="fa fa-bell" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+            role="menu" aria-label="Notifications">
+            <div class="dropdown-header">
+              <span class="dropdown-title">Notifications</span>
+              <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                read</button>
+            </div>
+            <ul class="dropdown-list">
+              <li class="dropdown-notification is-unread" role="menuitem">
+                <div class="notification-dot" aria-hidden="true"></div>
+                <div class="notification-body">
+                  <p class="notification-title">New donor segment created</p>
+                  <p class="notification-meta">Just now · Donors</p>
+                </div>
+                <span class="notification-time">Just now</span>
+              </li>
+              <li class="dropdown-notification" role="menuitem">
+                <div class="notification-dot is-green" aria-hidden="true"></div>
+                <div class="notification-body">
+                  <p class="notification-title">Recurring donation processed</p>
+                  <p class="notification-meta">2h · Finance</p>
+                </div>
+                <span class="notification-time">2h</span>
+              </li>
+              <li class="dropdown-notification" role="menuitem">
+                <div class="notification-dot is-orange" aria-hidden="true"></div>
+                <div class="notification-body">
+                  <p class="notification-title">Archive request logged</p>
+                  <p class="notification-meta">Yesterday · Donors</p>
+                </div>
+                <span class="notification-time">1d</span>
+              </li>
+            </ul>
+            <div class="dropdown-footer">
+              <button type="button" class="dropdown-link">View all notifications</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dropdown-group dropdown-user">
+          <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+            data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+            aria-controls="user-menu">
+            <div class="avatar-progress">
+              <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
+                <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
+                <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
+                  stroke-dashoffset="38.5"></circle>
+              </svg>
+              <div class="avatar" aria-hidden="true">JL</div>
+            </div>
+            <div class="user-details">
+              <div class="user-name">Jordan Lee</div>
+              <div class="user-email text-muted">jordan@donations.org</div>
+            </div>
           </button>
 
-          <div class="dropdown-group">
-            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
-              data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
-              aria-controls="notifications-menu" aria-label="Open notifications">
-              <span class="badge-dot"></span>
-              <i class="fa fa-bell" aria-hidden="true"></i>
+          <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+            aria-label="User menu">
+            <div class="dropdown-header dropdown-user-header">
+              <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+              <div class="dropdown-user-info">
+                <span class="dropdown-user-name">Jordan Lee</span>
+                <span class="dropdown-user-email">jordan@donations.org</span>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item" role="menuitem">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              <span>Profile</span>
+            </a>
+            <a href="#" class="dropdown-item" role="menuitem">
+              <i class="fa-solid fa-gear" aria-hidden="true"></i>
+              <span>Account settings</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+              <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+              <span>Sign out</span>
             </button>
-            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
-              role="menu" aria-label="Notifications">
-              <div class="dropdown-header">
-                <span class="dropdown-title">Notifications</span>
-                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
-                  read</button>
-              </div>
-              <ul class="dropdown-list">
-                <li class="dropdown-notification is-unread" role="menuitem">
-                  <div class="notification-dot" aria-hidden="true"></div>
-                  <div class="notification-body">
-                    <p class="notification-title">New donor segment created</p>
-                    <p class="notification-meta">Just now · Donors</p>
-                  </div>
-                  <span class="notification-time">Just now</span>
-                </li>
-                <li class="dropdown-notification" role="menuitem">
-                  <div class="notification-dot is-green" aria-hidden="true"></div>
-                  <div class="notification-body">
-                    <p class="notification-title">Recurring donation processed</p>
-                    <p class="notification-meta">2h · Finance</p>
-                  </div>
-                  <span class="notification-time">2h</span>
-                </li>
-                <li class="dropdown-notification" role="menuitem">
-                  <div class="notification-dot is-orange" aria-hidden="true"></div>
-                  <div class="notification-body">
-                    <p class="notification-title">Archive request logged</p>
-                    <p class="notification-meta">Yesterday · Donors</p>
-                  </div>
-                  <span class="notification-time">1d</span>
-                </li>
-              </ul>
-              <div class="dropdown-footer">
-                <button type="button" class="dropdown-link">View all notifications</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="dropdown-group dropdown-user">
-            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
-              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
-              aria-controls="user-menu">
-              <div class="avatar-progress">
-                <svg class="avatar-progress__ring" viewBox="0 0 52 52" role="presentation" aria-hidden="true">
-                  <circle class="avatar-progress__bg" cx="26" cy="26" r="22"></circle>
-                  <circle class="avatar-progress__value" cx="26" cy="26" r="22" stroke-dasharray="138.2"
-                    stroke-dashoffset="38.5"></circle>
-                </svg>
-                <div class="avatar" aria-hidden="true">JL</div>
-              </div>
-              <div class="user-details">
-                <div class="user-name">Jordan Lee</div>
-                <div class="user-email text-muted">jordan@donations.org</div>
-              </div>
-            </button>
-
-            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
-              aria-label="User menu">
-              <div class="dropdown-header dropdown-user-header">
-                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
-                <div class="dropdown-user-info">
-                  <span class="dropdown-user-name">Jordan Lee</span>
-                  <span class="dropdown-user-email">jordan@donations.org</span>
-                </div>
-              </div>
-              <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item" role="menuitem">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                <span>Profile</span>
-              </a>
-              <a href="#" class="dropdown-item" role="menuitem">
-                <i class="fa-solid fa-gear" aria-hidden="true"></i>
-                <span>Account settings</span>
-              </a>
-              <div class="dropdown-divider"></div>
-              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
-                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
-                <span>Sign out</span>
-              </button>
-            </div>
           </div>
         </div>
-      </header>
-      <main class="app-content donors-dashboard donations-page" id="main-content" tabindex="-1">
-        <div class="donor-donations-header">
-          <div class="donor-donations-header__titles">
-            <p class="donor-donations-header__breadcrumb">Dashboard / Donations</p>
-            <h1 class="h2">My donations</h1>
-            <p class="text-muted">View your giving history, download receipts, and track your impact.</p>
-          </div>
-          <div class="donor-donations-header-actions">
-            <button class="btn btn-primary" type="button">Download annual summary</button>
-            <button class="btn btn-ghost" type="button">Export CSV</button>
-          </div>
-        </div>
-
-        <section class="donor-donations-summary-grid" aria-label="Donation summary">
-          <article class="card donor-donations-summary-card">
-            <div class="donor-donations-summary-card__head">
-              <p class="donor-donations-summary-card__label">Total given</p>
-              <p class="donor-donations-summary-card__note">All-time</p>
-            </div>
-            <p class="donor-donations-summary-card__value">₺12,480</p>
-            <div class="donor-donations-summary-card__footer">
-              <span class="badge badge--positive">+18% vs last year</span>
-            </div>
-          </article>
-
-          <article class="card donor-donations-summary-card">
-            <div class="donor-donations-summary-card__head">
-              <p class="donor-donations-summary-card__label">This year</p>
-              <p class="donor-donations-summary-card__note">Year to date - Tax year 2025</p>
-            </div>
-            <p class="donor-donations-summary-card__value">₺4,320</p>
-            <div class="donor-donations-summary-card__footer"></div>
-          </article>
-
-          <article class="card donor-donations-summary-card">
-            <div class="donor-donations-summary-card__head">
-              <p class="donor-donations-summary-card__label">Recurring gifts</p>
-              <p class="donor-donations-summary-card__note">Monthly plans</p>
-            </div>
-            <p class="donor-donations-summary-card__value">3 active</p>
-            <div class="donor-donations-summary-card__footer">
-              <a class="donor-donations-summary-card__link" href="monthly-giving.html">Manage</a>
-            </div>
-          </article>
-
-          <article class="card donor-donations-summary-card">
-            <div class="donor-donations-summary-card__head">
-              <p class="donor-donations-summary-card__label">Campaigns supported</p>
-              <p class="donor-donations-summary-card__note">All-time</p>
-            </div>
-            <p class="donor-donations-summary-card__value">9 campaigns</p>
-            <div class="donor-donations-summary-card__footer">
-              <span class="badge badge--info">3 this year</span>
-            </div>
-          </article>
-        </section>
-
-        <div class="donor-donations-layout">
-          <div class="donor-donations-main">
-            <section class="card donor-donations-toolbar" aria-label="Donations toolbar">
-              <div class="donor-donations-toolbar__grid">
-                <div class="d-flex align-items-center justify-content-between w-100">
-                  <div class="donor-donations-toolbar__chips">
-                    <button class="donation-filter-chip is-active" type="button" aria-pressed="true">All</button>
-                    <button class="donation-filter-chip" type="button" aria-pressed="false">This year</button>
-                    <button class="donation-filter-chip" type="button" aria-pressed="false">Last year</button>
-                    <button class="donation-filter-chip" type="button" aria-pressed="false">Last 90 days</button>
-                  </div>
-                  <div class="view-toggle" role="tablist" aria-label="Toggle donation view">
-                    <button class="view-toggle__btn is-active" type="button" data-view-toggle="table" role="tab"
-                      aria-pressed="true">
-                      <i class="fas fa-table" aria-hidden="true"></i>
-                      Table
-                    </button>
-                    <button class="view-toggle__btn" type="button" data-view-toggle="timeline" role="tab"
-                      aria-pressed="false">
-                      <i class="fas fa-stream" aria-hidden="true"></i>
-                      Timeline
-                    </button>
-                  </div>
-                </div>
-                <div class="donor-donations-toolbar__controls">
-                  <div class="donor-donations-search">
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                    <label class="sr-only" for="donation-search">Search donations or campaigns</label>
-                    <input id="donation-search" type="search" placeholder="Search donations or campaigns…"
-                      autocomplete="off" />
-                  </div>
-                  <div class="donor-donations-toolbar__filter">
-                    <label class="sr-only" for="donation-status-select">Status</label>
-                    <select id="donation-status-select" class="donor-donations-select">
-                      <option>All statuses</option>
-                      <option>Completed</option>
-                      <option>Pending</option>
-                      <option>Refunded</option>
-                    </select>
-                  </div>
-                  <div class="donor-donations-toolbar__filter">
-                    <label class="sr-only" for="donation-type-select">Type</label>
-                    <select id="donation-type-select" class="donor-donations-select">
-                      <option>All types</option>
-                      <option>One-time</option>
-                      <option>Recurring</option>
-                      <option>Offline/manual</option>
-                    </select>
-                  </div>
-
-                </div>
-              </div>
-            </section>
-
-            <div class="donor-donations-views">
-              <article class="card donor-donations-table-view">
-                <div class="card__header">
-                  <div>
-                    <h3 class="card-title">My donations</h3>
-                    <span class="card-meta">Recent gifts</span>
-                  </div>
-                  <span class="text-muted">Showing 7 donations</span>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="data-table donor-donations-table" aria-label="Donation history">
-                      <thead>
-                        <tr>
-                          <th scope="col">Date</th>
-                          <th scope="col">Campaign</th>
-                          <th scope="col">Amount</th>
-                          <th scope="col">Type</th>
-                          <th scope="col">Method</th>
-                          <th scope="col">Status</th>
-                          <th scope="col">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td data-label="Date">Aug 14, 2025</td>
-                          <td data-label="Campaign">Clean Water Initiative</td>
-                          <td data-label="Amount">₺1,200</td>
-                          <td data-label="Type">One-time</td>
-                          <td data-label="Method">Credit card</td>
-                          <td data-label="Status"><span class="status-pill status-pill--completed">Completed</span></td>
-                          <td class="table-col-actions">
-                            <div class="table-actions">
-                              <button class="icon-button" type="button"
-                                aria-label="View details for Clean Water Initiative"
-                                title="View details for Clean Water Initiative">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                              </button>
-                              <button class="icon-button" type="button"
-                                aria-label="Download receipt for Clean Water Initiative"
-                                title="Download receipt for Clean Water Initiative">
-                                <i class="fas fa-download" aria-hidden="true"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-label="Date">Jul 30, 2025</td>
-                          <td data-label="Campaign">Healthcare Fund</td>
-                          <td data-label="Amount">₺60 / month</td>
-                          <td data-label="Type">Recurring</td>
-                          <td data-label="Method">Credit card</td>
-                          <td data-label="Status"><span class="status-pill status-pill--active">Active</span></td>
-                          <td class="table-col-actions">
-                            <div class="table-actions">
-                              <button class="icon-button" type="button" aria-label="View details for Healthcare Fund"
-                                title="View details for Healthcare Fund">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                              </button>
-                              <button class="icon-button" type="button" aria-label="Manage Healthcare Fund plan"
-                                title="Manage Healthcare Fund plan">
-                                <i class="fas fa-calendar-check" aria-hidden="true"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-label="Date">Jul 08, 2025</td>
-                          <td data-label="Campaign">Community Wellness</td>
-                          <td data-label="Amount">₺75</td>
-                          <td data-label="Type">One-time</td>
-                          <td data-label="Method">Credit card</td>
-                          <td data-label="Status"><span class="status-pill status-pill--pending">Pending</span></td>
-                          <td class="table-col-actions">
-                            <div class="table-actions">
-                              <button class="icon-button" type="button" aria-label="View details for Community Wellness"
-                                title="View details for Community Wellness">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                              </button>
-                              <button class="icon-button" type="button"
-                                aria-label="Download receipt for Community Wellness"
-                                title="Download receipt for Community Wellness">
-                                <i class="fas fa-download" aria-hidden="true"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-label="Date">Jun 12, 2025</td>
-                          <td data-label="Campaign">Emergency Relief</td>
-                          <td data-label="Amount">₺250</td>
-                          <td data-label="Type">One-time</td>
-                          <td data-label="Method">Offline - Bank transfer</td>
-                          <td data-label="Status"><span class="status-pill status-pill--completed">Completed</span></td>
-                          <td class="table-col-actions">
-                            <div class="table-actions">
-                              <button class="icon-button" type="button" aria-label="View details for Emergency Relief"
-                                title="View details for Emergency Relief">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                              </button>
-                              <button class="icon-button" type="button"
-                                aria-label="Download receipt for Emergency Relief"
-                                title="Download receipt for Emergency Relief">
-                                <i class="fas fa-download" aria-hidden="true"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-label="Date">Jun 05, 2025</td>
-                          <td data-label="Campaign">Education Access</td>
-                          <td data-label="Amount">₺500</td>
-                          <td data-label="Type">One-time</td>
-                          <td data-label="Method">Credit card</td>
-                          <td data-label="Status"><span class="status-pill status-pill--refunded">Refunded</span></td>
-                          <td class="table-col-actions">
-                            <div class="table-actions">
-                              <button class="icon-button" type="button" aria-label="View details for Education Access"
-                                title="View details for Education Access">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                              </button>
-                              <button class="icon-button" type="button"
-                                aria-label="Download receipt for Education Access"
-                                title="Download receipt for Education Access">
-                                <i class="fas fa-download" aria-hidden="true"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-label="Date">May 18, 2025</td>
-                          <td data-label="Campaign">Community Kitchen</td>
-                          <td data-label="Amount">₺320</td>
-                          <td data-label="Type">One-time</td>
-                          <td data-label="Method">Cash</td>
-                          <td data-label="Status"><span class="status-pill status-pill--completed">Completed</span></td>
-                          <td class="table-col-actions">
-                            <div class="table-actions">
-                              <button class="icon-button" type="button" aria-label="View details for Community Kitchen"
-                                title="View details for Community Kitchen">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                              </button>
-                              <button class="icon-button" type="button"
-                                aria-label="Download receipt for Community Kitchen"
-                                title="Download receipt for Community Kitchen">
-                                <i class="fas fa-download" aria-hidden="true"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td data-label="Date">Apr 22, 2025</td>
-                          <td data-label="Campaign">Shelter Fund</td>
-                          <td data-label="Amount">₺420</td>
-                          <td data-label="Type">One-time</td>
-                          <td data-label="Method">Credit card</td>
-                          <td data-label="Status"><span class="status-pill status-pill--completed">Completed</span></td>
-                          <td class="table-col-actions">
-                            <div class="table-actions">
-                              <button class="icon-button" type="button" aria-label="View details for Shelter Fund"
-                                title="View details for Shelter Fund">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                              </button>
-                              <button class="icon-button" type="button" aria-label="Download receipt for Shelter Fund"
-                                title="Download receipt for Shelter Fund">
-                                <i class="fas fa-download" aria-hidden="true"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="donor-donations-empty-state is-hidden">
-                    <div class="donation-empty-state__illustration" aria-hidden="true"></div>
-                    <p class="donation-empty-state__title">No donations match your filters yet.</p>
-                    <p class="donation-empty-state__text">Try another time range or reset your filters.</p>
-                    <button data-reset-filters class="btn btn-outline" type="button">Reset filters</button>
-                  </div>
-                </div>
-              </article>
-
-              <article class="card donor-donations-timeline-view is-hidden">
-                <div class="card__header">
-                  <div>
-                    <h3 class="card-title">Donation timeline</h3>
-                    <span class="card-meta">Grouped by month</span>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="donation-timeline">
-                    <div class="donation-timeline-group">
-                      <p class="donation-timeline-group__title">August 2025</p>
-                      <div class="donation-timeline-item">
-                        <div class="donation-timeline-item__content">
-                          <p class="donation-timeline-item__title">₺1,200 · Clean Water Initiative · Completed</p>
-                          <p class="donation-timeline-item__meta">Aug 14 · Web checkout · Receipt emailed</p>
-                          <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="donation-timeline-group">
-                      <p class="donation-timeline-group__title">July 2025</p>
-                      <div class="donation-timeline-item">
-                        <div class="donation-timeline-item__content">
-                          <p class="donation-timeline-item__title">₺60 · Healthcare Fund · Recurring</p>
-                          <p class="donation-timeline-item__meta">Jul 30 · Monthly gift · Next charge Sep 30</p>
-                          <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
-                        </div>
-                      </div>
-                      <div class="donation-timeline-item">
-                        <div class="donation-timeline-item__content">
-                          <p class="donation-timeline-item__title">₺75 · Community Wellness · Pending</p>
-                          <p class="donation-timeline-item__meta">Jul 08 · Web checkout · Awaiting approval</p>
-                          <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="donation-timeline-group">
-                      <p class="donation-timeline-group__title">June 2025</p>
-                      <div class="donation-timeline-item">
-                        <div class="donation-timeline-item__content">
-                          <p class="donation-timeline-item__title">₺250 · Emergency Relief · Completed</p>
-                          <p class="donation-timeline-item__meta">Jun 12 · Offline bank transfer · Receipt mailed</p>
-                          <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
-                        </div>
-                      </div>
-                      <div class="donation-timeline-item">
-                        <div class="donation-timeline-item__content">
-                          <p class="donation-timeline-item__title">₺500 · Education Access · Refunded</p>
-                          <p class="donation-timeline-item__meta">Refunded on Jun 20</p>
-                          <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="donation-timeline-group">
-                      <p class="donation-timeline-group__title">May 2025</p>
-                      <div class="donation-timeline-item">
-                        <div class="donation-timeline-item__content">
-                          <p class="donation-timeline-item__title">₺320 · Community Kitchen · Completed</p>
-                          <p class="donation-timeline-item__meta">May 18 · Cash · Receipt provided</p>
-                          <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
-                        </div>
-                      </div>
-                      <div class="donation-timeline-item">
-                        <div class="donation-timeline-item__content">
-                          <p class="donation-timeline-item__title">₺420 · Shelter Fund · Completed</p>
-                          <p class="donation-timeline-item__meta">Apr 22 · Mobile wallet · Thank-you note sent</p>
-                          <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-            </div>
-          </div>
-
-          <aside class="donor-donations-sidebar" aria-label="Donor insights">
-            <article class="card donor-donations-sidebar-card">
-              <div class="card__header">
-                <div>
-                  <h3 class="card-title">Yearly tax summary</h3>
-                  <span class="card-meta">Tax year 2025</span>
-                </div>
-              </div>
-              <div class="card-body donor-tax-summary">
-                <p class="donor-tax-summary__label">Current tax year</p>
-                <p class="donor-tax-summary__value">2025</p>
-                <p class="donor-tax-summary__label">Eligible amount</p>
-                <p class="donor-tax-summary__value">₺4,320</p>
-                <p class="donor-tax-summary__label">Number of receipts</p>
-                <p class="donor-tax-summary__value">12</p>
-                <button class="btn btn-outline" type="button">Download tax PDF</button>
-              </div>
-            </article>
-
-            <article class="card donor-donations-sidebar-card">
-              <div class="card__header">
-                <div>
-                  <h3 class="card-title">Giving breakdown</h3>
-                  <span class="card-meta">By impact area</span>
-                </div>
-              </div>
-              <div class="card-body donor-giving-breakdown">
-                <div class="donor-giving-breakdown__row">
-                  <span class="donor-giving-breakdown__label">Emergency relief</span>
-                  <span class="donor-giving-breakdown__value">40%</span>
-                </div>
-                <div class="donor-giving-breakdown__bar">
-                  <span class="donor-giving-breakdown__bar-fill" style="width: 40%"></span>
-                </div>
-                <div class="donor-giving-breakdown__row">
-                  <span class="donor-giving-breakdown__label">Healthcare</span>
-                  <span class="donor-giving-breakdown__value">25%</span>
-                </div>
-                <div class="donor-giving-breakdown__bar">
-                  <span class="donor-giving-breakdown__bar-fill" style="width: 25%"></span>
-                </div>
-                <div class="donor-giving-breakdown__row">
-                  <span class="donor-giving-breakdown__label">Education</span>
-                  <span class="donor-giving-breakdown__value">20%</span>
-                </div>
-                <div class="donor-giving-breakdown__bar">
-                  <span class="donor-giving-breakdown__bar-fill" style="width: 20%"></span>
-                </div>
-                <div class="donor-giving-breakdown__row">
-                  <span class="donor-giving-breakdown__label">Other</span>
-                  <span class="donor-giving-breakdown__value">15%</span>
-                </div>
-                <div class="donor-giving-breakdown__bar">
-                  <span class="donor-giving-breakdown__bar-fill" style="width: 15%"></span>
-                </div>
-              </div>
-            </article>
-
-            <article class="card donor-donations-sidebar-card">
-              <div class="card__header">
-                <div>
-                  <h3 class="card-title">Upcoming charges</h3>
-                  <span class="card-meta">Recurring gifts</span>
-                </div>
-              </div>
-              <div class="card-body donor-payments-list">
-                <div class="donor-payments-list__item">
-                  <div>
-                    <p class="donor-payments-list__amount">₺60 - Healthcare Fund</p>
-                    <p class="text-muted">Sep 30</p>
-                  </div>
-                  <a class="donor-upcoming-charge__link" href="monthly-giving.html">Manage</a>
-                </div>
-                <div class="donor-payments-list__item">
-                  <div>
-                    <p class="donor-payments-list__amount">₺40 - Education Access</p>
-                    <p class="text-muted">Oct 12</p>
-                  </div>
-                  <a class="donor-upcoming-charge__link" href="monthly-giving.html">Manage</a>
-                </div>
-              </div>
-            </article>
-          </aside>
-        </div>
-      </main>
-
-
-      <footer class="app-footer">
-        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
-      </footer>
     </div>
+    </header>
+    <main class="app-content donors-dashboard donations-page" id="main-content" tabindex="-1">
+      <div class="donor-donations-header">
+        <div class="donor-donations-header__titles">
+          <p class="donor-donations-header__breadcrumb">Dashboard / Donations</p>
+          <h1 class="h2">My donations</h1>
+          <p class="text-muted">View your giving history, download receipts, and track your impact.</p>
+        </div>
+        <div class="donor-donations-header-actions">
+          <button class="btn btn-primary" type="button">Download annual summary</button>
+          <button class="btn btn-ghost" type="button">Export CSV</button>
+        </div>
+      </div>
+
+      <section class="donor-donations-summary-grid" aria-label="Donation summary">
+        <article class="card donor-donations-summary-card">
+          <div class="donor-donations-summary-card__head">
+            <p class="donor-donations-summary-card__label">Total given</p>
+            <p class="donor-donations-summary-card__note">All-time</p>
+          </div>
+          <p class="donor-donations-summary-card__value">₺12,480</p>
+          <div class="donor-donations-summary-card__footer">
+            <span class="badge badge--positive">+18% vs last year</span>
+          </div>
+        </article>
+
+        <article class="card donor-donations-summary-card">
+          <div class="donor-donations-summary-card__head">
+            <p class="donor-donations-summary-card__label">This year</p>
+            <p class="donor-donations-summary-card__note">Year to date - Tax year 2025</p>
+          </div>
+          <p class="donor-donations-summary-card__value">₺4,320</p>
+          <div class="donor-donations-summary-card__footer"></div>
+        </article>
+
+        <article class="card donor-donations-summary-card">
+          <div class="donor-donations-summary-card__head">
+            <p class="donor-donations-summary-card__label">Recurring gifts</p>
+            <p class="donor-donations-summary-card__note">Monthly plans</p>
+          </div>
+          <p class="donor-donations-summary-card__value">3 active</p>
+          <div class="donor-donations-summary-card__footer">
+            <a class="donor-donations-summary-card__link" href="donor-monthly-giving.html">Manage</a>
+          </div>
+        </article>
+
+        <article class="card donor-donations-summary-card">
+          <div class="donor-donations-summary-card__head">
+            <p class="donor-donations-summary-card__label">Campaigns supported</p>
+            <p class="donor-donations-summary-card__note">All-time</p>
+          </div>
+          <p class="donor-donations-summary-card__value">9 campaigns</p>
+          <div class="donor-donations-summary-card__footer">
+            <span class="badge badge--info">3 this year</span>
+          </div>
+        </article>
+      </section>
+
+      <div class="donor-donations-layout">
+        <div class="donor-donations-main">
+          <section class="card donor-donations-toolbar" aria-label="Donations toolbar">
+            <div class="donor-donations-toolbar__grid">
+              <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="donor-donations-toolbar__chips">
+                  <button class="donation-filter-chip is-active" type="button" aria-pressed="true">All</button>
+                  <button class="donation-filter-chip" type="button" aria-pressed="false">This year</button>
+                  <button class="donation-filter-chip" type="button" aria-pressed="false">Last year</button>
+                  <button class="donation-filter-chip" type="button" aria-pressed="false">Last 90 days</button>
+                </div>
+                <div class="view-toggle" role="tablist" aria-label="Toggle donation view">
+                  <button class="view-toggle__btn is-active" type="button" data-view-toggle="table" role="tab"
+                    aria-pressed="true">
+                    <i class="fas fa-table" aria-hidden="true"></i>
+                    Table
+                  </button>
+                  <button class="view-toggle__btn" type="button" data-view-toggle="timeline" role="tab"
+                    aria-pressed="false">
+                    <i class="fas fa-stream" aria-hidden="true"></i>
+                    Timeline
+                  </button>
+                </div>
+              </div>
+              <div class="donor-donations-toolbar__controls">
+                <div class="donor-donations-search">
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                  <label class="sr-only" for="donation-search">Search donations or campaigns</label>
+                  <input id="donation-search" type="search" placeholder="Search donations or campaigns…"
+                    autocomplete="off" />
+                </div>
+                <div class="donor-donations-toolbar__filter">
+                  <label class="sr-only" for="donation-status-select">Status</label>
+                  <select id="donation-status-select" class="donor-donations-select">
+                    <option>All statuses</option>
+                    <option>Completed</option>
+                    <option>Pending</option>
+                    <option>Refunded</option>
+                  </select>
+                </div>
+                <div class="donor-donations-toolbar__filter">
+                  <label class="sr-only" for="donation-type-select">Type</label>
+                  <select id="donation-type-select" class="donor-donations-select">
+                    <option>All types</option>
+                    <option>One-time</option>
+                    <option>Recurring</option>
+                    <option>Offline/manual</option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          <div class="donor-donations-views">
+            <article class="card donor-donations-table-view">
+              <div class="card__header">
+                <div>
+                  <h3 class="card-title">My donations</h3>
+                  <span class="card-meta">Recent gifts</span>
+                </div>
+                <span class="text-muted">Showing 7 donations</span>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="data-table donor-donations-table" aria-label="Donation history">
+                    <thead>
+                      <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Campaign</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Method</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td data-label="Date">Aug 14, 2025</td>
+                        <td data-label="Campaign">Clean Water Initiative</td>
+                        <td data-label="Amount">₺1,200</td>
+                        <td data-label="Type">One-time</td>
+                        <td data-label="Method">Credit card</td>
+                        <td data-label="Status"><span class="status-pill status-pill--completed">Completed</span></td>
+                        <td class="table-col-actions">
+                          <div class="table-actions">
+                            <button class="icon-button" type="button"
+                              aria-label="View details for Clean Water Initiative"
+                              title="View details for Clean Water Initiative">
+                              <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button class="icon-button" type="button"
+                              aria-label="Download receipt for Clean Water Initiative"
+                              title="Download receipt for Clean Water Initiative">
+                              <i class="fas fa-download" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td data-label="Date">Jul 30, 2025</td>
+                        <td data-label="Campaign">Healthcare Fund</td>
+                        <td data-label="Amount">₺60 / month</td>
+                        <td data-label="Type">Recurring</td>
+                        <td data-label="Method">Credit card</td>
+                        <td data-label="Status"><span class="status-pill status-pill--active">Active</span></td>
+                        <td class="table-col-actions">
+                          <div class="table-actions">
+                            <button class="icon-button" type="button" aria-label="View details for Healthcare Fund"
+                              title="View details for Healthcare Fund">
+                              <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button class="icon-button" type="button" aria-label="Manage Healthcare Fund plan"
+                              title="Manage Healthcare Fund plan">
+                              <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td data-label="Date">Jul 08, 2025</td>
+                        <td data-label="Campaign">Community Wellness</td>
+                        <td data-label="Amount">₺75</td>
+                        <td data-label="Type">One-time</td>
+                        <td data-label="Method">Credit card</td>
+                        <td data-label="Status"><span class="status-pill status-pill--pending">Pending</span></td>
+                        <td class="table-col-actions">
+                          <div class="table-actions">
+                            <button class="icon-button" type="button" aria-label="View details for Community Wellness"
+                              title="View details for Community Wellness">
+                              <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button class="icon-button" type="button"
+                              aria-label="Download receipt for Community Wellness"
+                              title="Download receipt for Community Wellness">
+                              <i class="fas fa-download" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td data-label="Date">Jun 12, 2025</td>
+                        <td data-label="Campaign">Emergency Relief</td>
+                        <td data-label="Amount">₺250</td>
+                        <td data-label="Type">One-time</td>
+                        <td data-label="Method">Offline - Bank transfer</td>
+                        <td data-label="Status"><span class="status-pill status-pill--completed">Completed</span></td>
+                        <td class="table-col-actions">
+                          <div class="table-actions">
+                            <button class="icon-button" type="button" aria-label="View details for Emergency Relief"
+                              title="View details for Emergency Relief">
+                              <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button class="icon-button" type="button" aria-label="Download receipt for Emergency Relief"
+                              title="Download receipt for Emergency Relief">
+                              <i class="fas fa-download" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td data-label="Date">Jun 05, 2025</td>
+                        <td data-label="Campaign">Education Access</td>
+                        <td data-label="Amount">₺500</td>
+                        <td data-label="Type">One-time</td>
+                        <td data-label="Method">Credit card</td>
+                        <td data-label="Status"><span class="status-pill status-pill--refunded">Refunded</span></td>
+                        <td class="table-col-actions">
+                          <div class="table-actions">
+                            <button class="icon-button" type="button" aria-label="View details for Education Access"
+                              title="View details for Education Access">
+                              <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button class="icon-button" type="button" aria-label="Download receipt for Education Access"
+                              title="Download receipt for Education Access">
+                              <i class="fas fa-download" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td data-label="Date">May 18, 2025</td>
+                        <td data-label="Campaign">Community Kitchen</td>
+                        <td data-label="Amount">₺320</td>
+                        <td data-label="Type">One-time</td>
+                        <td data-label="Method">Cash</td>
+                        <td data-label="Status"><span class="status-pill status-pill--completed">Completed</span></td>
+                        <td class="table-col-actions">
+                          <div class="table-actions">
+                            <button class="icon-button" type="button" aria-label="View details for Community Kitchen"
+                              title="View details for Community Kitchen">
+                              <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button class="icon-button" type="button"
+                              aria-label="Download receipt for Community Kitchen"
+                              title="Download receipt for Community Kitchen">
+                              <i class="fas fa-download" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td data-label="Date">Apr 22, 2025</td>
+                        <td data-label="Campaign">Shelter Fund</td>
+                        <td data-label="Amount">₺420</td>
+                        <td data-label="Type">One-time</td>
+                        <td data-label="Method">Credit card</td>
+                        <td data-label="Status"><span class="status-pill status-pill--completed">Completed</span></td>
+                        <td class="table-col-actions">
+                          <div class="table-actions">
+                            <button class="icon-button" type="button" aria-label="View details for Shelter Fund"
+                              title="View details for Shelter Fund">
+                              <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button class="icon-button" type="button" aria-label="Download receipt for Shelter Fund"
+                              title="Download receipt for Shelter Fund">
+                              <i class="fas fa-download" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="donor-donations-empty-state is-hidden">
+                  <div class="donation-empty-state__illustration" aria-hidden="true"></div>
+                  <p class="donation-empty-state__title">No donations match your filters yet.</p>
+                  <p class="donation-empty-state__text">Try another time range or reset your filters.</p>
+                  <button data-reset-filters class="btn btn-outline" type="button">Reset filters</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card donor-donations-timeline-view is-hidden">
+              <div class="card__header">
+                <div>
+                  <h3 class="card-title">Donation timeline</h3>
+                  <span class="card-meta">Grouped by month</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="donation-timeline">
+                  <div class="donation-timeline-group">
+                    <p class="donation-timeline-group__title">August 2025</p>
+                    <div class="donation-timeline-item">
+                      <div class="donation-timeline-item__content">
+                        <p class="donation-timeline-item__title">₺1,200 · Clean Water Initiative · Completed</p>
+                        <p class="donation-timeline-item__meta">Aug 14 · Web checkout · Receipt emailed</p>
+                        <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="donation-timeline-group">
+                    <p class="donation-timeline-group__title">July 2025</p>
+                    <div class="donation-timeline-item">
+                      <div class="donation-timeline-item__content">
+                        <p class="donation-timeline-item__title">₺60 · Healthcare Fund · Recurring</p>
+                        <p class="donation-timeline-item__meta">Jul 30 · Monthly gift · Next charge Sep 30</p>
+                        <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
+                      </div>
+                    </div>
+                    <div class="donation-timeline-item">
+                      <div class="donation-timeline-item__content">
+                        <p class="donation-timeline-item__title">₺75 · Community Wellness · Pending</p>
+                        <p class="donation-timeline-item__meta">Jul 08 · Web checkout · Awaiting approval</p>
+                        <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="donation-timeline-group">
+                    <p class="donation-timeline-group__title">June 2025</p>
+                    <div class="donation-timeline-item">
+                      <div class="donation-timeline-item__content">
+                        <p class="donation-timeline-item__title">₺250 · Emergency Relief · Completed</p>
+                        <p class="donation-timeline-item__meta">Jun 12 · Offline bank transfer · Receipt mailed</p>
+                        <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
+                      </div>
+                    </div>
+                    <div class="donation-timeline-item">
+                      <div class="donation-timeline-item__content">
+                        <p class="donation-timeline-item__title">₺500 · Education Access · Refunded</p>
+                        <p class="donation-timeline-item__meta">Refunded on Jun 20</p>
+                        <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="donation-timeline-group">
+                    <p class="donation-timeline-group__title">May 2025</p>
+                    <div class="donation-timeline-item">
+                      <div class="donation-timeline-item__content">
+                        <p class="donation-timeline-item__title">₺320 · Community Kitchen · Completed</p>
+                        <p class="donation-timeline-item__meta">May 18 · Cash · Receipt provided</p>
+                        <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
+                      </div>
+                    </div>
+                    <div class="donation-timeline-item">
+                      <div class="donation-timeline-item__content">
+                        <p class="donation-timeline-item__title">₺420 · Shelter Fund · Completed</p>
+                        <p class="donation-timeline-item__meta">Apr 22 · Mobile wallet · Thank-you note sent</p>
+                        <a class="donation-timeline-item__link" href="donation-details.html">View details</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <aside class="donor-donations-sidebar" aria-label="Donor insights">
+          <article class="card donor-donations-sidebar-card">
+            <div class="card__header">
+              <div>
+                <h3 class="card-title">Yearly tax summary</h3>
+                <span class="card-meta">Tax year 2025</span>
+              </div>
+            </div>
+            <div class="card-body donor-tax-summary">
+              <p class="donor-tax-summary__label">Current tax year</p>
+              <p class="donor-tax-summary__value">2025</p>
+              <p class="donor-tax-summary__label">Eligible amount</p>
+              <p class="donor-tax-summary__value">₺4,320</p>
+              <p class="donor-tax-summary__label">Number of receipts</p>
+              <p class="donor-tax-summary__value">12</p>
+              <button class="btn btn-outline" type="button">Download tax PDF</button>
+            </div>
+          </article>
+
+          <article class="card donor-donations-sidebar-card">
+            <div class="card__header">
+              <div>
+                <h3 class="card-title">Giving breakdown</h3>
+                <span class="card-meta">By impact area</span>
+              </div>
+            </div>
+            <div class="card-body donor-giving-breakdown">
+              <div class="donor-giving-breakdown__row">
+                <span class="donor-giving-breakdown__label">Emergency relief</span>
+                <span class="donor-giving-breakdown__value">40%</span>
+              </div>
+              <div class="donor-giving-breakdown__bar">
+                <span class="donor-giving-breakdown__bar-fill" style="width: 40%"></span>
+              </div>
+              <div class="donor-giving-breakdown__row">
+                <span class="donor-giving-breakdown__label">Healthcare</span>
+                <span class="donor-giving-breakdown__value">25%</span>
+              </div>
+              <div class="donor-giving-breakdown__bar">
+                <span class="donor-giving-breakdown__bar-fill" style="width: 25%"></span>
+              </div>
+              <div class="donor-giving-breakdown__row">
+                <span class="donor-giving-breakdown__label">Education</span>
+                <span class="donor-giving-breakdown__value">20%</span>
+              </div>
+              <div class="donor-giving-breakdown__bar">
+                <span class="donor-giving-breakdown__bar-fill" style="width: 20%"></span>
+              </div>
+              <div class="donor-giving-breakdown__row">
+                <span class="donor-giving-breakdown__label">Other</span>
+                <span class="donor-giving-breakdown__value">15%</span>
+              </div>
+              <div class="donor-giving-breakdown__bar">
+                <span class="donor-giving-breakdown__bar-fill" style="width: 15%"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card donor-donations-sidebar-card">
+            <div class="card__header">
+              <div>
+                <h3 class="card-title">Upcoming charges</h3>
+                <span class="card-meta">Recurring gifts</span>
+              </div>
+            </div>
+            <div class="card-body donor-payments-list">
+              <div class="donor-payments-list__item">
+                <div>
+                  <p class="donor-payments-list__amount">₺60 - Healthcare Fund</p>
+                  <p class="text-muted">Sep 30</p>
+                </div>
+                <a class="donor-upcoming-charge__link" href="donor-monthly-giving.html">Manage</a>
+              </div>
+              <div class="donor-payments-list__item">
+                <div>
+                  <p class="donor-payments-list__amount">₺40 - Education Access</p>
+                  <p class="text-muted">Oct 12</p>
+                </div>
+                <a class="donor-upcoming-charge__link" href="donor-monthly-giving.html">Manage</a>
+              </div>
+            </div>
+          </article>
+        </aside>
+      </div>
+    </main>
+
+
+    <footer class="app-footer">
+      <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+    </footer>
+  </div>
   </div>
 
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
