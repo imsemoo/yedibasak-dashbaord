@@ -10922,7 +10922,7 @@ body[data-theme="dark"] .audit-panel__footer {
 }
 
 .donations-page .donation-filter-chip {
-  min-height: 40px;
+  max-height: 40px;
 }
 
 .donations-page .donation-filter-chip:focus-visible {
