@@ -5409,35 +5409,75 @@
 
     const tableView = page.querySelector(".donor-donations-table-view");
     const timelineView = page.querySelector(".donor-donations-timeline-view");
-    const toggleButtons = page.querySelectorAll("[data-view-toggle]");
+    const toggleButtons = Array.from(page.querySelectorAll("[data-view-toggle]"));
+    const filterChips = Array.from(page.querySelectorAll(".donation-filter-chip"));
+    const searchInput = page.querySelector("#donation-search");
+    const selects = Array.from(page.querySelectorAll(".donor-donations-select"));
+    const resetButton = page.querySelector("[data-reset-filters]");
 
-    if (!tableView || !timelineView || !toggleButtons.length) {
-      return;
+    const hasViewButtons = toggleButtons.length > 0;
+
+    const setActiveView = (target = "table") => {
+      if (!hasViewButtons) return;
+      const normalized = target === "timeline" ? "timeline" : "table";
+      const showTable = normalized === "table";
+
+      if (tableView) {
+        tableView.classList.toggle("is-hidden", !showTable);
+      }
+      if (timelineView) {
+        timelineView.classList.toggle("is-hidden", showTable);
+      }
+
+      toggleButtons.forEach((candidate) => {
+        const candidateTarget = candidate.getAttribute("data-view-toggle");
+        const isActive = candidateTarget === normalized;
+        candidate.classList.toggle("is-active", isActive);
+        candidate.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    };
+
+    if (hasViewButtons) {
+      toggleButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          setActiveView(btn.getAttribute("data-view-toggle"));
+        });
+      });
+
+      const initialView = toggleButtons.find((btn) => btn.classList.contains("is-active"))?.getAttribute("data-view-toggle");
+      setActiveView(initialView);
     }
 
-    toggleButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const target = btn.getAttribute("data-view-toggle");
-        toggleButtons.forEach((candidate) => candidate.classList.remove("is-active"));
-        btn.classList.add("is-active");
-
-        if (target === "table") {
-          tableView.classList.remove("is-hidden");
-          timelineView.classList.add("is-hidden");
-        } else {
-          tableView.classList.add("is-hidden");
-          timelineView.classList.remove("is-hidden");
-        }
+    const activateChip = (targetChip) => {
+      if (!targetChip) return;
+      filterChips.forEach((candidate) => {
+        const isActive = candidate === targetChip;
+        candidate.classList.toggle("is-active", isActive);
+        candidate.setAttribute("aria-pressed", isActive ? "true" : "false");
       });
-    });
+    };
 
-    const filterChips = page.querySelectorAll(".donation-filter-chip");
     filterChips.forEach((chip) => {
       chip.addEventListener("click", () => {
-        filterChips.forEach((candidate) => candidate.classList.remove("is-active"));
-        chip.classList.add("is-active");
+        activateChip(chip);
       });
+      chip.setAttribute("aria-pressed", chip.classList.contains("is-active") ? "true" : "false");
     });
+
+    const resetFilters = () => {
+      if (searchInput) {
+        searchInput.value = "";
+      }
+      selects.forEach((select) => {
+        select.selectedIndex = 0;
+      });
+      if (filterChips.length) {
+        activateChip(filterChips[0]);
+      }
+      setActiveView("table");
+    };
+
+    resetButton?.addEventListener("click", resetFilters);
   };
 
   /**

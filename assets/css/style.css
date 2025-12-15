@@ -7189,10 +7189,17 @@ body[data-theme="dark"] .donor-preferences-card {
   display: flex;
   gap: var(--space-2);
   margin-top: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .donor-segments-card__add .form-control {
   flex: 1;
+  min-width: 0;
+}
+
+.donor-segments-card__add .btn {
+  white-space: nowrap;
 }
 
 .donor-preferences-card__option {
@@ -7204,16 +7211,199 @@ body[data-theme="dark"] .donor-preferences-card {
   border: 1px solid var(--color-border);
   margin-top: var(--space-2);
   cursor: pointer;
+  background: var(--color-surface-alt);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .donor-preferences-card__option input {
   accent-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.donor-preferences-card__option:focus-within,
+.donor-preferences-card__option:hover {
+  border-color: var(--color-primary-soft);
+  box-shadow: var(--focus-ring);
+}
+
+.donor-preferences-card__option span {
+  line-height: 1.2;
+}
+
+/* Donor details refinements */
+.donor-details-page .donor-details-header__content {
+  align-items: flex-start;
+}
+
+.donor-details-page .donor-details-header__identity {
+  min-width: 0;
+}
+
+.donor-details-page .donor-details-header__identity .text-muted {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  align-items: center;
+  margin: 0;
+  font-size: 0.95rem;
+  min-width: 0;
+}
+
+.donor-details-page .donor-details-header__identity a {
+  max-width: 220px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.donor-details-page .donor-details-header__meta {
+  align-items: center;
+}
+
+.donor-details-header__meta span {
+  margin-bottom: 0;
+}
+
+.donor-details-page .donor-details-header__segments {
+  align-items: center;
+}
+
+.donor-details-page .donor-segments-card__chips {
+  align-items: center;
+}
+
+.donor-details-page .donor-details-header__actions {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.donor-details-page .donor-details-header__actions>* {
+  flex-shrink: 0;
+}
+
+.donor-details-page .donor-details-header__actions .btn,
+.donor-details-page .donor-details-header__actions .icon-button,
+.donor-details-page .donor-details-header__actions .dropdown-group {
+  min-width: 120px;
+}
+
+.donor-details-page .donor-profile-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.donor-details-page .donor-profile-card__details>div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: 0;
+}
+
+.donor-details-page .donor-profile-card__details a {
+  word-break: break-word;
+}
+
+.donor-details-page .donor-history-card__table {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+}
+
+.donor-details-page .donor-history-card__table table {
+  min-width: 680px;
+}
+
+.donor-details-page .donation-history-table th {
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  padding: var(--space-2) var(--space-3);
+}
+
+.donor-details-page .donation-history-table td {
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: var(--space-2) var(--space-3);
+}
+
+.donor-details-page .donation-history-table td:last-child {
+  text-align: right;
+}
+
+.donor-details-page .donor-history-card__link {
+  text-decoration: underline;
+  letter-spacing: 0.02em;
+}
+
+
+
+.details-card--timeline .timeline-item__icon {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.details-card--timeline .timeline-item__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.details-card--timeline .timeline-item__body p {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.details-card--timeline .timeline-item__body time {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body[data-theme="dark"] .details-card--timeline .timeline-item {
+  background: #0b1222;
+  border-color: #1f2a3d;
+}
+
+body[data-theme="dark"] .details-card--timeline .timeline-item__icon {
+  background: #131a2b;
+}
+
+.donor-details-page .details-layout {
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.95fr);
+}
+
+.donor-details-page .details-layout__main,
+.donor-details-page .details-layout__side {
+  min-width: 0;
+}
+
+@media (min-width: 1200px) {
+  .donor-details-page .details-layout {
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.85fr);
+  }
+}
+
+@media (max-width: 1100px) {
+  .donor-details-page .details-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 960px) {
   .donor-details-header__content {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .donor-details-header__actions {
+    justify-content: flex-start;
   }
 }
 
@@ -10552,13 +10742,26 @@ body[data-theme="dark"] .audit-panel__footer {
   flex-wrap: wrap;
 }
 
+.donations-page .donor-donations-header-actions {
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+@media (max-width: 720px) {
+  .donations-page .donor-donations-header-actions {
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
+
 .donor-donations-summary-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-3);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .donor-donations-summary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -10609,6 +10812,29 @@ body[data-theme="dark"] .audit-panel__footer {
   color: var(--color-primary);
 }
 
+.donations-page .donor-donations-summary-card {
+  min-height: 150px;
+  padding: var(--space-3);
+}
+
+.donations-page .donor-donations-summary-card__head {
+  gap: var(--space-1);
+}
+
+.donations-page .donor-donations-summary-card__value {
+  font-size: clamp(32px, 2.4vw, 36px);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.donations-page .donor-donations-summary-card__footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
 .donor-donations-layout {
   display: grid;
   gap: var(--space-4);
@@ -10635,7 +10861,7 @@ body[data-theme="dark"] .audit-panel__footer {
 
 .donor-donations-toolbar__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--space-3);
   align-items: center;
 }
@@ -10654,6 +10880,7 @@ body[data-theme="dark"] .audit-panel__footer {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
+  flex: 0 0 400px;
 }
 
 .donor-donations-toolbar__controls {
@@ -10662,6 +10889,69 @@ body[data-theme="dark"] .audit-panel__footer {
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-2);
+}
+
+.donations-page .donor-donations-toolbar__controls {
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.donations-page .donor-donations-search {
+  min-width: 220px;
+  flex: 1 1 220px;
+  padding: var(--space-2) var(--space-3);
+  min-height: 46px;
+}
+
+.donations-page .donor-donations-search input {
+  min-height: 32px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.donations-page .donor-donations-toolbar__filter {
+  flex: 0 0 auto;
+  min-width: 180px;
+}
+
+.donations-page .donor-donations-select {
+  min-height: 46px;
+  padding: 0.65rem 0.9rem;
+}
+
+.donations-page .donation-filter-chip {
+  min-height: 40px;
+}
+
+.donations-page .donation-filter-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.donations-page .view-toggle {
+  align-self: flex-start;
+}
+
+.donations-page .view-toggle__btn {
+  min-height: 40px;
+}
+
+@media (max-width: 900px) {
+  .donations-page .donor-donations-toolbar__controls {
+    justify-content: flex-start;
+    gap: var(--space-2);
+  }
+
+  .donations-page .donor-donations-search {
+    width: 100%;
+  }
+
+  .donations-page .donor-donations-toolbar__filter {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 .donor-donations-search {
@@ -10695,7 +10985,7 @@ body[data-theme="dark"] .audit-panel__footer {
 .donor-donations-select {
   width: 100%;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   padding: 0.5rem 0.75rem;
   background: var(--color-surface);
   font-size: 14px;
@@ -10714,7 +11004,7 @@ body[data-theme="dark"] .audit-panel__footer {
 .donation-filter-chip {
   border-radius: 999px;
   border: 1px solid var(--color-border);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-1) var(--space-3);
   background: var(--color-surface);
   color: inherit;
   font-weight: 600;
@@ -10734,6 +11024,7 @@ body[data-theme="dark"] .audit-panel__footer {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  margin-top: var(--space-2);
 }
 
 .donor-donations-table {
@@ -10788,6 +11079,47 @@ body[data-theme="dark"] .audit-panel__footer {
   }
 }
 
+.donations-page .donor-donations-table th,
+.donations-page .donor-donations-table td {
+  padding: var(--space-2) var(--space-3);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.donations-page .donor-donations-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.donations-page .donor-donations-table tbody tr:hover {
+  background: var(--color-surface-alt);
+}
+
+.donations-page .donor-donations-table .status-pill {
+  font-size: 12px;
+  padding: 0.25rem 0.75rem;
+}
+
+.donations-page .table-col-actions {
+  width: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.donations-page .table-actions {
+  gap: var(--space-1);
+}
+
+.donations-page .table-actions .icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
+.donations-page .table-actions .icon-button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 .donor-donations-empty-state {
   margin-top: var(--space-4);
   text-align: center;
@@ -10799,6 +11131,17 @@ body[data-theme="dark"] .audit-panel__footer {
   flex-direction: column;
   gap: var(--space-2);
   align-items: center;
+}
+
+.donations-page .donor-donations-empty-state {
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.donations-page .donor-donations-empty-state button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .donation-empty-state__illustration {
@@ -10883,10 +11226,76 @@ body[data-theme="dark"] .audit-panel__footer {
   font-weight: 600;
 }
 
+.donations-page .donation-timeline {
+  padding-left: var(--space-3);
+}
+
+.donations-page .donation-timeline-item {
+  gap: var(--space-2);
+  padding-bottom: var(--space-3);
+}
+
+.donations-page .donation-timeline-item__content {
+  gap: var(--space-2);
+}
+
+.donations-page .donation-timeline-item__title {
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.donations-page .donation-timeline-item__link {
+  transition: color var(--transition-fast);
+}
+
+.donations-page .donation-timeline-item__link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 .donor-donations-sidebar .card-body {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+}
+
+.donations-page .donor-tax-summary,
+.donations-page .donor-giving-breakdown,
+.donations-page .donor-payments-list {
+  gap: var(--space-2);
+}
+
+.donations-page .donor-tax-summary__label {
+  letter-spacing: 0.4em;
+}
+
+.donations-page .donor-tax-summary__value {
+  font-size: 22px;
+}
+
+.donations-page .donor-giving-breakdown__bar {
+  height: 8px;
+}
+
+.donations-page .donor-giving-breakdown__bar-fill {
+  border-radius: 999px;
+}
+
+.donations-page .donor-payments-list__item {
+  align-items: flex-start;
+}
+
+.donations-page .donor-payments-list__item div {
+  flex: 1;
+}
+
+.donations-page .donor-payments-list__item a {
+  align-self: flex-start;
+}
+
+.donations-page .donor-upcoming-charge__link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .donor-tax-summary__label {
