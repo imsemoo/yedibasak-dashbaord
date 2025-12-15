@@ -11034,6 +11034,103 @@ body[data-theme="dark"] .audit-panel__footer {
   background: var(--color-surface-alt);
 }
 
+/* ===== Campaign new page overrides ===== */
+.cs-campaign-new .form-section {
+  margin-bottom: var(--space-4);
+}
+
+.cs-campaign-new .form-section:last-child {
+  margin-bottom: 0;
+}
+
+.cs-campaign-new .form-grid {
+  gap: var(--space-3);
+}
+
+.cs-campaign-new .form-actions {
+  gap: var(--space-2);
+}
+
+.cs-campaign-new .suggested-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cs-campaign-new .suggested-chips button {
+  min-width: 96px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-4);
+  font-weight: 600;
+  background: var(--color-surface);
+}
+
+.cs-campaign-new .suggested-chips button.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--shadow-card);
+}
+
+.cs-campaign-new .campaign-preview {
+  align-self: flex-start;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cs-campaign-new .campaign-preview__meta--secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.cs-campaign-new .campaign-preview__meta--secondary span,
+.cs-campaign-new .campaign-preview__meta--secondary .badge {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.cs-campaign-new .campaign-type-card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.cs-campaign-new .cs-chip__x {
+  border: none;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--color-muted);
+}
+
+.cs-campaign-new .cs-chip__x:hover,
+.cs-campaign-new .cs-chip__x:focus-visible {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+.cs-campaign-new .cs-multiselect__dropdown {
+  max-height: 260px;
+}
+
+.cs-campaign-new .cs-multiselect__option:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+@media (min-width: 1024px) {
+  .cs-campaign-new .campaign-preview {
+    position: sticky;
+    top: var(--space-4);
+  }
+}
+
 .cs-media-control {
   display: inline-flex;
   border: 1px solid var(--color-border);

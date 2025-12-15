@@ -110,18 +110,43 @@
     control?.addEventListener('click', () => toggle(ms));
 
     // select option (toggle)
-    options.forEach(opt => {
+    const emitChange = () => {
+      ms.dispatchEvent(new CustomEvent('cs-multiselect-change', { bubbles: true }));
+    };
+
+    options.forEach((opt, index) => {
       opt.setAttribute('role', 'option');
       opt.setAttribute('aria-selected', opt.classList.contains('is-selected') ? 'true' : 'false');
+      opt.tabIndex = 0;
 
-      opt.addEventListener('click', (e) => {
-        e.preventDefault();
+      const toggleOption = (event) => {
+        event.preventDefault();
         const selected = opt.classList.toggle('is-selected');
         opt.setAttribute('aria-selected', selected ? 'true' : 'false');
 
         renderChips(ms);
         syncHidden(ms);
         syncPlaceholder(ms);
+        emitChange();
+      };
+
+      opt.addEventListener('click', toggleOption);
+      opt.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+          event.preventDefault();
+          const next = options[(index + 1) % options.length];
+          next?.focus();
+          return;
+        }
+        if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+          event.preventDefault();
+          const prev = options[(index - 1 + options.length) % options.length];
+          prev?.focus();
+          return;
+        }
+        if (event.key === 'Enter' || event.key === ' ') {
+          toggleOption(event);
+        }
       });
     });
 
@@ -136,6 +161,7 @@
     } else {
       syncPlaceholder(ms);
     }
+    emitChange();
 
     // keyboard: Esc closes, Enter opens
     control?.addEventListener('keydown', (e) => {
@@ -497,6 +523,39 @@
   const formatCurrencyDisplay = (value) => {
     const number = Number(value) || 0;
     return `$${number.toLocaleString()}`;
+  };
+
+  const parseNumber = (value) => {
+    if (value === null || value === undefined) {
+      return 0;
+    }
+    const cleaned = value
+      .toString()
+      .trim()
+      .replace(/[^0-9.,]/g, "");
+    if (!cleaned) {
+      return 0;
+    }
+    const normalized = cleaned
+      .replace(/,/g, ".")
+      .replace(/\.(?=\d{3}(\D|$))/g, "");
+    const parsed = parseFloat(normalized);
+    return Number.isFinite(parsed) ? parsed : 0;
+  };
+
+  const formatTRY = (value) => {
+    const number = typeof value === "number" ? value : parseNumber(value);
+    if (!Number.isFinite(number)) {
+      return "";
+    }
+    const needsDecimals = Math.abs(number % 1) > 1e-9;
+    const formatter = new Intl.NumberFormat("tr-TR", {
+      style: "currency",
+      currency: "TRY",
+      minimumFractionDigits: needsDecimals ? 2 : 0,
+      maximumFractionDigits: 2,
+    });
+    return formatter.format(number);
   };
 
   const formatPreviewDate = (value) => {
@@ -5808,6 +5867,425 @@
     });
   };
 
+  const initCampaignNewPage = () => {
+    const page = document.querySelector('[data-page="campaign-new"]');
+    if (!page) return;
+
+    const form = page.querySelector(".js-campaign-form");
+    if (!form) return;
+
+    const preview = {
+      amount: page.querySelector('[data-preview="amount"]'),
+      dates: page.querySelector('[data-preview="dates"]'),
+      type: page.querySelector('[data-preview="type"]'),
+      location: page.querySelector('[data-preview="location"]'),
+      categories: page.querySelector('[data-preview="categories"]'),
+      media: page.querySelector('[data-preview="media"]'),
+      featuredBadge: page.querySelector('[data-preview="featuredBadge"]'),
+      donorCount: page.querySelector('[data-preview="donorCount"]'),
+      advancedFlags: page.querySelector('[data-preview="advancedFlags"]'),
+    };
+
+    const nameField = form.querySelector("#campaignName");
+    const targetInput = form.querySelector("#targetAmount");
+    const startDateInput = form.querySelector("#startDateField");
+    const endDateInput = form.querySelector("#endDateField");
+    const descriptionField = form.querySelector("#campaignDescription");
+    const typeCards = Array.from(form.querySelectorAll('[data-role="typeCard"]'));
+    const noTargetToggle = form.querySelector("#toggleNoTarget");
+    const openEndedToggle = form.querySelector("#toggleNoEnd");
+    const targetHelper = form.querySelector('[data-target-helper]');
+    const endHelper = form.querySelector('[data-end-helper]');
+    const thresholdToggle = form.querySelector('[data-role="toggleThreshold"]');
+    const thresholdFieldWrapper = form.querySelector('[data-role="thresholdField"]');
+    const thresholdInput = form.querySelector("#thresholdAmount");
+    const donorCountToggle = form.querySelector('[data-role="toggleDonorCount"]');
+    const monthlyToggle = form.querySelector('[data-role="toggleMonthly"]');
+    const featuredToggle = form.querySelector('[data-role="toggleFeatured"]');
+    const suggestedHidden = form.querySelector('[data-role="suggestedHidden"]');
+    const suggestedChips = Array.from(form.querySelectorAll('[data-role="suggestedChip"]'));
+    const customAmountWrapper = form.querySelector('[data-role="customAmountWrapper"]');
+    const customAmountInput = form.querySelector('[data-role="customAmountInput"]');
+    const multiSelect = form.querySelector(".js-cs-multiselect");
+    const mediaTabs = Array.from(form.querySelectorAll('[data-role="mediaTab"]'));
+    const mediaHelper = form.querySelector('[data-media-helper]');
+    const mediaInput = form.querySelector("#campaignMedia");
+
+    const mediaConfig = {
+      image: { label: "Image", accept: "image/*", helper: "Drop JPG, PNG, or WebP up to 5MB.", preview: "Image preview" },
+      video: { label: "Video", accept: "video/*", helper: "Drop MP4 up to 15MB.", preview: "Video preview" },
+      gif: { label: "GIF", accept: "image/gif", helper: "Drop GIF up to 5MB.", preview: "GIF preview" },
+    };
+    let currentMediaType = "image";
+    let selectedMediaName = "";
+
+    const updatePreviewAmount = () => {
+      if (!preview.amount) return;
+      if (noTargetToggle?.checked) {
+        preview.amount.textContent = "No goal";
+        return;
+      }
+      const value = parseNumber(targetInput?.value);
+      const display = value ? formatTRY(value) : formatTRY(0);
+      preview.amount.textContent = display || "₺0";
+    };
+
+    const updatePreviewDates = () => {
+      if (!preview.dates) return;
+      const start = formatPreviewDate(startDateInput?.value);
+      if (openEndedToggle?.checked) {
+        preview.dates.textContent = start ? `${start} - Open-ended` : "Start date - Open-ended";
+        return;
+      }
+      const end = formatPreviewDate(endDateInput?.value);
+      if (start || end) {
+        preview.dates.textContent = `${start || "Start date"} - ${end || "End date"}`;
+      } else {
+        preview.dates.textContent = "Start date - End date";
+      }
+    };
+
+    const updatePreviewType = () => {
+      if (!preview.type) return;
+      const active = typeCards.find((card) => card.classList.contains("is-active"));
+      const label =
+        active?.querySelector("input")?.dataset.optionLabel ||
+        active?.querySelector("strong")?.textContent?.trim();
+      preview.type.textContent = label || "Type";
+    };
+
+    const updatePreviewLocation = () => {
+      if (!preview.location) return;
+      const selectors = ["#campaignCity", "#campaignRegion", "#campaignCountry"];
+      const values = selectors
+        .map((selector) => form.querySelector(selector))
+        .map((field) => field?.selectedOptions?.[0]?.textContent?.trim())
+        .filter(Boolean);
+      preview.location.textContent = values.length ? values.join(", ") : "Location";
+    };
+
+    const updatePreviewCategories = () => {
+      if (!preview.categories) return;
+      preview.categories.innerHTML = "";
+      const options = multiSelect
+        ? Array.from(multiSelect.querySelectorAll(".cs-multiselect__option.is-selected"))
+        : [];
+      if (!options.length) {
+        const placeholder = document.createElement("span");
+        placeholder.className = "text-muted";
+        placeholder.textContent = "Select categories";
+        preview.categories.appendChild(placeholder);
+        return;
+      }
+      options.forEach((option) => {
+        const badge = document.createElement("span");
+        badge.className = "badge badge--tag";
+        badge.textContent = option.dataset.label || option.textContent.trim();
+        preview.categories.appendChild(badge);
+      });
+    };
+
+    const updatePreviewMedia = () => {
+      if (!preview.media) return;
+      const config = mediaConfig[currentMediaType] || mediaConfig.image;
+      preview.media.textContent = selectedMediaName
+        ? `${config.label}: ${selectedMediaName}`
+        : config.preview;
+    };
+
+    const updateFeaturedBadge = () => {
+      preview.featuredBadge?.classList.toggle("is-hidden", !featuredToggle?.checked);
+    };
+
+    const updateDonorCount = () => {
+      preview.donorCount?.classList.toggle("is-hidden", !donorCountToggle?.checked);
+    };
+
+    const updateAdvancedFlags = () => {
+      if (!preview.advancedFlags) return;
+      preview.advancedFlags.innerHTML = "";
+      const fragment = document.createDocumentFragment();
+      if (thresholdToggle?.checked && thresholdInput?.value.trim()) {
+        const amount = parseNumber(thresholdInput.value);
+        if (amount > 0) {
+          const badge = document.createElement("span");
+          badge.className = "badge badge--pill badge--muted";
+          badge.textContent = `Raised hidden until ${formatTRY(amount)}`;
+          fragment.appendChild(badge);
+        }
+      }
+      if (monthlyToggle?.checked) {
+        const badge = document.createElement("span");
+        badge.className = "badge badge--pill badge--info";
+        badge.textContent = "Monthly recurring enabled";
+        fragment.appendChild(badge);
+      }
+      preview.advancedFlags.appendChild(fragment);
+    };
+
+    const updateMediaSettings = (type) => {
+      const config = mediaConfig[type] || mediaConfig.image;
+      currentMediaType = type;
+      if (mediaHelper) {
+        mediaHelper.textContent = config.helper;
+      }
+      if (mediaInput) {
+        mediaInput.setAttribute("accept", config.accept);
+        mediaInput.value = "";
+      }
+      selectedMediaName = "";
+      updatePreviewMedia();
+    };
+
+    const initCharCounter = () => {
+      const counter = form.querySelector("#description-counter");
+      if (!descriptionField || !counter) return;
+      const limit = Number(descriptionField.dataset.maxlength) || 300;
+      const error = descriptionField.closest(".form-field")?.querySelector(".form-error");
+      const update = () => {
+        const length = descriptionField.value.length;
+        counter.textContent = `${length} / ${limit}`;
+        if (length >= limit) {
+          counter.classList.add("is-invalid");
+          if (error) {
+            error.textContent = "Description cannot exceed 300 characters.";
+            error.classList.remove("is-hidden");
+          }
+        } else {
+          counter.classList.remove("is-invalid");
+          if (error) {
+            error.classList.add("is-hidden");
+          }
+        }
+      };
+      descriptionField.addEventListener("input", () => {
+        if (descriptionField.value.length > limit) {
+          descriptionField.value = descriptionField.value.slice(0, limit);
+        }
+        update();
+      });
+      update();
+    };
+
+    const initNoTargetToggle = () => {
+      const applyState = () => {
+        const disabled = noTargetToggle?.checked;
+        if (targetInput) {
+          targetInput.disabled = Boolean(disabled);
+          targetInput.setAttribute("aria-disabled", String(Boolean(disabled)));
+          if (disabled) {
+            targetInput.value = "";
+            clearFieldError(targetInput);
+          }
+        }
+        targetHelper?.classList.toggle("is-hidden", !disabled);
+        updatePreviewAmount();
+      };
+      noTargetToggle?.addEventListener("change", applyState);
+      applyState();
+    };
+
+    const initOpenEndedToggle = () => {
+      const applyState = () => {
+        const disabled = openEndedToggle?.checked;
+        if (endDateInput) {
+          endDateInput.disabled = Boolean(disabled);
+          endDateInput.setAttribute("aria-disabled", String(Boolean(disabled)));
+          if (disabled) {
+            endDateInput.value = "";
+          }
+        }
+        endHelper?.classList.toggle("is-hidden", !disabled);
+        updatePreviewDates();
+      };
+      openEndedToggle?.addEventListener("change", applyState);
+      applyState();
+    };
+
+    const initTypeCards = () => {
+      if (!typeCards.length) return;
+      const setActive = (card) => {
+        typeCards.forEach((candidate) => {
+          const radio = candidate.querySelector('input[type="radio"]');
+          const isActive = candidate === card;
+          candidate.classList.toggle("is-active", isActive);
+          candidate.setAttribute("aria-checked", isActive ? "true" : "false");
+          if (radio) {
+            radio.checked = isActive;
+          }
+        });
+        updatePreviewType();
+      };
+      typeCards.forEach((card, index) => {
+        card.setAttribute("role", "radio");
+        card.tabIndex = 0;
+        card.setAttribute("aria-checked", card.querySelector("input:checked") ? "true" : "false");
+        const handleSelect = (event) => {
+          event.preventDefault();
+          setActive(card);
+        };
+        card.addEventListener("click", handleSelect);
+        card.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+            event.preventDefault();
+            const next = typeCards[(index + 1) % typeCards.length];
+            next?.focus();
+            setActive(next);
+          } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+            event.preventDefault();
+            const prev = typeCards[(index - 1 + typeCards.length) % typeCards.length];
+            prev?.focus();
+            setActive(prev);
+          } else if (event.key === "Enter" || event.key === " ") {
+            handleSelect(event);
+          }
+        });
+      });
+      const initial = typeCards.find((card) => card.querySelector("input:checked"));
+      if (initial) {
+        setActive(initial);
+      } else if (typeCards.length) {
+        setActive(typeCards[0]);
+      }
+    };
+
+    const initMediaTabs = () => {
+      if (!mediaTabs.length) return;
+      mediaTabs.forEach((tab) => {
+        tab.addEventListener("click", (event) => {
+          event.preventDefault();
+          const type = tab.dataset.mediaType || "image";
+          mediaTabs.forEach((btn) => btn.classList.toggle("is-active", btn === tab));
+          updateMediaSettings(type);
+        });
+      });
+      updateMediaSettings(currentMediaType);
+      mediaInput?.addEventListener("change", () => {
+        const file = mediaInput.files?.[0];
+        selectedMediaName = file?.name || "";
+        updatePreviewMedia();
+      });
+    };
+
+    const initThresholdToggle = () => {
+      const applyState = () => {
+        const active = thresholdToggle?.checked;
+        thresholdFieldWrapper?.classList.toggle("is-hidden", !active);
+        if (thresholdInput) {
+          thresholdInput.disabled = !active;
+          if (!active) {
+            thresholdInput.value = "";
+          }
+        }
+        updateAdvancedFlags();
+      };
+      thresholdToggle?.addEventListener("change", applyState);
+      thresholdInput?.addEventListener("input", updateAdvancedFlags);
+      applyState();
+    };
+
+    const initSuggestedChips = () => {
+      if (!suggestedChips.length) return;
+      const updateCustomAmount = () => {
+        const value = customAmountInput ? parseNumber(customAmountInput.value) : 0;
+        if (suggestedHidden) {
+          suggestedHidden.value = value ? String(value) : "";
+        }
+      };
+      const selectChip = (chip) => {
+        suggestedChips.forEach((candidate) => candidate.classList.toggle("is-selected", candidate === chip));
+        const isCustom = chip.dataset.suggested === "custom";
+        customAmountWrapper?.classList.toggle("is-hidden", !isCustom);
+        if (!isCustom) {
+          if (customAmountInput) {
+            customAmountInput.value = "";
+          }
+          if (suggestedHidden) {
+            suggestedHidden.value = chip.dataset.suggested || "";
+          }
+        } else {
+          customAmountInput?.focus();
+          updateCustomAmount();
+        }
+      };
+      suggestedChips.forEach((chip) => {
+        chip.addEventListener("click", () => selectChip(chip));
+      });
+      customAmountInput?.addEventListener("input", updateCustomAmount);
+      const initial = suggestedChips.find((chip) => chip.classList.contains("is-selected"));
+      if (initial) {
+        selectChip(initial);
+      }
+    };
+
+    const bindPreviewSync = () => {
+      targetInput?.addEventListener("input", updatePreviewAmount);
+      targetInput?.addEventListener("blur", updatePreviewAmount);
+      startDateInput?.addEventListener("input", updatePreviewDates);
+      endDateInput?.addEventListener("input", updatePreviewDates);
+      ["#campaignCountry", "#campaignCity", "#campaignRegion"].forEach((selector) => {
+        const field = form.querySelector(selector);
+        field?.addEventListener("change", updatePreviewLocation);
+      });
+      multiSelect?.addEventListener("cs-multiselect-change", updatePreviewCategories);
+      thresholdInput?.addEventListener("input", updateAdvancedFlags);
+      monthlyToggle?.addEventListener("change", updateAdvancedFlags);
+      featuredToggle?.addEventListener("change", updateFeaturedBadge);
+      donorCountToggle?.addEventListener("change", updateDonorCount);
+    };
+
+    const bindFormValidation = () => {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const invalidFields = [];
+        if (nameField) {
+          if (!nameField.value.trim()) {
+            setFieldError(nameField, "Please enter a campaign name.");
+            invalidFields.push(nameField);
+          } else {
+            clearFieldError(nameField);
+          }
+        }
+        if (targetInput) {
+          if (!noTargetToggle?.checked) {
+            const value = parseNumber(targetInput.value);
+            if (!value) {
+              setFieldError(targetInput, "Please set a target amount.");
+              invalidFields.push(targetInput);
+            } else {
+              clearFieldError(targetInput);
+            }
+          } else {
+            clearFieldError(targetInput);
+          }
+        }
+        if (invalidFields.length) {
+          invalidFields[0]?.focus();
+          return;
+        }
+      });
+    };
+
+    initCharCounter();
+    initNoTargetToggle();
+    initOpenEndedToggle();
+    initTypeCards();
+    initMediaTabs();
+    initThresholdToggle();
+    initSuggestedChips();
+    bindPreviewSync();
+    bindFormValidation();
+    updatePreviewAmount();
+    updatePreviewDates();
+    updatePreviewType();
+    updatePreviewLocation();
+    updatePreviewCategories();
+    updatePreviewMedia();
+    updateFeaturedBadge();
+    updateDonorCount();
+    updateAdvancedFlags();
+  };
+
   /**
    * Initializes the donor donations page controls so the table/timeline toggle and filter chips behave visually.
    */
@@ -5897,6 +6375,7 @@
     initCampaignFormFormatting();
     initCampaignFormPreview();
     initCampaignFormValidation();
+    initCampaignNewPage();
     initDonationDetailsPage();
     initDonorDetailsPage();
     initManualDonationPage();
