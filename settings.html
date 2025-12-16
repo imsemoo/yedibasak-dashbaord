@@ -246,30 +246,77 @@
         <section class="settings-page">
           <div class="settings-shell">
             <nav class="settings-nav" aria-label="Settings sections">
-              <ul class="settings-nav__list">
+              <ul class="settings-nav__list" role="tablist">
                 <li class="settings-nav__item is-active" data-settings-tab="profile">
-                  <button type="button">Profile</button>
+                  <button type="button" role="tab" id="tab-profile" aria-controls="panel-profile" aria-selected="true"
+                    tabindex="0">
+                    Profile
+                  </button>
                 </li>
                 <li class="settings-nav__item" data-settings-tab="organization">
-                  <button type="button">Organization</button>
+                  <button type="button" role="tab" id="tab-organization" aria-controls="panel-organization"
+                    aria-selected="false" tabindex="-1">
+                    Organization
+                  </button>
                 </li>
                 <li class="settings-nav__item" data-settings-tab="notifications">
-                  <button type="button">Notifications</button>
+                  <button type="button" role="tab" id="tab-notifications" aria-controls="panel-notifications"
+                    aria-selected="false" tabindex="-1">
+                    Notifications
+                  </button>
                 </li>
                 <li class="settings-nav__item" data-settings-tab="security">
-                  <button type="button">Security</button>
+                  <button type="button" role="tab" id="tab-security" aria-controls="panel-security"
+                    aria-selected="false" tabindex="-1">
+                    Security
+                  </button>
                 </li>
                 <li class="settings-nav__item" data-settings-tab="preferences">
-                  <button type="button">Preferences</button>
+                  <button type="button" role="tab" id="tab-preferences" aria-controls="panel-preferences"
+                    aria-selected="false" tabindex="-1">
+                    Preferences
+                  </button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="billing">
+                  <button type="button" role="tab" id="tab-billing" aria-controls="panel-billing" aria-selected="false"
+                    tabindex="-1">
+                    Billing
+                  </button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="zakat">
+                  <button type="button" role="tab" id="tab-zakat" aria-controls="panel-zakat" aria-selected="false"
+                    tabindex="-1">
+                    Zakat
+                  </button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="donation-types">
+                  <button type="button" role="tab" id="tab-donation-types" aria-controls="panel-donation-types"
+                    aria-selected="false" tabindex="-1">
+                    Donation types
+                  </button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="categories">
+                  <button type="button" role="tab" id="tab-categories" aria-controls="panel-categories"
+                    aria-selected="false" tabindex="-1">
+                    Categories
+                  </button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="campaign-defaults">
+                  <button type="button" role="tab" id="tab-campaign-defaults" aria-controls="panel-campaign-defaults"
+                    aria-selected="false" tabindex="-1">
+                    Campaign defaults
+                  </button>
                 </li>
               </ul>
             </nav>
 
             <div class="settings-content">
-              <div class="settings-panel settings-panel--active" data-settings-panel="profile">
+              <div class="settings-panel settings-panel--active" data-settings-panel="profile" id="panel-profile"
+                role="tabpanel" aria-labelledby="tab-profile" aria-hidden="false">
                 <div class="settings-panel__header">
                   <h3>Profile</h3>
-                  <p class="settings-panel__desc">Update the primary account details that appear on receipts and internal notes.</p>
+                  <p class="settings-panel__desc">Update the primary account details that appear on receipts and
+                    internal notes.</p>
                 </div>
                 <div class="settings-panel__body">
                   <div class="settings-avatar">
@@ -295,7 +342,8 @@
                   <div class="form-field form-field--split">
                     <div>
                       <label class="form-label" for="profile-email">Email</label>
-                      <input id="profile-email" class="form-control" type="email" value="jordan@donations.org" readonly />
+                      <input id="profile-email" class="form-control" type="email" value="jordan@donations.org"
+                        readonly />
                     </div>
                     <div>
                       <label class="form-label" for="profile-role">Role / title</label>
@@ -311,11 +359,12 @@
                 <p class="settings-panel__helper text-muted">These details appear on receipts and internal notes.</p>
                 <div class="settings-panel__actions">
                   <a class="btn btn-outline" href="#">Cancel</a>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
                 </div>
               </div>
 
-              <div class="settings-panel" data-settings-panel="organization">
+              <div class="settings-panel" data-settings-panel="organization" id="panel-organization" role="tabpanel"
+                aria-labelledby="tab-organization" aria-hidden="true" hidden>
                 <div class="settings-panel__header">
                   <h3>Organization</h3>
                   <p class="settings-panel__desc">Keep corporate details consistent across emails and receipts.</p>
@@ -326,8 +375,10 @@
                     <input id="org-name" class="form-control" type="text" placeholder="Impact Allies" />
                   </div>
                   <div class="form-field">
-                    <label class="form-label" for="org-legal">Legal name <span class="text-muted">(optional)</span></label>
-                    <input id="org-legal" class="form-control" type="text" placeholder="Impact Allies Foundation, Inc." />
+                    <label class="form-label" for="org-legal">Legal name <span
+                        class="text-muted">(optional)</span></label>
+                    <input id="org-legal" class="form-control" type="text"
+                      placeholder="Impact Allies Foundation, Inc." />
                   </div>
                   <div class="form-field form-field--split">
                     <div>
@@ -336,7 +387,8 @@
                     </div>
                     <div>
                       <label class="form-label" for="org-reply-email">Default "Reply-to" email</label>
-                      <input id="org-reply-email" class="form-control" type="email" placeholder="hello@impactallies.org" />
+                      <input id="org-reply-email" class="form-control" type="email"
+                        placeholder="hello@impactallies.org" />
                     </div>
                   </div>
                   <div class="settings-section">
@@ -375,11 +427,12 @@
                 </div>
                 <div class="settings-panel__actions">
                   <a class="btn btn-outline" href="#">Cancel</a>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
                 </div>
               </div>
 
-              <div class="settings-panel" data-settings-panel="notifications">
+              <div class="settings-panel" data-settings-panel="notifications" id="panel-notifications" role="tabpanel"
+                aria-labelledby="tab-notifications" aria-hidden="true" hidden>
                 <div class="settings-panel__header">
                   <h3>Notifications</h3>
                   <p class="settings-panel__desc">Choose which updates should ping you via email.</p>
@@ -435,7 +488,8 @@
                   <div class="settings-section">
                     <div class="settings-section__header">
                       <h4>Reports</h4>
-                      <p class="settings-section__desc">Digest emails keep you updated without checking the dashboard.</p>
+                      <p class="settings-section__desc">Digest emails keep you updated without checking the dashboard.
+                      </p>
                     </div>
                     <div class="settings-toggle-row">
                       <div>
@@ -488,11 +542,12 @@
                 </div>
                 <div class="settings-panel__actions">
                   <a class="btn btn-outline" href="#">Cancel</a>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
                 </div>
               </div>
 
-              <div class="settings-panel" data-settings-panel="security">
+              <div class="settings-panel" data-settings-panel="security" id="panel-security" role="tabpanel"
+                aria-labelledby="tab-security" aria-hidden="true" hidden>
                 <div class="settings-panel__header">
                   <h3>Security</h3>
                   <p class="settings-panel__desc">Protect your account with strong passwords and session controls.</p>
@@ -501,7 +556,8 @@
                   <div class="settings-section">
                     <div class="settings-section__header">
                       <h4>Password</h4>
-                      <p class="settings-section__desc">Use a password with at least 12 characters, including a number and symbol.</p>
+                      <p class="settings-section__desc">Use a password with at least 12 characters, including a number
+                        and symbol.</p>
                     </div>
                     <div class="form-field">
                       <label class="form-label" for="security-current-password">Current password</label>
@@ -551,11 +607,12 @@
                 </div>
                 <div class="settings-panel__actions">
                   <a class="btn btn-outline" href="#">Cancel</a>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
                 </div>
               </div>
 
-              <div class="settings-panel" data-settings-panel="preferences">
+              <div class="settings-panel" data-settings-panel="preferences" id="panel-preferences" role="tabpanel"
+                aria-labelledby="tab-preferences" aria-hidden="true" hidden>
                 <div class="settings-panel__header">
                   <h3>Preferences</h3>
                   <p class="settings-panel__desc">Adjust language, currency, time, and theme options.</p>
@@ -606,7 +663,8 @@
                     <p class="form-label">Theme</p>
                     <div class="settings-preference-options settings-preference-options--theme">
                       <label class="settings-theme-option">
-                        <input type="radio" name="preferences-theme" value="system" data-preview="System default" checked />
+                        <input type="radio" name="preferences-theme" value="system" data-preview="System default"
+                          checked />
                         System
                       </label>
                       <label class="settings-theme-option">
@@ -631,13 +689,467 @@
                 </div>
                 <div class="settings-panel__actions">
                   <a class="btn btn-outline" href="#">Cancel</a>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="billing" id="panel-billing" role="tabpanel"
+                aria-labelledby="tab-billing" aria-hidden="true" hidden>
+                <div class="settings-panel__header">
+                  <div>
+                    <h3>Billing / Payment Methods</h3>
+                    <p class="settings-panel__desc">Manage payment methods used for recurring gifts and admin billing.
+                    </p>
+                  </div>
+                  <button type="button" class="btn btn-outline" data-modal-open="billing-card">Add card</button>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="billing-cards" data-billing-cards>
+                    <article class="billing-card" data-card-id="card-visa" data-card-default="true">
+                      <div class="billing-card__header">
+                        <span class="billing-card__brand">
+                          <i class="fa fa-solid fa-cc-visa" aria-hidden="true"></i>
+                          <span>Visa</span>
+                        </span>
+                        <span class="billing-card__pill billing-card__pill--primary">Default</span>
+                      </div>
+                      <p class="billing-card__number" data-card-number>**** **** **** 4242</p>
+                      <div class="billing-card__meta">
+                        <span data-card-exp>Exp 04/28</span>
+                        <span data-card-country>United States</span>
+                      </div>
+                      <div class="billing-card__actions">
+                        <button type="button" class="btn btn-ghost" data-card-action="set-default">Set default</button>
+                        <button type="button" class="btn btn-ghost btn-ghost--danger"
+                          data-card-action="remove">Remove</button>
+                      </div>
+                    </article>
+                    <article class="billing-card" data-card-id="card-master" data-card-default="false">
+                      <div class="billing-card__header">
+                        <span class="billing-card__brand">
+                          <i class="fa-brands fa-cc-mastercard" aria-hidden="true"></i>
+                          <span>Mastercard</span>
+                        </span>
+                        <span class="billing-card__pill billing-card__pill--ghost" hidden>Default</span>
+                      </div>
+                      <p class="billing-card__number" data-card-number>**** **** **** 1881</p>
+                      <div class="billing-card__meta">
+                        <span data-card-exp>Exp 09/30</span>
+                        <span data-card-country>United Arab Emirates</span>
+                      </div>
+                      <div class="billing-card__actions">
+                        <button type="button" class="btn btn-ghost" data-card-action="set-default">Set default</button>
+                        <button type="button" class="btn btn-ghost btn-ghost--danger"
+                          data-card-action="remove">Remove</button>
+                      </div>
+                    </article>
+                    <article class="billing-card" data-card-id="card-amex" data-card-default="false">
+                      <div class="billing-card__header">
+                        <span class="billing-card__brand">
+                          <i class="fa-brands fa-cc-amex" aria-hidden="true"></i>
+                          <span>Amex</span>
+                        </span>
+                        <span class="billing-card__pill billing-card__pill--ghost" hidden>Default</span>
+                      </div>
+                      <p class="billing-card__number" data-card-number>**** **** **** 0005</p>
+                      <div class="billing-card__meta">
+                        <span data-card-exp>Exp 11/27</span>
+                        <span data-card-country>Turkey</span>
+                      </div>
+                      <div class="billing-card__actions">
+                        <button type="button" class="btn btn-ghost" data-card-action="set-default">Set default</button>
+                        <button type="button" class="btn btn-ghost btn-ghost--danger"
+                          data-card-action="remove">Remove</button>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="zakat" id="panel-zakat" role="tabpanel"
+                aria-labelledby="tab-zakat" aria-hidden="true" hidden>
+                <div class="settings-panel__header">
+                  <h3>Zakat module</h3>
+                  <p class="settings-panel__desc">Make Zakat calculations transparent for every initiative.</p>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="settings-zakat">
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Enable Zakat module</h4>
+                        <p class="settings-toggle-row__desc">Switch on the automatic calculation helpers for generosity
+                          tracking.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" class="js-zakat-toggle" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="form-field settings-zakat__percentage">
+                      <label class="form-label" for="zakat-percentage">Zakat percentage (%)</label>
+                      <input id="zakat-percentage" class="form-control js-zakat-percentage" type="number" min="0"
+                        max="100" step="0.1" value="2.5" />
+                      <p class="text-muted">Used to calculate Zakat donations across the system.</p>
+                    </div>
+                    <div class="settings-zakat__example" data-zakat-example>
+                      <p class="settings-zakat__example-title">Example calculation</p>
+                      <p class="settings-zakat__example-value" data-zakat-example-value>On 10,000 TRY → Zakat = 250 TRY
+                        (at 2.5%)</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="donation-types" id="panel-donation-types" role="tabpanel"
+                aria-labelledby="tab-donation-types" aria-hidden="true" hidden>
+                <div class="settings-panel__header">
+                  <div>
+                    <h3>Donation Types</h3>
+                    <p class="settings-panel__desc">Manage donation types used across modules.</p>
+                  </div>
+                  <button type="button" class="btn btn-outline" data-modal-open="donation-type-form">Add type</button>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="donation-types-table">
+                    <div class="donation-types-table__row donation-types-table__row--head">
+                      <span>Type name</span>
+                      <span>Description</span>
+                      <span>Status</span>
+                      <span>Actions</span>
+                    </div>
+                    <div class="donation-types-table__body" data-donation-types-list></div>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="categories" id="panel-categories" role="tabpanel"
+                aria-labelledby="tab-categories" aria-hidden="true" hidden>
+                <div class="settings-panel__header">
+                  <div>
+                    <h3>Categories</h3>
+                    <p class="settings-panel__desc">Organize categories and sub-categories that structure each campaign.
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-panel__body settings-categories">
+                  <div class="settings-categories__pane">
+                    <div class="settings-categories__header">
+                      <h4>Categories</h4>
+                      <button type="button" class="btn btn-outline" data-modal-open="category-form">Add
+                        category</button>
+                    </div>
+                    <ul class="settings-categories__list" data-category-list></ul>
+                  </div>
+                  <div class="settings-categories__pane">
+                    <div class="settings-categories__header">
+                      <h4>Sub-categories</h4>
+                      <button type="button" class="btn btn-outline" data-modal-open="subcategory-form">Add
+                        sub-category</button>
+                    </div>
+                    <ul class="settings-categories__sublist" data-subcategory-list></ul>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="campaign-defaults" id="panel-campaign-defaults"
+                role="tabpanel" aria-labelledby="tab-campaign-defaults" aria-hidden="true" hidden>
+                <div class="settings-panel__header">
+                  <div>
+                    <h3>Campaign defaults</h3>
+                    <p class="settings-panel__desc">These defaults apply to new campaigns only.</p>
+                  </div>
+                </div>
+                <div class="settings-panel__body">
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>Display toggles</h4>
+                      <p class="settings-section__desc">Control what supporters see when a new campaign launches.</p>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Show donor count by default</h4>
+                        <p class="settings-toggle-row__desc">Surface the total donor count on every campaign card.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Show recent donors list</h4>
+                        <p class="settings-toggle-row__desc">Highlight supporter names on the campaign feed.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Allow campaign without financial goal</h4>
+                        <p class="settings-toggle-row__desc">Let teams publish inspirational campaigns without a
+                          measurable target.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Allow open-ended end date</h4>
+                        <p class="settings-toggle-row__desc">Keep campaigns running without a fixed completion date.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Show “ending soon” indicator</h4>
+                        <p class="settings-toggle-row__desc">Alert supporters when a campaign is in its final stretch.
+                        </p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Enable QR code display on campaign page</h4>
+                        <p class="settings-toggle-row__desc">Offer a scannable QR code for offline donors.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                    <div class="settings-toggle-row">
+                      <div>
+                        <h4>Enable “Suggested donations” in cart</h4>
+                        <p class="settings-toggle-row__desc">Recommend thoughtful gift amounts during checkout.</p>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="campaign-visibility">
+                    <p class="form-label">Default campaign visibility</p>
+                    <div class="segmented-control" role="group" aria-label="Default campaign visibility"
+                      data-visibility-control>
+                      <button type="button" class="segmented-control__item is-active"
+                        data-visibility="public">Public</button>
+                      <button type="button" class="segmented-control__item" data-visibility="unlisted">Unlisted</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
                 </div>
               </div>
 
             </div>
           </div>
         </section>
+
+        <template id="billing-card-template">
+          <article class="billing-card" data-card-default="false">
+            <div class="billing-card__header">
+              <span class="billing-card__brand">
+                <i class="fa-brands fa-credit-card" aria-hidden="true"></i>
+                <span data-card-brand>Card</span>
+              </span>
+              <span class="billing-card__pill billing-card__pill--primary" hidden>Default</span>
+            </div>
+            <p class="billing-card__number" data-card-number>**** **** **** 0000</p>
+            <div class="billing-card__meta">
+              <span data-card-exp>Exp 01/23</span>
+              <span data-card-country>Country</span>
+            </div>
+            <div class="billing-card__actions">
+              <button type="button" class="btn btn-ghost" data-card-action="set-default">Set default</button>
+              <button type="button" class="btn btn-ghost btn-ghost--danger" data-card-action="remove">Remove</button>
+            </div>
+          </article>
+        </template>
+
+        <div class="modal" data-modal="billing-card" hidden>
+          <div class="modal__overlay" data-modal-close></div>
+          <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-billing-title">
+            <header class="modal__header">
+              <h4 id="modal-billing-title">Add card</h4>
+              <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </header>
+            <form id="billing-card-form" class="modal__body" novalidate>
+              <div class="form-field">
+                <label class="form-label" for="billing-cardholder">Cardholder name</label>
+                <input id="billing-cardholder" class="form-control" type="text" name="cardholder" required />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="billing-card-number">Card number</label>
+                <input id="billing-card-number" class="form-control" type="text" name="cardNumber" inputmode="numeric"
+                  required />
+              </div>
+              <div class="form-field form-field--split">
+                <div>
+                  <label class="form-label" for="billing-card-expiry">Expiry</label>
+                  <input id="billing-card-expiry" class="form-control" type="text" name="expiry" placeholder="MM/YY" />
+                </div>
+                <div>
+                  <label class="form-label" for="billing-card-cvc">CVC</label>
+                  <input id="billing-card-cvc" class="form-control" type="text" name="cvc" inputmode="numeric"
+                    maxlength="4" />
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="billing-card-country">Billing country</label>
+                <select id="billing-card-country" class="form-control" name="country">
+                  <option value="us">United States</option>
+                  <option value="eg">Egypt</option>
+                  <option value="tr">Turkey</option>
+                  <option value="ae">United Arab Emirates</option>
+                  <option value="ng">Nigeria</option>
+                </select>
+              </div>
+              <div class="modal__actions">
+                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Add card</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="modal" data-modal="confirm" hidden>
+          <div class="modal__overlay" data-modal-close></div>
+          <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-confirm-title">
+            <header class="modal__header">
+              <h4 id="modal-confirm-title">Confirm action</h4>
+              <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </header>
+            <div class="modal__body">
+              <p data-confirm-message>Are you sure you want to continue?</p>
+            </div>
+            <div class="modal__actions">
+              <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+              <button type="button" class="btn btn-primary" data-confirm-action>Confirm</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal" data-modal="donation-type-form" hidden>
+          <div class="modal__overlay" data-modal-close></div>
+          <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-donation-title">
+            <header class="modal__header">
+              <h4 id="modal-donation-title">Add donation type</h4>
+              <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </header>
+            <form id="donation-type-form" class="modal__body" novalidate>
+              <input type="hidden" name="donationTypeId" />
+              <div class="form-field">
+                <label class="form-label" for="donation-type-name">Name</label>
+                <input id="donation-type-name" class="form-control" type="text" name="name" required />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="donation-type-description">Description <span
+                    class="text-muted">(optional)</span></label>
+                <textarea id="donation-type-description" class="form-control" name="description" rows="3"></textarea>
+              </div>
+              <div class="form-field">
+                <label class="switch">
+                  <input type="checkbox" name="status" checked />
+                  <span class="switch__control"></span>
+                  Active
+                </label>
+              </div>
+              <div class="modal__actions">
+                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Save type</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="modal" data-modal="category-form" hidden>
+          <div class="modal__overlay" data-modal-close></div>
+          <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-category-title">
+            <header class="modal__header">
+              <h4 id="modal-category-title">Add category</h4>
+              <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </header>
+            <form id="category-form" class="modal__body" novalidate>
+              <input type="hidden" name="categoryId" />
+              <div class="form-field">
+                <label class="form-label" for="category-name">Category name</label>
+                <input id="category-name" class="form-control" type="text" name="name" required />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="category-description">Description <span
+                    class="text-muted">(optional)</span></label>
+                <textarea id="category-description" class="form-control" name="description" rows="3"></textarea>
+              </div>
+              <div class="modal__actions">
+                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Save category</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="modal" data-modal="subcategory-form" hidden>
+          <div class="modal__overlay" data-modal-close></div>
+          <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-subcategory-title">
+            <header class="modal__header">
+              <h4 id="modal-subcategory-title">Add sub-category</h4>
+              <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </header>
+            <form id="subcategory-form" class="modal__body" novalidate>
+              <input type="hidden" name="subcategoryId" />
+              <input type="hidden" name="categoryId" />
+              <div class="form-field">
+                <label class="form-label" for="subcategory-name">Sub-category name</label>
+                <input id="subcategory-name" class="form-control" type="text" name="name" required />
+              </div>
+              <div class="modal__actions">
+                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Save sub-category</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
       </main>
       <!-- Application footer -->
       <footer class="app-footer">

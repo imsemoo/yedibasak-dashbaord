@@ -13294,17 +13294,21 @@ body.modal-open {
   border: none;
   box-shadow: none;
   padding: var(--space-2) 0;
-\}\n/* === Settings: Billing / Zakat / Donation Types === */
+}
+
 .settings-page.settings-page--advanced {
   width: 100%;
 }
+
 .settings-nav__header {
   margin-bottom: var(--space-3);
 }
+
 .settings-nav__header h3 {
   margin: 0;
   font-size: 1.2rem;
 }
+
 .settings-nav__overline {
   margin: 0;
   font-size: 12px;
@@ -13312,6 +13316,7 @@ body.modal-open {
   text-transform: uppercase;
   color: var(--color-muted);
 }
+
 .settings-module {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -13322,31 +13327,38 @@ body.modal-open {
   gap: var(--space-3);
   box-shadow: var(--shadow-card-light);
 }
+
 .settings-module__header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--space-3);
 }
+
 .settings-module__header h3 {
   margin: 0;
 }
+
 .settings-module__desc {
   margin: var(--space-1) 0 0;
   font-size: 14px;
   color: var(--color-muted);
 }
+
 .settings-section__actions {
   margin-left: auto;
 }
+
 .settings-section__actions--toggle .switch {
   height: 32px;
 }
+
 .settings-module__helper {
   margin: 0;
   font-size: 13px;
   color: var(--color-muted);
 }
+
 .settings-tabs {
   display: flex;
   gap: var(--space-2);
@@ -13354,6 +13366,7 @@ body.modal-open {
   border-radius: var(--radius-md);
   overflow: hidden;
 }
+
 .settings-tab {
   flex: 1;
   border: none;
@@ -13364,22 +13377,27 @@ body.modal-open {
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast);
 }
+
 .settings-tab.is-active {
   background: var(--color-primary);
   color: #ffffff;
 }
+
 .settings-tab-panel {
   display: none;
   margin-top: var(--space-4);
 }
+
 .settings-tab-panel--active {
   display: block;
 }
+
 .billing-card-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--space-3);
 }
+
 .payment-method-card {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -13390,48 +13408,58 @@ body.modal-open {
   justify-content: space-between;
   min-height: 190px;
 }
+
 .payment-method-card--default {
   border-color: rgba(21, 197, 206, 0.35);
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
 }
+
 .payment-method-card__visual {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
 }
+
 .payment-method-card__brand {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   font-weight: 600;
 }
+
 .payment-method-card__brand i {
   font-size: 1.25rem;
 }
+
 .payment-method-card__number {
   margin: 0;
   font-size: 1.1rem;
   letter-spacing: 0.25em;
 }
+
 .payment-method-card__meta {
   margin: 0;
   color: var(--color-muted);
   font-size: 14px;
 }
+
 .payment-method-card__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: var(--space-3);
 }
+
 .payment-method-card__actions {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
 }
+
 .link-button--danger {
   color: var(--color-danger);
 }
+
 .zakat-preview {
   padding: var(--space-3);
   background: var(--color-surface-alt);
@@ -13439,12 +13467,14 @@ body.modal-open {
   border: 1px dashed var(--color-border);
   font-weight: 600;
 }
+
 .types-table {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface-alt);
   overflow: hidden;
 }
+
 .types-table__row {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -13453,32 +13483,39 @@ body.modal-open {
   border-bottom: 1px solid var(--color-border);
   align-items: center;
 }
+
 .types-table__row:last-child {
   border-bottom: none;
 }
+
 .types-table__row.types-table__header {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-muted);
 }
+
 .types-table__cell {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
+
 .types-table__cell--slug {
   font-family: 'Jost', system-ui, sans-serif;
   color: var(--color-muted);
 }
+
 .types-table__cell--actions {
   justify-content: flex-end;
 }
+
 .categories-manager {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
 }
+
 .categories-manager__column {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -13489,12 +13526,14 @@ body.modal-open {
   gap: var(--space-3);
   min-height: 260px;
 }
+
 .categories-manager__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: var(--space-2);
 }
+
 .category-list {
   list-style: none;
   margin: 0;
@@ -13503,6 +13542,7 @@ body.modal-open {
   flex-direction: column;
   gap: var(--space-2);
 }
+
 .category-list__item {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -13515,20 +13555,25 @@ body.modal-open {
   cursor: pointer;
   transition: border var(--transition-fast), box-shadow var(--transition-fast);
 }
+
 .category-list__item.is-selected {
   border-color: var(--color-primary);
   box-shadow: var(--shadow-card-light);
 }
+
 .category-list__item:hover {
   border-color: var(--color-border-subtle);
 }
+
 .category-list__actions {
   display: flex;
   gap: var(--space-1);
 }
+
 .category-list__actions .icon-button {
   border-radius: 8px;
 }
+
 .subcategory-list {
   list-style: none;
   margin: 0;
@@ -13537,6 +13582,7 @@ body.modal-open {
   flex-direction: column;
   gap: var(--space-2);
 }
+
 .subcategory-item {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -13547,25 +13593,30 @@ body.modal-open {
   align-items: center;
   gap: var(--space-2);
 }
+
 .subcategory-item__actions {
   display: flex;
   align-items: center;
   gap: var(--space-1);
 }
+
 .reorder-controls {
   display: flex;
   gap: var(--space-1);
 }
+
 .campaign-defaults {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
+
 .campaign-defaults__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-3);
 }
+
 .settings-actions {
   margin-top: var(--space-3);
   display: flex;
@@ -13573,19 +13624,463 @@ body.modal-open {
   justify-content: flex-end;
   gap: var(--space-3);
 }
+
 .settings-actions__helper {
   margin: 0;
   flex: 1;
 }
+
 @media (max-width: 960px) {
   .settings-tabs {
     flex-direction: column;
   }
+
   .categories-manager {
     grid-template-columns: 1fr;
   }
+
   .types-table__row {
     grid-template-columns: 1fr;
   }
 }
 
+/* === Settings: Billing / Zakat / Donation Types === */
+.billing-cards {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.billing-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-card-light);
+  min-width: 280px;
+  position: relative;
+  overflow: hidden;
+}
+
+.billing-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(21, 197, 206, 0.08), rgba(5, 9, 22, 0.04));
+  pointer-events: none;
+}
+
+.billing-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.billing-card__brand {
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-text);
+}
+
+.billing-card__brand i {
+  font-size: 1.35rem;
+}
+
+.billing-card__pill {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+}
+
+.billing-card__pill--primary {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.billing-card__number {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.billing-card__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--color-text-soft);
+}
+
+.billing-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.billing-card__actions button {
+  border-radius: var(--radius-lg);
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--color-border);
+}
+
+.billing-card__actions .btn-ghost:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-ghost {
+  border: none;
+  background: transparent;
+  color: var(--color-text-soft);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-ghost--danger {
+  color: var(--color-danger);
+}
+
+.btn-ghost:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.settings-zakat {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  background: var(--color-surface);
+}
+
+.settings-zakat__percentage {
+  max-width: 280px;
+}
+
+.settings-zakat__example {
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  background: var(--color-surface-alt);
+  border: 1px dashed var(--color-border);
+  margin-top: var(--space-3);
+}
+
+.settings-zakat__example--disabled {
+  opacity: 0.5;
+}
+
+.donation-types-table {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.donation-types-table__row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 2fr auto auto;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+
+.donation-types-table__row--head {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.donation-type-row {
+  border-top: 1px solid var(--color-border);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-lg);
+  font-size: 0.75rem;
+}
+
+.status-pill--success {
+  background: var(--status-success-soft-bg);
+  border: 1px solid var(--status-success-soft-border);
+  color: var(--color-success);
+}
+
+.status-pill--muted {
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  color: var(--color-text-soft);
+}
+
+.link-button {
+  border: none;
+  background: transparent;
+  padding: 0 var(--space-2);
+  color: var(--color-text-soft);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.link-button--danger {
+  color: var(--color-danger);
+}
+
+.link-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.donation-type-row {
+  background: var(--color-surface-alt);
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-3);
+}
+
+.donation-type-row__cell {
+  display: flex;
+  align-items: center;
+}
+
+.donation-type-row__cell--description p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.donation-type-row__cell--actions {
+  justify-content: flex-end;
+  gap: var(--space-1);
+}
+
+.settings-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.settings-categories__pane {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.settings-categories__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.settings-categories__list,
+.settings-categories__sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.settings-categories__item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.settings-categories__item.is-active {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-soft);
+}
+
+.settings-categories__item-label {
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  flex: 1;
+  cursor: pointer;
+}
+
+.settings-categories__item-actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.settings-categories__item {
+  background: var(--color-surface-alt);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-categories__item button {
+  border-radius: 50%;
+}
+
+.icon-button {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-soft);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  border-color: var(--color-border);
+}
+
+.icon-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.campaign-visibility {
+  margin-top: var(--space-5);
+}
+
+.segmented-control {
+  display: inline-flex;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.segmented-control__item {
+  border: none;
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  color: var(--color-text-soft);
+  cursor: pointer;
+}
+
+.segmented-control__item.is-active {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.settings-toggle-row:last-of-type {
+  border-bottom: 0;
+}
+
+.settings-toggle-row h4 {
+  margin-bottom: var(--space-1);
+}
+
+.segmented-control__item {
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.segmented-control__item:hover:not(.is-active) {
+  background: var(--color-surface-alt);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.modal.is-open {
+  display: flex;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay);
+}
+
+.modal__dialog {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  width: min(480px, calc(100% - 2rem));
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  z-index: 1;
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal__close {
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 1.25rem;
+}
+
+.modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+body.has-active-modal {
+  overflow: hidden;
+}
+
+.toast-container {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.toast {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

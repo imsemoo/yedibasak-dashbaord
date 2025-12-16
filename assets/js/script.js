@@ -1,4 +1,4 @@
-ï»¿/**
+/**
  * Dashboard front-end behaviors for campaigns, donors, donations, messaging,
  * team management, exports, and settings screens.
  * Runs in the browser and simply wires UI interactions to the existing backend-
@@ -28,7 +28,7 @@
     chip.dataset.value = value;
     chip.innerHTML = `
       <span class="cs-chip__label"></span>
-      <button type="button" class="cs-chip__x" aria-label="Remove">Ã—</button>
+      <button type="button" class="cs-chip__x" aria-label="Remove">×</button>
     `;
     chip.querySelector('.cs-chip__label').textContent = label;
     return chip;
@@ -2499,7 +2499,7 @@
         averageEl.textContent = dataset?.donorAverage || "-";
       }
       if (lastEl) {
-        lastEl.textContent = dataset?.donorLastGift || "â€”";
+        lastEl.textContent = dataset?.donorLastGift || "—";
       }
       if (campaignsEl) {
         const campaignsCount = Number(dataset?.donorCampaigns) || 0;
@@ -3588,7 +3588,7 @@
     const summaryReference = page.querySelector(".js-summary-reference");
     const summaryTags = page.querySelector(".js-summary-tags");
     const summaryStatus = page.querySelector(".js-summary-status");
-    const currencySymbols = { USD: "$", EUR: "â‚¬", TRY: "â‚º" };
+    const currencySymbols = { USD: "$", EUR: "€", TRY: "?" };
 
     // Sample donor results used for UI stub until the backend returns real search results.
     const donors = [
@@ -3706,7 +3706,7 @@
           (donor) => `<button type="button" class="donor-result${selectedDonorId === donor.id ? " is-selected" : ""}" data-donor-id="${donor.id}">
             <div>
               <p class="donor-result__name">${donor.name}</p>
-              <p class="donor-result__meta">${donor.email} Â· ${donor.city}</p>
+              <p class="donor-result__meta">${donor.email} · ${donor.city}</p>
             </div>
             <span class="donor-result__badge">Existing</span>
           </button>`
@@ -3747,13 +3747,13 @@
         summaryDonor.textContent = donorName;
       }
       if (summaryEmail) {
-        summaryEmail.textContent = donorEmail || "â€”";
+        summaryEmail.textContent = donorEmail || "—";
       }
       if (summaryLocation) {
-        summaryLocation.textContent = customLocationParts.length ? customLocationParts.join(", ") : "â€”";
+        summaryLocation.textContent = customLocationParts.length ? customLocationParts.join(", ") : "—";
       }
       if (summaryAmount) {
-        summaryAmount.textContent = amountValue > 0 ? `${currencySymbols[currencyField.value] || ""}${formatAmountDisplay(amountValue)}` : "â€”";
+        summaryAmount.textContent = amountValue > 0 ? `${currencySymbols[currencyField.value] || ""}${formatAmountDisplay(amountValue)}` : "—";
       }
       if (summaryCurrency) {
         summaryCurrency.textContent = (currencyField.value || "USD").toUpperCase();
@@ -3764,21 +3764,21 @@
       if (summaryCampaign) {
         summaryCampaign.textContent = campaignField.value
           ? campaignField.selectedOptions?.[0]?.textContent?.trim()
-          : "â€”";
+          : "—";
       }
       if (summaryAllocation) {
-        summaryAllocation.textContent = allocationField.value.trim() || "â€”";
+        summaryAllocation.textContent = allocationField.value.trim() || "—";
       }
       if (summaryMethod) {
         summaryMethod.textContent = paymentMethodField.value
           ? paymentMethodField.selectedOptions?.[0]?.textContent?.trim()
-          : "â€”";
+          : "—";
       }
       if (summaryDate) {
-        summaryDate.textContent = formatPreviewDate(dateField.value) || "â€”";
+        summaryDate.textContent = formatPreviewDate(dateField.value) || "—";
       }
       if (summaryReference) {
-        summaryReference.textContent = referenceField.value.trim() || "â€”";
+        summaryReference.textContent = referenceField.value.trim() || "—";
       }
       renderTagsSummary();
 
@@ -4672,49 +4672,9 @@
    * Targets `.settings-page`, `.settings-nav__item`, `.settings-panel`, and theme radio inputs.
    */
   const initSettingsPage = () => {
-    // Wire settings toggles, switches, and form-level helpers.
-    const page = document.querySelector(".settings-page");
-    if (!page) return;
-
-    const navItems = Array.from(page.querySelectorAll(".settings-nav__item"));
-    const panels = Array.from(page.querySelectorAll(".settings-panel"));
-    const previewLabel = page.querySelector("[data-theme-preview-value]");
-    const themeRadios = Array.from(page.querySelectorAll('input[name="preferences-theme"]'));
-
-    const activateTab = (tab) => {
-      if (!tab) return;
-      navItems.forEach((item) => {
-        item.classList.toggle("is-active", item.dataset.settingsTab === tab);
-      });
-
-      panels.forEach((panel) => {
-        panel.classList.toggle("settings-panel--active", panel.dataset.settingsPanel === tab);
-      });
-    };
-
-    const updateThemePreview = () => {
-      if (!previewLabel || !themeRadios.length) return;
-      const active = themeRadios.find((radio) => radio.checked);
-      const previewText = active?.dataset?.preview || active?.value || "System default";
-      previewLabel.textContent = `Theme: ${previewText}`;
-    };
-
-    navItems.forEach((item) => {
-      item.addEventListener("click", () => {
-        const tab = item.dataset.settingsTab;
-        activateTab(tab);
-      });
-    });
-
-    themeRadios.forEach((radio) => {
-      radio.addEventListener("change", updateThemePreview);
-    });
-
-    const first = navItems[0];
-    if (first && first.dataset.settingsTab) {
-      activateTab(first.dataset.settingsTab);
+    if (window.SettingsManager && typeof window.SettingsManager.init === "function") {
+      window.SettingsManager.init();
     }
-    updateThemePreview();
   };
 
   // Map backend role identifiers to the default permission checkboxes currently shown in the UI.
@@ -4849,7 +4809,7 @@
         removeBtn.type = "button";
         removeBtn.className = "team-filter-chip-remove";
         removeBtn.setAttribute("aria-label", `Remove ${meta.label} filter`);
-        removeBtn.textContent = "âœ•";
+        removeBtn.textContent = "?";
         removeBtn.addEventListener("click", () => {
           const select = filterSelectsByName.get(key);
           if (select) {
@@ -5494,7 +5454,885 @@
     setupDonationTimelineReveal(page);
   };
 
-  // Central initializer: DOMContentLoaded safely triggers each init function only where its page root exists.
+  const SettingsManager = (() => {
+    const focusableSelector = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const toastContainer = document.querySelector(".toast-container");
+    const modalRegistry = new Map();
+    let activeModal = null;
+    let previousFocus = null;
+    let confirmCallback = null;
+    let confirmTitleEl = null;
+    let confirmMessageEl = null;
+    let confirmButtonEl = null;
+
+    const showToast = (message) => {
+      if (!toastContainer || !message) return;
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.textContent = message;
+      toastContainer.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add("is-visible"));
+      const hideToast = () => {
+        toast.classList.remove("is-visible");
+        toast.addEventListener(
+          "transitionend",
+          () => {
+            toast.remove();
+          },
+          { once: true }
+        );
+      };
+      setTimeout(hideToast, 3400);
+    };
+
+    const openModal = (key) => {
+      const modal = modalRegistry.get(key);
+      if (!modal) return;
+      previousFocus = document.activeElement;
+      activeModal = modal;
+      modal.hidden = false;
+      modal.setAttribute("aria-hidden", "false");
+      modal.classList.add("is-open");
+      document.body.classList.add("has-active-modal");
+      const focusable = Array.from(modal.querySelectorAll(focusableSelector)).filter(
+        (el) => !el.hasAttribute("disabled")
+      );
+      (focusable[0] || modal).focus();
+    };
+
+    const closeModal = () => {
+      if (!activeModal) return;
+      activeModal.hidden = true;
+      activeModal.setAttribute("aria-hidden", "true");
+      activeModal.classList.remove("is-open");
+      activeModal = null;
+      confirmCallback = null;
+      document.body.classList.remove("has-active-modal");
+      if (previousFocus) {
+        previousFocus.focus();
+        previousFocus = null;
+      }
+    };
+
+    const trapFocus = (event) => {
+      if (!activeModal) return;
+      if (event.key !== "Tab") return;
+      const focusable = Array.from(activeModal.querySelectorAll(focusableSelector)).filter(
+        (el) => !el.hasAttribute("disabled")
+      );
+      if (!focusable.length) {
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey) {
+        if (document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else if (document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    const handleDocumentKeydown = (event) => {
+      if (!activeModal) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+      trapFocus(event);
+    };
+
+    const initModals = () => {
+      document.querySelectorAll("[data-modal]").forEach((modal) => {
+        modalRegistry.set(modal.dataset.modal, modal);
+        modal.setAttribute("aria-hidden", "true");
+      });
+      confirmTitleEl = document.getElementById("modal-confirm-title");
+      confirmMessageEl = document.querySelector("[data-confirm-message]");
+      confirmButtonEl = document.querySelector("[data-confirm-action]");
+      document.querySelectorAll("[data-modal-open]").forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          const target = trigger.dataset.modalOpen;
+          if (target) {
+            openModal(target);
+          }
+        });
+      });
+      document.querySelectorAll("[data-modal-close]").forEach((trigger) => {
+        trigger.addEventListener("click", (event) => {
+          event.preventDefault();
+          closeModal();
+        });
+      });
+      if (confirmButtonEl) {
+        confirmButtonEl.addEventListener("click", () => {
+          if (typeof confirmCallback === "function") {
+            confirmCallback();
+          }
+          confirmCallback = null;
+          closeModal();
+        });
+      }
+      document.addEventListener("keydown", handleDocumentKeydown);
+    };
+
+    const showConfirm = ({ title, message, confirmLabel = "Confirm", onConfirm }) => {
+      if (!confirmTitleEl || !confirmMessageEl || !confirmButtonEl) return;
+      confirmTitleEl.textContent = title || "Confirm action";
+      confirmMessageEl.textContent = message || "Are you sure you want to continue?";
+      confirmButtonEl.textContent = confirmLabel;
+      confirmCallback = onConfirm;
+      openModal("confirm");
+    };
+
+    const initTabs = (page) => {
+      const navItems = Array.from(page.querySelectorAll(".settings-nav__item"));
+      const panels = Array.from(page.querySelectorAll(".settings-panel"));
+      const activateTab = (tabId) => {
+        if (!tabId) return;
+        navItems.forEach((item) => {
+          const isActive = item.dataset.settingsTab === tabId;
+          item.classList.toggle("is-active", isActive);
+          const button = item.querySelector("button");
+          if (!button) {
+            return;
+          }
+          button.setAttribute("aria-selected", isActive ? "true" : "false");
+          button.setAttribute("tabindex", isActive ? "0" : "-1");
+        });
+        panels.forEach((panel) => {
+          const isTarget = panel.dataset.settingsPanel === tabId;
+          panel.classList.toggle("settings-panel--active", isTarget);
+          panel.hidden = !isTarget;
+          panel.setAttribute("aria-hidden", isTarget ? "false" : "true");
+        });
+      };
+      navItems.forEach((item) => {
+        const button = item.querySelector("button");
+        if (!button) return;
+        button.addEventListener("click", () => {
+          activateTab(item.dataset.settingsTab);
+        });
+      });
+      const initialTab = navItems.find((item) => item.classList.contains("is-active"))?.dataset.settingsTab;
+      if (initialTab) {
+        activateTab(initialTab);
+      } else if (navItems.length) {
+        activateTab(navItems[0].dataset.settingsTab);
+      }
+    };
+
+    const createPanelTracker = (page) => {
+      const states = new Map();
+      const panels = Array.from(page.querySelectorAll(".settings-panel"));
+      panels.forEach((panel) => {
+        const panelId = panel.dataset.settingsPanel;
+        const saveButton = panel.querySelector("[data-save-button]");
+        if (!panelId || !saveButton) return;
+        const state = {
+          dirty: false,
+        };
+        const setClean = () => {
+          state.dirty = false;
+          saveButton.disabled = true;
+        };
+        const setDirty = () => {
+          if (!state.dirty) {
+            state.dirty = true;
+            saveButton.disabled = false;
+          }
+        };
+        saveButton.disabled = true;
+        saveButton.addEventListener("click", () => {
+          showToast("Settings saved (demo)");
+          setClean();
+        });
+        panel.addEventListener("input", setDirty);
+        panel.addEventListener("change", setDirty);
+        states.set(panelId, { setDirty, setClean });
+      });
+      const markDirty = (panelId) => {
+        const entry = states.get(panelId);
+        entry?.setDirty();
+      };
+      const markClean = (panelId) => {
+        const entry = states.get(panelId);
+        entry?.setClean();
+      };
+      return { markDirty, markClean };
+    };
+
+    const initBilling = (page, markDirty) => {
+      const panel = page.querySelector('[data-settings-panel="billing"]');
+      if (!panel) return;
+      const cardsContainer = panel.querySelector("[data-billing-cards]");
+      const template = document.getElementById("billing-card-template");
+      let pendingRemoval = null;
+      const brandIcons = {
+        Visa: "fa-solid fa-cc-visa",
+        Mastercard: "fa-solid fa-cc-mastercard",
+        Amex: "fa-solid fa-cc-amex",
+        Card: "fa-solid fa-credit-card",
+      };
+      const guessBrand = (number) => {
+        const digits = (number || "").toString().replace(/\D/g, "");
+        if (digits.startsWith("4")) {
+          return "Visa";
+        }
+        if (/^5[1-5]/.test(digits)) {
+          return "Mastercard";
+        }
+        if (/^3[47]/.test(digits)) {
+          return "Amex";
+        }
+        return "Card";
+      };
+      const applyCardState = (card, isDefault) => {
+        card.dataset.cardDefault = isDefault ? "true" : "false";
+        const pill = card.querySelector(".billing-card__pill");
+        const actionButton = card.querySelector('[data-card-action="set-default"]');
+        if (pill) {
+          pill.hidden = !isDefault;
+          pill.classList.toggle("billing-card__pill--ghost", !isDefault);
+          pill.classList.toggle("billing-card__pill--primary", isDefault);
+        }
+        if (actionButton) {
+          actionButton.disabled = isDefault;
+        }
+      };
+      const setDefaultCard = (card) => {
+        if (!card) return;
+        cardsContainer.querySelectorAll(".billing-card").forEach((candidate) => {
+          applyCardState(candidate, candidate === card);
+        });
+      };
+      const createCardElement = ({ id, brand, last4, exp, country, isDefault = false }) => {
+        if (!template) return null;
+        const clone = template.content.cloneNode(true);
+        const card = clone.querySelector(".billing-card");
+        if (!card) return null;
+        card.dataset.cardId = id;
+        const brandLabel = card.querySelector("[data-card-brand]");
+        const brandIcon = card.querySelector(".billing-card__brand i");
+        if (brandLabel) {
+          brandLabel.textContent = brand;
+        }
+        if (brandIcon) {
+          brandIcon.className = brandIcons[brand] || brandIcons.Card;
+        }
+        const numberEl = card.querySelector("[data-card-number]");
+        if (numberEl) {
+          numberEl.textContent = `**** **** **** ${last4}`;
+        }
+        const expEl = card.querySelector("[data-card-exp]");
+        if (expEl) {
+          expEl.textContent = exp || "Exp --/--";
+        }
+        const countryEl = card.querySelector("[data-card-country]");
+        if (countryEl) {
+          countryEl.textContent = country || "Country";
+        }
+        applyCardState(card, isDefault);
+        return card;
+      };
+      cardsContainer.addEventListener("click", (event) => {
+        const actionButton = event.target.closest("[data-card-action]");
+        if (!actionButton) return;
+        const card = actionButton.closest("[data-card-id]");
+        if (!card) return;
+        const action = actionButton.dataset.cardAction;
+        if (action === "set-default") {
+          setDefaultCard(card);
+          markDirty("billing");
+          showToast("Default card updated (demo)");
+          return;
+        }
+        if (action === "remove") {
+          pendingRemoval = card;
+          const brand = card.querySelector("[data-card-brand]")?.textContent?.trim() || "Card";
+          const last4 = card.querySelector("[data-card-number]")?.textContent?.slice(-4) || "0000";
+          showConfirm({
+            title: "Remove payment method",
+            message: `Remove ${brand} ending ${last4}?`,
+            confirmLabel: "Remove card",
+            onConfirm: () => {
+              if (!pendingRemoval) return;
+              const wasDefault = pendingRemoval.dataset.cardDefault === "true";
+              pendingRemoval.remove();
+              pendingRemoval = null;
+              if (wasDefault) {
+                const fallback = cardsContainer.querySelector(".billing-card");
+                if (fallback) {
+                  setDefaultCard(fallback);
+                }
+              }
+              markDirty("billing");
+              showToast("Card removed (demo)");
+            },
+          });
+        }
+      });
+      const form = document.getElementById("billing-card-form");
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const cardNumber = (data.get("cardNumber") || "").toString();
+        const last4 = cardNumber.replace(/\D/g, "").slice(-4) || "0000";
+        const brand = guessBrand(cardNumber);
+        const newCard = createCardElement({
+          id: `card-${Date.now()}`,
+          brand,
+          last4,
+          exp: data.get("expiry") ? `Exp ${data.get("expiry")}` : "Exp --/--",
+          country: data.get("country") || "Country",
+        });
+        if (newCard) {
+          cardsContainer.prepend(newCard);
+          markDirty("billing");
+          showToast("Card added (demo)");
+        }
+        form.reset();
+        closeModal();
+      });
+      const existingDefault = cardsContainer.querySelector('[data-card-default="true"]');
+      if (existingDefault) {
+        setDefaultCard(existingDefault);
+      }
+    };
+
+
+    const initZakat = (page, markDirty) => {
+      const panel = page.querySelector('[data-settings-panel="zakat"]');
+      if (!panel) return;
+      const toggle = panel.querySelector(".js-zakat-toggle");
+      const percentage = panel.querySelector(".js-zakat-percentage");
+      const exampleValue = panel.querySelector("[data-zakat-example-value]");
+      const exampleWrapper = panel.querySelector("[data-zakat-example]");
+      const baseAmount = 10000;
+      const updateExample = () => {
+        const value = Number(percentage?.value) || 0;
+        const zakat = ((baseAmount * value) / 100).toFixed(2);
+        if (exampleValue) {
+          exampleValue.textContent = `On 10,000 TRY -> Zakat = ${zakat} TRY (at ${value.toFixed(1)}%)`;
+        }
+      };
+      const updateDisabled = () => {
+        const disabled = toggle && !toggle.checked;
+        if (percentage) {
+          percentage.disabled = disabled;
+        }
+        exampleWrapper?.classList.toggle("settings-zakat__example--disabled", disabled);
+      };
+      toggle?.addEventListener("change", () => {
+        updateDisabled();
+        markDirty("zakat");
+      });
+      percentage?.addEventListener("input", () => {
+        updateExample();
+        markDirty("zakat");
+      });
+      updateExample();
+      updateDisabled();
+    };
+
+    const initDonationTypes = (page, markDirty) => {
+      const panel = page.querySelector('[data-settings-panel="donation-types"]');
+      if (!panel) return;
+      const list = panel.querySelector("[data-donation-types-list]");
+      const typeForm = document.getElementById("donation-type-form");
+      const modalTitle = document.getElementById("modal-donation-title");
+      let donationTypes = [
+        {
+          id: "zakat",
+          name: "Zakat",
+          description: "Purity-focused donations allocated for Zakat requirements.",
+          status: "active",
+        },
+        {
+          id: "qurbani",
+          name: "Qurbani",
+          description: "Campaigns that honor the Qurbani rituals.",
+          status: "active",
+        },
+        {
+          id: "general",
+          name: "General",
+          description: "Flexible giving for operations and community work.",
+          status: "active",
+        },
+        {
+          id: "gift",
+          name: "Gift",
+          description: "Bespoke gifts assigned to unique acknowledgements.",
+          status: "disabled",
+        },
+      ];
+      const render = () => {
+        if (!list) return;
+        list.innerHTML = donationTypes
+          .map((type) => {
+            const label = type.status === "active" ? "Active" : "Disabled";
+            const pillClass = type.status === "active" ? "status-pill--success" : "status-pill--muted";
+            return `
+              <div class="donation-type-row" data-type-row="${type.id}">
+                <div class="donation-type-row__cell">
+                  <strong>${type.name}</strong>
+                </div>
+                <div class="donation-type-row__cell donation-type-row__cell--description">
+                  <p class="text-muted">${type.description || "—"}</p>
+                </div>
+                <div class="donation-type-row__cell">
+                  <span class="status-pill ${pillClass}">${label}</span>
+                </div>
+                <div class="donation-type-row__cell donation-type-row__cell--actions">
+                  <button type="button" class="link-button" data-donation-action="edit" data-type-id="${type.id}">Edit</button>
+                  <button type="button" class="link-button" data-donation-action="toggle" data-type-id="${type.id}">
+                    ${type.status === "active" ? "Disable" : "Enable"}
+                  </button>
+                  <button type="button" class="link-button link-button--danger" data-donation-action="delete" data-type-id="${type.id}">Delete</button>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      };
+      const openTypeForm = (mode, typeId) => {
+        if (!typeForm) return;
+        typeForm.reset();
+        const idField = typeForm.elements["donationTypeId"];
+        const nameField = typeForm.elements["name"];
+        const descriptionField = typeForm.elements["description"];
+        const statusField = typeForm.elements["status"];
+        if (mode === "edit" && typeId) {
+          const target = donationTypes.find((item) => item.id === typeId);
+          if (target) {
+            idField.value = target.id;
+            nameField.value = target.name;
+            descriptionField.value = target.description || "";
+            statusField.checked = target.status === "active";
+          }
+          modalTitle.textContent = "Edit donation type";
+        } else {
+          idField.value = "";
+          statusField.checked = true;
+          modalTitle.textContent = "Add donation type";
+        }
+        openModal("donation-type-form");
+      };
+      list?.addEventListener("click", (event) => {
+        const actionButton = event.target.closest("[data-donation-action]");
+        if (!actionButton) return;
+        const typeId = actionButton.dataset.typeId;
+        if (!typeId) return;
+        const action = actionButton.dataset.donationAction;
+        const target = donationTypes.find((item) => item.id === typeId);
+        if (!target) return;
+        if (action === "edit") {
+          openTypeForm("edit", typeId);
+          return;
+        }
+        if (action === "toggle") {
+          target.status = target.status === "active" ? "disabled" : "active";
+          render();
+          markDirty("donation-types");
+          showToast("Donation type updated (demo)");
+          return;
+        }
+        if (action === "delete") {
+          showConfirm({
+            title: "Delete donation type",
+            message: `Delete ${target.name}?`,
+            confirmLabel: "Delete",
+            onConfirm: () => {
+              donationTypes = donationTypes.filter((item) => item.id !== typeId);
+              render();
+              markDirty("donation-types");
+              showToast("Donation type deleted (demo)");
+            },
+          });
+        }
+      });
+      typeForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(typeForm);
+        const id = formData.get("donationTypeId");
+        const name = (formData.get("name") || "").toString().trim();
+        if (!name) return;
+        const description = (formData.get("description") || "").toString().trim();
+        const status = typeForm.elements["status"].checked ? "active" : "disabled";
+        if (id) {
+          const target = donationTypes.find((item) => item.id === id);
+          if (target) {
+            target.name = name;
+            target.description = description;
+            target.status = status;
+            showToast("Donation type updated (demo)");
+          }
+        } else {
+          donationTypes.unshift({
+            id: `type-${Date.now()}`,
+            name,
+            description,
+            status,
+          });
+          showToast("Donation type added (demo)");
+        }
+        render();
+        markDirty("donation-types");
+        closeModal();
+      });
+      render();
+    };
+
+    const initCategories = (page, markDirty) => {
+      const panel = page.querySelector('[data-settings-panel="categories"]');
+      if (!panel) return;
+      const categoryList = panel.querySelector("[data-category-list]");
+      const subcategoryList = panel.querySelector("[data-subcategory-list]");
+      const categoryForm = document.getElementById("category-form");
+      const subcategoryForm = document.getElementById("subcategory-form");
+      const categoryTitle = document.getElementById("modal-category-title");
+      const subcategoryTitle = document.getElementById("modal-subcategory-title");
+      let categories = [
+        {
+          id: "qurbani",
+          name: "Qurbani",
+          description: "Sacrificial giving and gratitude celebration",
+          subcategories: [
+            { id: "q-sacrifice", name: "Sacrifice" },
+            { id: "q-gift", name: "Gift" },
+            { id: "q-others", name: "Others" },
+          ],
+        },
+        {
+          id: "general-relief",
+          name: "General Relief",
+          description: "Emergency and relief work around the globe",
+          subcategories: [
+            { id: "gr-food", name: "Food" },
+            { id: "gr-medicine", name: "Medicine" },
+          ],
+        },
+        {
+          id: "education",
+          name: "Education",
+          description: "Scholarships, schools, and learning support",
+          subcategories: [
+            { id: "ed-scholarships", name: "Scholarships" },
+            { id: "ed-schools", name: "School support" },
+          ],
+        },
+        {
+          id: "emergency",
+          name: "Emergency",
+          description: "Rapid response and disaster relief",
+          subcategories: [
+            { id: "eg-medical", name: "Medical" },
+            { id: "eg-shelter", name: "Shelter" },
+          ],
+        },
+      ];
+      let selectedCategoryId = categories[0]?.id;
+      const swapItems = (array, fromIndex, toIndex) => {
+        if (fromIndex < 0 || toIndex < 0 || fromIndex >= array.length || toIndex >= array.length) return;
+        const [item] = array.splice(fromIndex, 1);
+        array.splice(toIndex, 0, item);
+      };
+      const renderSubcategories = () => {
+        const active = categories.find((category) => category.id === selectedCategoryId);
+        if (!subcategoryList) return;
+        if (!active) {
+          subcategoryList.innerHTML =
+            '<li class="settings-categories__item text-muted">Select a category to view sub-categories.</li>';
+          return;
+        }
+        if (!active.subcategories.length) {
+          subcategoryList.innerHTML =
+            '<li class="settings-categories__item text-muted">No sub-categories yet.</li>';
+          return;
+        }
+        subcategoryList.innerHTML = active.subcategories
+          .map((sub, index) => {
+            const disabledUp = index === 0 ? "disabled" : "";
+            const disabledDown = index === active.subcategories.length - 1 ? "disabled" : "";
+            return `
+              <li class="settings-categories__item" data-subcategory-id="${sub.id}">
+                <span>${sub.name}</span>
+                <div class="settings-categories__item-actions">
+                  <button type="button" class="icon-button" data-subcategory-action="move-up" data-subcategory-id="${sub.id}" ${disabledUp} aria-label="Move ${sub.name} up">
+                    <i class="fa-solid fa-arrow-up"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-subcategory-action="move-down" data-subcategory-id="${sub.id}" ${disabledDown} aria-label="Move ${sub.name} down">
+                    <i class="fa-solid fa-arrow-down"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-subcategory-action="edit" data-subcategory-id="${sub.id}" aria-label="Edit ${sub.name}">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-subcategory-action="delete" data-subcategory-id="${sub.id}" aria-label="Delete ${sub.name}">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </li>
+            `;
+          })
+          .join("");
+      };
+      const renderCategories = () => {
+        if (!categoryList) return;
+        categoryList.innerHTML = categories
+          .map((category, index) => {
+            const activeClass = category.id === selectedCategoryId ? "is-active" : "";
+            const disabledUp = index === 0 ? "disabled" : "";
+            const disabledDown = index === categories.length - 1 ? "disabled" : "";
+            return `
+              <li class="settings-categories__item ${activeClass}" data-category-id="${category.id}">
+                <button type="button" class="settings-categories__item-label" data-category-select>
+                  <div>
+                    <strong>${category.name}</strong>
+                    <p class="text-muted">${category.description || "—"}</p>
+                  </div>
+                </button>
+                <div class="settings-categories__item-actions">
+                  <button type="button" class="icon-button" data-category-action="move-up" data-category-id="${category.id}" ${disabledUp} aria-label="Move ${category.name} up">
+                    <i class="fa-solid fa-arrow-up"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-category-action="move-down" data-category-id="${category.id}" ${disabledDown} aria-label="Move ${category.name} down">
+                    <i class="fa-solid fa-arrow-down"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-category-action="edit" data-category-id="${category.id}" aria-label="Edit ${category.name}">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-category-action="delete" data-category-id="${category.id}" aria-label="Delete ${category.name}">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </li>
+            `;
+          })
+          .join("");
+        renderSubcategories();
+      };
+      const openCategoryForm = (mode, category = null) => {
+        if (!categoryForm) return;
+        categoryForm.reset();
+        const idField = categoryForm.elements["categoryId"];
+        const nameField = categoryForm.elements["name"];
+        const descriptionField = categoryForm.elements["description"];
+        if (mode === "edit" && category) {
+          idField.value = category.id;
+          nameField.value = category.name;
+          descriptionField.value = category.description || "";
+          categoryTitle.textContent = "Edit category";
+        } else {
+          idField.value = "";
+          categoryTitle.textContent = "Add category";
+        }
+        openModal("category-form");
+      };
+      const openSubcategoryForm = (mode, categoryId, subcategory = null) => {
+        if (!subcategoryForm) return;
+        subcategoryForm.reset();
+        const idField = subcategoryForm.elements["subcategoryId"];
+        const categoryField = subcategoryForm.elements["categoryId"];
+        const nameField = subcategoryForm.elements["name"];
+        categoryField.value = categoryId || selectedCategoryId || "";
+        if (mode === "edit" && subcategory) {
+          idField.value = subcategory.id;
+          nameField.value = subcategory.name;
+          subcategoryTitle.textContent = "Edit sub-category";
+        } else {
+          idField.value = "";
+          subcategoryTitle.textContent = "Add sub-category";
+        }
+        openModal("subcategory-form");
+      };
+      categoryList?.addEventListener("click", (event) => {
+        const actionButton = event.target.closest("[data-category-action]");
+        if (actionButton) {
+          const categoryId = actionButton.dataset.categoryId;
+          if (!categoryId) return;
+          const index = categories.findIndex((cat) => cat.id === categoryId);
+          if (index === -1) return;
+          const action = actionButton.dataset.categoryAction;
+          if (action === "move-up") {
+            swapItems(categories, index, index - 1);
+            markDirty("categories");
+            renderCategories();
+            return;
+          }
+          if (action === "move-down") {
+            swapItems(categories, index, index + 1);
+            markDirty("categories");
+            renderCategories();
+            return;
+          }
+          if (action === "edit") {
+            openCategoryForm("edit", categories[index]);
+            return;
+          }
+          if (action === "delete") {
+            showConfirm({
+              title: "Delete category",
+              message: `Delete ${categories[index].name}?`,
+              confirmLabel: "Delete",
+              onConfirm: () => {
+                const removed = categories.splice(index, 1);
+                if (removed.length && selectedCategoryId === removed[0].id) {
+                  selectedCategoryId = categories[0]?.id;
+                }
+                markDirty("categories");
+                renderCategories();
+                showToast("Category deleted (demo)");
+              },
+            });
+            return;
+          }
+          return;
+        }
+        const selectButton = event.target.closest("[data-category-select]");
+        if (selectButton) {
+          const listItem = selectButton.closest("[data-category-id]");
+          if (!listItem) return;
+          selectedCategoryId = listItem.dataset.categoryId;
+          renderCategories();
+        }
+      });
+      subcategoryList?.addEventListener("click", (event) => {
+        const actionButton = event.target.closest("[data-subcategory-action]");
+        if (!actionButton) return;
+        const subcategoryId = actionButton.dataset.subcategoryId;
+        if (!subcategoryId) return;
+        const action = actionButton.dataset.subcategoryAction;
+        const active = categories.find((category) => category.id === selectedCategoryId);
+        if (!active) return;
+        const index = active.subcategories.findIndex((sub) => sub.id === subcategoryId);
+        if (index === -1) return;
+        if (action === "move-up") {
+          swapItems(active.subcategories, index, index - 1);
+          markDirty("categories");
+          renderSubcategories();
+          return;
+        }
+        if (action === "move-down") {
+          swapItems(active.subcategories, index, index + 1);
+          markDirty("categories");
+          renderSubcategories();
+          return;
+        }
+        if (action === "edit") {
+          openSubcategoryForm("edit", active.id, active.subcategories[index]);
+          return;
+        }
+        if (action === "delete") {
+          showConfirm({
+            title: "Delete sub-category",
+            message: `Delete ${active.subcategories[index].name}?`,
+            confirmLabel: "Delete",
+            onConfirm: () => {
+              active.subcategories.splice(index, 1);
+              markDirty("categories");
+              renderSubcategories();
+              showToast("Sub-category deleted (demo)");
+            },
+          });
+        }
+      });
+      categoryForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(categoryForm);
+        const id = data.get("categoryId");
+        const name = (data.get("name") || "").toString().trim();
+        if (!name) return;
+        const description = (data.get("description") || "").toString().trim();
+        if (id) {
+          const target = categories.find((category) => category.id === id);
+          if (target) {
+            target.name = name;
+            target.description = description;
+            showToast("Category updated (demo)");
+          }
+        } else {
+          const newCategory = {
+            id: `cat-${Date.now()}`,
+            name,
+            description,
+            subcategories: [],
+          };
+          categories.push(newCategory);
+          selectedCategoryId = newCategory.id;
+          showToast("Category added (demo)");
+        }
+        markDirty("categories");
+        renderCategories();
+        closeModal();
+      });
+      subcategoryForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(subcategoryForm);
+        const id = data.get("subcategoryId");
+        const categoryId = data.get("categoryId") || selectedCategoryId;
+        const name = (data.get("name") || "").toString().trim();
+        if (!name || !categoryId) return;
+        const category = categories.find((cat) => cat.id === categoryId);
+        if (!category) return;
+        if (id) {
+          const target = category.subcategories.find((sub) => sub.id === id);
+          if (target) {
+            target.name = name;
+            showToast("Sub-category updated (demo)");
+          }
+        } else {
+          category.subcategories.push({
+            id: `sub-${Date.now()}`,
+            name,
+          });
+          showToast("Sub-category added (demo)");
+        }
+        markDirty("categories");
+        renderSubcategories();
+        closeModal();
+      });
+      renderCategories();
+    };
+
+    const initCampaignDefaults = (page, markDirty) => {
+      const panel = page.querySelector('[data-settings-panel="campaign-defaults"]');
+      if (!panel) return;
+      panel.querySelectorAll(".settings-toggle-row input[type='checkbox']").forEach((toggle) => {
+        toggle.addEventListener("change", () => markDirty("campaign-defaults"));
+      });
+      const group = panel.querySelector("[data-visibility-control]");
+      if (!group) return;
+      const buttons = Array.from(group.querySelectorAll("[data-visibility]"));
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((candidate) => candidate.classList.toggle("is-active", candidate === button));
+          markDirty("campaign-defaults");
+        });
+      });
+    };
+
+    const init = () => {
+      const page = document.querySelector(".settings-page");
+      if (!page) return;
+      initTabs(page);
+      initModals();
+      const tracker = createPanelTracker(page);
+      initBilling(page, tracker.markDirty);
+      initZakat(page, tracker.markDirty);
+      initDonationTypes(page, tracker.markDirty);
+      initCategories(page, tracker.markDirty);
+      initCampaignDefaults(page, tracker.markDirty);
+    };
+
+    return { init };
+  })();
+  window.SettingsManager = SettingsManager;
+
   document.addEventListener("DOMContentLoaded", () => {
     initThemeToggle();
     initSidebar();
@@ -5546,4 +6384,3 @@
   });
 
 })();
-
