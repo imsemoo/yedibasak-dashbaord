@@ -1804,6 +1804,290 @@
     });
   };
 
+  const formatSuggestedAmount = (value) => {
+    const number = Number(value) || 0;
+    return `Donate ₺${number.toLocaleString()}`;
+  };
+
+  const toastContainer = document.querySelector(".cs-toast-container");
+  const showCampaignToast = (message, variant = "success") => {
+    if (!toastContainer || !message) return;
+    const toast = document.createElement("div");
+    toast.className = `cs-toast cs-toast--${variant}`;
+    toast.textContent = message;
+    toastContainer.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add("is-visible"));
+    const hideToast = () => {
+      toast.classList.remove("is-visible");
+      toast.addEventListener(
+        "transitionend",
+        () => {
+          toast.remove();
+        },
+        { once: true }
+      );
+    };
+    setTimeout(hideToast, 3200);
+  };
+
+  const cardStatusClassMap = {
+    active: "status-active",
+    draft: "status-draft",
+    completed: "status-completed",
+    archived: "status-archived",
+  };
+
+  const rowStatusClassMap = {
+    active: "status-pill--active",
+    draft: "status-pill--draft",
+    completed: "status-pill--completed",
+    archived: "status-pill--archived",
+  };
+
+  const updateStatusPillForCard = (card, statusText) => {
+    const statusEl = card.querySelector(".campaign-card__status");
+    if (!statusEl) return;
+    const normalized = (statusText || "").toLowerCase();
+    const className = cardStatusClassMap[normalized] || "status-active";
+    statusEl.textContent = statusText || "Status";
+    statusEl.className = `campaign-card__status ${className}`.trim();
+  };
+
+  const updateStatusPillForRow = (row, statusText) => {
+    const statusEl = row.querySelector(".status-pill");
+    if (!statusEl) return;
+    const normalized = (statusText || "").toLowerCase();
+    const className = rowStatusClassMap[normalized] || "status-pill--active";
+    statusEl.textContent = statusText || "Status";
+    statusEl.className = `status-pill ${className}`.trim();
+  };
+
+  const applyExpiryBadge = (badge, dataset) => {
+    if (!badge) return;
+    const status = (dataset?.campaignStatus || "").toLowerCase();
+    if (status !== "active") {
+      badge.classList.add("is-hidden");
+      badge.classList.remove("badge--warning", "badge--danger");
+      return;
+    }
+    const endsIn = Number(dataset?.endsInDays) || 0;
+    let label = "";
+    let severity = "";
+    if (endsIn <= 0) {
+      label = "Ends today";
+      severity = "danger";
+    } else if (endsIn <= 2) {
+      label = "Urgent";
+      severity = "danger";
+    } else if (endsIn <= 7) {
+      label = "Ending soon";
+      severity = "warning";
+    }
+    if (!label) {
+      badge.classList.add("is-hidden");
+      badge.classList.remove("badge--warning", "badge--danger");
+      return;
+    }
+    badge.textContent = label;
+    badge.classList.remove("is-hidden");
+    badge.classList.toggle("badge--warning", severity === "warning");
+    badge.classList.toggle("badge--danger", severity === "danger");
+  };
+
+  const updateDonateButtonState = (button, statusNormalized, dataset) => {
+    if (!button) return;
+    const label = formatSuggestedAmount(dataset?.suggestedDonation);
+    if (statusNormalized === "active") {
+      button.disabled = false;
+      button.textContent = label;
+      button.setAttribute("aria-label", `${label} to ${dataset?.campaignTitle}`);
+    } else {
+      button.disabled = true;
+      button.textContent = "Closed";
+      button.setAttribute("aria-label", "Campaign closed");
+    }
+  };
+
+  const syncCampaignCard = (card) => {
+    if (!card) return;
+    const dataset = card.dataset;
+    const hasGoal = dataset.hasGoal !== "false";
+    const progressBar = card.querySelector(".campaign-progress__bar");
+    if (progressBar) {
+      const width = Math.min(Number(dataset.progress) || 0, 100);
+      progressBar.style.width = `${width}%`;
+    }
+    const progressLine = card.querySelector(".campaign-card__progress-line");
+    const progressMeta = card.querySelector(".campaign-card__progress-meta");
+    const progressEmpty = card.querySelector(".campaign-card__progress-empty");
+    progressLine?.classList.toggle("is-hidden", !hasGoal);
+    progressMeta?.classList.toggle("is-hidden", !hasGoal);
+    progressEmpty?.classList.toggle("is-hidden", hasGoal);
+    const ecardBadge = card.querySelector(".js-campaign-ecard");
+    if (ecardBadge) {
+      ecardBadge.classList.toggle("is-hidden", dataset.ecard !== "true");
+    }
+    applyExpiryBadge(card.querySelector(".js-campaign-expiry"), dataset);
+    updateStatusPillForCard(card, dataset.campaignStatus);
+    const statusNormalized = (dataset.campaignStatus || "").toLowerCase();
+    const closeButton = card.querySelector(".js-close-campaign");
+    if (closeButton) {
+      closeButton.classList.toggle("is-hidden", statusNormalized !== "active");
+    }
+    const donateBtn = card.querySelector(".js-campaign-donate");
+    updateDonateButtonState(donateBtn, statusNormalized, dataset);
+  };
+
+  const syncCampaignRow = (row) => {
+    if (!row) return;
+    const dataset = row.dataset;
+    const hasGoal = dataset.hasGoal !== "false";
+    const progressBar = row.querySelector(".progress-bar");
+    if (progressBar) {
+      const width = Math.min(Number(dataset.progress) || 0, 100);
+      progressBar.style.width = `${width}%`;
+    }
+    const progressGroup = row.querySelector(".progress");
+    const progressLabel = row.querySelector(".js-table-progress-label");
+    progressGroup?.classList.toggle("is-hidden", !hasGoal);
+    progressLabel?.classList.toggle("is-hidden", hasGoal);
+    const targetCell = row.querySelector('[data-amount-field="target"]');
+    if (targetCell) {
+      targetCell.textContent = hasGoal ? dataset.campaignTarget : "—";
+    }
+    const ecardBadge = row.querySelector(".js-table-ecard");
+    if (ecardBadge) {
+      ecardBadge.classList.toggle("is-hidden", dataset.ecard !== "true");
+    }
+    applyExpiryBadge(row.querySelector(".js-table-expiry"), dataset);
+    updateStatusPillForRow(row, dataset.campaignStatus);
+    const statusNormalized = (dataset.campaignStatus || "").toLowerCase();
+    const closeButton = row.querySelector(".js-close-campaign");
+    if (closeButton) {
+      closeButton.classList.toggle("is-hidden", statusNormalized !== "active");
+    }
+    const donateBtn = row.querySelector(".js-campaign-donate");
+    updateDonateButtonState(donateBtn, statusNormalized, dataset);
+  };
+
+  const refreshCampaignUI = () => {
+    document.querySelectorAll(".campaign-card").forEach(syncCampaignCard);
+    document.querySelectorAll(".campaign-row").forEach(syncCampaignRow);
+  };
+
+  let campaignFilterStatus = "all";
+  const campaignSearchInput = document.querySelector("#campaign-search");
+  const campaignsEmptyState = document.querySelector(".campaigns-empty");
+
+  const applyCampaignFilters = () => {
+    const searchTerm = (campaignSearchInput?.value || "").trim().toLowerCase();
+    const matchesFilters = (dataset) => {
+      const status = (dataset.campaignStatus || "").toLowerCase();
+      const matchesStatus = campaignFilterStatus === "all" || status === campaignFilterStatus;
+      const haystack = `${dataset.campaignTitle || ""} ${dataset.campaignDescription || ""}`.toLowerCase();
+      const matchesSearch = !searchTerm || haystack.includes(searchTerm);
+      return matchesStatus && matchesSearch;
+    };
+    const cards = Array.from(document.querySelectorAll(".campaign-card"));
+    const rows = Array.from(document.querySelectorAll(".campaign-row"));
+    let visibleCount = 0;
+    cards.forEach((card) => {
+      const show = matchesFilters(card.dataset);
+      card.classList.toggle("is-hidden", !show);
+      if (show) visibleCount += 1;
+    });
+    rows.forEach((row) => {
+      const show = matchesFilters(row.dataset);
+      row.classList.toggle("is-hidden", !show);
+    });
+    if (campaignsEmptyState) {
+      campaignsEmptyState.classList.toggle("is-hidden", visibleCount > 0);
+    }
+  };
+
+  const initCampaignStatusTabs = () => {
+    const tabs = Array.from(document.querySelectorAll(".tabs__item"));
+    if (!tabs.length) return;
+    const setActiveTab = (tab) => {
+      const status = (tab.dataset.status || "all").toLowerCase();
+      campaignFilterStatus = status;
+      tabs.forEach((candidate) => {
+        const isActive = candidate === tab;
+        candidate.classList.toggle("tabs__item--active", isActive);
+        candidate.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      applyCampaignFilters();
+    };
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => setActiveTab(tab));
+    });
+    const initialTab = tabs.find((tab) => tab.classList.contains("tabs__item--active")) || tabs[0];
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+    campaignSearchInput?.addEventListener("input", () => applyCampaignFilters());
+  };
+
+  const closeCampaignModal = document.querySelector('[data-modal="close-campaign"]');
+  let pendingCloseCampaignId = null;
+
+  const closeCampaignsById = (campaignId) => {
+    if (!campaignId) return;
+    const elements = Array.from(document.querySelectorAll(`[data-campaign-id="${campaignId}"]`));
+    if (!elements.length) return;
+    elements.forEach((el) => {
+      el.dataset.campaignStatus = "Completed";
+    });
+    refreshCampaignUI();
+    applyCampaignFilters();
+  };
+
+  const openCloseCampaignModal = (campaignId) => {
+    if (!closeCampaignModal || !campaignId) return;
+    pendingCloseCampaignId = campaignId;
+    closeCampaignModal.classList.add("is-open");
+    closeCampaignModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("has-active-modal");
+  };
+
+  const closeCloseCampaignModal = () => {
+    if (!closeCampaignModal) return;
+    closeCampaignModal.classList.remove("is-open");
+    closeCampaignModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("has-active-modal");
+    pendingCloseCampaignId = null;
+  };
+
+  const initCampaignCloseModal = () => {
+    if (!closeCampaignModal) return;
+    closeCampaignModal.querySelectorAll("[data-modal-close]").forEach((btn) => {
+      btn.addEventListener("click", closeCloseCampaignModal);
+    });
+    const confirmButton = closeCampaignModal.querySelector("[data-modal-confirm]");
+    confirmButton?.addEventListener("click", () => {
+      if (pendingCloseCampaignId) {
+        closeCampaignsById(pendingCloseCampaignId);
+        showCampaignToast("Campaign closed (demo)");
+      }
+      closeCloseCampaignModal();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && closeCampaignModal.classList.contains("is-open")) {
+        event.preventDefault();
+        closeCloseCampaignModal();
+      }
+    });
+    document.querySelectorAll(".js-close-campaign").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const campaignElement = event.currentTarget.closest(".campaign-card, .campaign-row");
+        if (campaignElement) {
+          openCloseCampaignModal(campaignElement.dataset.campaignId);
+        }
+      });
+    });
+  };
+
   /**
    * Keep the donations view toggle in sync between cards and table layouts, scoped by [data-view-context='donations'].
    * Persists the selection via DONATIONS_VIEW_STORAGE_KEY.
@@ -6484,6 +6768,9 @@
     initDonationsFilters();
     initDonorsFilters();
     initCampaignActions();
+    refreshCampaignUI();
+    initCampaignStatusTabs();
+    initCampaignCloseModal();
     initDonationsActions();
     initDonorsActions();
     initCampaignPreview();

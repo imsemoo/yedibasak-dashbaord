@@ -2453,6 +2453,16 @@ body[data-theme="dark"] .donors-overview-page .stat-card__icon {
   gap: 4px;
 }
 
+.campaigns-table__title .campaign-table__ecard {
+  align-self: flex-start;
+}
+
+.campaign-table__ecard {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .campaign-name {
   font-weight: 700;
 }
@@ -2475,6 +2485,32 @@ body[data-theme="dark"] .donors-overview-page .stat-card__icon {
   gap: var(--space-2);
   justify-content: flex-end;
   flex-wrap: wrap;
+}
+
+.campaigns-table__dates {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.campaigns-table__dates-text {
+  font-weight: 600;
+}
+
+.campaigns-table__progress-label {
+  display: block;
+  margin-top: var(--space-2);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.table-actions .btn-primary.btn-small {
+  padding-inline: var(--space-3);
+  font-size: 12px;
 }
 
 .table-actions .btn {
@@ -2791,6 +2827,14 @@ body[data-theme="dark"] .donors-overview-page .stat-card__icon {
 .preview-metric__value {
   font-weight: 700;
   font-size: 18px;
+}
+
+.preview-sheet__no-goal {
+  margin: 0;
+  color: var(--color-muted);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .preview-sheet__meta {
@@ -3131,6 +3175,12 @@ body[data-theme="dark"] .preview-sheet__panel {
 .btn:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .btn-primary {
@@ -3802,6 +3852,24 @@ body[data-theme="dark"] .preview-sheet__panel {
   gap: var(--space-2);
 }
 
+.campaign-card__status-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.campaign-card__status-group .badge {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.campaign-card__header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
 .campaign-card__title {
   margin: 0 0 var(--space-2);
   font-size: 20px;
@@ -3877,6 +3945,14 @@ body[data-theme="dark"] .preview-sheet__panel {
   color: var(--color-muted);
 }
 
+.campaign-card__progress-empty {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  text-transform: uppercase;
+}
+
 .campaign-card__meta {
   display: flex;
   align-items: center;
@@ -3922,6 +3998,10 @@ body[data-theme="dark"] .preview-sheet__panel {
 
 .campaign-card__footer-actions .btn {
   padding-inline: var(--space-3);
+}
+
+.campaign-card__footer-actions .js-campaign-donate {
+  min-width: 120px;
 }
 
 .campaigns-empty {
@@ -13823,13 +13903,7 @@ body.modal-open {
   color: var(--color-primary);
 }
 
-.btn-ghost {
-  border: none;
-  background: transparent;
-  color: var(--color-text-soft);
-  font-weight: 600;
-  cursor: pointer;
-}
+
 
 .btn-ghost--danger {
   color: var(--color-danger);

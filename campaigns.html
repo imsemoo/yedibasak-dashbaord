@@ -321,27 +321,41 @@
               data-campaign-description="Delivering sustainable water access and hygiene training for rural communities."
               data-progress="72" data-target-try="50000" data-raised-try="36200" data-created-at="2025-10-05"
               data-ends-in-days="62" data-campaign-city="Nairobi" data-campaign-category="Water"
-              data-target-label="target" data-raised-label="raised" data-campaign-featured="true">
+              data-target-label="target" data-raised-label="raised" data-campaign-featured="true" data-has-goal="true"
+              data-ecard="true" data-suggested-donation="150">
               <div class="campaign-card__header">
-                <span class="campaign-card__status status-active">Active</span>
-                <div class="dropdown dropdown-actions dropdown-actions--compact">
-                  <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
-                    aria-expanded="false" aria-label="More actions">
-                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-copy"></i>
-                      <span>Duplicate</span>
+                <div class="campaign-card__status-group">
+                  <span class="campaign-card__status status-active">Active</span>
+                  <span
+                    class="badge badge--warning campaign-card__badge campaign-card__expiry is-hidden js-campaign-expiry">Ending
+                    soon</span>
+                  <span class="badge badge--soft campaign-card__ecard is-hidden js-campaign-ecard">E-Card
+                    available</span>
+                </div>
+                <div class="campaign-card__header-actions">
+                  <div class="dropdown dropdown-actions dropdown-actions--compact">
+                    <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
+                      aria-expanded="false" aria-label="More actions">
+                      <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-folder-closed"></i>
-                      <span>Archive</span>
-                    </button>
-                    <button type="button" class="dropdown-item dropdown-item--danger">
-                      <i class="fa-solid fa-trash-can"></i>
-                      <span>Delete</span>
-                    </button>
+                    <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        <span>Duplicate</span>
+                      </button>
+                      <button type="button" class="dropdown-item">
+                        <i class="fa-regular fa-folder-closed" aria-hidden="true"></i>
+                        <span>Archive</span>
+                      </button>
+                      <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <span>Close campaign</span>
+                      </button>
+                      <button type="button" class="dropdown-item dropdown-item--danger">
+                        <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+                        <span>Delete</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -357,6 +371,7 @@
                     <span data-amount-field="target">$50,000 target</span>
                     <span data-amount-field="raised">$36,200 raised (72%)</span>
                   </div>
+                  <div class="campaign-card__progress-empty is-hidden">Open donations (no goal)</div>
                 </div>
                 <div class="campaign-card__meta">
                   <span><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Water &amp; Sanitation</span>
@@ -373,13 +388,39 @@
                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
                     <span>View</span>
                   </button>
+                  <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                    aria-label="Donate to Clean Water Initiative">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span>Donate</span>
+                  </button>
                   <a href="campaign-new.html" class="btn btn-outline btn-outline--sm">
                     <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                     <span>Edit</span>
                   </a>
+                </div>
+              </div>
+            </article>
 
-                  <div class="dropdown dropdown-actions">
-                    <button type="button" class="icon-button icon-button--sm js-actions-toggle" aria-haspopup="true"
+            <article class="card campaign-card" data-campaign-id="stem-labs" data-campaign-title="STEM Labs for Schools"
+              data-campaign-status="Draft" data-campaign-type="Education" data-campaign-target="$80,000"
+              data-campaign-raised="$22,400 (28%)" data-campaign-country="Brazil" data-campaign-dates="Mar 5 - Jul 10"
+              data-campaign-description="Building modular science and robotics labs to spark innovation in underserved schools."
+              data-progress="28" data-target-try="80000" data-raised-try="22400" data-created-at="2025-11-14"
+              data-ends-in-days="94" data-campaign-city="Rio de Janeiro" data-campaign-category="Education"
+              data-target-label="target" data-raised-label="pledged" data-has-goal="true" data-ecard="false"
+              data-suggested-donation="100">
+              <div class="campaign-card__header">
+                <div class="campaign-card__status-group">
+                  <span class="campaign-card__status status-draft">Draft</span>
+                  <span
+                    class="badge badge--warning campaign-card__badge campaign-card__expiry is-hidden js-campaign-expiry">Ending
+                    soon</span>
+                  <span class="badge badge--soft campaign-card__ecard is-hidden js-campaign-ecard">E-Card
+                    available</span>
+                </div>
+                <div class="campaign-card__header-actions">
+                  <div class="dropdown dropdown-actions dropdown-actions--compact">
+                    <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
                       aria-expanded="false" aria-label="More actions">
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
@@ -392,43 +433,15 @@
                         <i class="fa-regular fa-folder-closed" aria-hidden="true"></i>
                         <span>Archive</span>
                       </button>
+                      <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <span>Close campaign</span>
+                      </button>
                       <button type="button" class="dropdown-item dropdown-item--danger">
                         <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                         <span>Delete</span>
                       </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="card campaign-card" data-campaign-id="stem-labs" data-campaign-title="STEM Labs for Schools"
-              data-campaign-status="Draft" data-campaign-type="Education" data-campaign-target="$80,000"
-              data-campaign-raised="$22,400 (28%)" data-campaign-country="Brazil" data-campaign-dates="Mar 5 - Jul 10"
-              data-campaign-description="Building modular science and robotics labs to spark innovation in underserved schools."
-              data-progress="28" data-target-try="80000" data-raised-try="22400" data-created-at="2025-11-14"
-              data-ends-in-days="94" data-campaign-city="Rio de Janeiro" data-campaign-category="Education"
-              data-target-label="target" data-raised-label="pledged">
-              <div class="campaign-card__header">
-                <span class="campaign-card__status status-draft">Draft</span>
-                <div class="dropdown dropdown-actions dropdown-actions--compact">
-                  <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
-                    aria-expanded="false" aria-label="More actions">
-                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-copy"></i>
-                      <span>Duplicate</span>
-                    </button>
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-folder-closed"></i>
-                      <span>Archive</span>
-                    </button>
-                    <button type="button" class="dropdown-item dropdown-item--danger">
-                      <i class="fa-solid fa-trash-can"></i>
-                      <span>Delete</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -444,6 +457,7 @@
                     <span data-amount-field="target">$80,000 target</span>
                     <span data-amount-field="raised">$22,400 pledged (28%)</span>
                   </div>
+                  <div class="campaign-card__progress-empty is-hidden">Open donations (no goal)</div>
                 </div>
                 <div class="campaign-card__meta">
                   <span><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Education</span>
@@ -460,12 +474,40 @@
                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
                     <span>Preview</span>
                   </button>
+                  <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                    aria-label="Donate to STEM Labs for Schools">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span>Donate</span>
+                  </button>
                   <a href="campaign-new.html" class="btn btn-outline btn-outline--sm">
                     <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                     <span>Edit</span>
                   </a>
-                  <div class="dropdown dropdown-actions">
-                    <button type="button" class="icon-button icon-button--sm js-actions-toggle" aria-haspopup="true"
+                </div>
+              </div>
+            </article>
+
+            <article class="card campaign-card" data-campaign-id="emergency-relief"
+              data-campaign-title="Emergency Relief Fund" data-campaign-status="Completed"
+              data-campaign-type="Emergency" data-campaign-target="$120,000" data-campaign-raised="$124,500 (103%)"
+              data-campaign-country="Global" data-campaign-dates="Jan 1 - Mar 1"
+              data-campaign-description="Rapid response fund supporting families displaced by sudden natural disasters."
+              data-progress="103" data-target-try="120000" data-raised-try="124500" data-created-at="2025-09-03"
+              data-ends-in-days="0" data-campaign-city="Global" data-campaign-category="Emergency"
+              data-target-label="target" data-raised-label="raised" data-has-goal="true" data-ecard="false"
+              data-suggested-donation="250">
+              <div class="campaign-card__header">
+                <div class="campaign-card__status-group">
+                  <span class="campaign-card__status status-completed">Completed</span>
+                  <span
+                    class="badge badge--warning campaign-card__badge campaign-card__expiry is-hidden js-campaign-expiry">Ending
+                    soon</span>
+                  <span class="badge badge--soft campaign-card__ecard is-hidden js-campaign-ecard">E-Card
+                    available</span>
+                </div>
+                <div class="campaign-card__header-actions">
+                  <div class="dropdown dropdown-actions dropdown-actions--compact">
+                    <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
                       aria-expanded="false" aria-label="More actions">
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
@@ -478,44 +520,15 @@
                         <i class="fa-regular fa-folder-closed" aria-hidden="true"></i>
                         <span>Archive</span>
                       </button>
+                      <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <span>Close campaign</span>
+                      </button>
                       <button type="button" class="dropdown-item dropdown-item--danger">
                         <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                         <span>Delete</span>
                       </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="card campaign-card" data-campaign-id="emergency-relief"
-              data-campaign-title="Emergency Relief Fund" data-campaign-status="Completed"
-              data-campaign-type="Emergency" data-campaign-target="$120,000" data-campaign-raised="$124,500 (103%)"
-              data-campaign-country="Global" data-campaign-dates="Jan 1 - Mar 1"
-              data-campaign-description="Rapid response fund supporting families displaced by sudden natural disasters."
-              data-progress="103" data-target-try="120000" data-raised-try="124500" data-created-at="2025-09-03"
-              data-ends-in-days="0" data-campaign-city="Global" data-campaign-category="Emergency"
-              data-target-label="target" data-raised-label="raised">
-              <div class="campaign-card__header">
-                <span class="campaign-card__status status-completed">Completed</span>
-                <div class="dropdown dropdown-actions dropdown-actions--compact">
-                  <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
-                    aria-expanded="false" aria-label="More actions">
-                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-copy"></i>
-                      <span>Duplicate</span>
-                    </button>
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-folder-closed"></i>
-                      <span>Archive</span>
-                    </button>
-                    <button type="button" class="dropdown-item dropdown-item--danger">
-                      <i class="fa-solid fa-trash-can"></i>
-                      <span>Delete</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -532,6 +545,7 @@
                     <span data-amount-field="target">$120,000 target</span>
                     <span data-amount-field="raised">$124,500 raised (103%)</span>
                   </div>
+                  <div class="campaign-card__progress-empty is-hidden">Open donations (no goal)</div>
                 </div>
                 <div class="campaign-card__meta">
                   <span><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Emergency</span>
@@ -548,12 +562,40 @@
                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
                     <span>View</span>
                   </button>
+                  <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                    aria-label="Donate to Emergency Relief Fund">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span>Donate</span>
+                  </button>
                   <a href="campaign-new.html" class="btn btn-outline btn-outline--sm">
                     <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                     <span>Edit</span>
                   </a>
-                  <div class="dropdown dropdown-actions">
-                    <button type="button" class="icon-button icon-button--sm js-actions-toggle" aria-haspopup="true"
+                </div>
+              </div>
+            </article>
+
+            <article class="card campaign-card" data-campaign-id="community-health"
+              data-campaign-title="Community Health Clinics" data-campaign-status="Active"
+              data-campaign-type="Healthcare" data-campaign-target="$65,000" data-campaign-raised="$41,600 (64%)"
+              data-campaign-country="Nepal" data-campaign-dates="Apr 18 - Aug 22"
+              data-campaign-description="Pop-up clinics delivering preventative screenings and primary care in remote villages."
+              data-progress="64" data-target-try="65000" data-raised-try="41600" data-created-at="2025-11-02"
+              data-ends-in-days="36" data-campaign-city="Kathmandu" data-campaign-category="Healthcare"
+              data-target-label="target" data-raised-label="raised" data-has-goal="true" data-ecard="true"
+              data-suggested-donation="120">
+              <div class="campaign-card__header">
+                <div class="campaign-card__status-group">
+                  <span class="campaign-card__status status-active">Active</span>
+                  <span
+                    class="badge badge--warning campaign-card__badge campaign-card__expiry is-hidden js-campaign-expiry">Ending
+                    soon</span>
+                  <span class="badge badge--soft campaign-card__ecard is-hidden js-campaign-ecard">E-Card
+                    available</span>
+                </div>
+                <div class="campaign-card__header-actions">
+                  <div class="dropdown dropdown-actions dropdown-actions--compact">
+                    <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
                       aria-expanded="false" aria-label="More actions">
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
@@ -566,44 +608,15 @@
                         <i class="fa-regular fa-folder-closed" aria-hidden="true"></i>
                         <span>Archive</span>
                       </button>
+                      <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <span>Close campaign</span>
+                      </button>
                       <button type="button" class="dropdown-item dropdown-item--danger">
                         <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                         <span>Delete</span>
                       </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="card campaign-card" data-campaign-id="community-health"
-              data-campaign-title="Community Health Clinics" data-campaign-status="Active"
-              data-campaign-type="Healthcare" data-campaign-target="$65,000" data-campaign-raised="$41,600 (64%)"
-              data-campaign-country="Nepal" data-campaign-dates="Apr 18 - Aug 22"
-              data-campaign-description="Pop-up clinics delivering preventative screenings and primary care in remote villages."
-              data-progress="64" data-target-try="65000" data-raised-try="41600" data-created-at="2025-11-02"
-              data-ends-in-days="36" data-campaign-city="Kathmandu" data-campaign-category="Healthcare"
-              data-target-label="target" data-raised-label="raised">
-              <div class="campaign-card__header">
-                <span class="campaign-card__status status-active">Active</span>
-                <div class="dropdown dropdown-actions dropdown-actions--compact">
-                  <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
-                    aria-expanded="false" aria-label="More actions">
-                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-copy"></i>
-                      <span>Duplicate</span>
-                    </button>
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-folder-closed"></i>
-                      <span>Archive</span>
-                    </button>
-                    <button type="button" class="dropdown-item dropdown-item--danger">
-                      <i class="fa-solid fa-trash-can"></i>
-                      <span>Delete</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -619,6 +632,7 @@
                     <span data-amount-field="target">$65,000 target</span>
                     <span data-amount-field="raised">$41,600 raised (64%)</span>
                   </div>
+                  <div class="campaign-card__progress-empty is-hidden">Open donations (no goal)</div>
                 </div>
                 <div class="campaign-card__meta">
                   <span><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Healthcare</span>
@@ -635,12 +649,40 @@
                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
                     <span>View</span>
                   </button>
+                  <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                    aria-label="Donate to Community Health Clinics">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span>Donate</span>
+                  </button>
                   <a href="campaign-new.html" class="btn btn-outline btn-outline--sm">
                     <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                     <span>Edit</span>
                   </a>
-                  <div class="dropdown dropdown-actions">
-                    <button type="button" class="icon-button icon-button--sm js-actions-toggle" aria-haspopup="true"
+                </div>
+              </div>
+            </article>
+
+            <article class="card campaign-card" data-campaign-id="solar-lights"
+              data-campaign-title="Solar Lights for Refugees" data-campaign-status="Archived"
+              data-campaign-type="Energy" data-campaign-target="Open donations (no goal)"
+              data-campaign-raised="$30,800 raised" data-campaign-country="Jordan" data-campaign-dates="Sep 4 - Nov 12"
+              data-campaign-description="Providing clean, portable lighting to families in temporary settlements."
+              data-progress="0" data-target-try="0" data-raised-try="30800" data-created-at="2025-10-20"
+              data-ends-in-days="5" data-campaign-city="Amman" data-campaign-category="Energy"
+              data-target-label="target" data-raised-label="raised" data-has-goal="false" data-ecard="false"
+              data-suggested-donation="80">
+              <div class="campaign-card__header">
+                <div class="campaign-card__status-group">
+                  <span class="campaign-card__status status-archived">Archived</span>
+                  <span
+                    class="badge badge--warning campaign-card__badge campaign-card__expiry is-hidden js-campaign-expiry">Ending
+                    soon</span>
+                  <span class="badge badge--soft campaign-card__ecard is-hidden js-campaign-ecard">E-Card
+                    available</span>
+                </div>
+                <div class="campaign-card__header-actions">
+                  <div class="dropdown dropdown-actions dropdown-actions--compact">
+                    <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
                       aria-expanded="false" aria-label="More actions">
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
@@ -653,44 +695,15 @@
                         <i class="fa-regular fa-folder-closed" aria-hidden="true"></i>
                         <span>Archive</span>
                       </button>
+                      <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <span>Close campaign</span>
+                      </button>
                       <button type="button" class="dropdown-item dropdown-item--danger">
                         <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                         <span>Delete</span>
                       </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="card campaign-card" data-campaign-id="solar-lights"
-              data-campaign-title="Solar Lights for Refugees" data-campaign-status="Archived"
-              data-campaign-type="Energy" data-campaign-target="$35,000" data-campaign-raised="$30,800 (88%)"
-              data-campaign-country="Jordan" data-campaign-dates="Sep 4 - Nov 12"
-              data-campaign-description="Providing clean, portable lighting to families in temporary settlements."
-              data-progress="88" data-target-try="35000" data-raised-try="30800" data-created-at="2025-10-20"
-              data-ends-in-days="5" data-campaign-city="Amman" data-campaign-category="Energy"
-              data-target-label="target" data-raised-label="raised">
-              <div class="campaign-card__header">
-                <span class="campaign-card__status status-archived">Archived</span>
-                <div class="dropdown dropdown-actions dropdown-actions--compact">
-                  <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
-                    aria-expanded="false" aria-label="More actions">
-                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-copy"></i>
-                      <span>Duplicate</span>
-                    </button>
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-folder-closed"></i>
-                      <span>Archive</span>
-                    </button>
-                    <button type="button" class="dropdown-item dropdown-item--danger">
-                      <i class="fa-solid fa-trash-can"></i>
-                      <span>Delete</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -700,12 +713,13 @@
                   settlements.</p>
                 <div class="campaign-card__progress">
                   <div class="campaign-card__progress-line">
-                    <span class="campaign-progress__bar" style="width: 88%;"></span>
+                    <span class="campaign-progress__bar" style="width: 0%;"></span>
                   </div>
                   <div class="campaign-card__progress-meta">
                     <span data-amount-field="target">$35,000 target</span>
                     <span data-amount-field="raised">$30,800 raised (88%)</span>
                   </div>
+                  <div class="campaign-card__progress-empty is-hidden">Open donations (no goal)</div>
                 </div>
                 <div class="campaign-card__meta">
                   <span><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Energy</span>
@@ -722,12 +736,40 @@
                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
                     <span>View</span>
                   </button>
+                  <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                    aria-label="Donate to Solar Lights for Refugees">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span>Donate</span>
+                  </button>
                   <a href="campaign-new.html" class="btn btn-outline btn-outline--sm">
                     <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                     <span>Edit</span>
                   </a>
-                  <div class="dropdown dropdown-actions">
-                    <button type="button" class="icon-button icon-button--sm js-actions-toggle" aria-haspopup="true"
+                </div>
+              </div>
+            </article>
+
+            <article class="card campaign-card" data-campaign-id="fresh-food" data-campaign-title="Fresh Food Network"
+              data-campaign-status="Completed" data-campaign-type="Food Security" data-campaign-target="$42,000"
+              data-campaign-raised="$40,320 (96%)" data-campaign-country="United States"
+              data-campaign-dates="Jun 8 - Oct 15"
+              data-campaign-description="Creating neighborhood-based food hubs connecting farmers and families."
+              data-progress="96" data-target-try="42000" data-raised-try="40320" data-created-at="2025-07-12"
+              data-ends-in-days="12" data-campaign-city="Los Angeles" data-campaign-category="Food Security"
+              data-target-label="target" data-raised-label="raised" data-has-goal="true" data-ecard="true"
+              data-suggested-donation="90">
+              <div class="campaign-card__header">
+                <div class="campaign-card__status-group">
+                  <span class="campaign-card__status status-completed">Completed</span>
+                  <span
+                    class="badge badge--warning campaign-card__badge campaign-card__expiry is-hidden js-campaign-expiry">Ending
+                    soon</span>
+                  <span class="badge badge--soft campaign-card__ecard is-hidden js-campaign-ecard">E-Card
+                    available</span>
+                </div>
+                <div class="campaign-card__header-actions">
+                  <div class="dropdown dropdown-actions dropdown-actions--compact">
+                    <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
                       aria-expanded="false" aria-label="More actions">
                       <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
                     </button>
@@ -740,44 +782,15 @@
                         <i class="fa-regular fa-folder-closed" aria-hidden="true"></i>
                         <span>Archive</span>
                       </button>
+                      <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <span>Close campaign</span>
+                      </button>
                       <button type="button" class="dropdown-item dropdown-item--danger">
                         <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                         <span>Delete</span>
                       </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="card campaign-card" data-campaign-id="fresh-food" data-campaign-title="Fresh Food Network"
-              data-campaign-status="Completed" data-campaign-type="Food Security" data-campaign-target="$42,000"
-              data-campaign-raised="$40,320 (96%)" data-campaign-country="United States"
-              data-campaign-dates="Jun 8 - Oct 15"
-              data-campaign-description="Creating neighborhood-based food hubs connecting farmers and families."
-              data-progress="96" data-target-try="42000" data-raised-try="40320" data-created-at="2025-07-12"
-              data-ends-in-days="12" data-campaign-city="Los Angeles" data-campaign-category="Food Security"
-              data-target-label="target" data-raised-label="raised">
-              <div class="campaign-card__header">
-                <span class="campaign-card__status status-completed">Completed</span>
-                <div class="dropdown dropdown-actions dropdown-actions--compact">
-                  <button class="icon-button icon-button--sm js-actions-toggle" type="button" aria-haspopup="true"
-                    aria-expanded="false" aria-label="More actions">
-                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-copy"></i>
-                      <span>Duplicate</span>
-                    </button>
-                    <button type="button" class="dropdown-item">
-                      <i class="fa-regular fa-folder-closed"></i>
-                      <span>Archive</span>
-                    </button>
-                    <button type="button" class="dropdown-item dropdown-item--danger">
-                      <i class="fa-solid fa-trash-can"></i>
-                      <span>Delete</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -793,6 +806,7 @@
                     <span data-amount-field="target">$42,000 target</span>
                     <span data-amount-field="raised">$40,320 raised (96%)</span>
                   </div>
+                  <div class="campaign-card__progress-empty is-hidden">Open donations (no goal)</div>
                 </div>
                 <div class="campaign-card__meta">
                   <span><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Food Security</span>
@@ -809,30 +823,15 @@
                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
                     <span>View</span>
                   </button>
+                  <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                    aria-label="Donate to Fresh Food Network">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span>Donate</span>
+                  </button>
                   <a href="campaign-new.html" class="btn btn-outline btn-outline--sm">
                     <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                     <span>Edit</span>
                   </a>
-                  <div class="dropdown dropdown-actions">
-                    <button type="button" class="icon-button icon-button--sm js-actions-toggle" aria-haspopup="true"
-                      aria-expanded="false" aria-label="More actions">
-                      <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu--actions" role="menu">
-                      <button type="button" class="dropdown-item">
-                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
-                        <span>Duplicate</span>
-                      </button>
-                      <button type="button" class="dropdown-item">
-                        <i class="fa-regular fa-folder-closed" aria-hidden="true"></i>
-                        <span>Archive</span>
-                      </button>
-                      <button type="button" class="dropdown-item dropdown-item--danger">
-                        <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
-                        <span>Delete</span>
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </article>
@@ -864,11 +863,14 @@
                     data-campaign-description="Delivering sustainable water access and hygiene training for rural communities."
                     data-progress="72" data-target-try="50000" data-raised-try="36200" data-created-at="2025-10-05"
                     data-ends-in-days="62" data-campaign-city="Nairobi" data-campaign-category="Water"
-                    data-target-label="target" data-raised-label="raised" data-campaign-featured="true">
+                    data-target-label="target" data-raised-label="raised" data-campaign-featured="true"
+                    data-has-goal="true" data-ecard="true" data-suggested-donation="150">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Clean Water Initiative</span>
                         <span class="campaign-subtitle">Delivering sustainable water access and hygiene training.</span>
+                        <span class="badge badge--tag campaign-table__ecard is-hidden js-table-ecard">E-Card
+                          available</span>
                       </div>
                     </td>
                     <td data-label="Status">
@@ -881,14 +883,27 @@
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:72%"></div>
                       </div>
+                      <span class="campaigns-table__progress-label is-hidden js-table-progress-label">Open donations (no
+                        goal)</span>
                     </td>
                     <td data-label="Country">Kenya</td>
-                    <td data-label="Dates">Feb 10 - May 30</td>
+                    <td data-label="Dates">
+                      <div class="campaigns-table__dates">
+                        <span class="campaigns-table__dates-text">Feb 10 - May 30</span>
+                        <span class="badge badge--warning campaign-table__expiry is-hidden js-table-expiry">Ending
+                          soon</span>
+                      </div>
+                    </td>
                     <td class="table-col-actions" data-label="Actions">
                       <div class="table-actions">
                         <button type="button" class="btn btn-ghost btn-ghost--xs js-campaign-preview">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                           <span class="sr-only">View campaign</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                          aria-label="Donate to Clean Water Initiative">
+                          <i class="fa-solid fa-hand-holding-dollar"></i>
+                          <span>Donate</span>
                         </button>
                         <a href="campaign-new.html" class="btn btn-outline btn-outline--xs">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
@@ -907,6 +922,10 @@
                             <button type="button" class="dropdown-item">
                               <i class="fa-regular fa-folder-closed"></i>
                               <span>Archive</span>
+                            </button>
+                            <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                              <i class="fa-solid fa-lock"></i>
+                              <span>Close campaign</span>
                             </button>
                             <button type="button" class="dropdown-item dropdown-item--danger">
                               <i class="fa-solid fa-trash-can"></i>
@@ -924,12 +943,15 @@
                     data-campaign-description="Building modular science and robotics labs to spark innovation in underserved schools."
                     data-progress="28" data-target-try="80000" data-raised-try="22400" data-created-at="2025-11-14"
                     data-ends-in-days="94" data-campaign-city="Rio de Janeiro" data-campaign-category="Education"
-                    data-target-label="target" data-raised-label="pledged">
+                    data-target-label="target" data-raised-label="pledged" data-has-goal="true" data-ecard="false"
+                    data-suggested-donation="100">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">STEM Labs for Schools</span>
                         <span class="campaign-subtitle">Building modular science and robotics labs to spark
                           innovation.</span>
+                        <span class="badge badge--tag campaign-table__ecard is-hidden js-table-ecard">E-Card
+                          available</span>
                       </div>
                     </td>
                     <td data-label="Status">
@@ -942,14 +964,27 @@
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:28%"></div>
                       </div>
+                      <span class="campaigns-table__progress-label is-hidden js-table-progress-label">Open donations (no
+                        goal)</span>
                     </td>
                     <td data-label="Country">Brazil</td>
-                    <td data-label="Dates">Mar 5 - Jul 10</td>
+                    <td data-label="Dates">
+                      <div class="campaigns-table__dates">
+                        <span class="campaigns-table__dates-text">Mar 5 - Jul 10</span>
+                        <span class="badge badge--warning campaign-table__expiry is-hidden js-table-expiry">Ending
+                          soon</span>
+                      </div>
+                    </td>
                     <td class="table-col-actions" data-label="Actions">
                       <div class="table-actions">
                         <button type="button" class="btn btn-ghost btn-ghost--xs js-campaign-preview">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                           <span class="sr-only">Preview campaign</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                          aria-label="Donate to STEM Labs for Schools">
+                          <i class="fa-solid fa-hand-holding-dollar"></i>
+                          <span>Donate</span>
                         </button>
                         <a href="campaign-new.html" class="btn btn-outline btn-outline--xs">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
@@ -968,6 +1003,10 @@
                             <button type="button" class="dropdown-item">
                               <i class="fa-regular fa-folder-closed"></i>
                               <span>Archive</span>
+                            </button>
+                            <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                              <i class="fa-solid fa-lock"></i>
+                              <span>Close campaign</span>
                             </button>
                             <button type="button" class="dropdown-item dropdown-item--danger">
                               <i class="fa-solid fa-trash-can"></i>
@@ -986,12 +1025,15 @@
                     data-campaign-description="Rapid response fund supporting families displaced by disasters."
                     data-progress="103" data-target-try="120000" data-raised-try="124500" data-created-at="2025-09-03"
                     data-ends-in-days="0" data-campaign-city="Global" data-campaign-category="Emergency"
-                    data-target-label="target" data-raised-label="raised">
+                    data-target-label="target" data-raised-label="raised" data-has-goal="true" data-ecard="false"
+                    data-suggested-donation="250">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Emergency Relief Fund</span>
                         <span class="campaign-subtitle">Rapid response fund supporting families displaced by
                           disasters.</span>
+                        <span class="badge badge--tag campaign-table__ecard is-hidden js-table-ecard">E-Card
+                          available</span>
                       </div>
                     </td>
                     <td data-label="Status">
@@ -1004,14 +1046,27 @@
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:100%"></div>
                       </div>
+                      <span class="campaigns-table__progress-label is-hidden js-table-progress-label">Open donations (no
+                        goal)</span>
                     </td>
                     <td data-label="Country">Global</td>
-                    <td data-label="Dates">Jan 1 - Mar 1</td>
+                    <td data-label="Dates">
+                      <div class="campaigns-table__dates">
+                        <span class="campaigns-table__dates-text">Jan 1 - Mar 1</span>
+                        <span class="badge badge--warning campaign-table__expiry is-hidden js-table-expiry">Ending
+                          soon</span>
+                      </div>
+                    </td>
                     <td class="table-col-actions" data-label="Actions">
                       <div class="table-actions">
                         <button type="button" class="btn btn-ghost btn-ghost--xs js-campaign-preview">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                           <span class="sr-only">View campaign</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                          aria-label="Donate to Emergency Relief Fund">
+                          <i class="fa-solid fa-hand-holding-dollar"></i>
+                          <span>Donate</span>
                         </button>
                         <a href="campaign-new.html" class="btn btn-outline btn-outline--xs">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
@@ -1030,6 +1085,10 @@
                             <button type="button" class="dropdown-item">
                               <i class="fa-regular fa-folder-closed"></i>
                               <span>Archive</span>
+                            </button>
+                            <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                              <i class="fa-solid fa-lock"></i>
+                              <span>Close campaign</span>
                             </button>
                             <button type="button" class="dropdown-item dropdown-item--danger">
                               <i class="fa-solid fa-trash-can"></i>
@@ -1047,12 +1106,15 @@
                     data-campaign-description="Pop-up clinics delivering preventative screenings and care."
                     data-progress="64" data-target-try="65000" data-raised-try="41600" data-created-at="2025-11-02"
                     data-ends-in-days="36" data-campaign-city="Kathmandu" data-campaign-category="Healthcare"
-                    data-target-label="target" data-raised-label="raised">
+                    data-target-label="target" data-raised-label="raised" data-has-goal="true" data-ecard="true"
+                    data-suggested-donation="120">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Community Health Clinics</span>
                         <span class="campaign-subtitle">Pop-up clinics delivering preventative screenings and
                           care.</span>
+                        <span class="badge badge--tag campaign-table__ecard is-hidden js-table-ecard">E-Card
+                          available</span>
                       </div>
                     </td>
                     <td data-label="Status">
@@ -1065,14 +1127,27 @@
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:64%"></div>
                       </div>
+                      <span class="campaigns-table__progress-label is-hidden js-table-progress-label">Open donations (no
+                        goal)</span>
                     </td>
                     <td data-label="Country">Nepal</td>
-                    <td data-label="Dates">Apr 18 - Aug 22</td>
+                    <td data-label="Dates">
+                      <div class="campaigns-table__dates">
+                        <span class="campaigns-table__dates-text">Apr 18 - Aug 22</span>
+                        <span class="badge badge--warning campaign-table__expiry is-hidden js-table-expiry">Ending
+                          soon</span>
+                      </div>
+                    </td>
                     <td class="table-col-actions" data-label="Actions">
                       <div class="table-actions">
                         <button type="button" class="btn btn-ghost btn-ghost--xs js-campaign-preview">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                           <span class="sr-only">View campaign</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                          aria-label="Donate to Community Health Clinics">
+                          <i class="fa-solid fa-hand-holding-dollar"></i>
+                          <span>Donate</span>
                         </button>
                         <a href="campaign-new.html" class="btn btn-outline btn-outline--xs">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
@@ -1091,6 +1166,10 @@
                             <button type="button" class="dropdown-item">
                               <i class="fa-regular fa-folder-closed"></i>
                               <span>Archive</span>
+                            </button>
+                            <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                              <i class="fa-solid fa-lock"></i>
+                              <span>Close campaign</span>
                             </button>
                             <button type="button" class="dropdown-item dropdown-item--danger">
                               <i class="fa-solid fa-trash-can"></i>
@@ -1103,37 +1182,54 @@
                   </tr>
                   <tr class="campaign-row" data-campaign-id="solar-lights"
                     data-campaign-title="Solar Lights for Refugees" data-campaign-status="Archived"
-                    data-campaign-type="Energy" data-campaign-target="$35,000" data-campaign-raised="$30,800 (88%)"
-                    data-campaign-country="Jordan" data-campaign-dates="Sep 4 - Nov 12"
+                    data-campaign-type="Energy" data-campaign-target="Open donations (no goal)"
+                    data-campaign-raised="$30,800 raised" data-campaign-country="Jordan"
+                    data-campaign-dates="Sep 4 - Nov 12"
                     data-campaign-description="Providing clean, portable lighting to temporary settlements."
-                    data-progress="88" data-target-try="35000" data-raised-try="30800" data-created-at="2025-10-20"
+                    data-progress="0" data-target-try="0" data-raised-try="30800" data-created-at="2025-10-20"
                     data-ends-in-days="5" data-campaign-city="Amman" data-campaign-category="Energy"
-                    data-target-label="target" data-raised-label="raised">
+                    data-target-label="target" data-raised-label="raised" data-has-goal="false" data-ecard="false"
+                    data-suggested-donation="80">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Solar Lights for Refugees</span>
                         <span class="campaign-subtitle">Providing clean, portable lighting to temporary
                           settlements.</span>
+                        <span class="badge badge--tag campaign-table__ecard is-hidden js-table-ecard">E-Card
+                          available</span>
                       </div>
                     </td>
                     <td data-label="Status">
                       <span class="status-pill status-pill--archived">Archived</span>
                     </td>
                     <td data-label="Type">Energy</td>
-                    <td data-label="Target" data-amount-field="target">$35,000</td>
-                    <td data-label="Raised" data-amount-field="raised">$30,800 (88%)</td>
+                    <td data-label="Target" data-amount-field="target">—</td>
+                    <td data-label="Raised" data-amount-field="raised">$30,800 raised</td>
                     <td data-label="Progress">
                       <div class="progress progress--sm">
-                        <div class="progress-bar" style="width:88%"></div>
+                        <div class="progress-bar" style="width:0%"></div>
                       </div>
+                      <span class="campaigns-table__progress-label is-hidden js-table-progress-label">Open donations (no
+                        goal)</span>
                     </td>
                     <td data-label="Country">Jordan</td>
-                    <td data-label="Dates">Sep 4 - Nov 12</td>
+                    <td data-label="Dates">
+                      <div class="campaigns-table__dates">
+                        <span class="campaigns-table__dates-text">Sep 4 - Nov 12</span>
+                        <span class="badge badge--warning campaign-table__expiry is-hidden js-table-expiry">Ending
+                          soon</span>
+                      </div>
+                    </td>
                     <td class="table-col-actions" data-label="Actions">
                       <div class="table-actions">
                         <button type="button" class="btn btn-ghost btn-ghost--xs js-campaign-preview">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                           <span class="sr-only">View campaign</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                          aria-label="Donate to Solar Lights for Refugees">
+                          <i class="fa-solid fa-hand-holding-dollar"></i>
+                          <span>Donate</span>
                         </button>
                         <a href="campaign-new.html" class="btn btn-outline btn-outline--xs">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
@@ -1152,6 +1248,10 @@
                             <button type="button" class="dropdown-item">
                               <i class="fa-regular fa-folder-closed"></i>
                               <span>Archive</span>
+                            </button>
+                            <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                              <i class="fa-solid fa-lock"></i>
+                              <span>Close campaign</span>
                             </button>
                             <button type="button" class="dropdown-item dropdown-item--danger">
                               <i class="fa-solid fa-trash-can"></i>
@@ -1169,12 +1269,15 @@
                     data-campaign-description="Neighborhood-based food hubs connecting farmers and families."
                     data-progress="96" data-target-try="42000" data-raised-try="40320" data-created-at="2025-07-12"
                     data-ends-in-days="12" data-campaign-city="Los Angeles" data-campaign-category="Food Security"
-                    data-target-label="target" data-raised-label="raised">
+                    data-target-label="target" data-raised-label="raised" data-has-goal="true" data-ecard="true"
+                    data-suggested-donation="90">
                     <td data-label="Campaign">
                       <div class="campaigns-table__title">
                         <span class="campaign-name">Fresh Food Network</span>
                         <span class="campaign-subtitle">Neighborhood-based food hubs connecting farmers and
                           families.</span>
+                        <span class="badge badge--tag campaign-table__ecard is-hidden js-table-ecard">E-Card
+                          available</span>
                       </div>
                     </td>
                     <td data-label="Status">
@@ -1187,14 +1290,27 @@
                       <div class="progress progress--sm">
                         <div class="progress-bar" style="width:96%"></div>
                       </div>
+                      <span class="campaigns-table__progress-label is-hidden js-table-progress-label">Open donations (no
+                        goal)</span>
                     </td>
                     <td data-label="Country">United States</td>
-                    <td data-label="Dates">Jun 8 - Oct 15</td>
+                    <td data-label="Dates">
+                      <div class="campaigns-table__dates">
+                        <span class="campaigns-table__dates-text">Jun 8 - Oct 15</span>
+                        <span class="badge badge--warning campaign-table__expiry is-hidden js-table-expiry">Ending
+                          soon</span>
+                      </div>
+                    </td>
                     <td class="table-col-actions" data-label="Actions">
                       <div class="table-actions">
                         <button type="button" class="btn btn-ghost btn-ghost--xs js-campaign-preview">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                           <span class="sr-only">View campaign</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-small js-campaign-donate"
+                          aria-label="Donate to Fresh Food Network">
+                          <i class="fa-solid fa-hand-holding-dollar"></i>
+                          <span>Donate</span>
                         </button>
                         <a href="campaign-new.html" class="btn btn-outline btn-outline--xs">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
@@ -1213,6 +1329,10 @@
                             <button type="button" class="dropdown-item">
                               <i class="fa-regular fa-folder-closed"></i>
                               <span>Archive</span>
+                            </button>
+                            <button type="button" class="dropdown-item js-close-campaign is-hidden">
+                              <i class="fa-solid fa-lock"></i>
+                              <span>Close campaign</span>
                             </button>
                             <button type="button" class="dropdown-item dropdown-item--danger">
                               <i class="fa-solid fa-trash-can"></i>
@@ -1426,6 +1546,7 @@
       <div class="preview-sheet__body">
         <div class="preview-sheet__status-row">
           <span class="status-pill status-pill--active js-preview-status">Active</span>
+          <span class="badge badge--soft js-preview-ecard is-hidden">E-Card available</span>
           <span class="badge badge--subtle js-preview-type">Water &amp; Sanitation</span>
         </div>
 
@@ -1434,7 +1555,7 @@
         </p>
 
         <div class="preview-sheet__metrics">
-          <div class="preview-metric">
+          <div class="preview-metric js-preview-target-metric">
             <span class="preview-metric__label">Target</span>
             <span class="preview-metric__value js-preview-target">$50,000</span>
           </div>
@@ -1443,6 +1564,7 @@
             <span class="preview-metric__value js-preview-raised">$36,200 (72%)</span>
           </div>
         </div>
+        <p class="preview-sheet__no-goal text-muted is-hidden js-preview-no-goal">Open donations (no goal)</p>
 
         <div class="preview-sheet__meta">
           <div class="preview-meta-item">
