@@ -11913,13 +11913,6 @@ body[data-theme="dark"] .audit-panel__footer {
   outline-offset: -2px;
 }
 
-@media (min-width: 1024px) {
-  .cs-campaign-new .campaign-preview {
-    position: sticky;
-    top: var(--space-4);
-  }
-}
-
 .cs-media-control {
   display: inline-flex;
   border: 1px solid var(--color-border);
@@ -11941,6 +11934,104 @@ body[data-theme="dark"] .audit-panel__footer {
 .cs-media-control__pill.is-active {
   background: var(--color-primary);
   color: #fff;
+}
+
+.cs-campaign-new .targeting-mode,
+.cs-campaign-new .frequency-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cs-campaign-new .targeting-mode__option,
+.cs-campaign-new .frequency-selector__option {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.cs-campaign-new .targeting-mode__option span,
+.cs-campaign-new .frequency-selector__option span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cs-campaign-new .targeting-mode__option input,
+.cs-campaign-new .frequency-selector__option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cs-campaign-new .targeting-mode__option input:checked+span,
+.cs-campaign-new .frequency-selector__option input:checked+span {
+  background: var(--color-primary);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.cs-campaign-new .recurring-details {
+  margin-top: var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  background: var(--color-surface-alt);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cs-campaign-new .advanced-ecard .ecard-panel {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  background: var(--color-surface-alt);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cs-campaign-new .ecard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cs-campaign-new .image-upload.image-upload--compact .image-upload__preview {
+  min-height: 120px;
+}
+
+.cs-campaign-new .campaign-preview__progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+.cs-campaign-new .campaign-preview__progress .progress {
+  width: 100%;
+}
+
+.cs-campaign-new .campaign-preview__progress-text {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.cs-campaign-new .form-grid.is-highlighted .form-control {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px rgba(21, 197, 206, 0.3);
 }
 
 /* ===== MultiSelect (dropdown style) ===== */

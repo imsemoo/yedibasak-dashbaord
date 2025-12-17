@@ -262,7 +262,7 @@
           <form class="card form-card js-campaign-form" action="#" method="post" novalidate>
             <div class="form-section" aria-labelledby="section-basics">
               <p class="form-section__title" id="section-basics">BASICS</p>
-              <div class="form-grid">
+              <div class="form-grid" data-country-block>
                 <div class="form-field">
                   <label class="form-label" for="campaignName">Campaign Name<span aria-hidden="true">*</span></label>
                   <input class="form-control" type="text" id="campaignName" name="campaignName" data-role="campaignName"
@@ -316,6 +316,21 @@
                   </div>
                 </div>
               </div>
+              <div class="form-field">
+                <p class="form-label">Donation targeting mode</p>
+                <div class="targeting-mode" role="radiogroup" aria-label="Donation targeting mode">
+                  <label class="targeting-mode__option">
+                    <input type="radio" name="targetingMode" value="intention" checked />
+                    <span>Intention-based</span>
+                  </label>
+                  <label class="targeting-mode__option">
+                    <input type="radio" name="targetingMode" value="country" />
+                    <span>Country-based</span>
+                  </label>
+                </div>
+                <p class="cs-helper-text is-hidden" data-targeting-helper>Donations will be collected per country
+                  instead of intention.</p>
+              </div>
             </div>
 
             <div class="form-section" aria-labelledby="section-funding">
@@ -335,7 +350,7 @@
               <p class="form-section__title" id="section-rules">Campaign rules</p>
               <div class="form-grid">
                 <div>
-                  <div class="cs-toggle mb-2">
+                  <div class="cs-toggle mb-3">
                     <div class="cs-toggle__info">
                       <span class="cs-toggle__label">No financial target</span>
                       <span class="cs-toggle__helper">Leave the campaign open-ended without a goal.</span>
@@ -347,7 +362,71 @@
                     </label>
                   </div>
 
-                  <div class="cs-toggle">
+
+                  <div class="form-field">
+                    <p class="form-label">Donation frequency</p>
+                    <div class="frequency-selector" role="radiogroup" aria-label="Donation frequency">
+                      <label class="frequency-selector__option">
+                        <input type="radio" name="donationFrequency" value="one-time" checked />
+                        <span>One-time</span>
+                      </label>
+                      <label class="frequency-selector__option">
+                        <input type="radio" name="donationFrequency" value="recurring" />
+                        <span>Recurring</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="recurring-details is-hidden" data-recurring-details aria-hidden="true">
+                    <p class="form-label">Recurring details</p>
+                    <div class="form-grid">
+                      <div class="form-field">
+                        <label class="form-label" for="recurrenceInterval">Recurrence interval</label>
+                        <select class="form-control" id="recurrenceInterval" name="recurrenceInterval"
+                          data-recurring-interval>
+                          <option value="monthly">Monthly</option>
+                          <option value="q3">Every 3 months</option>
+                          <option value="q6">Every 6 months</option>
+                        </select>
+                      </div>
+                      <div class="form-field">
+                        <label class="form-label" for="recurrenceDay">Payment day</label>
+                        <select class="form-control" id="recurrenceDay" name="recurrenceDay" data-recurring-day>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          <option value="13">13</option>
+                          <option value="14">14</option>
+                          <option value="15" selected>15</option>
+                          <option value="16">16</option>
+                          <option value="17">17</option>
+                          <option value="18">18</option>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                          <option value="23">23</option>
+                          <option value="24">24</option>
+                          <option value="25">25</option>
+                          <option value="26">26</option>
+                          <option value="27">27</option>
+                          <option value="28">28</option>
+                        </select>
+                        <p class="cs-helper-text">Charged monthly on selected day</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="cs-toggle mt-3">
                     <div class="cs-toggle__info">
                       <span class="cs-toggle__label">Open-ended campaign</span>
                       <span class="cs-toggle__helper">Disable the end date so donations stay open.</span>
@@ -359,6 +438,8 @@
                     </label>
                   </div>
                   <p class="cs-helper-text is-hidden" data-end-helper>No end date (rolling donations).</p>
+                  <p class="cs-helper-text is-hidden" data-progress-helper>Progress bar will not appear for this
+                    campaign.</p>
                 </div>
                 <div>
                   <p class="form-label">Campaign type</p>
@@ -578,6 +659,40 @@
                       <span class="switch__control" aria-hidden="true"></span>
                     </label>
                   </div>
+                  <div class="advanced-ecard">
+                    <div class="cs-toggle">
+                      <div class="cs-toggle__info">
+                        <span class="cs-toggle__label">Enable E-Card for this campaign</span>
+                        <span class="cs-toggle__helper">Ship a celebratory card with donor receipts.</span>
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" id="toggleECard" data-role="toggleECard" aria-controls="ecardPanel"
+                          aria-expanded="false" />
+                        <span class="switch__control" aria-hidden="true"></span>
+                      </label>
+                    </div>
+                    <div class="ecard-panel is-hidden" id="ecardPanel" data-role="ecardPanel" aria-hidden="true">
+                      <label class="form-label" for="ecardDesign">Upload E-Card design</label>
+                      <div class="image-upload image-upload--compact" data-ecard-upload>
+                        <label class="upload-dropzone" for="ecardDesign">
+                          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                          <div class="upload-dropzone__text">
+                            <strong>Drop an E-Card design</strong> or click to browse
+                            <span class="text-muted">JPG, PNG, or WebP up to 5MB</span>
+                          </div>
+                          <input class="sr-only" type="file" id="ecardDesign" name="ecardDesign" accept="image/*" />
+                        </label>
+                      </div>
+                      <p class="cs-helper-text is-hidden" data-role="ecardStatusText">E-Card supported for this campaign
+                      </p>
+                      <div class="ecard-actions">
+                        <button type="button" class="btn btn-ghost" data-role="ecardPreviewBtn" disabled>Preview
+                          E-Card</button>
+                        <button type="button" class="btn btn-ghost" data-role="ecardReplaceBtn" disabled>Replace
+                          design</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </details>
             </div>
@@ -613,6 +728,12 @@
             </div>
             <div class="campaign-preview__body">
               <p class="campaign-preview__amount js-preview-amount" data-preview="amount">₺ 0</p>
+              <div class="campaign-preview__progress is-hidden" data-preview-progress>
+                <div class="progress progress--sm">
+                  <span class="progress-bar" style="width: 32%;"></span>
+                </div>
+                <span class="campaign-preview__progress-text text-muted" data-preview-progress-text>0% of goal</span>
+              </div>
               <p class="campaign-preview__donors text-muted is-hidden" data-preview="donorCount">Donor count: 1,280</p>
               <p class="campaign-preview__description text-muted js-preview-description" data-preview="description">Add
                 a short, compelling story
@@ -627,6 +748,8 @@
                     data-preview="type">Type</span></span>
                 <span><i class="fa-solid fa-earth-americas" aria-hidden="true"></i> <span class="js-preview-location"
                     data-preview="location">Location</span></span>
+                <span data-preview="donationType">Donation type: One-time</span>
+                <span class="is-hidden" data-preview="recurringMeta">Recurring: Monthly · Day 15</span>
               </div>
               <div class="campaign-preview__media" data-preview="media">
                 <span class="text-muted">Image preview</span>
@@ -636,6 +759,7 @@
                 <span class="badge badge--tag">Community</span>
               </div>
               <div class="campaign-preview__meta campaign-preview__meta--secondary" data-preview="advancedFlags">
+                <span class="badge badge--pill is-hidden" data-preview="ecardBadge">E-Card enabled</span>
               </div>
             </div>
           </aside>
@@ -648,6 +772,8 @@
       </footer>
     </div>
   </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <!-- JavaScript Files -->
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>

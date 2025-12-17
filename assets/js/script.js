@@ -28,7 +28,7 @@
     chip.dataset.value = value;
     chip.innerHTML = `
       <span class="cs-chip__label"></span>
-      <button type="button" class="cs-chip__x" aria-label="Remove">×</button>
+      <button type="button" class="cs-chip__x" aria-label="Remove">ï¿½</button>
     `;
     chip.querySelector('.cs-chip__label').textContent = label;
     return chip;
@@ -2499,7 +2499,7 @@
         averageEl.textContent = dataset?.donorAverage || "-";
       }
       if (lastEl) {
-        lastEl.textContent = dataset?.donorLastGift || "—";
+        lastEl.textContent = dataset?.donorLastGift || "ï¿½";
       }
       if (campaignsEl) {
         const campaignsCount = Number(dataset?.donorCampaigns) || 0;
@@ -3458,6 +3458,140 @@
     }, 4200);
   };
 
+
+  const initCampaignCreationExtras = () => {
+    const form = document.querySelector(".js-campaign-form");
+    if (!form) return;
+    const donationFrequencyRadios = Array.from(form.querySelectorAll('input[name="donationFrequency"]'));
+    const donationTypeLabel = document.querySelector('[data-preview="donationType"]');
+    const recurringMetaLabel = document.querySelector('[data-preview="recurringMeta"]');
+    const recurringDetails = form.querySelector('[data-recurring-details]');
+    const recurringInterval = form.querySelector('[data-recurring-interval]');
+    const recurringDay = form.querySelector('[data-recurring-day]');
+    const progressWrapper = document.querySelector('[data-preview-progress]');
+    const progressText = document.querySelector('[data-preview-progress-text]');
+    const progressHelper = form.querySelector('[data-progress-helper]');
+    const targetField = form.querySelector("#targetAmount");
+    const noTargetToggle = form.querySelector("#toggleNoTarget");
+    const ecardToggle = form.querySelector('[data-role="toggleECard"]');
+    const ecardPanel = form.querySelector('[data-role="ecardPanel"]');
+    const ecardStatus = form.querySelector('[data-role="ecardStatusText"]');
+    const ecardInput = form.querySelector("#ecardDesign");
+    const ecardPreviewBtn = form.querySelector('[data-role="ecardPreviewBtn"]');
+    const ecardReplaceBtn = form.querySelector('[data-role="ecardReplaceBtn"]');
+    const ecardBadge = document.querySelector('[data-preview="ecardBadge"]');
+    const targetingRadios = Array.from(form.querySelectorAll('input[name="targetingMode"]'));
+    const targetingHelper = form.querySelector('[data-targeting-helper]');
+    const locationBlock = form.querySelector('[data-country-block]');
+    const intervalLabels = {
+      monthly: "Monthly",
+      q3: "Every 3 months",
+      q6: "Every 6 months",
+    };
+    const getFrequencyValue = () =>
+      form.querySelector('input[name="donationFrequency"]:checked')?.value || "one-time";
+    const updateDonationTypePreview = () => {
+      if (!donationTypeLabel) return;
+      const label = getFrequencyValue() === "recurring" ? "Recurring" : "One-time";
+      donationTypeLabel.textContent = 'Donation type: ' + label;
+    };
+    const updateRecurringPreview = () => {
+      if (!recurringMetaLabel) return;
+      const isRecurring = getFrequencyValue() === "recurring";
+      if (!isRecurring) {
+        recurringMetaLabel.classList.add("is-hidden");
+        return;
+      }
+      const intervalValue = recurringInterval?.value || "monthly";
+      const dayValue = recurringDay?.value || "15";
+      const intervalLabel = intervalLabels[intervalValue] || intervalValue;
+      recurringMetaLabel.textContent = 'Recurring: ' + intervalLabel + ' Â· Day ' + dayValue;
+      recurringMetaLabel.classList.remove("is-hidden");
+    };
+    const toggleRecurringDetails = () => {
+      const shouldShow = getFrequencyValue() === "recurring";
+      if (recurringDetails) {
+        recurringDetails.classList.toggle("is-hidden", !shouldShow);
+        recurringDetails.setAttribute("aria-hidden", (!shouldShow).toString());
+      }
+    };
+    const handleFrequencyChange = () => {
+      toggleRecurringDetails();
+      updateDonationTypePreview();
+      updateRecurringPreview();
+    };
+    donationFrequencyRadios.forEach((radio) => radio.addEventListener("change", handleFrequencyChange));
+    recurringInterval?.addEventListener("change", () => {
+      if (getFrequencyValue() === "recurring") updateRecurringPreview();
+    });
+    recurringDay?.addEventListener("change", () => {
+      if (getFrequencyValue() === "recurring") updateRecurringPreview();
+    });
+    const updateProgressState = () => {
+      const hasTarget = parseCurrencyNumber(getFieldValue(targetField)) > 0;
+      const showProgress = hasTarget && !noTargetToggle?.checked;
+      progressWrapper?.classList.toggle("is-hidden", !showProgress);
+      if (progressText) {
+        const currencyLabel = formatCurrencyValue(getFieldValue(targetField));
+        progressText.textContent = showProgress ? '0% of ' + (currencyLabel || 'goal') : '0% of goal';
+      }
+      progressHelper?.classList.toggle("is-hidden", !noTargetToggle?.checked);
+    };
+    targetField?.addEventListener("input", updateProgressState);
+    noTargetToggle?.addEventListener("change", updateProgressState);
+    const updateTargetingMode = (value) => {
+      const isCountry = value === "country";
+      locationBlock?.classList.toggle("is-highlighted", isCountry);
+      targetingHelper?.classList.toggle("is-hidden", !isCountry);
+    };
+    targetingRadios.forEach((radio) => {
+      radio.addEventListener("change", () => updateTargetingMode(radio.value));
+    });
+    const updateEcardBadge = (show) => {
+      if (!ecardBadge) return;
+      ecardBadge.classList.toggle("is-hidden", !show);
+    };
+    const handleEcardFileChange = () => {
+      const hasDesign = !!ecardInput?.files?.length;
+      if (ecardStatus) {
+        ecardStatus.classList.toggle("is-hidden", !hasDesign);
+      }
+      if (ecardPreviewBtn) ecardPreviewBtn.disabled = !hasDesign;
+      if (ecardReplaceBtn) ecardReplaceBtn.disabled = !hasDesign;
+      updateEcardBadge(hasDesign && !!ecardToggle?.checked);
+    };
+    const toggleEcardPanel = () => {
+      const isActive = !!ecardToggle?.checked;
+      if (ecardPanel) {
+        ecardPanel.classList.toggle("is-hidden", !isActive);
+        ecardPanel.setAttribute("aria-hidden", (!isActive).toString());
+      }
+      ecardToggle?.setAttribute("aria-expanded", isActive ? "true" : "false");
+      if (isActive) {
+        handleEcardFileChange();
+      } else {
+        updateEcardBadge(false);
+        if (ecardStatus) ecardStatus.classList.add("is-hidden");
+        if (ecardPreviewBtn) ecardPreviewBtn.disabled = true;
+        if (ecardReplaceBtn) ecardReplaceBtn.disabled = true;
+      }
+    };
+    ecardToggle?.addEventListener("change", toggleEcardPanel);
+    ecardInput?.addEventListener("change", handleEcardFileChange);
+    ecardPreviewBtn?.addEventListener("click", () => showToast("E-Card preview (demo)"));
+    ecardReplaceBtn?.addEventListener("click", () => {
+      if (ecardInput) ecardInput.click();
+    });
+    form.addEventListener("submit", (event) => {
+      if (event.defaultPrevented) return;
+      event.preventDefault();
+      showToast("Campaign saved (demo)");
+    });
+    handleFrequencyChange();
+    updateProgressState();
+    updateTargetingMode(form.querySelector("input[name='targetingMode']:checked")?.value || "intention");
+    toggleEcardPanel();
+  };
   const setupDonationDetailsActions = (page) => {
     const modal = document.getElementById("refundModal");
     const form = modal?.querySelector("#refundForm");
@@ -3588,7 +3722,7 @@
     const summaryReference = page.querySelector(".js-summary-reference");
     const summaryTags = page.querySelector(".js-summary-tags");
     const summaryStatus = page.querySelector(".js-summary-status");
-    const currencySymbols = { USD: "$", EUR: "€", TRY: "?" };
+    const currencySymbols = { USD: "$", EUR: "ï¿½", TRY: "?" };
 
     // Sample donor results used for UI stub until the backend returns real search results.
     const donors = [
@@ -3706,7 +3840,7 @@
           (donor) => `<button type="button" class="donor-result${selectedDonorId === donor.id ? " is-selected" : ""}" data-donor-id="${donor.id}">
             <div>
               <p class="donor-result__name">${donor.name}</p>
-              <p class="donor-result__meta">${donor.email} · ${donor.city}</p>
+              <p class="donor-result__meta">${donor.email} ï¿½ ${donor.city}</p>
             </div>
             <span class="donor-result__badge">Existing</span>
           </button>`
@@ -3747,13 +3881,13 @@
         summaryDonor.textContent = donorName;
       }
       if (summaryEmail) {
-        summaryEmail.textContent = donorEmail || "—";
+        summaryEmail.textContent = donorEmail || "ï¿½";
       }
       if (summaryLocation) {
-        summaryLocation.textContent = customLocationParts.length ? customLocationParts.join(", ") : "—";
+        summaryLocation.textContent = customLocationParts.length ? customLocationParts.join(", ") : "ï¿½";
       }
       if (summaryAmount) {
-        summaryAmount.textContent = amountValue > 0 ? `${currencySymbols[currencyField.value] || ""}${formatAmountDisplay(amountValue)}` : "—";
+        summaryAmount.textContent = amountValue > 0 ? `${currencySymbols[currencyField.value] || ""}${formatAmountDisplay(amountValue)}` : "ï¿½";
       }
       if (summaryCurrency) {
         summaryCurrency.textContent = (currencyField.value || "USD").toUpperCase();
@@ -3764,21 +3898,21 @@
       if (summaryCampaign) {
         summaryCampaign.textContent = campaignField.value
           ? campaignField.selectedOptions?.[0]?.textContent?.trim()
-          : "—";
+          : "ï¿½";
       }
       if (summaryAllocation) {
-        summaryAllocation.textContent = allocationField.value.trim() || "—";
+        summaryAllocation.textContent = allocationField.value.trim() || "ï¿½";
       }
       if (summaryMethod) {
         summaryMethod.textContent = paymentMethodField.value
           ? paymentMethodField.selectedOptions?.[0]?.textContent?.trim()
-          : "—";
+          : "ï¿½";
       }
       if (summaryDate) {
-        summaryDate.textContent = formatPreviewDate(dateField.value) || "—";
+        summaryDate.textContent = formatPreviewDate(dateField.value) || "ï¿½";
       }
       if (summaryReference) {
-        summaryReference.textContent = referenceField.value.trim() || "—";
+        summaryReference.textContent = referenceField.value.trim() || "ï¿½";
       }
       renderTagsSummary();
 
@@ -5883,7 +6017,7 @@
                   <strong>${type.name}</strong>
                 </div>
                 <div class="donation-type-row__cell donation-type-row__cell--description">
-                  <p class="text-muted">${type.description || "—"}</p>
+                  <p class="text-muted">${type.description || "ï¿½"}</p>
                 </div>
                 <div class="donation-type-row__cell">
                   <span class="status-pill ${pillClass}">${label}</span>
@@ -6093,7 +6227,7 @@
                 <button type="button" class="settings-categories__item-label" data-category-select>
                   <div>
                     <strong>${category.name}</strong>
-                    <p class="text-muted">${category.description || "—"}</p>
+                    <p class="text-muted">${category.description || "ï¿½"}</p>
                   </div>
                 </button>
                 <div class="settings-categories__item-actions">
@@ -6361,6 +6495,7 @@
     initCampaignFormFormatting();
     initCampaignFormPreview();
     initCampaignFormValidation();
+    initCampaignCreationExtras();
     initDonationDetailsPage();
     initDonorDetailsPage();
     initManualDonationPage();
