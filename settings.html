@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
   <link rel="stylesheet" href="assets/css/all.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+
 </head>
 
 <body data-theme="light">
@@ -307,6 +308,18 @@
                     Campaign defaults
                   </button>
                 </li>
+                <li class="settings-nav__item" data-settings-tab="modules">
+                  <button type="button" role="tab" id="tab-modules" aria-controls="panel-modules" aria-selected="false"
+                    tabindex="-1">
+                    Modules
+                  </button>
+                </li>
+                <li class="settings-nav__item" data-settings-tab="bank-accounts">
+                  <button type="button" role="tab" id="tab-bank-accounts" aria-controls="panel-bank-accounts"
+                    aria-selected="false" tabindex="-1">
+                    Bank accounts
+                  </button>
+                </li>
               </ul>
             </nav>
 
@@ -354,6 +367,17 @@
                   <div class="form-field">
                     <label class="form-label" for="profile-phone">Phone</label>
                     <input id="profile-phone" class="form-control" type="tel" placeholder="+1 (555) 012-3456" />
+                  </div>
+                  <div class="settings-section">
+                    <div class="settings-section__header">
+                      <h4>Brand assets</h4>
+                      <p class="settings-section__desc">Upload your logo and avatar for branded communications.</p>
+                    </div>
+                    <div class="settings-callout">
+                      <strong>Asset upload guidance</strong>
+                      <p class="text-muted" style="margin:6px 0 0">Images you upload will be automatically optimized
+                        (resize + compression) for best performance.</p>
+                    </div>
                   </div>
                 </div>
                 <p class="settings-panel__helper text-muted">These details appear on receipts and internal notes.</p>
@@ -625,6 +649,7 @@
                       <option value="ar">Arabic</option>
                       <option value="tr">Turkish</option>
                     </select>
+                    <p class="helper-text">Affects UI labels and formatting (demo).</p>
                   </div>
                   <div class="form-field">
                     <label class="form-label" for="preferences-currency">Default currency</label>
@@ -634,15 +659,10 @@
                       <option value="try">TRY</option>
                       <option value="egp">EGP</option>
                     </select>
+                    <p class="helper-text">Displayed amounts will follow this currency (demo).</p>
                   </div>
-                  <div class="form-field">
-                    <label class="form-label" for="preferences-timezone">Time zone</label>
-                    <select id="preferences-timezone" class="form-control">
-                      <option value="utc-5">UTC-05:00 Eastern Time (US &amp; Canada)</option>
-                      <option value="utc+1">UTC+01:00 Central Europe</option>
-                      <option value="utc+2">UTC+02:00 Cairo, Egypt</option>
-                      <option value="utc+3">UTC+03:00 Istanbul, Turkey</option>
-                    </select>
+                  <div style="margin-top:8px">
+                    <button type="button" id="preferences-reset" class="btn btn-link">Reset to default</button>
                   </div>
 
                   <div class="settings-form-group">
@@ -708,7 +728,7 @@
                     <article class="billing-card" data-card-id="card-visa" data-card-default="true">
                       <div class="billing-card__header">
                         <span class="billing-card__brand">
-                          <i class="fa fa-solid fa-cc-visa" aria-hidden="true"></i>
+                          <i class="fa-brands fa-cc-visa"></i>
                           <span>Visa</span>
                         </span>
                         <span class="billing-card__pill billing-card__pill--primary">Default</span>
@@ -970,6 +990,180 @@
                 </div>
               </div>
 
+              <div class="settings-panel" data-settings-panel="modules" id="panel-modules" role="tabpanel"
+                aria-labelledby="tab-modules" aria-hidden="true" hidden>
+                <div class="settings-panel__header">
+                  <h3>Modules &amp; navigation</h3>
+                  <p class="settings-panel__desc">Control which modules appear in the sidebar and their order.</p>
+                </div>
+                <div class="settings-panel__body">
+                  <p class="text-muted">Drag to reorder. Locked modules cannot be disabled.</p>
+                  <ul class="modules-list" id="modules-list" aria-label="Modules list">
+                    <li class="modules-row" draggable="true" data-module-id="overview" tabindex="0"
+                      aria-grabbed="false">
+                      <span class="modules-handle" aria-hidden="true">≡</span>
+                      <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+                      <span class="modules-name">Overview</span>
+                      <span style="flex:1"></span>
+                      <span class="locked-badge">Locked</span>
+                    </li>
+                    <li class="modules-row" draggable="true" data-module-id="campaigns" tabindex="0"
+                      aria-grabbed="false">
+                      <span class="modules-handle">≡</span>
+                      <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+                      <span class="modules-name">Campaigns</span>
+                      <span style="flex:1"></span>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </li>
+                    <li class="modules-row" draggable="true" data-module-id="donations" tabindex="0"
+                      aria-grabbed="false">
+                      <span class="modules-handle">≡</span>
+                      <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+                      <span class="modules-name">Donations</span>
+                      <span style="flex:1"></span>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </li>
+                    <li class="modules-row" draggable="true" data-module-id="donors" tabindex="0" aria-grabbed="false">
+                      <span class="modules-handle">≡</span>
+                      <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+                      <span class="modules-name">Donors</span>
+                      <span style="flex:1"></span>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </li>
+                    <li class="modules-row" draggable="true" data-module-id="manual-donations" tabindex="0"
+                      aria-grabbed="false">
+                      <span class="modules-handle">≡</span>
+                      <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+                      <span class="modules-name">Manual donations</span>
+                      <span style="flex:1"></span>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </li>
+                    <li class="modules-row" draggable="true" data-module-id="messages" tabindex="0"
+                      aria-grabbed="false">
+                      <span class="modules-handle">≡</span>
+                      <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+                      <span class="modules-name">Messages</span>
+                      <span style="flex:1"></span>
+                      <label class="switch">
+                        <input type="checkbox" checked />
+                        <span class="switch__control"></span>
+                      </label>
+                    </li>
+                    <li class="modules-row" draggable="true" data-module-id="settings" tabindex="0"
+                      aria-grabbed="false">
+                      <span class="modules-handle">≡</span>
+                      <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+                      <span class="modules-name">Settings</span>
+                      <span style="flex:1"></span>
+                      <span class="locked-badge">Locked</span>
+                    </li>
+                  </ul>
+                  <div class="modules-more">
+                    <strong>More menu</strong>
+                    <ul class="modules-list" style="margin-top:8px">
+                      <li class="modules-row" data-module-id="team" style="align-items:center;">
+                        <span class="modules-handle">≡</span>
+                        <i class="fa-solid fa-user-shield sidebar__icon" aria-hidden="true"></i>
+                        <span class="modules-name">Team &amp; roles</span>
+                        <span style="flex:1"></span>
+                        <label class="switch">
+                          <input type="checkbox" checked />
+                          <span class="switch__control"></span>
+                        </label>
+                      </li>
+                      <li class="modules-row" data-module-id="exports">
+                        <span class="modules-handle">≡</span>
+                        <i class="fa-solid fa-file-export sidebar__icon" aria-hidden="true"></i>
+                        <span class="modules-name">Exports &amp; reports</span>
+                        <span style="flex:1"></span>
+                        <label class="switch">
+                          <input type="checkbox" checked />
+                          <span class="switch__control"></span>
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-ghost" id="apply-modules">Apply to sidebar (demo)</button>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
+                </div>
+              </div>
+
+              <div class="settings-panel" data-settings-panel="bank-accounts" id="panel-bank-accounts" role="tabpanel"
+                aria-labelledby="tab-bank-accounts" aria-hidden="true" hidden>
+                <div class="settings-panel__header">
+                  <h3>Bank accounts</h3>
+                  <p class="settings-panel__desc">Manage bank details shown on invoices, receipts, or transfer
+                    instructions (demo).</p>
+                </div>
+                <div class="settings-panel__body">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                    <div></div>
+                    <button type="button" class="btn btn-outline" data-modal-open="bank-account-form">Add bank
+                      account</button>
+                  </div>
+                  <table class="bank-accounts-table" id="bank-accounts-table">
+                    <thead>
+                      <tr>
+                        <th>Charity name</th>
+                        <th>SWIFT</th>
+                        <th>IBAN</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr data-account-id="acct-1">
+                        <td>Impact Allies</td>
+                        <td>ICPAEG22</td>
+                        <td>TR330006100519786457841326</td>
+                        <td><span class="billing-card__pill billing-card__pill--primary">Active</span></td>
+                        <td>
+                          <button class="btn btn-ghost btn-sm" data-action="copy" data-copy="ICPAEG22">Copy
+                            SWIFT</button>
+                          <button class="btn btn-ghost btn-sm" data-action="copy"
+                            data-copy="TR330006100519786457841326">Copy IBAN</button>
+                          <button class="btn btn-ghost" data-action="edit">Edit</button>
+                          <button class="btn btn-ghost btn-ghost--danger" data-action="delete">Delete</button>
+                        </td>
+                      </tr>
+                      <tr data-account-id="acct-2">
+                        <td>Hope Foundation</td>
+                        <td>HOPEEG44</td>
+                        <td>EG650010000000123456789012</td>
+                        <td><span class="billing-card__pill billing-card__pill--ghost">Inactive</span></td>
+                        <td>
+                          <button class="btn btn-ghost btn-sm" data-action="copy" data-copy="HOPEEG44">Copy
+                            SWIFT</button>
+                          <button class="btn btn-ghost btn-sm" data-action="copy"
+                            data-copy="EG650010000000123456789012">Copy IBAN</button>
+                          <button class="btn btn-ghost" data-action="edit">Edit</button>
+                          <button class="btn btn-ghost btn-ghost--danger" data-action="delete">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="settings-panel__actions">
+                  <a class="btn btn-outline" href="#">Cancel</a>
+                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
@@ -1038,6 +1232,44 @@
               <div class="modal__actions">
                 <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
                 <button type="submit" class="btn btn-primary">Add card</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="modal" data-modal="bank-account-form" hidden>
+          <div class="modal__overlay" data-modal-close></div>
+          <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-bank-title">
+            <header class="modal__header">
+              <h4 id="modal-bank-title">Add / Edit bank account</h4>
+              <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </header>
+            <form id="bank-account-form" class="modal__body" novalidate>
+              <input type="hidden" name="accountId" />
+              <div class="form-field">
+                <label class="form-label" for="bank-charity">Charity name</label>
+                <input id="bank-charity" class="form-control" type="text" name="charity" required />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="bank-swift">SWIFT</label>
+                <input id="bank-swift" class="form-control" type="text" name="swift" required />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="bank-iban">IBAN</label>
+                <input id="bank-iban" class="form-control" type="text" name="iban" required />
+              </div>
+              <div class="form-field">
+                <label class="switch">
+                  <input type="checkbox" name="active" checked />
+                  <span class="switch__control"></span>
+                  Active
+                </label>
+              </div>
+              <div class="modal__actions">
+                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Save account</button>
               </div>
             </form>
           </div>
@@ -1162,6 +1394,211 @@
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
   <script src="assets/js/script.js" defer></script>
+  <script>
+    (function () {
+      // Toast helper
+      function showToast(msg) {
+        const container = document.querySelector('.toast-container');
+        if (!container) return;
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.textContent = msg;
+        t.style.padding = '10px 14px';
+        t.style.marginTop = '8px';
+        t.style.background = 'var(--card-bg)';
+        t.style.border = '1px solid var(--muted-border)';
+        t.style.borderRadius = '6px';
+        container.appendChild(t);
+        setTimeout(() => { t.style.opacity = 0; t.style.transition = 'opacity 300ms'; setTimeout(() => t.remove(), 350); }, 3000);
+      }
+
+      // Save button behavior
+      function enableSave(button) { if (button) button.removeAttribute('disabled'); }
+      function disableSave(button) { if (button) button.setAttribute('disabled', ''); }
+
+      // Preferences reset
+      const prefReset = document.getElementById('preferences-reset');
+      if (prefReset) {
+        prefReset.addEventListener('click', () => {
+          const lang = document.getElementById('preferences-language');
+          const cur = document.getElementById('preferences-currency');
+          if (lang) lang.value = 'en';
+          if (cur) cur.value = 'try';
+          showToast('Preferences reset (demo)');
+          const panel = document.querySelector('[data-settings-panel="preferences"]');
+          if (panel) enableSave(panel.querySelector('[data-save-button]'));
+        });
+      }
+
+      // Modules: drag & drop
+      const modulesList = document.getElementById('modules-list');
+      let dragEl = null, placeholder = null;
+      if (modulesList) {
+        modulesList.addEventListener('dragstart', (e) => {
+          dragEl = e.target.closest('li');
+          if (!dragEl) return;
+          dragEl.classList.add('dragging');
+          dragEl.setAttribute('aria-grabbed', 'true');
+          placeholder = document.createElement('div');
+          placeholder.className = 'drag-placeholder';
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        modulesList.addEventListener('dragend', (e) => {
+          if (dragEl) { dragEl.classList.remove('dragging'); dragEl.setAttribute('aria-grabbed', 'false'); }
+          if (placeholder && placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
+          dragEl = null; placeholder = null;
+        });
+        modulesList.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          const target = e.target.closest('li');
+          if (!target || target === dragEl) return;
+          const rect = target.getBoundingClientRect();
+          const after = (e.clientY - rect.top) > (rect.height / 2);
+          if (after) target.parentNode.insertBefore(placeholder, target.nextSibling);
+          else target.parentNode.insertBefore(placeholder, target);
+        });
+        modulesList.addEventListener('drop', (e) => {
+          e.preventDefault();
+          if (!dragEl || !placeholder) return;
+          modulesList.insertBefore(dragEl, placeholder);
+          placeholder.remove(); placeholder = null;
+          showToast('Module order updated (demo)');
+          const panel = document.querySelector('[data-settings-panel="modules"]');
+          if (panel) enableSave(panel.querySelector('[data-save-button]'));
+        });
+
+        // toggles
+        modulesList.addEventListener('change', (e) => {
+          const cb = e.target; if (cb.tagName !== 'INPUT' || cb.type !== 'checkbox') return;
+          const li = cb.closest('li');
+          if (li && li.querySelector('.locked-badge')) { cb.checked = true; return; }
+          if (li) li.classList.toggle('inactive', !cb.checked);
+          showToast(cb.checked ? 'Module enabled (demo)' : 'Module disabled (demo)');
+          const panel = document.querySelector('[data-settings-panel="modules"]');
+          if (panel) enableSave(panel.querySelector('[data-save-button]'));
+        });
+      }
+
+      // Apply to sidebar (demo)
+      const applyBtn = document.getElementById('apply-modules');
+      if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+          const order = Array.from(document.querySelectorAll('#modules-list li')).map(li => li.querySelector('.modules-name').textContent.trim());
+          const nav = document.querySelector('.sidebar__nav');
+          if (!nav) return; // reorder anchors by text match
+          order.forEach(name => {
+            const link = Array.from(nav.querySelectorAll('a.sidebar__link')).find(a => a.textContent.trim() === name);
+            if (link) nav.appendChild(link);
+          });
+          showToast('Module order updated (demo)');
+        });
+      }
+
+      // Bank accounts: delegate actions
+      const bankTable = document.getElementById('bank-accounts-table');
+      const bankModal = document.querySelector('[data-modal="bank-account-form"]');
+      const bankForm = document.getElementById('bank-account-form');
+      let pendingDeleteRow = null;
+
+      function openModal(modal) { if (!modal) return; modal.hidden = false; }
+      function closeModal(modal) { if (!modal) return; modal.hidden = true; }
+
+      document.addEventListener('click', (e) => {
+        const openTarget = e.target.closest('[data-modal-open]');
+        if (openTarget) { const name = openTarget.getAttribute('data-modal-open'); const m = document.querySelector('[data-modal="' + name + '"]'); openModal(m); }
+        const closeTarget = e.target.closest('[data-modal-close]');
+        if (closeTarget) { const m = closeTarget.closest('.modal'); closeModal(m); }
+      });
+
+      if (bankTable) {
+        bankTable.addEventListener('click', (e) => {
+          const btn = e.target.closest('button'); if (!btn) return;
+          const tr = btn.closest('tr');
+          const action = btn.getAttribute('data-action');
+          if (action === 'copy') {
+            const text = btn.getAttribute('data-copy');
+            if (navigator.clipboard) { navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard')); }
+            else { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('Copied to clipboard'); }
+          } else if (action === 'edit') {
+            // fill modal
+            const name = tr.children[0].textContent.trim();
+            const swift = tr.children[1].textContent.trim();
+            const iban = tr.children[2].textContent.trim();
+            bankForm.elements.accountId.value = tr.getAttribute('data-account-id');
+            bankForm.elements.charity.value = name;
+            bankForm.elements.swift.value = swift;
+            bankForm.elements.iban.value = iban;
+            bankForm.elements.active.checked = tr.children[3].textContent.includes('Active');
+            openModal(bankModal);
+          } else if (action === 'delete') {
+            pendingDeleteRow = tr;
+            const confirmModal = document.querySelector('[data-modal="confirm"]');
+            const msg = confirmModal.querySelector('[data-confirm-message]');
+            if (msg) msg.textContent = 'Delete this bank account? This action cannot be undone.';
+            openModal(confirmModal);
+          }
+        });
+      }
+
+      // handle confirm modal action
+      const confirmActionBtn = document.querySelector('[data-confirm-action]');
+      if (confirmActionBtn) {
+        confirmActionBtn.addEventListener('click', () => {
+          if (pendingDeleteRow) {
+            pendingDeleteRow.remove(); pendingDeleteRow = null; showToast('Bank account deleted (demo)');
+            // enable save on bank accounts panel
+            const panel = document.querySelector('[data-settings-panel="bank-accounts"]'); if (panel) enableSave(panel.querySelector('[data-save-button]'));
+          }
+          const confirmModal = document.querySelector('[data-modal="confirm"]'); closeModal(confirmModal);
+        });
+      }
+
+      // bank form submit: add or update
+      if (bankForm) {
+        bankForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const id = bankForm.elements.accountId.value || 'acct-' + Date.now();
+          const name = bankForm.elements.charity.value;
+          const swift = bankForm.elements.swift.value;
+          const iban = bankForm.elements.iban.value;
+          const active = bankForm.elements.active.checked;
+          let row = bankTable.querySelector('tr[data-account-id="' + id + '"]');
+          if (row) {
+            row.children[0].textContent = name; row.children[1].textContent = swift; row.children[2].textContent = iban;
+            row.children[3].innerHTML = active ? '<span class="billing-card__pill billing-card__pill--primary">Active</span>' : '<span class="billing-card__pill billing-card__pill--ghost">Inactive</span>';
+            showToast('Bank account updated (demo)');
+          } else {
+            const tr = document.createElement('tr'); tr.setAttribute('data-account-id', id);
+            tr.innerHTML = `<td>${name}</td><td>${swift}</td><td>${iban}</td><td>${active ? '<span class="billing-card__pill billing-card__pill--primary">Active</span>' : '<span class="billing-card__pill billing-card__pill--ghost">Inactive</span>'}</td><td><button class="btn btn-ghost btn-sm" data-action="copy" data-copy="${swift}">Copy SWIFT</button> <button class="btn btn-ghost btn-sm" data-action="copy" data-copy="${iban}">Copy IBAN</button> <button class="btn btn-ghost" data-action="edit">Edit</button> <button class="btn btn-ghost btn-ghost--danger" data-action="delete">Delete</button></td>`;
+            bankTable.querySelector('tbody').appendChild(tr);
+            showToast('Bank account added (demo)');
+          }
+          closeModal(bankModal);
+          const panel = document.querySelector('[data-settings-panel="bank-accounts"]'); if (panel) enableSave(panel.querySelector('[data-save-button]'));
+        });
+      }
+
+      // enable Save buttons on interactions across panels
+      document.addEventListener('change', (e) => {
+        const panel = e.target.closest('[data-settings-panel]'); if (!panel) return; enableSave(panel.querySelector('[data-save-button]'));
+      });
+      document.addEventListener('input', (e) => { const panel = e.target.closest('[data-settings-panel]'); if (!panel) return; enableSave(panel.querySelector('[data-save-button]')); });
+
+      // Save click handler
+      document.querySelectorAll('[data-save-button]').forEach(btn => {
+        btn.addEventListener('click', () => { showToast('Settings saved (demo)'); disableSave(btn); });
+      });
+
+      // Simple keyboard accessibility for modules (space toggles)
+      modulesList && modulesList.addEventListener('keydown', (e) => {
+        const li = e.target.closest('li'); if (!li) return;
+        if (e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault(); const cb = li.querySelector('input[type="checkbox"]'); if (cb) { cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); }
+        }
+      });
+
+    })();
+  </script>
 </body>
 
 </html>

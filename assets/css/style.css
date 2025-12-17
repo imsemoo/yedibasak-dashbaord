@@ -14084,3 +14084,96 @@ body.has-active-modal {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Scoped settings additions */
+.settings-panel .helper-text {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: var(--muted)
+}
+
+.settings-callout {
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  background: var(--card-bg);
+  border: 1px solid var(--muted-border)
+}
+
+.modules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: block
+}
+
+.modules-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  margin-bottom: 8px;
+  background: var(--surface);
+}
+
+.modules-list li.dragging {
+  opacity: 0.5
+}
+
+.modules-handle {
+  cursor: grab;
+  padding: 8px;
+  color: var(--muted)
+}
+
+.modules-row.inactive {
+  opacity: .45
+}
+
+.locked-badge {
+  background: var(--muted);
+  color: var(--on-muted);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem
+}
+
+.modules-more {
+  margin-top: 12px;
+  font-size: 0.9rem
+}
+
+.bank-accounts-table {
+  width: 100%;
+  border-collapse: collapse
+}
+
+.bank-accounts-table th,
+.bank-accounts-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--muted-border);
+  text-align: left
+}
+
+.copy-btn {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer
+}
+
+.drag-placeholder {
+  height: 48px;
+  border: 2px dashed var(--muted-border);
+  border-radius: 6px;
+  margin-bottom: 8px
+}
+
+@media (prefers-color-scheme:dark) {
+  .settings-callout {
+    background: var(--card-bg);
+    border-color: rgba(255, 255, 255, 0.06)
+  }
+}
