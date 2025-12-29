@@ -3779,10 +3779,6 @@ body[data-theme="dark"] .preview-sheet__panel {
   padding-inline: var(--space-3);
 }
 
-.campaign-card__footer-actions .js-campaign-donate {
-  min-width: 120px;
-}
-
 .campaigns-empty {
   text-align: center;
   display: flex;
@@ -4140,7 +4136,7 @@ body[data-theme="dark"] .preview-sheet__panel {
 }
 
 .form-label {
-  font-weight: 700;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -11665,9 +11661,7 @@ body[data-theme="dark"] .audit-panel__footer {
 }
 
 /* ===== Campaign new page overrides ===== */
-.cs-campaign-new .form-section {
-  margin-bottom: var(--space-4);
-}
+
 
 .cs-campaign-new .form-section:last-child {
   margin-bottom: 0;

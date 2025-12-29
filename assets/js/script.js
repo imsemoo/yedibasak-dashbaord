@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Dashboard front-end behaviors for campaigns, donors, donations, messaging,
  * team management, exports, and settings screens.
  * Runs in the browser and simply wires UI interactions to the existing backend-
@@ -1803,12 +1803,6 @@
       }
     });
   };
-
-  const formatSuggestedAmount = (value) => {
-    const number = Number(value) || 0;
-    return `Donate ₺${number.toLocaleString()}`;
-  };
-
   const toastContainer = document.querySelector(".cs-toast-container");
   const showCampaignToast = (message, variant = "success") => {
     if (!toastContainer || !message) return;
@@ -1894,20 +1888,6 @@
     badge.classList.toggle("badge--danger", severity === "danger");
   };
 
-  const updateDonateButtonState = (button, statusNormalized, dataset) => {
-    if (!button) return;
-    const label = formatSuggestedAmount(dataset?.suggestedDonation);
-    if (statusNormalized === "active") {
-      button.disabled = false;
-      button.textContent = label;
-      button.setAttribute("aria-label", `${label} to ${dataset?.campaignTitle}`);
-    } else {
-      button.disabled = true;
-      button.textContent = "Closed";
-      button.setAttribute("aria-label", "Campaign closed");
-    }
-  };
-
   const syncCampaignCard = (card) => {
     if (!card) return;
     const dataset = card.dataset;
@@ -1934,8 +1914,6 @@
     if (closeButton) {
       closeButton.classList.toggle("is-hidden", statusNormalized !== "active");
     }
-    const donateBtn = card.querySelector(".js-campaign-donate");
-    updateDonateButtonState(donateBtn, statusNormalized, dataset);
   };
 
   const syncCampaignRow = (row) => {
@@ -1966,8 +1944,6 @@
     if (closeButton) {
       closeButton.classList.toggle("is-hidden", statusNormalized !== "active");
     }
-    const donateBtn = row.querySelector(".js-campaign-donate");
-    updateDonateButtonState(donateBtn, statusNormalized, dataset);
   };
 
   const refreshCampaignUI = () => {
@@ -7269,3 +7245,4 @@
   });
 
 })();
+
