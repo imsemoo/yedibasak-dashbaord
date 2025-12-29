@@ -7267,7 +7267,6 @@
     initCampaignCreationExtras();
     initDonationDetailsPage();
     initDonorDetailsPage();
-    initManualDonationPage();
     initDonationsCheckout();
     if (typeof initDonorDonationsPage === "function") {
       initDonorDonationsPage();

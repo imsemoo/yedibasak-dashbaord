@@ -5633,6 +5633,7 @@ body[data-theme="dark"] .details-sticky-actions {
 }
 
 .donor-result__name {
+  text-align: start;
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
@@ -14321,9 +14322,7 @@ body.has-active-modal {
     flex-direction: row;
   }
 
-  .donations-view-stack {
-    width: min(100%, 900px);
-  }
+
 
   .donations-checkout {
     width: 360px;

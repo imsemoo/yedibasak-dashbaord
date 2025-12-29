@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Donations Dashboard - Manual donation entry</title>
-  <meta name="description" content="Enter manual donations quickly with donor matching, campaign selection, and notes." />
+  <meta name="description"
+    content="Enter manual donations quickly with donor matching, campaign selection, and notes." />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#15C5CE" />
   <link rel="canonical" href="https://example.org/dashboard/manual-donations/new" />
@@ -288,7 +289,36 @@
                       <p class="form-error is-hidden">Select an existing donor or switch to a new profile.</p>
                     </div>
                     <div class="donor-results" role="listbox" aria-label="Matching donors">
-                      <div class="donor-results__list"></div>
+                      <div class="donor-results__list">
+                        <button type="button" class="donor-result" aria-label="Select Amina Rahman">
+                          <div>
+                            <p class="donor-result__name">Amina Rahman</p>
+                            <p class="donor-result__meta">amina@worldhealth.org · Nairobi, Kenya</p>
+                          </div>
+                          <span class="donor-result__badge">Existing</span>
+                        </button>
+                        <button type="button" class="donor-result" aria-label="Select Mateo Singh">
+                          <div>
+                            <p class="donor-result__name">Mateo Singh</p>
+                            <p class="donor-result__meta">mateo@brightfuture.org · Seattle, USA</p>
+                          </div>
+                          <span class="donor-result__badge">Existing</span>
+                        </button>
+                        <button type="button" class="donor-result" aria-label="Select Lena Ortiz">
+                          <div>
+                            <p class="donor-result__name">Lena Ortiz</p>
+                            <p class="donor-result__meta">lena@impactallies.org · Mexico City, Mexico</p>
+                          </div>
+                          <span class="donor-result__badge">Existing</span>
+                        </button>
+                        <button type="button" class="donor-result" aria-label="Select Kai Nakagawa">
+                          <div>
+                            <p class="donor-result__name">Kai Nakagawa</p>
+                            <p class="donor-result__meta">kai@impact.bbn · Tokyo, Japan</p>
+                          </div>
+                          <span class="donor-result__badge">Existing</span>
+                        </button>
+                      </div>
                       <button type="button" class="link-button js-create-new-donor">Create new donor</button>
                     </div>
                   </div>
@@ -469,47 +499,50 @@
                   <p class="eyebrow summary-card__eyebrow">Donation summary</p>
                   <h2 class="h5 summary-card__title">Live preview</h2>
                 </div>
-                <span class="status-pill status-pill--draft js-summary-status">Draft</span>
+                <span class="status-pill status-pill--draft">Draft</span>
               </header>
               <div class="summary-card__body">
                 <div class="summary-card__donor">
-                  <span class="donor-avatar summary-card__avatar js-summary-avatar" aria-hidden="true">--</span>
+                  <span class="donor-avatar summary-card__avatar" aria-hidden="true">AR</span>
                   <div>
-                    <p class="summary-card__donor-name js-summary-donor">New donor</p>
+                    <p class="summary-card__donor-name">Amina Rahman</p>
                     <p class="summary-card__donor-meta">
-                      <span class="summary-card__donor-email js-summary-email">—</span>
-                      <span class="summary-card__donor-location js-summary-location">—</span>
+                      <span class="summary-card__donor-email">amina@worldhealth.org</span>
+                      <span class="summary-card__donor-location">Nairobi, Kenya</span>
                     </p>
                   </div>
                 </div>
                 <div class="summary-card__amount-block">
-                  <p class="summary-card__amount js-summary-amount">—</p>
-                  <p class="summary-card__currency js-summary-currency">USD</p>
-                  <p class="summary-card__frequency js-summary-frequency">One-time</p>
+                  <p class="summary-card__amount">$ 1,250</p>
+                  <p class="summary-card__currency">USD</p>
+                  <p class="summary-card__frequency">One-time</p>
                 </div>
-                <div class="summary-card__section">
+                <div class="summary-card__section mb-3">
                   <p class="summary-card__label">Campaign</p>
-                  <p class="summary-card__value js-summary-campaign">—</p>
+                  <p class="summary-card__value">Healthcare Fund</p>
                 </div>
-                <div class="summary-card__section">
+                <div class="summary-card__section mb-3">
                   <p class="summary-card__label">Allocation notes</p>
-                  <p class="summary-card__value js-summary-allocation">—</p>
+                  <p class="summary-card__value">Restricted to emergency medical supplies.</p>
                 </div>
                 <div class="summary-card__section summary-card__payment">
                   <div>
                     <p class="summary-card__label">Payment method</p>
-                    <p class="summary-card__value js-summary-method">—</p>
+                    <p class="summary-card__value">Bank transfer</p>
                   </div>
                   <div>
                     <p class="summary-card__label">Date</p>
-                    <p class="summary-card__value js-summary-date">—</p>
+                    <p class="summary-card__value">Nov 21, 2025</p>
                   </div>
                   <div>
                     <p class="summary-card__label">Reference</p>
-                    <p class="summary-card__value js-summary-reference">—</p>
+                    <p class="summary-card__value">BTX-9412</p>
                   </div>
                 </div>
-                <div class="summary-card__badges" aria-live="polite"></div>
+                <div class="summary-card__badges">
+                  <span class="badge badge--tag">Major gift</span>
+                  <span class="badge badge--tag">Follow-up required</span>
+                </div>
               </div>
               <footer class="summary-card__footer">
                 <p class="summary-card__footnote">This donation will appear in donor history and campaign totals once
