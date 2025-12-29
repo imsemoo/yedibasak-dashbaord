@@ -9188,11 +9188,7 @@ body[data-theme="dark"] .donor-preview-card__dnc-pill {
   margin-top: var(--space-3);
 }
 
-.perm-section:first-of-type {
-  border-top: none;
-  margin-top: 0;
-  padding-top: 0;
-}
+
 
 .perm-section__head {
   display: flex;
