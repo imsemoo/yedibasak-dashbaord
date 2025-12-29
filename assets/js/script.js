@@ -6289,35 +6289,48 @@
           status: "disabled",
         },
       ];
+
+      const swapItems = (array, fromIndex, toIndex) => {
+        if (fromIndex < 0 || toIndex < 0 || fromIndex >= array.length || toIndex >= array.length) return;
+        const [item] = array.splice(fromIndex, 1);
+        array.splice(toIndex, 0, item);
+      };
+
       const render = () => {
         if (!list) return;
         list.innerHTML = donationTypes
-          .map((type) => {
-            const label = type.status === "active" ? "Active" : "Disabled";
-            const pillClass = type.status === "active" ? "status-pill--success" : "status-pill--muted";
+          .map((type, index) => {
+            const disabledUp = index === 0 ? "disabled" : "";
+            const disabledDown = index === donationTypes.length - 1 ? "disabled" : "";
             return `
-              <div class="donation-type-row" data-type-row="${type.id}">
-                <div class="donation-type-row__cell">
+              <li class="settings-categories__item" data-type-id="${type.id}">
+                <div>
                   <strong>${type.name}</strong>
-                </div>
-                <div class="donation-type-row__cell donation-type-row__cell--description">
                   <p class="text-muted">${type.description || "�"}</p>
                 </div>
-                <div class="donation-type-row__cell">
-                  <span class="status-pill ${pillClass}">${label}</span>
-                </div>
-                <div class="donation-type-row__cell donation-type-row__cell--actions">
-                  <button type="button" class="link-button" data-donation-action="edit" data-type-id="${type.id}">Edit</button>
-                  <button type="button" class="link-button" data-donation-action="toggle" data-type-id="${type.id}">
-                    ${type.status === "active" ? "Disable" : "Enable"}
+                <div class="settings-categories__item-actions">
+                  <button type="button" class="icon-button" data-donation-action="move-up" data-type-id="${type.id}" ${disabledUp} aria-label="Move ${type.name} up">
+                    <i class="fa-solid fa-arrow-up"></i>
                   </button>
-                  <button type="button" class="link-button link-button--danger" data-donation-action="delete" data-type-id="${type.id}">Delete</button>
+                  <button type="button" class="icon-button" data-donation-action="move-down" data-type-id="${type.id}" ${disabledDown} aria-label="Move ${type.name} down">
+                    <i class="fa-solid fa-arrow-down"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-donation-action="edit" data-type-id="${type.id}" aria-label="Edit ${type.name}">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-donation-action="toggle" data-type-id="${type.id}" aria-label="Toggle ${type.name}">
+                    <i class="fa-solid ${type.status === 'active' ? 'fa-toggle-on' : 'fa-toggle-off'}"></i>
+                  </button>
+                  <button type="button" class="icon-button" data-donation-action="delete" data-type-id="${type.id}" aria-label="Delete ${type.name}">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
                 </div>
-              </div>
+              </li>
             `;
           })
           .join("");
       };
+
       const openTypeForm = (mode, typeId) => {
         if (!typeForm) return;
         typeForm.reset();
@@ -6341,19 +6354,36 @@
         }
         openModal("donation-type-form");
       };
+
       list?.addEventListener("click", (event) => {
         const actionButton = event.target.closest("[data-donation-action]");
         if (!actionButton) return;
         const typeId = actionButton.dataset.typeId;
         if (!typeId) return;
         const action = actionButton.dataset.donationAction;
-        const target = donationTypes.find((item) => item.id === typeId);
-        if (!target) return;
+        const idx = donationTypes.findIndex((item) => item.id === typeId);
+        if (idx === -1) return;
+
+        if (action === "move-up") {
+          swapItems(donationTypes, idx, idx - 1);
+          render();
+          markDirty("donation-types");
+          showToast("Moved up (demo)");
+          return;
+        }
+        if (action === "move-down") {
+          swapItems(donationTypes, idx, idx + 1);
+          render();
+          markDirty("donation-types");
+          showToast("Moved down (demo)");
+          return;
+        }
         if (action === "edit") {
           openTypeForm("edit", typeId);
           return;
         }
         if (action === "toggle") {
+          const target = donationTypes[idx];
           target.status = target.status === "active" ? "disabled" : "active";
           render();
           markDirty("donation-types");
@@ -6361,6 +6391,7 @@
           return;
         }
         if (action === "delete") {
+          const target = donationTypes[idx];
           showConfirm({
             title: "Delete donation type",
             message: `Delete ${target.name}?`,
@@ -6374,6 +6405,7 @@
           });
         }
       });
+
       typeForm?.addEventListener("submit", (event) => {
         event.preventDefault();
         const formData = new FormData(typeForm);
@@ -6403,6 +6435,7 @@
         markDirty("donation-types");
         closeModal();
       });
+
       render();
     };
 
@@ -6751,6 +6784,435 @@
   })();
   window.SettingsManager = SettingsManager;
 
+  const initDonationsCheckout = () => {
+    const panel = document.querySelector('[data-donations-checkout]');
+    if (!panel) return;
+
+    const CART_CAPACITY = 8;
+    const MIN_AMOUNT = 10;
+    const AMOUNT_STEP = 10;
+    const FEE_RATE = 0.015;
+
+    const formatCurrency = (value = 0) =>
+      new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+
+    const slugify = (value = '') =>
+      value
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+
+    const stepperButtons = panel.querySelectorAll('.checkout-stepper__item');
+    const stepPanels = panel.querySelectorAll('[data-step-panel]');
+    const cartList = panel.querySelector('[data-cart-items]');
+    const cartEmptyState = panel.querySelector('[data-cart-empty]');
+    const cartFullHint = panel.querySelector('[data-cart-full-hint]');
+    const continueToDonor = panel.querySelector('[data-step-control="next"][data-step-target="2"]');
+    const subtotalEl = panel.querySelector('[data-cart-subtotal]');
+    const feesEl = panel.querySelector('[data-cart-fees]');
+    const totalEl = panel.querySelector('[data-cart-total]');
+    const reviewSubtotal = panel.querySelector('[data-review-subtotal]');
+    const reviewFees = panel.querySelector('[data-review-fees]');
+    const reviewTotal = panel.querySelector('[data-review-total]');
+    const reviewRecurring = panel.querySelector('[data-review-recurring]');
+    const recurringToggle = panel.querySelector('[data-recurring-toggle]');
+    const recurringPanel = panel.querySelector('[data-recurring-panel]');
+    const recurringRadios = Array.from(panel.querySelectorAll('input[name="recurringFrequency"]'));
+    const recurringDay = panel.querySelector('[data-recurring-day]');
+    const donorForm = panel.querySelector('[data-donor-form]');
+    const validationStatus = panel.querySelector('[data-validation-status]');
+    const donorReviewName = panel.querySelector('[data-review-donor-name]');
+    const donorReviewMeta = panel.querySelector('[data-review-donor-meta]');
+    const badgeCount = document.querySelector('[data-cart-count]');
+    const badgeHint = document.querySelector('[data-cart-badge-hint]');
+    const cartBadgeButton = document.querySelector('.donations-toolbar__cart');
+    const checkoutBody = panel.querySelector('[data-checkout-body]');
+    const mobileToggle = panel.querySelector('[data-mobile-toggle]');
+    const browseButton = panel.querySelector('[data-browse-campaigns]');
+    const stepControls = panel.querySelectorAll('[data-step-control]');
+    const requiredFields = donorForm ? Array.from(donorForm.querySelectorAll('[data-required="true"]')) : [];
+
+    const frequencyLabels = {
+      monthly: 'Monthly',
+      q3: 'Every 3 months',
+      yearly: 'Yearly',
+    };
+
+    const cartState = {
+      items: [],
+    };
+
+    const injectAddButtons = () => {
+      const targets = Array.from(document.querySelectorAll('.donation-card__actions, .table-actions'));
+      targets.forEach((container) => {
+        if (container.querySelector('.js-donation-add')) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-ghost  btn-primary  js-donation-add';
+        button.setAttribute('aria-label', 'Add donation to cart');
+        button.innerHTML = '<i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span>Add</span>';
+        container.appendChild(button);
+      });
+    };
+
+    const getAddButtons = () => Array.from(document.querySelectorAll('.js-donation-add'));
+
+    const getDonationData = (element) => {
+      if (!element) return null;
+      const campaign = element.dataset.donationCampaign || element.dataset.campaign || 'Donation';
+      const donor = element.dataset.donorName || element.dataset.donor || 'Anonymous';
+      const amount = Math.max(MIN_AMOUNT, Number(element.dataset.amount) || MIN_AMOUNT);
+      return {
+        id: slugify(`${donor}-${campaign}`),
+        campaign,
+        donor,
+        amount,
+      };
+    };
+
+    const updateBadge = () => {
+      const count = cartState.items.length;
+      if (badgeCount) {
+        badgeCount.textContent = `${count}`;
+        badgeCount.dataset.cartCount = `${count}`;
+      }
+      if (cartBadgeButton) {
+        cartBadgeButton.setAttribute('title', `Cart has ${count} item${count === 1 ? '' : 's'}`);
+        cartBadgeButton.classList.toggle('cart-full', count >= CART_CAPACITY);
+      }
+      if (badgeHint) {
+        badgeHint.classList.toggle('is-hidden', count < CART_CAPACITY);
+      }
+    };
+
+    const updateAddButtonsState = (isFull) => {
+      getAddButtons().forEach((btn) => {
+        btn.disabled = isFull;
+        btn.setAttribute('aria-disabled', isFull ? 'true' : 'false');
+        if (isFull) {
+          btn.setAttribute('title', 'Cart is full');
+        } else {
+          btn.removeAttribute('title');
+        }
+      });
+    };
+
+    const calculateTotals = () => {
+      const subtotal = cartState.items.reduce((sum, item) => sum + item.amount, 0);
+      const fees = Number((subtotal * FEE_RATE).toFixed(2));
+      return { subtotal, fees, total: subtotal + fees };
+    };
+
+    const updateTotals = () => {
+      const { subtotal, fees, total } = calculateTotals();
+      if (subtotalEl) subtotalEl.textContent = formatCurrency(subtotal);
+      if (feesEl) feesEl.textContent = formatCurrency(fees);
+      if (totalEl) totalEl.textContent = formatCurrency(total);
+      if (reviewSubtotal) reviewSubtotal.textContent = formatCurrency(subtotal);
+      if (reviewFees) reviewFees.textContent = formatCurrency(fees);
+      if (reviewTotal) reviewTotal.textContent = formatCurrency(total);
+    };
+
+    const renderCartItems = () => {
+      const hasItems = cartState.items.length > 0;
+      if (cartList) {
+        cartList.classList.toggle('is-hidden', !hasItems);
+        cartList.innerHTML = '';
+        if (hasItems) {
+          const fragment = document.createDocumentFragment();
+          cartState.items.forEach((item) => {
+            const li = document.createElement('li');
+            li.className = 'cart-item';
+            li.innerHTML = `
+              <div class="cart-item__meta">
+                <p class="h4">${item.campaign}</p>
+                <p class="text-muted">${item.donor}</p>
+              </div>
+              <div class="cart-item__controls">
+                <button type="button" class="cart-item__adjust" data-action="decrement" aria-label="Decrease amount">
+                  <i class="fa-solid fa-minus" aria-hidden="true"></i>
+                </button>
+                <input type="number" min="${MIN_AMOUNT}" step="${AMOUNT_STEP}" value="${item.amount}" />
+                <button type="button" class="cart-item__adjust" data-action="increment" aria-label="Increase amount">
+                  <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="icon-button cart-item__remove" aria-label="Remove donation">
+                  <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                </button>
+              </div>
+            `;
+            const decrement = li.querySelector('[data-action="decrement"]');
+            const increment = li.querySelector('[data-action="increment"]');
+            const input = li.querySelector('input');
+            const remove = li.querySelector('.cart-item__remove');
+
+            decrement?.addEventListener('click', () => {
+              item.amount = Math.max(MIN_AMOUNT, item.amount - AMOUNT_STEP);
+              if (input) input.value = item.amount;
+              updateTotals();
+            });
+            increment?.addEventListener('click', () => {
+              item.amount = item.amount + AMOUNT_STEP;
+              if (input) input.value = item.amount;
+              updateTotals();
+            });
+            input?.addEventListener('input', () => {
+              const value = Number(input.value);
+              if (!Number.isFinite(value)) return;
+              item.amount = Math.max(MIN_AMOUNT, Math.round(value));
+              input.value = item.amount;
+              updateTotals();
+            });
+            remove?.addEventListener('click', () => {
+              cartState.items = cartState.items.filter((entry) => entry.id !== item.id);
+              renderCartItems();
+            });
+
+            fragment.appendChild(li);
+          });
+          cartList.appendChild(fragment);
+        }
+      }
+      if (cartEmptyState) {
+        cartEmptyState.classList.toggle('is-hidden', hasItems);
+      }
+      const isFull = cartState.items.length >= CART_CAPACITY;
+      if (cartFullHint) {
+        cartFullHint.classList.toggle('is-hidden', !isFull);
+      }
+      updateAddButtonsState(isFull);
+      updateTotals();
+      updateBadge();
+      if (continueToDonor) {
+        continueToDonor.disabled = !hasItems;
+      }
+    };
+
+    const addCartItem = (source) => {
+      const data = getDonationData(source);
+      if (!data) return false;
+      const existing = cartState.items.find((item) => item.id === data.id);
+      if (!existing && cartState.items.length >= CART_CAPACITY) {
+        return false;
+      }
+      if (existing) {
+        existing.amount = Math.max(MIN_AMOUNT, existing.amount + data.amount);
+        return true;
+      }
+      cartState.items.push({ ...data, amount: data.amount });
+      return true;
+    };
+
+    const handleAddClick = (event) => {
+      event.preventDefault();
+      const source = event.currentTarget.closest('.donation-card, .donation-row');
+      const added = addCartItem(source);
+      renderCartItems();
+      if (added) {
+        showToast('Added to cart');
+      } else {
+        showToast('Cart is full', 'warning');
+      }
+    };
+
+    const clearError = (input) => {
+      input.classList.remove('is-invalid');
+      const errorEl = document.getElementById(`${input.id}Error`);
+      if (errorEl) {
+        errorEl.textContent = '';
+      }
+    };
+
+    const showError = (input, message) => {
+      input.classList.add('is-invalid');
+      const errorEl = document.getElementById(`${input.id}Error`);
+      if (errorEl) {
+        errorEl.textContent = message;
+      }
+    };
+
+    const validateDonorForm = () => {
+      if (!donorForm) return true;
+      let isValid = true;
+      requiredFields.forEach((field) => {
+        const value = field.value?.trim?.() || '';
+        clearError(field);
+        if (!value) {
+          showError(field, 'This field is required.');
+          isValid = false;
+        } else if (field.type === 'email' && !/^\S+@\S+\.\S+$/.test(value)) {
+          showError(field, 'Enter a valid email address.');
+          isValid = false;
+        }
+      });
+      if (!isValid) {
+        if (validationStatus) {
+          validationStatus.textContent = 'Please fix the highlighted fields before continuing.';
+        }
+        const firstInvalid = requiredFields.find((field) => field.classList.contains('is-invalid'));
+        firstInvalid?.focus();
+      } else if (validationStatus) {
+        validationStatus.textContent = '';
+      }
+      return isValid;
+    };
+
+    const updateReviewDonor = () => {
+      if (!donorForm) return;
+      const data = new FormData(donorForm);
+      const name = data.get('donorFullName')?.trim();
+      const email = data.get('donorEmail')?.trim();
+      const phone = data.get('donorPhone')?.trim();
+      const city = data.get('donorCity')?.trim();
+      if (donorReviewName) {
+        donorReviewName.textContent = name || 'Donor information pending';
+      }
+      if (donorReviewMeta) {
+        const parts = [email, phone, city].filter(Boolean);
+        donorReviewMeta.textContent = parts.join(' • ');
+      }
+    };
+
+    const updateRecurringSummary = () => {
+      if (!recurringToggle || !reviewRecurring) return;
+      if (!recurringToggle.checked) {
+        reviewRecurring.classList.add('is-hidden');
+        return;
+      }
+      const frequency = recurringRadios.find((radio) => radio.checked)?.value || 'monthly';
+      const dayValue = recurringDay?.value || '15';
+      const freqLabel = frequencyLabels[frequency] || 'Monthly';
+      const dayLabel = dayValue === 'same' ? 'same day each month' : `day ${dayValue}`;
+      reviewRecurring.textContent = `Recurring: ${freqLabel}, ${dayLabel}`;
+      reviewRecurring.classList.remove('is-hidden');
+    };
+
+    const handleRecurringToggle = () => {
+      if (!recurringToggle || !recurringPanel) return;
+      const isActive = recurringToggle.checked;
+      recurringPanel.classList.toggle('is-hidden', !isActive);
+      recurringPanel.hidden = !isActive;
+      updateRecurringSummary();
+    };
+
+    const renderReview = () => {
+      updateTotals();
+      updateReviewDonor();
+      updateRecurringSummary();
+    };
+
+    let currentStep = 1;
+    const setStep = (step) => {
+      const normalized = Math.min(3, Math.max(1, Number(step) || 1));
+      stepPanels.forEach((panelStep) => {
+        const panelNumber = Number(panelStep.dataset.stepPanel);
+        const active = panelNumber === normalized;
+        panelStep.hidden = !active;
+        panelStep.classList.toggle('is-hidden', !active);
+      });
+      stepperButtons.forEach((button) => {
+        const targetStep = Number(button.dataset.stepTarget);
+        const active = targetStep === normalized;
+        button.setAttribute('aria-selected', active ? 'true' : 'false');
+        if (active) {
+          button.setAttribute('aria-current', 'step');
+        } else {
+          button.removeAttribute('aria-current');
+        }
+      });
+      currentStep = normalized;
+      if (normalized === 3) {
+        renderReview();
+      }
+    };
+
+    const changeStep = (target) => {
+      const normalized = Math.min(3, Math.max(1, Number(target) || 1));
+      if (normalized === 3 && !validateDonorForm()) {
+        return;
+      }
+      setStep(normalized);
+    };
+
+    stepControls.forEach((button) => {
+      button.addEventListener('click', () => {
+        const control = button.dataset.stepControl;
+        const target = button.dataset.stepTarget;
+        if (control === 'back' || control === 'next') {
+          changeStep(target);
+          return;
+        }
+        if (control === 'confirm') {
+          showToast('Review & payment simulated (demo)');
+        }
+      });
+    });
+
+    stepperButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        changeStep(button.dataset.stepTarget);
+      });
+    });
+
+    const refreshMobileToggle = () => {
+      if (!checkoutBody || !mobileToggle) return;
+      const collapsed = checkoutBody.dataset.collapsed === 'true';
+      const label = mobileToggle.querySelector('span');
+      if (label) {
+        label.textContent = collapsed ? 'Show checkout' : 'Hide checkout';
+      }
+      mobileToggle.setAttribute('aria-expanded', (!collapsed).toString());
+    };
+
+    const handleMobileToggle = () => {
+      if (!checkoutBody) return;
+      const collapsed = checkoutBody.dataset.collapsed === 'true';
+      checkoutBody.dataset.collapsed = collapsed ? 'false' : 'true';
+      refreshMobileToggle();
+    };
+
+    mobileToggle?.addEventListener('click', handleMobileToggle);
+    recurringRadios.forEach((radio) => radio.addEventListener('change', updateRecurringSummary));
+    recurringDay?.addEventListener('change', updateRecurringSummary);
+    recurringToggle?.addEventListener('change', handleRecurringToggle);
+    browseButton?.addEventListener('click', () => {
+      showToast('Browse campaigns (demo)');
+      setStep(1);
+    });
+    requiredFields.forEach((field) => {
+      field.addEventListener('input', () => {
+        clearError(field);
+        if (validationStatus) {
+          validationStatus.textContent = '';
+        }
+      });
+    });
+
+    cartBadgeButton?.addEventListener('click', () => {
+      setStep(1);
+    });
+
+    const attachAddHandlers = () => {
+      getAddButtons().forEach((button) => {
+        button.addEventListener('click', handleAddClick);
+      });
+    };
+
+    injectAddButtons();
+    attachAddHandlers();
+    renderCartItems();
+    setStep(1);
+    handleRecurringToggle();
+    if (checkoutBody) {
+      checkoutBody.dataset.collapsed = 'false';
+    }
+    refreshMobileToggle();
+    updateBadge();
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
     initThemeToggle();
     initSidebar();
@@ -6786,6 +7248,7 @@
     initDonationDetailsPage();
     initDonorDetailsPage();
     initManualDonationPage();
+    initDonationsCheckout();
     if (typeof initDonorDonationsPage === "function") {
       initDonorDonationsPage();
     }

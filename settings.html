@@ -368,17 +368,7 @@
                     <label class="form-label" for="profile-phone">Phone</label>
                     <input id="profile-phone" class="form-control" type="tel" placeholder="+1 (555) 012-3456" />
                   </div>
-                  <div class="settings-section">
-                    <div class="settings-section__header">
-                      <h4>Brand assets</h4>
-                      <p class="settings-section__desc">Upload your logo and avatar for branded communications.</p>
-                    </div>
-                    <div class="settings-callout">
-                      <strong>Asset upload guidance</strong>
-                      <p class="text-muted" style="margin:6px 0 0">Images you upload will be automatically optimized
-                        (resize + compression) for best performance.</p>
-                    </div>
-                  </div>
+
                 </div>
                 <p class="settings-panel__helper text-muted">These details appear on receipts and internal notes.</p>
                 <div class="settings-panel__actions">
@@ -835,17 +825,15 @@
                     <h3>Donation Types</h3>
                     <p class="settings-panel__desc">Manage donation types used across modules.</p>
                   </div>
-                  <button type="button" class="btn btn-outline" data-modal-open="donation-type-form">Add type</button>
                 </div>
-                <div class="settings-panel__body">
-                  <div class="donation-types-table">
-                    <div class="donation-types-table__row donation-types-table__row--head">
-                      <span>Type name</span>
-                      <span>Description</span>
-                      <span>Status</span>
-                      <span>Actions</span>
+                <div class="settings-panel__body settings-categories">
+                  <div class="settings-categories__pane">
+                    <div class="settings-categories__header">
+                      <h4>Donation types</h4>
+                      <button type="button" class="btn btn-outline" data-modal-open="donation-type-form">Add
+                        type</button>
                     </div>
-                    <div class="donation-types-table__body" data-donation-types-list></div>
+                    <ul class="settings-categories__list" data-donation-types-list></ul>
                   </div>
                 </div>
                 <div class="settings-panel__actions">
@@ -1137,8 +1125,10 @@
                             SWIFT</button>
                           <button class="btn btn-ghost btn-sm" data-action="copy"
                             data-copy="TR330006100519786457841326">Copy IBAN</button>
-                          <button class="btn btn-ghost" data-action="edit">Edit</button>
-                          <button class="btn btn-ghost btn-ghost--danger" data-action="delete">Delete</button>
+                          <button class="btn btn-ghost " data-action="edit"><i
+                              class="fa-regular fa-pen-to-square"></i></button>
+                          <button class="btn btn-ghost btn-ghost--danger" data-action="delete"><i
+                              class="fa-regular fa-trash-can"></i></button>
                         </td>
                       </tr>
                       <tr data-account-id="acct-2">
@@ -1150,9 +1140,12 @@
                           <button class="btn btn-ghost btn-sm" data-action="copy" data-copy="HOPEEG44">Copy
                             SWIFT</button>
                           <button class="btn btn-ghost btn-sm" data-action="copy"
-                            data-copy="EG650010000000123456789012">Copy IBAN</button>
-                          <button class="btn btn-ghost" data-action="edit">Edit</button>
-                          <button class="btn btn-ghost btn-ghost--danger" data-action="delete">Delete</button>
+                            data-copy="EG650010000000123456789012">Copy
+                            IBAN</button>
+                          <button class="btn btn-ghost " data-action="edit"><i
+                              class="fa-regular fa-pen-to-square"></i></button>
+                          <button class="btn btn-ghost btn-ghost--danger" data-action="delete"><i
+                              class="fa-regular fa-trash-can"></i></button>
                         </td>
                       </tr>
                     </tbody>
@@ -1569,7 +1562,7 @@
             showToast('Bank account updated (demo)');
           } else {
             const tr = document.createElement('tr'); tr.setAttribute('data-account-id', id);
-            tr.innerHTML = `<td>${name}</td><td>${swift}</td><td>${iban}</td><td>${active ? '<span class="billing-card__pill billing-card__pill--primary">Active</span>' : '<span class="billing-card__pill billing-card__pill--ghost">Inactive</span>'}</td><td><button class="btn btn-ghost btn-sm" data-action="copy" data-copy="${swift}">Copy SWIFT</button> <button class="btn btn-ghost btn-sm" data-action="copy" data-copy="${iban}">Copy IBAN</button> <button class="btn btn-ghost" data-action="edit">Edit</button> <button class="btn btn-ghost btn-ghost--danger" data-action="delete">Delete</button></td>`;
+            tr.innerHTML = `<td>${name}</td><td>${swift}</td><td>${iban}</td><td>${active ? '<span class="billing-card__pill billing-card__pill--primary">Active</span>' : '<span class="billing-card__pill billing-card__pill--ghost">Inactive</span>'}</td><td><button class="btn btn-ghost btn-sm" data-action="copy" data-copy="${swift}">Copy SWIFT</button> <button class="btn btn-ghost btn-sm" data-action="copy" data-copy="${iban}">Copy IBAN</button> <button class="btn btn-ghost btn-sm" data-action="edit"><i class="fa-regular fa-pen-to-square"></i></button> <button class="btn btn-ghost btn-sm btn-ghost--danger" data-action="delete">Delete</button></td>`;
             bankTable.querySelector('tbody').appendChild(tr);
             showToast('Bank account added (demo)');
           }

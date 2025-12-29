@@ -482,7 +482,7 @@
               </div>
             </div>
 
-            <div class="form-section" aria-labelledby="section-media">
+            <!-- <div class="form-section" aria-labelledby="section-media">
               <p class="form-section__title" id="section-media">Media selection</p>
               <div class="form-grid">
                 <div class="form-field">
@@ -504,7 +504,7 @@
                   </label>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="form-section" aria-labelledby="section-location">
               <p class="form-section__title" id="section-location">Location</p>
@@ -532,20 +532,18 @@
                   </select>
                 </div>
                 <div class="form-field">
-                  <label class="form-label" for="campaignRegion">Region</label>
-                  <select class="form-control" id="campaignRegion" name="campaignRegion">
-                    <option value="">Select region</option>
-                    <option value="north">North District</option>
-                    <option value="east">East Province</option>
-                    <option value="coastal">Coastal Zone</option>
-                    <option value="urban">Urban center</option>
-                  </select>
+                  <label class="form-label" for="additionalLocation">Additional location details</label>
+                  <textarea class="form-control" id="additionalLocation" name="additionalLocation" data-role="" rows="3"
+                    placeholder="Additional location details (optional)">
+
+                  </textarea>
                 </div>
               </div>
             </div>
 
             <div class="cs-multiselect js-cs-multiselect" data-name="campaignTags"
               data-placeholder="Choose primary categories">
+              <label for="">Categories</label>
               <button type="button" class="cs-multiselect__control" data-control aria-haspopup="listbox"
                 aria-expanded="false">
                 <span class="cs-multiselect__placeholder" data-placeholder>Choose primary categories</span>
@@ -608,7 +606,7 @@
                       data-role="thresholdAmount" placeholder="₺ 10.000" disabled />
                   </div>
 
-                  <div>
+                  <!-- <div>
                     <p class="form-label">Suggested donation amounts</p>
                     <div class="suggested-chips" data-role="suggestedAmounts">
                       <button type="button" class="is-selected" data-role="suggestedChip" data-suggested="10"
@@ -636,7 +634,7 @@
                       <input class="form-control" type="text" id="customAmountInput" data-role="customAmountInput"
                         placeholder="₺ 65.000" inputmode="numeric" />
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="cs-toggle">
                     <div class="cs-toggle__info">
@@ -671,7 +669,7 @@
                         <span class="switch__control" aria-hidden="true"></span>
                       </label>
                     </div>
-                    <div class="ecard-panel is-hidden" id="ecardPanel" data-role="ecardPanel" aria-hidden="true">
+                    <!-- <div class="ecard-panel is-hidden" id="ecardPanel" data-role="ecardPanel" aria-hidden="true">
                       <label class="form-label" for="ecardDesign">Upload E-Card design</label>
                       <div class="image-upload image-upload--compact" data-ecard-upload>
                         <label class="upload-dropzone" for="ecardDesign">
@@ -691,7 +689,7 @@
                         <button type="button" class="btn btn-ghost" data-role="ecardReplaceBtn" disabled>Replace
                           design</button>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </details>
