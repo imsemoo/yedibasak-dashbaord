@@ -295,24 +295,39 @@
                 </div>
 
                 <div class="form-field">
-                  <label class="form-label" for="campaignImage">Upload Image</label>
+                  <label class="form-label" for="campaignImage">Upload image, GIF, or video</label>
                   <div class="image-upload" data-upload>
                     <label class="upload-dropzone" for="campaignImage" data-upload-dropzone>
                       <i class="fa-regular fa-image" aria-hidden="true"></i>
                       <div class="upload-dropzone__text">
-                        <strong>Drop an image</strong> or click to browse
-                        <span class="text-muted">JPG, PNG, or WebP up to 5MB</span>
+                        <strong>Drop an image, GIF, or video</strong> or click to browse
+                        <span class="text-muted">JPG, PNG, GIF, MP4, or WebM up to 25MB</span>
                       </div>
-                      <input class="sr-only" type="file" id="campaignImage" name="campaignImage" accept="image/*" />
+                      <input
+                        class="sr-only"
+                        type="file"
+                        id="campaignImage"
+                        name="campaignImage"
+                        accept="image/*,video/mp4,video/webm,video/quicktime"
+                      />
                     </label>
                     <div class="image-upload__preview" data-upload-preview aria-live="polite">
                       <div class="image-upload__placeholder">
                         <i class="fa-regular fa-image" aria-hidden="true"></i>
                         <span>Preview appears here</span>
                       </div>
-                      <img class="image-upload__preview-img is-hidden" alt="Selected image preview" />
+                      <img class="image-upload__preview-img is-hidden" alt="Selected media preview" />
+                      <video
+                        class="image-upload__preview-video is-hidden"
+                        muted
+                        autoplay
+                        loop
+                        playsinline
+                        controlslist="nodownload nofullscreen noremoteplayback"
+                        aria-label="Selected campaign video preview"
+                      ></video>
                     </div>
-                    <p class="form-error is-hidden" data-upload-error>Only JPG, PNG, or WebP under 5 MB.</p>
+                    <p class="form-error is-hidden" data-upload-error>Only JPG, PNG, GIF, MP4, or WebM under 25 MB.</p>
                   </div>
                 </div>
               </div>

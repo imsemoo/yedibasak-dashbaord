@@ -3415,8 +3415,8 @@
   };
 
   /**
-   * Control the campaign image upload drag/drop zone, validate file types/sizes, and update the preview.
-   * Expects `[data-upload]`, `[data-upload-dropzone]`, error placeholders, and `.image-upload__preview-img`.
+  * Control the campaign media upload drag/drop zone, validate file types/sizes, and update the preview.
+  * Expects `[data-upload]`, `[data-upload-dropzone]`, error placeholders, `.image-upload__preview-img`, and `.image-upload__preview-video`.
    */
   const initCampaignImageUpload = () => {
     const upload = document.querySelector("[data-upload]");
@@ -3425,10 +3425,20 @@
     const dropzone = upload.querySelector("[data-upload-dropzone]");
     const input = upload.querySelector('input[type="file"]');
     const previewImg = upload.querySelector(".image-upload__preview-img");
+    const previewVideo = upload.querySelector(".image-upload__preview-video");
     const placeholder = upload.querySelector(".image-upload__placeholder");
     const errorEl = upload.querySelector("[data-upload-error]");
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
-    const maxSize = 5 * 1024 * 1024;
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+      "image/jpg",
+      "video/mp4",
+      "video/webm",
+      "video/quicktime"
+    ];
+    const maxSize = 25 * 1024 * 1024;
     let objectUrl = "";
 
     const preventDefaults = (event) => {
@@ -3457,16 +3467,40 @@
         previewImg.classList.add("is-hidden");
         previewImg.removeAttribute("src");
       }
-      document.dispatchEvent(new CustomEvent("campaign:imageChange", { detail: { src: null, isPlaceholder: true } }));
+      if (previewVideo) {
+        previewVideo.classList.add("is-hidden");
+        previewVideo.pause();
+        previewVideo.removeAttribute("src");
+      }
+      document.dispatchEvent(
+        new CustomEvent("campaign:imageChange", { detail: { src: null, isPlaceholder: true, mediaType: null } })
+      );
     };
 
-    const applyPreview = (url) => {
+    const applyPreview = (url, isVideo = false) => {
       placeholder?.classList.add("is-hidden");
-      if (previewImg) {
+      if (isVideo && previewVideo) {
+        previewVideo.src = url;
+        previewVideo.classList.remove("is-hidden");
+        previewVideo.load();
+        previewVideo.play().catch(() => {});
+        if (previewImg) {
+          previewImg.classList.add("is-hidden");
+        }
+      } else if (previewImg) {
         previewImg.src = url;
         previewImg.classList.remove("is-hidden");
+        if (previewVideo) {
+          previewVideo.classList.add("is-hidden");
+          previewVideo.pause();
+          previewVideo.removeAttribute("src");
+        }
       }
-      document.dispatchEvent(new CustomEvent("campaign:imageChange", { detail: { src: url, isPlaceholder: false } }));
+      document.dispatchEvent(
+        new CustomEvent("campaign:imageChange", {
+          detail: { src: url, isPlaceholder: false, mediaType: isVideo ? "video" : "image" }
+        })
+      );
     };
 
     const handleFile = (file) => {
@@ -3474,10 +3508,18 @@
         resetPreview();
         return;
       }
-      const isValidType = allowedTypes.includes(file.type) || (file.type === "" && /\.(png|jpe?g|webp)$/i.test(file.name));
+      const normalizedType = (file.type || "").toLowerCase();
+      const matchesExtension = /\.(jpe?g|jpg|png|webp|gif|mp4|webm|mov)$/i.test(file.name || "");
+      const isValidType = allowedTypes.includes(normalizedType) || matchesExtension;
       const isValidSize = file.size <= maxSize;
-      if (!isValidType || !isValidSize) {
-        showError("Only JPG, PNG, or WebP under 5 MB.");
+      if (!isValidType) {
+        showError("Only JPG, PNG, GIF, MP4, or WebM files are supported.");
+        if (input) input.value = "";
+        resetPreview();
+        return;
+      }
+      if (!isValidSize) {
+        showError("File must be under 25 MB.");
         if (input) input.value = "";
         resetPreview();
         return;
@@ -3486,8 +3528,10 @@
       if (objectUrl) {
         URL.revokeObjectURL(objectUrl);
       }
-      objectUrl = URL.createObjectURL(file);
-      applyPreview(objectUrl);
+      const object = URL.createObjectURL(file);
+      const isVideo = normalizedType.startsWith("video/") || /\.(mp4|webm|mov)$/i.test(file.name || "");
+      objectUrl = object;
+      applyPreview(objectUrl, isVideo);
     };
 
     if (dropzone) {
