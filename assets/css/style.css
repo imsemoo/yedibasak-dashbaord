@@ -14507,14 +14507,16 @@ body.has-active-modal {
 }
 
 /* =========================================
-   Auth Pages — Professional Layout
-   Add to: assets/css/style.css
+   Auth Pages — Professional Layout (Refined)
+   File: assets/css/style.css
 ========================================= */
 
+/* ---------- Layout ---------- */
 .auth {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: 1.15fr 1fr;
+  overflow: hidden;
 }
 
 @media (max-width: 992px) {
@@ -14523,6 +14525,7 @@ body.has-active-modal {
   }
 }
 
+/* ---------- Brand Panel ---------- */
 .auth__brand {
   position: relative;
   padding: clamp(24px, 4vw, 56px);
@@ -14532,17 +14535,26 @@ body.has-active-modal {
   overflow: hidden;
 }
 
-/* Subtle background gradient that respects theme */
-body[data-theme="light"] .auth__brand {
-  background: radial-gradient(1200px 600px at 10% 10%, rgba(21, 197, 206, 0.18), transparent 60%),
-    radial-gradient(900px 500px at 90% 20%, rgba(76, 14, 229, 0.14), transparent 55%),
-    var(--surface-0, #f7f9fb);
+/* Brand inner container for better spacing consistency */
+.auth__brand-inner {
+  display: grid;
+  gap: 28px;
 }
 
+/* Subtle premium gradient (light) */
+body[data-theme="light"] .auth__brand {
+  background:
+    radial-gradient(1100px 600px at 12% 12%, rgba(21, 197, 206, 0.20), transparent 60%),
+    radial-gradient(900px 520px at 85% 18%, rgba(76, 14, 229, 0.12), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(247, 249, 251, 1));
+}
+
+/* Subtle premium gradient (dark) */
 body[data-theme="dark"] .auth__brand {
-  background: radial-gradient(1200px 600px at 10% 10%, rgba(21, 197, 206, 0.20), transparent 60%),
-    radial-gradient(900px 500px at 90% 20%, rgba(246, 142, 58, 0.16), transparent 55%),
-    var(--surface-0, #0f141b);
+  background:
+    radial-gradient(1100px 600px at 12% 12%, rgba(21, 197, 206, 0.22), transparent 60%),
+    radial-gradient(900px 520px at 85% 18%, rgba(246, 142, 58, 0.14), transparent 55%),
+    linear-gradient(180deg, rgba(10, 14, 22, 1), rgba(7, 10, 16, 1));
 }
 
 .auth__brand-top {
@@ -14555,51 +14567,63 @@ body[data-theme="dark"] .auth__brand {
 .auth__logo {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
   text-decoration: none;
 }
 
 .auth__logo img {
   display: block;
-  height: 42px;
+  height: 44px;
   width: auto;
+}
+
+.auth__brand-content {
+  display: grid;
+  gap: 12px;
 }
 
 .auth__brand-title {
   margin: 0;
-  font-size: clamp(22px, 2.2vw, 32px);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-size: clamp(26px, 2.4vw, 38px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
 }
 
 .auth__brand-subtitle {
-  margin-top: 10px;
-  max-width: 52ch;
-  opacity: 0.85;
+  margin: 0;
+  max-width: 56ch;
+  opacity: 0.82;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .auth__brand-pills {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
+  margin-top: 6px;
 }
 
 .auth-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 10px 12px;
   border-radius: 999px;
   font-size: 13px;
   line-height: 1;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
 }
 
 body[data-theme="light"] .auth-pill {
-  background: rgba(255, 255, 255, 0.65);
-  border-color: rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.78);
 }
 
 body[data-theme="dark"] .auth-pill {
   background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .auth__brand-footer {
@@ -14607,35 +14631,49 @@ body[data-theme="dark"] .auth-pill {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 28px;
   opacity: 0.85;
   font-size: 13px;
 }
 
+.auth-footer-link {
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.85;
+}
+
+.auth-footer-link:hover {
+  opacity: 1;
+}
+
+/* ---------- Form Panel ---------- */
 .auth__form {
-  padding: clamp(24px, 4vw, 56px);
+  padding: clamp(22px, 4vw, 56px);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Card: stronger hierarchy + better light contrast */
 .auth-card {
   width: 100%;
-  max-width: 460px;
-  border-radius: 18px;
+  max-width: 480px;
+  border-radius: 20px;
   padding: 22px;
 }
 
 body[data-theme="light"] .auth-card {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.10),
+    0 2px 0 rgba(255, 255, 255, 0.60) inset;
 }
 
 body[data-theme="dark"] .auth-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.30);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
 }
 
 .auth-card__header {
@@ -14656,8 +14694,49 @@ body[data-theme="dark"] .auth-card {
   margin: 6px 0 0;
   opacity: 0.78;
   font-size: 14px;
+  line-height: 1.5;
 }
 
+/* Small back button */
+.auth-back {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+body[data-theme="light"] .auth-back {
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+body[data-theme="dark"] .auth-back {
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Alerts ---------- */
+.auth-alert {
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  margin: 10px 0 12px;
+}
+
+.auth-alert--error {
+  border: 1px solid rgba(255, 0, 0, 0.22);
+  background: rgba(255, 0, 0, 0.08);
+}
+
+.auth-alert--success {
+  border: 1px solid rgba(0, 200, 120, 0.25);
+  background: rgba(0, 200, 120, 0.10);
+}
+
+/* ---------- Form ---------- */
 .auth-form {
   margin-top: 14px;
 }
@@ -14670,31 +14749,80 @@ body[data-theme="dark"] .auth-card {
   display: block;
   font-size: 13px;
   margin-bottom: 6px;
-  opacity: 0.9;
+  opacity: 0.92;
+}
+
+/* Input wrapper for icons / password toggle */
+.auth-inputwrap {
+  position: relative;
+}
+
+.auth-inputicon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.70;
+  pointer-events: none;
+}
+
+.auth-peek {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 0;
+  background: transparent;
+  opacity: 0.85;
+}
+
+.auth-peek:hover {
+  opacity: 1;
 }
 
 .auth-input {
   width: 100%;
-  border-radius: 12px;
-  padding: 12px 12px;
+  border-radius: 14px;
+  padding: 12px 44px;
+  /* space for icons */
+  padding-left: 42px;
+  /* left icon */
   outline: none;
   border: 1px solid transparent;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
 body[data-theme="light"] .auth-input {
-  background: #fff;
-  border-color: rgba(0, 0, 0, 0.10);
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.14);
+  /* stronger than before */
+  color: rgba(15, 23, 42, 0.92);
 }
 
 body[data-theme="dark"] .auth-input {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.14);
-  color: #fff;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.auth-input::placeholder {
+  opacity: 0.65;
 }
 
 .auth-input:focus {
-  border-color: rgba(21, 197, 206, 0.7);
+  border-color: rgba(21, 197, 206, 0.85);
   box-shadow: 0 0 0 4px rgba(21, 197, 206, 0.18);
+}
+
+/* Hint text */
+.auth-hint {
+  font-size: 12px;
+  opacity: 0.78;
+  margin-top: 6px;
+  line-height: 1.4;
 }
 
 .auth-row {
@@ -14711,11 +14839,30 @@ body[data-theme="dark"] .auth-input {
   font-size: 13px;
 }
 
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* Buttons area */
 .auth-actions {
   display: grid;
   gap: 10px;
 }
 
+/* Make primary CTA feel premium */
+.auth-btn-primary {
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 14px 32px rgba(21, 197, 206, 0.22);
+}
+
+.auth-btn-secondary,
+.auth-btn-google {
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+/* Divider */
 .auth-divider {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -14730,36 +14877,16 @@ body[data-theme="dark"] .auth-input {
 .auth-divider::after {
   content: "";
   height: 1px;
-  background: rgba(255, 255, 255, 0.14);
 }
 
 body[data-theme="light"] .auth-divider::before,
 body[data-theme="light"] .auth-divider::after {
-  background: rgba(0, 0, 0, 0.10);
+  background: rgba(15, 23, 42, 0.10);
 }
 
-.auth-hint {
-  font-size: 12px;
-  opacity: 0.78;
-  margin-top: 6px;
-}
-
-.auth-error {
-  padding: 10px 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  margin-bottom: 12px;
-  border: 1px solid rgba(255, 0, 0, 0.2);
-  background: rgba(255, 0, 0, 0.08);
-}
-
-.auth-success {
-  padding: 10px 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  margin-bottom: 12px;
-  border: 1px solid rgba(0, 200, 120, 0.25);
-  background: rgba(0, 200, 120, 0.10);
+body[data-theme="dark"] .auth-divider::before,
+body[data-theme="dark"] .auth-divider::after {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .auth-footer {
@@ -14767,4 +14894,63 @@ body[data-theme="light"] .auth-divider::after {
   font-size: 13px;
   opacity: 0.85;
   text-align: center;
+  line-height: 1.6;
+}
+
+/* =========================================
+   Auth — Password Peek Icon (Theme Fix)
+========================================= */
+
+/* Ensure the eye icon is readable on dark surfaces */
+body[data-theme="dark"] .auth-peek {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+body[data-theme="dark"] .auth-peek i {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Optional: hover state for better affordance */
+body[data-theme="dark"] .auth-peek:hover {
+  color: #fff;
+}
+
+body[data-theme="dark"] .auth-peek:hover i {
+  color: #fff;
+}
+
+body[data-theme="dark"] .auth-peek .fa-eye::before,
+body[data-theme="dark"] .auth-peek .fa-eye-slash::before {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* =========================================
+   Auth — Switch Control (Dark Theme Fix)
+========================================= */
+
+/* Base switch track in dark mode */
+body[data-theme="dark"] .switch__control {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Switch knob */
+body[data-theme="dark"] .switch__control::after {
+  background: #ffffff;
+}
+
+/* Checked state */
+body[data-theme="dark"] .switch input:checked+.switch__control {
+  background: rgba(21, 197, 206, 0.85);
+  border-color: rgba(21, 197, 206, 0.85);
+}
+
+/* Checked knob */
+body[data-theme="dark"] .switch input:checked+.switch__control::after {
+  background: #ffffff;
+}
+
+/* Focus / keyboard accessibility */
+body[data-theme="dark"] .switch input:focus-visible+.switch__control {
+  box-shadow: 0 0 0 4px rgba(21, 197, 206, 0.35);
 }
