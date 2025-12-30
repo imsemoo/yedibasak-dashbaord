@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in — Donations Dashboard</title>
+  <meta name="description" content="Sign in to manage campaigns, donors, and donations." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#15C5CE" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main class="auth" id="main-content">
+    <!-- Brand / Left -->
+    <section class="auth__brand" aria-label="Brand panel">
+      <div>
+        <div class="auth__brand-top">
+          <a class="auth__logo" href="index.html" aria-label="Go to dashboard home">
+            <img src="assets/img/logo.svg" alt="Donations Dashboard logo" />
+          </a>
+
+          <!-- Theme toggle (relies on your script.js) -->
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fa-regular fa-sun" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <h1 class="auth__brand-title">Welcome back</h1>
+        <p class="auth__brand-subtitle">
+          Sign in to monitor campaigns, manage donors, and keep fundraising operations under control.
+        </p>
+
+        <div class="auth__brand-pills" aria-label="Highlights">
+          <span class="auth-pill"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Secure access</span>
+          <span class="auth-pill"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Real-time insights</span>
+          <span class="auth-pill"><i class="fa-solid fa-bell" aria-hidden="true"></i> Smart notifications</span>
+        </div>
+      </div>
+
+      <div class="auth__brand-footer">
+        <span>&copy; 2025 Donations Dashboard</span>
+        <span class="text-muted">Support: support@donations.org</span>
+      </div>
+    </section>
+
+    <!-- Form / Right -->
+    <section class="auth__form" aria-label="Sign in form">
+      <div class="auth-card" role="region" aria-labelledby="signinTitle">
+        <header class="auth-card__header">
+          <div>
+            <h2 class="auth-card__title" id="signinTitle">Sign in</h2>
+            <p class="auth-card__subtitle">Use your work email and password.</p>
+          </div>
+          <a class="btn btn-ghost btn-ghost--sm" href="index.html" aria-label="Back to dashboard">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          </a>
+        </header>
+
+        <!-- Example states -->
+        <!-- <div class="auth-error" role="alert">Invalid email or password.</div> -->
+        <!-- <div class="auth-success" role="status">Password updated successfully. Please sign in.</div> -->
+
+        <form class="auth-form" action="#" method="post" novalidate>
+          <div class="auth-field">
+            <label class="auth-label" for="email">Email</label>
+            <input class="auth-input" id="email" name="email" type="email" autocomplete="email"
+              placeholder="name@company.com" required />
+            <div class="auth-hint">Use the email you received access with.</div>
+          </div>
+
+          <div class="auth-field">
+            <label class="auth-label" for="password">Password</label>
+            <input class="auth-input" id="password" name="password" type="password" autocomplete="current-password"
+              placeholder="••••••••" required />
+          </div>
+
+          <div class="auth-row">
+            <label class="switch" style="margin:0;">
+              <input type="checkbox" name="remember" />
+              <span class="switch__control" aria-hidden="true"></span>
+              <span class="switch__label">Remember me</span>
+            </label>
+
+            <a class="auth-link" href="forgot-password.html">Forgot password?</a>
+          </div>
+
+          <div class="auth-actions">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+              Sign in
+            </button>
+
+            <a class="btn btn-outline" href="register.html">
+              <i class="fa-regular fa-user" aria-hidden="true"></i>
+              Create an account
+            </a>
+          </div>
+
+          <div class="auth-divider">or</div>
+
+          <button class="btn btn-ghost" type="button">
+            <i class="fa-brands fa-google" aria-hidden="true"></i>
+            Continue with Google
+          </button>
+
+          <p class="auth-footer">
+            By continuing, you agree to our <a class="auth-link" href="#">Terms</a> and <a class="auth-link"
+              href="#">Privacy</a>.
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>
