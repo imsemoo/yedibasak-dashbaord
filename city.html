@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - Cities</title>
+  <meta name="description" content="Manage cities by country for campaign targeting and location filters." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/cities" />
+
+  <meta property="og:title" content="Donations Dashboard - Cities" />
+  <meta property="og:description" content="Manage cities by country for campaign targeting and location filters." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/cities" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - Cities" />
+  <meta name="twitter:description" content="Manage cities by country for campaign targeting and location filters." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Flags (Flag Icons) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.3.2/css/flag-icons.min.css">
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual donations</span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- More submenu -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
+
+            <!-- New tables -->
+            <li>
+              <a href="country.html" class="sidebar-sublink">
+                <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                <span>Countries</span>
+              </a>
+            </li>
+            <li>
+              <a href="city.html" class="sidebar-sublink is-active">
+                <i class="fa-solid fa-city" aria-hidden="true"></i>
+                <span>Cities</span>
+              </a>
+            </li>
+            <li>
+              <a href="payment-method.html" class="sidebar-sublink">
+                <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
+                <span>Payment methods</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <!-- Header -->
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Cities</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa-regular fa-bell" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Locations list updated</p>
+                    <p class="notification-meta">Today &bull; Settings</p>
+                  </div>
+                  <span class="notification-time">2m</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="app-content" id="main-content" tabindex="-1" data-page="city">
+        <section class="card page-header" aria-labelledby="cities-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li aria-current="page">Cities</li>
+              </ol>
+            </nav>
+            <div class="page-header__title">
+              <h1 id="cities-title" class="h3">Cities</h1>
+              <p class="page-header__subtitle text-muted">Maintain the list of supported cities per country.</p>
+            </div>
+          </div>
+
+          <div class="page-header__actions">
+            <a class="btn btn-primary" href="city-new.html">
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+              New city
+            </a>
+            <button class="icon-button" type="button" aria-label="Export cities">
+              <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i>
+            </button>
+          </div>
+        </section>
+
+        <section class="card campaigns-toolbar flex-column" aria-label="City filters">
+          <div class="d-flex align-items-center justify-content-between w-100">
+            <form class="search campaigns-search" role="search" aria-label="Search cities">
+              <label class="sr-only" for="city-search">Search cities</label>
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input id="city-search" type="search" name="city-search" placeholder="Search city or country..." />
+            </form>
+
+            <div class="d-flex align-items-center gap-2">
+              <div class="campaigns-toolbar__sort d-flex gap-2 align-items-center">
+                <label class="sr-only" for="citySort">Sort cities</label>
+                <span class="text-muted">Sort:</span>
+                <select id="citySort" class="form-control form-control--sm js-table-sort" name="citySort">
+                  <option value="newest">Newest</option>
+                  <option value="az">A → Z</option>
+                  <option value="za">Z → A</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TABLE is default -->
+        <section class="cities-view cities-view--table is-active" aria-label="Cities table view">
+          <div class="card table-card">
+            <div class="table-responsive">
+              <table class="table cities-table" data-table>
+                <thead>
+                  <tr>
+                    <th>City</th>
+                    <th>Country</th>
+                    <th>ISO2</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th class="table-col-actions">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody data-tbody>
+                  <!-- rows: data-search used for client-side filtering -->
+                  <tr data-row data-search="london united kingdom gb active">
+                    <td data-label="City">
+                      <div class="campaigns-table__title">
+                        <span class="campaign-name">London</span>
+                        <span class="campaign-subtitle">Greater London</span>
+                      </div>
+                    </td>
+                    <td data-label="Country">
+                      <span class="d-inline-flex align-items-center" style="gap: var(--space-2);">
+                        <span class="fi fi-gb" aria-hidden="true"></span>
+                        <span>United Kingdom</span>
+                      </span>
+                    </td>
+                    <td data-label="ISO2"><span class="text-muted">GB</span></td>
+                    <td data-label="Status"><span class="status-pill status-pill--active">Active</span></td>
+                    <td data-label="Created"><span class="text-muted">2026-01-01</span></td>
+                    <td class="table-col-actions" data-label="Actions">
+                      <div class="table-actions">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-row-view" aria-label="View London">
+                          <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                        <a href="city-new.html" class="btn btn-outline btn-outline--xs" aria-label="Edit London">
+                          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown dropdown-actions dropdown-actions--compact">
+                          <button type="button" class="icon-button icon-button--sm js-actions-toggle"
+                            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
+                            <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                            <button type="button" class="dropdown-item js-row-toggle">
+                              <i class="fa-regular fa-circle-check"></i>
+                              <span>Toggle status</span>
+                            </button>
+                            <button type="button" class="dropdown-item dropdown-item--danger js-row-delete">
+                              <i class="fa-solid fa-trash-can"></i>
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr data-row data-search="manchester united kingdom gb active">
+                    <td data-label="City">
+                      <div class="campaigns-table__title">
+                        <span class="campaign-name">Manchester</span>
+                        <span class="campaign-subtitle">North West</span>
+                      </div>
+                    </td>
+                    <td data-label="Country">
+                      <span class="d-inline-flex align-items-center" style="gap: var(--space-2);">
+                        <span class="fi fi-gb" aria-hidden="true"></span>
+                        <span>United Kingdom</span>
+                      </span>
+                    </td>
+                    <td data-label="ISO2"><span class="text-muted">GB</span></td>
+                    <td data-label="Status"><span class="status-pill status-pill--active">Active</span></td>
+                    <td data-label="Created"><span class="text-muted">2026-01-02</span></td>
+                    <td class="table-col-actions" data-label="Actions">
+                      <div class="table-actions">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-row-view"
+                          aria-label="View Manchester">
+                          <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                        <a href="city-new.html" class="btn btn-outline btn-outline--xs" aria-label="Edit Manchester">
+                          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown dropdown-actions dropdown-actions--compact">
+                          <button type="button" class="icon-button icon-button--sm js-actions-toggle"
+                            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
+                            <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                            <button type="button" class="dropdown-item js-row-toggle">
+                              <i class="fa-regular fa-circle-check"></i>
+                              <span>Toggle status</span>
+                            </button>
+                            <button type="button" class="dropdown-item dropdown-item--danger js-row-delete">
+                              <i class="fa-solid fa-trash-can"></i>
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr data-row data-search="cairo egypt eg inactive">
+                    <td data-label="City">
+                      <div class="campaigns-table__title">
+                        <span class="campaign-name">Cairo</span>
+                        <span class="campaign-subtitle">Greater Cairo</span>
+                      </div>
+                    </td>
+                    <td data-label="Country">
+                      <span class="d-inline-flex align-items-center" style="gap: var(--space-2);">
+                        <span class="fi fi-eg" aria-hidden="true"></span>
+                        <span>Egypt</span>
+                      </span>
+                    </td>
+                    <td data-label="ISO2"><span class="text-muted">EG</span></td>
+                    <td data-label="Status"><span class="status-pill status-pill--draft">Inactive</span></td>
+                    <td data-label="Created"><span class="text-muted">2025-12-12</span></td>
+                    <td class="table-col-actions" data-label="Actions">
+                      <div class="table-actions">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-row-view" aria-label="View Cairo">
+                          <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                        <a href="city-new.html" class="btn btn-outline btn-outline--xs" aria-label="Edit Cairo">
+                          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown dropdown-actions dropdown-actions--compact">
+                          <button type="button" class="icon-button icon-button--sm js-actions-toggle"
+                            aria-haspopup="true" aria-expanded="false" aria-label="More actions">
+                            <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu--actions" role="menu">
+                            <button type="button" class="dropdown-item js-row-toggle">
+                              <i class="fa-regular fa-circle-check"></i>
+                              <span>Toggle status</span>
+                            </button>
+                            <button type="button" class="dropdown-item dropdown-item--danger js-row-delete">
+                              <i class="fa-solid fa-trash-can"></i>
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- ✅ Pagination component (موحد) -->
+            <div class="cs-pagination d-flex align-items-center justify-content-between flex-wrap gap-2" data-pagination
+              aria-label="Table pagination">
+              <div class="cs-pagination__meta text-muted" data-pagination-meta>
+                Showing <span data-from>1</span>–<span data-to>10</span> of <span data-total>0</span>
+              </div>
+
+              <div class="cs-pagination__controls d-flex align-items-center" style="gap: var(--space-2);">
+                <button type="button" class="btn btn-ghost btn-ghost--xs" data-page-prev aria-label="Previous page">
+                  <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                  Prev
+                </button>
+
+                <div class="d-flex align-items-center" style="gap: var(--space-2);">
+                  <span class="text-muted">Page</span>
+                  <select class="form-control form-control--sm" data-page-select aria-label="Select page"></select>
+                  <span class="text-muted">of <strong data-page-total>1</strong></span>
+                </div>
+
+                <button type="button" class="btn btn-ghost btn-ghost--xs" data-page-next aria-label="Next page">
+                  Next
+                  <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </button>
+
+                <select class="form-control form-control--sm" data-page-size aria-label="Rows per page">
+                  <option value="5">5 / page</option>
+                  <option value="10" selected>10 / page</option>
+                  <option value="20">20 / page</option>
+                  <option value="50">50 / page</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Loading -->
+        <section class="card campaigns-loading is-hidden" aria-live="polite" data-loading>
+          <div class="campaigns-loading__header">
+            <h3 class="h4">Loading cities</h3>
+            <p class="text-muted">Hang tight while we refresh the list.</p>
+          </div>
+          <div class="cs-skeleton cs-skeleton--table" aria-hidden="true">
+            <div class="cs-skeleton__row"></div>
+            <div class="cs-skeleton__row"></div>
+            <div class="cs-skeleton__row"></div>
+          </div>
+        </section>
+
+        <!-- No results -->
+        <section class="card campaigns-empty is-hidden" aria-live="polite" data-no-results>
+          <div class="campaigns-empty__icon" aria-hidden="true">
+            <i class="fa-regular fa-folder-open"></i>
+          </div>
+          <h3 class="h4">No results</h3>
+          <p class="text-muted">Try adjusting your search query.</p>
+          <button type="button" class="btn btn-primary" data-reset-search>
+            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+            Reset search
+          </button>
+        </section>
+
+        <!-- Empty state -->
+        <section class="card campaigns-empty is-hidden" aria-live="polite" data-empty>
+          <div class="campaigns-empty__icon" aria-hidden="true">
+            <i class="fa-regular fa-folder-open"></i>
+          </div>
+          <h3 class="h4">No cities yet</h3>
+          <p class="text-muted">Create your first city and map it to a country.</p>
+          <a class="btn btn-primary" href="city-new.html">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            Create your first city
+          </a>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="cs-toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+
+  <!-- Page JS: search + pagination (self-contained, no conflicts) -->
+  <script defer>
+    (function initCityTable() {
+      const page = document.querySelector('[data-page="city"]');
+      if (!page) return;
+
+      const searchInput = page.querySelector('#city-search');
+      const sortSelect = page.querySelector('.js-table-sort');
+
+      const tbody = page.querySelector('[data-tbody]');
+      const allRows = Array.from(page.querySelectorAll('[data-row]'));
+
+      const emptyState = page.querySelector('[data-empty]');
+      const noResults = page.querySelector('[data-no-results]');
+      const resetBtn = page.querySelector('[data-reset-search]');
+
+      // Pagination refs
+      const pager = page.querySelector('[data-pagination]');
+      const metaFrom = pager?.querySelector('[data-from]');
+      const metaTo = pager?.querySelector('[data-to]');
+      const metaTotal = pager?.querySelector('[data-total]');
+      const prevBtn = pager?.querySelector('[data-page-prev]');
+      const nextBtn = pager?.querySelector('[data-page-next]');
+      const pageSelect = pager?.querySelector('[data-page-select]');
+      const pageTotal = pager?.querySelector('[data-page-total]');
+      const pageSizeSelect = pager?.querySelector('[data-page-size]');
+
+      let state = {
+        q: '',
+        sort: 'newest',
+        page: 1,
+        size: 10
+      };
+
+      function norm(s) {
+        return (s || '').toString().trim().toLowerCase();
+      }
+
+      function applySearch(rows) {
+        const q = norm(state.q);
+        if (!q) return rows;
+        return rows.filter(r => norm(r.getAttribute('data-search')).includes(q));
+      }
+
+      function applySort(rows) {
+        const mode = state.sort;
+        const clone = rows.slice();
+
+        if (mode === 'az' || mode === 'za') {
+          clone.sort((a, b) => {
+            const an = norm(a.querySelector('.campaign-name')?.textContent);
+            const bn = norm(b.querySelector('.campaign-name')?.textContent);
+            return an.localeCompare(bn);
+          });
+          if (mode === 'za') clone.reverse();
+          return clone;
+        }
+
+        // "newest": keep DOM order (assuming newest already first)
+        return clone;
+      }
+
+      function paginate(rows) {
+        const total = rows.length;
+        const size = state.size;
+        const pages = Math.max(1, Math.ceil(total / size));
+        state.page = Math.min(state.page, pages);
+
+        const start = (state.page - 1) * size;
+        const end = start + size;
+        return {
+          total,
+          pages,
+          slice: rows.slice(start, end),
+          from: total ? start + 1 : 0,
+          to: Math.min(end, total)
+        };
+      }
+
+      function renderPager({ total, pages, from, to }) {
+        if (!pager) return;
+
+        metaFrom.textContent = String(from);
+        metaTo.textContent = String(to);
+        metaTotal.textContent = String(total);
+        pageTotal.textContent = String(pages);
+
+        // fill pages dropdown
+        pageSelect.innerHTML = '';
+        for (let i = 1; i <= pages; i++) {
+          const opt = document.createElement('option');
+          opt.value = String(i);
+          opt.textContent = String(i);
+          if (i === state.page) opt.selected = true;
+          pageSelect.appendChild(opt);
+        }
+
+        prevBtn.disabled = state.page <= 1;
+        nextBtn.disabled = state.page >= pages;
+
+        // hide pager when not needed
+        pager.classList.toggle('is-hidden', total <= state.size);
+      }
+
+      function renderTable(rowsToShow) {
+        tbody.innerHTML = '';
+        rowsToShow.forEach(r => tbody.appendChild(r));
+
+        const hasAny = allRows.length > 0;
+        const hasShown = rowsToShow.length > 0;
+
+        emptyState.classList.toggle('is-hidden', hasAny);
+        noResults.classList.toggle('is-hidden', !hasAny || hasShown);
+
+        if (!hasAny) {
+          pager?.classList.add('is-hidden');
+        }
+      }
+
+      function update() {
+        let rows = applySearch(allRows);
+        rows = applySort(rows);
+
+        const pageData = paginate(rows);
+        renderTable(pageData.slice);
+        renderPager(pageData);
+      }
+
+      // Events
+      searchInput?.addEventListener('input', (e) => {
+        state.q = e.target.value || '';
+        state.page = 1;
+        update();
+      });
+
+      sortSelect?.addEventListener('change', (e) => {
+        state.sort = e.target.value || 'newest';
+        state.page = 1;
+        update();
+      });
+
+      pageSizeSelect?.addEventListener('change', (e) => {
+        state.size = parseInt(e.target.value, 10) || 10;
+        state.page = 1;
+        update();
+      });
+
+      pageSelect?.addEventListener('change', (e) => {
+        state.page = parseInt(e.target.value, 10) || 1;
+        update();
+      });
+
+      prevBtn?.addEventListener('click', () => {
+        state.page = Math.max(1, state.page - 1);
+        update();
+      });
+
+      nextBtn?.addEventListener('click', () => {
+        state.page = state.page + 1;
+        update();
+      });
+
+      resetBtn?.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        state.q = '';
+        state.page = 1;
+        update();
+      });
+
+      // Init
+      // Default page size from select (10)
+      state.size = parseInt(pageSizeSelect?.value || '10', 10) || 10;
+      state.sort = sortSelect?.value || 'newest';
+      update();
+    })();
+  </script>
+</body>
+
+</html>

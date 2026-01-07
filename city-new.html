@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - New City</title>
+  <meta name="description" content="Create a city and map it to a country for campaign targeting and filters." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/cities/new" />
+
+  <meta property="og:title" content="Donations Dashboard - New City" />
+  <meta property="og:description" content="Create and preview a new city in the Donations Dashboard." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/cities/new" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - New City" />
+  <meta name="twitter:description" content="Create and preview a new city in the Donations Dashboard." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Flags (Flag Icons) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.3.2/css/flag-icons.min.css">
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual donations</span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="country.html" class="sidebar-sublink">
+                <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                <span>Countries</span>
+              </a>
+            </li>
+            <li>
+              <a href="city.html" class="sidebar-sublink is-active">
+                <i class="fa-solid fa-city" aria-hidden="true"></i>
+                <span>Cities</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <!-- Header -->
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Cities</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="app-content cs-city-new" id="main-content" tabindex="-1" data-page="city-new">
+        <section class="card page-header" aria-labelledby="city-form-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="city.html">Cities</a></li>
+                <li aria-current="page">Add new city</li>
+              </ol>
+            </nav>
+            <div class="page-header__title">
+              <h1 id="city-form-title" class="h3">Add New City</h1>
+              <p class="page-header__subtitle text-muted">Create a city record and map it to a country.</p>
+            </div>
+          </div>
+
+          <div class="page-header__actions">
+            <a class="btn btn-ghost" href="city.html">Back to cities</a>
+          </div>
+        </section>
+
+        <section class="form-layout">
+          <form class="card form-card js-city-form" action="#" method="post" novalidate>
+            <div class="form-section" aria-labelledby="section-basics">
+              <p class="form-section__title" id="section-basics">BASICS</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="cityName">City name <span aria-hidden="true">*</span></label>
+                  <input class="form-control" type="text" id="cityName" name="cityName" required aria-required="true"
+                    placeholder="London" data-role="cityName" value="London" />
+                  <p class="form-error is-hidden">Please enter a city name.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="citySlug">Slug</label>
+                  <input class="form-control" type="text" id="citySlug" name="citySlug" placeholder="london"
+                    data-role="citySlug" value="london" />
+                  <p class="cs-helper-text">Optional. Used for URLs and filters.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="cityStatus">Status</label>
+                  <select class="form-control" id="cityStatus" name="cityStatus" data-role="cityStatus">
+                    <option value="active" selected>Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="notes">Notes</label>
+                  <textarea class="form-control" id="notes" name="notes" rows="3" data-role="notes"
+                    placeholder="Optional internal notes...">Greater London</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section" aria-labelledby="section-country">
+              <p class="form-section__title" id="section-country">COUNTRY MAPPING</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="countryName">Country <span aria-hidden="true">*</span></label>
+                  <input class="form-control" type="text" id="countryName" name="countryName" required
+                    aria-required="true" placeholder="United Kingdom" data-role="countryName" value="United Kingdom" />
+                  <p class="form-error is-hidden">Please enter a country name.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="iso2">Country ISO2 <span aria-hidden="true">*</span></label>
+                  <input class="form-control" type="text" id="iso2" name="iso2" required aria-required="true"
+                    placeholder="GB" maxlength="2" inputmode="latin" autocomplete="off" data-role="iso2" value="GB" />
+                  <p class="form-error is-hidden">Please enter ISO2 (e.g. GB).</p>
+                  <p class="cs-helper-text">Used to render flag icon.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">Flag preview</label>
+                  <div class="d-flex align-items-center" style="gap: var(--space-3);">
+                    <span class="fi fi-gb" data-flag-preview aria-label="Selected country flag"></span>
+                    <span class="text-muted">Based on ISO2: <span data-flag-iso>GB</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save City</button>
+              <a class="btn btn-ghost" href="city.html">Cancel</a>
+            </div>
+          </form>
+
+          <!-- Preview card -->
+          <aside class="card campaign-preview cs-card-preview" aria-live="polite" data-preview-card>
+            <div class="campaign-preview__header">
+              <div>
+                <p class="eyebrow">Preview</p>
+                <h3 class="h4" data-preview="title">London</h3>
+              </div>
+              <div class="d-flex" style="gap: var(--space-2); align-items: center;">
+                <span class="status-pill status-pill--active" data-preview="status">Active</span>
+              </div>
+            </div>
+
+            <div class="campaign-preview__body">
+              <div class="d-flex align-items-center" style="gap: var(--space-3);">
+                <span class="fi fi-gb" data-preview-flag aria-label="Country flag preview"></span>
+                <div>
+                  <strong data-preview-country>United Kingdom</strong>
+                  <div class="text-muted">ISO2: <span data-preview-iso2>GB</span></div>
+                </div>
+              </div>
+
+              <div class="campaign-preview__meta mt-3">
+                <span><i class="fa-solid fa-city" aria-hidden="true"></i> <span data-preview-city>London</span></span>
+                <span><i class="fa-regular fa-note-sticky" aria-hidden="true"></i> <span data-preview-notes>Greater
+                    London</span></span>
+                <span class="text-muted"><i class="fa-regular fa-clock" aria-hidden="true"></i> Created: <span
+                    data-preview-created>Today</span></span>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="cs-toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+
+  <!-- Page JS: live preview + flag binding -->
+  <script defer>
+    (function initCityNew() {
+      const page = document.querySelector('[data-page="city-new"]');
+      if (!page) return;
+
+      const form = page.querySelector('.js-city-form');
+
+      const cityName = page.querySelector('[data-role="cityName"]');
+      const citySlug = page.querySelector('[data-role="citySlug"]');
+      const cityStatus = page.querySelector('[data-role="cityStatus"]');
+      const notes = page.querySelector('[data-role="notes"]');
+
+      const countryName = page.querySelector('[data-role="countryName"]');
+      const iso2 = page.querySelector('[data-role="iso2"]');
+
+      const flagPreview = page.querySelector('[data-flag-preview]');
+      const flagIsoText = page.querySelector('[data-flag-iso]');
+
+      // Preview refs
+      const pTitle = page.querySelector('[data-preview="title"]');
+      const pStatus = page.querySelector('[data-preview="status"]');
+      const pCountry = page.querySelector('[data-preview-country]');
+      const pIso2 = page.querySelector('[data-preview-iso2]');
+      const pFlag = page.querySelector('[data-preview-flag]');
+      const pCity = page.querySelector('[data-preview-city]');
+      const pNotes = page.querySelector('[data-preview-notes]');
+
+      function norm(s) {
+        return (s || '').toString().trim();
+      }
+      function lower(s) {
+        return norm(s).toLowerCase();
+      }
+
+      function setFlag(el, iso) {
+        if (!el) return;
+        // Remove existing fi-xx
+        el.className = el.className.replace(/\bfi-[a-z]{2}\b/g, '').trim();
+        el.classList.add('fi');
+        el.classList.add('fi-' + (iso || 'gb'));
+      }
+
+      function updatePreview() {
+        const cityVal = norm(cityName?.value) || 'City name';
+        const statusVal = norm(cityStatus?.value) || 'active';
+        const notesVal = norm(notes?.value) || '—';
+
+        const countryVal = norm(countryName?.value) || 'Country';
+        const isoVal = norm(iso2?.value).toUpperCase();
+        const isoLower = lower(isoVal) || 'gb';
+
+        if (pTitle) pTitle.textContent = cityVal;
+        if (pCity) pCity.textContent = cityVal;
+        if (pNotes) pNotes.textContent = notesVal;
+
+        if (pCountry) pCountry.textContent = countryVal;
+        if (pIso2) pIso2.textContent = isoVal || 'GB';
+
+        // status pill mapping (reuse your existing classes)
+        if (pStatus) {
+          pStatus.textContent = statusVal === 'inactive' ? 'Inactive' : 'Active';
+          pStatus.classList.remove('status-pill--active', 'status-pill--draft', 'status-pill--completed', 'status-pill--archived');
+          pStatus.classList.add(statusVal === 'inactive' ? 'status-pill--draft' : 'status-pill--active');
+        }
+
+        // flag preview
+        if (flagIsoText) flagIsoText.textContent = isoVal || 'GB';
+        setFlag(flagPreview, isoLower);
+        setFlag(pFlag, isoLower);
+
+        // auto slug if empty or matches previous auto
+        if (citySlug) {
+          const slugNow = norm(citySlug.value);
+          if (!slugNow || citySlug.dataset.autofill === '1') {
+            const auto = lower(cityVal).replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            citySlug.value = auto || '';
+            citySlug.dataset.autofill = '1';
+          }
+        }
+      }
+
+      // Validation (light)
+      function validate() {
+        const requiredFields = [
+          { el: cityName, ok: !!norm(cityName?.value), msg: 'Please enter a city name.' },
+          { el: countryName, ok: !!norm(countryName?.value), msg: 'Please enter a country name.' },
+          { el: iso2, ok: /^[A-Za-z]{2}$/.test(norm(iso2?.value)), msg: 'Please enter ISO2 (2 letters).' }
+        ];
+
+        let valid = true;
+        requiredFields.forEach(f => {
+          const wrap = f.el?.closest('.form-field');
+          const err = wrap?.querySelector('.form-error');
+          const show = !f.ok;
+          if (err) {
+            err.textContent = f.msg;
+            err.classList.toggle('is-hidden', !show);
+          }
+          if (show) valid = false;
+        });
+
+        return valid;
+      }
+
+      // Listeners
+      [cityName, cityStatus, notes, countryName, iso2].forEach(el => {
+        el?.addEventListener('input', updatePreview);
+        el?.addEventListener('change', updatePreview);
+      });
+
+      citySlug?.addEventListener('input', () => {
+        // user took over
+        citySlug.dataset.autofill = '0';
+      });
+
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!validate()) return;
+
+        // UI only: toast hook (if you already have toast util in script.js, it will still work)
+        const toastContainer = document.querySelector('.cs-toast-container');
+        if (toastContainer) {
+          const toast = document.createElement('div');
+          toast.className = 'cs-toast is-success';
+          toast.innerHTML = '<div class="cs-toast__body"><strong>Saved</strong><p class="text-muted">City saved (UI only).</p></div>';
+          toastContainer.appendChild(toast);
+          setTimeout(() => toast.remove(), 2200);
+        }
+      });
+
+      updatePreview();
+    })();
+  </script>
+</body>
+
+</html>
