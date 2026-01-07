@@ -2109,6 +2109,10 @@ body[data-theme="dark"] .donors-overview-page .stat-card__icon {
   padding: 0;
 }
 
+.table {
+  margin: 0;
+}
+
 .donors-affinity-section .table-responsive {
   padding-top: var(--space-2);
 }
@@ -2496,6 +2500,7 @@ body[data-theme="dark"] .donors-overview-page .stat-card__icon {
 .table-responsive {
   width: 100%;
   overflow-x: auto;
+  display: inline-table;
 }
 
 .campaigns-table {

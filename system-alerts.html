@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - System Alerts & Modals</title>
+  <meta name="description"
+    content="System UI kit for alerts and modals (confirm, success, error) powered by SweetAlert2." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/system-alerts" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+
+  <style>
+    /* Small page-only helpers (does not override your design system) */
+    .sys-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 992px) {
+      .sys-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sys-card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: var(--space-4);
+    }
+
+    .sys-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .sys-note {
+      background: var(--color-primary-soft);
+      border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+    }
+
+    .sys-note code {
+      background: color-mix(in srgb, var(--color-border) 35%, transparent);
+      border-radius: 10px;
+      padding: 2px 8px;
+    }
+
+    .sys-kv {
+      display: grid;
+      gap: var(--space-2);
+      margin: 0;
+    }
+
+    .sys-kv div {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      border-bottom: 1px dashed var(--color-border);
+    }
+
+    .sys-kv div:last-child {
+      border-bottom: 0;
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- More -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="country.html" class="sidebar-sublink">
+                <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                <span>Countries</span>
+              </a>
+            </li>
+            <li>
+              <a href="city.html" class="sidebar-sublink">
+                <i class="fa-solid fa-city" aria-hidden="true"></i>
+                <span>Cities</span>
+              </a>
+            </li>
+            <li>
+              <a href="payment-method.html" class="sidebar-sublink">
+                <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
+                <span>Payment methods</span>
+              </a>
+            </li>
+            <li>
+              <a href="system-alerts.html" class="sidebar-sublink is-active">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <span>System alerts</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <!-- Header -->
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">System alerts</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="app-content" id="main-content" tabindex="-1" data-page="system-alerts">
+        <section class="card page-header" aria-labelledby="sys-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li aria-current="page">System alerts</li>
+              </ol>
+            </nav>
+
+            <div class="page-header__title">
+              <h1 id="sys-title" class="h3">Alerts &amp; Modals (SweetAlert2)</h1>
+              <p class="page-header__subtitle text-muted">
+                Centralized confirm/success/error modals and toasts that backend can trigger anywhere.
+              </p>
+            </div>
+          </div>
+
+          <div class="page-header__actions">
+            <button class="btn btn-ghost" type="button" data-copy-api>
+              <i class="fa-regular fa-copy" aria-hidden="true"></i>
+              Copy API snippets
+            </button>
+          </div>
+        </section>
+
+        <section class="sys-grid">
+          <!-- Left: Demo buttons -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Modal presets</h3>
+                <p class="text-muted mb-0">Use these helpers as the single source of truth.</p>
+              </div>
+            </div>
+
+            <div class="sys-btns">
+              <button class="btn btn-primary" type="button" data-demo="confirm-delete">
+                Confirm (delete)
+              </button>
+              <button class="btn btn-ghost" type="button" data-demo="confirm-save">
+                Confirm (save)
+              </button>
+              <button class="btn btn-ghost" type="button" data-demo="success">
+                Success
+              </button>
+              <button class="btn btn-ghost" type="button" data-demo="error">
+                Error
+              </button>
+              <button class="btn btn-ghost" type="button" data-demo="warning">
+                Warning
+              </button>
+              <button class="btn btn-ghost" type="button" data-demo="info">
+                Info
+              </button>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Toast presets</h3>
+                <p class="text-muted mb-0">Non-blocking notifications (top-end).</p>
+              </div>
+            </div>
+
+            <div class="sys-btns">
+              <button class="btn btn-outline" type="button" data-demo="toast-success">
+                Toast success
+              </button>
+              <button class="btn btn-outline" type="button" data-demo="toast-error">
+                Toast error
+              </button>
+              <button class="btn btn-outline" type="button" data-demo="toast-warning">
+                Toast warning
+              </button>
+              <button class="btn btn-outline" type="button" data-demo="toast-info">
+                Toast info
+              </button>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Loading modal</h3>
+                <p class="text-muted mb-0">Use for async operations (export, import, sync).</p>
+              </div>
+            </div>
+
+            <div class="sys-btns">
+              <button class="btn btn-primary" type="button" data-demo="loading-2s">
+                Show loading (2s)
+              </button>
+              <button class="btn btn-ghost" type="button" data-demo="close">
+                Close current
+              </button>
+            </div>
+          </section>
+
+          <!-- Right: Integration notes -->
+          <aside class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Backend integration</h3>
+                <p class="text-muted mb-0">Trigger via window events or direct JS calls.</p>
+              </div>
+            </div>
+
+            <div class="sys-note mb-3">
+              <p class="mb-2"><strong>Option A:</strong> Dispatch a global event:</p>
+              <p class="mb-0">
+                <code>window.dispatchEvent(new CustomEvent('cs:alert', { detail: {...} }))</code>
+              </p>
+            </div>
+
+            <dl class="sys-kv">
+              <div>
+                <dt class="text-muted">Event name</dt>
+                <dd class="mb-0"><code>cs:alert</code></dd>
+              </div>
+              <div>
+                <dt class="text-muted">Types</dt>
+                <dd class="mb-0"><code>confirm | success | error | warning | info | toast</code></dd>
+              </div>
+              <div>
+                <dt class="text-muted">Confirm result</dt>
+                <dd class="mb-0"><code>then(result =&gt; ...)</code></dd>
+              </div>
+              <div>
+                <dt class="text-muted">Theme</dt>
+                <dd class="mb-0"><code>auto (light/dark)</code></dd>
+              </div>
+            </dl>
+
+            <hr class="my-4" />
+
+            <div class="sys-note">
+              <p class="mb-2"><strong>Option B:</strong> Call helper directly:</p>
+              <p class="mb-0">
+                <code>CSAlert.success({ title: 'Saved', text: '...' })</code>
+              </p>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- JavaScript -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="assets/js/script.js" defer></script>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+  <script defer>
+    (function initSystemAlerts() {
+      const page = document.querySelector('[data-page="system-alerts"]');
+      if (!page) return;
+
+      function isDark() {
+        return document.body.getAttribute('data-theme') === 'dark';
+      }
+
+      function getSwalBase() {
+        // Base theme alignment with your tokens (no hard override of colors)
+        // We only adjust container class for potential CSS hooks.
+        return {
+          customClass: {
+            popup: 'cs-swal-popup',
+            title: 'cs-swal-title',
+            htmlContainer: 'cs-swal-text',
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-ghost',
+            actions: 'cs-swal-actions'
+          },
+          buttonsStyling: false,
+          backdrop: true,
+          heightAuto: false
+        };
+      }
+
+      function toastBase() {
+        return Swal.mixin({
+          ...getSwalBase(),
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2600,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          }
+        });
+      }
+
+      // ===== Public API (backend can call) =====
+      window.CSAlert = {
+        confirm(opts = {}) {
+          const {
+            title = 'Are you sure?',
+            text = 'This action cannot be undone.',
+            confirmText = 'Yes, continue',
+            cancelText = 'Cancel',
+            icon = 'warning',
+            reverseButtons = true
+          } = opts;
+
+          return Swal.fire({
+            ...getSwalBase(),
+            icon,
+            title,
+            text,
+            showCancelButton: true,
+            confirmButtonText: confirmText,
+            cancelButtonText: cancelText,
+            reverseButtons
+          });
+        },
+
+        success(opts = {}) {
+          const { title = 'Success', text = 'Action completed successfully.' } = opts;
+          return Swal.fire({ ...getSwalBase(), icon: 'success', title, text });
+        },
+
+        error(opts = {}) {
+          const { title = 'Something went wrong', text = 'Please try again.' } = opts;
+          return Swal.fire({ ...getSwalBase(), icon: 'error', title, text });
+        },
+
+        warning(opts = {}) {
+          const { title = 'Warning', text = 'Please review the information.' } = opts;
+          return Swal.fire({ ...getSwalBase(), icon: 'warning', title, text });
+        },
+
+        info(opts = {}) {
+          const { title = 'Info', text = 'Here is some information.' } = opts;
+          return Swal.fire({ ...getSwalBase(), icon: 'info', title, text });
+        },
+
+        toast(type = 'success', opts = {}) {
+          const t = toastBase();
+          const { title = 'Done', text = '' } = opts;
+
+          return t.fire({
+            icon: type,
+            title,
+            text
+          });
+        },
+
+        toastSuccess(opts = {}) { return this.toast('success', opts); },
+        toastError(opts = {}) { return this.toast('error', opts); },
+        toastWarning(opts = {}) { return this.toast('warning', opts); },
+        toastInfo(opts = {}) { return this.toast('info', opts); },
+
+        loading(opts = {}) {
+          const { title = 'Please wait', text = 'Processing...' } = opts;
+          return Swal.fire({
+            ...getSwalBase(),
+            title,
+            text,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => Swal.showLoading()
+          });
+        },
+
+        close() {
+          if (Swal.isVisible()) Swal.close();
+        }
+      };
+
+      // ===== Event bridge (backend dispatch) =====
+      // window.dispatchEvent(new CustomEvent('cs:alert', { detail: { type: 'success', title: 'Saved', text: '...' } }))
+      window.addEventListener('cs:alert', (e) => {
+        const d = e.detail || {};
+        const type = (d.type || 'info').toLowerCase();
+
+        if (type === 'confirm') {
+          window.CSAlert.confirm(d).then((result) => {
+            // Optionally notify backend listeners
+            window.dispatchEvent(new CustomEvent('cs:alert:result', { detail: { id: d.id || null, result } }));
+          });
+          return;
+        }
+
+        if (type === 'toast') {
+          const icon = (d.icon || 'success').toLowerCase();
+          window.CSAlert.toast(icon, d);
+          return;
+        }
+
+        if (type === 'loading') {
+          window.CSAlert.loading(d);
+          return;
+        }
+
+        if (window.CSAlert[type]) window.CSAlert[type](d);
+        else window.CSAlert.info(d);
+      });
+
+      // ===== Demo buttons =====
+      const demo = (key) => page.querySelector(`[data-demo="${key}"]`);
+
+      demo('confirm-delete')?.addEventListener('click', () => {
+        window.CSAlert.confirm({
+          title: 'Delete payment method?',
+          text: 'This will remove it from checkout immediately.',
+          confirmText: 'Delete',
+          cancelText: 'Cancel',
+          icon: 'warning'
+        }).then((r) => {
+          if (r.isConfirmed) window.CSAlert.toastSuccess({ title: 'Deleted', text: 'Payment method removed.' });
+        });
+      });
+
+      demo('confirm-save')?.addEventListener('click', () => {
+        window.CSAlert.confirm({
+          title: 'Save changes?',
+          text: 'Your updates will be applied immediately.',
+          confirmText: 'Save',
+          cancelText: 'Review'
+        }).then((r) => {
+          if (r.isConfirmed) window.CSAlert.success({ title: 'Saved', text: 'Changes were saved successfully.' });
+        });
+      });
+
+      demo('success')?.addEventListener('click', () => window.CSAlert.success({ title: 'Success', text: 'Everything looks good.' }));
+      demo('error')?.addEventListener('click', () => window.CSAlert.error({ title: 'Error', text: 'Could not complete the action.' }));
+      demo('warning')?.addEventListener('click', () => window.CSAlert.warning({ title: 'Warning', text: 'Some fields are missing.' }));
+      demo('info')?.addEventListener('click', () => window.CSAlert.info({ title: 'Info', text: 'This is a standard information modal.' }));
+
+      demo('toast-success')?.addEventListener('click', () => window.CSAlert.toastSuccess({ title: 'Saved', text: 'Campaign updated.' }));
+      demo('toast-error')?.addEventListener('click', () => window.CSAlert.toastError({ title: 'Failed', text: 'Network error occurred.' }));
+      demo('toast-warning')?.addEventListener('click', () => window.CSAlert.toastWarning({ title: 'Heads up', text: 'Check form validation.' }));
+      demo('toast-info')?.addEventListener('click', () => window.CSAlert.toastInfo({ title: 'Info', text: 'Background sync started.' }));
+
+      demo('loading-2s')?.addEventListener('click', () => {
+        window.CSAlert.loading({ title: 'Exporting', text: 'Preparing your report...' });
+        setTimeout(() => {
+          window.CSAlert.close();
+          window.CSAlert.toastSuccess({ title: 'Export ready', text: 'Downloaded successfully.' });
+        }, 2000);
+      });
+
+      demo('close')?.addEventListener('click', () => window.CSAlert.close());
+
+      // Copy snippets
+      page.querySelector('[data-copy-api]')?.addEventListener('click', async () => {
+        const snippet =
+          `// Trigger from backend/Livewire/anywhere:
+window.dispatchEvent(new CustomEvent('cs:alert', {
+  detail: { type: 'success', title: 'Saved', text: 'Payment method updated.' }
+}));
+
+// Confirm:
+window.dispatchEvent(new CustomEvent('cs:alert', {
+  detail: { type: 'confirm', title: 'Delete item?', text: 'Cannot be undone.', confirmText: 'Delete', cancelText: 'Cancel', id: 'delete-123' }
+}));
+
+// Listen to confirm result:
+window.addEventListener('cs:alert:result', (e) => {
+  console.log('confirm result', e.detail.id, e.detail.result);
+});
+
+// Direct usage:
+CSAlert.toastSuccess({ title: 'Done', text: 'Operation completed.' });
+`;
+        try {
+          await navigator.clipboard.writeText(snippet);
+          window.CSAlert.toastSuccess({ title: 'Copied', text: 'API snippets copied to clipboard.' });
+        } catch {
+          window.CSAlert.toastInfo({ title: 'Copy failed', text: 'Clipboard permission not available.' });
+        }
+      });
+    })();
+  </script>
+
+  <!-- Optional: minimal hooks if you want to fine-tune Swal UI in your design system -->
+  <style>
+    .cs-swal-popup {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+    }
+
+    .cs-swal-title {
+      color: var(--color-text);
+    }
+
+    .cs-swal-text {
+      color: var(--color-text-muted);
+    }
+
+    .cs-swal-actions {
+      gap: var(--space-2);
+    }
+
+    .swal2-container {
+      z-index: 999999999 !important;
+    }
+  </style>
+</body>
+
+</html>

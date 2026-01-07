@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - New Payment Method</title>
+  <meta name="description" content="Add a new payment method and configure provider rules." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/payment-methods/new" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Flag Icons (for country selector) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.1/css/flag-icons.min.css" />
+
+  <style>
+    /* Page-only layout helpers (keeps your DS untouched) */
+    .pm-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: var(--space-4);
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .pm-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pm-preview__logo {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-alt);
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .pm-preview__logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .pm-flag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .pm-flag .fi {
+      border-radius: 6px;
+      box-shadow: 0 0 0 1px var(--color-border-subtle);
+    }
+
+    .pm-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px dashed var(--color-border);
+    }
+
+    .pm-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .pm-meta {
+      display: grid;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    .pm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pm-small {
+      font-size: 0.92rem;
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- More -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="payment-method.html" class="sidebar-sublink is-active">
+                <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
+                <span>Payment methods</span>
+              </a>
+            </li>
+            <li>
+              <a href="system-alerts.html" class="sidebar-sublink">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <span>System alerts</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <!-- Header -->
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Payment methods</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main -->
+      <main class="app-content" id="main-content" tabindex="-1" data-page="payment-method-new">
+        <section class="card page-header" aria-labelledby="pm-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="payment-method.html">Payment methods</a></li>
+                <li aria-current="page">Add new</li>
+              </ol>
+            </nav>
+            <div class="page-header__title">
+              <h1 id="pm-title" class="h3">Add New Payment Method</h1>
+              <p class="page-header__subtitle text-muted">Create a provider config, set fees, and control availability.
+              </p>
+            </div>
+          </div>
+
+          <div class="page-header__actions">
+            <a class="btn btn-ghost" href="payment-method.html">Back to payment methods</a>
+          </div>
+        </section>
+
+        <section class="pm-layout">
+          <!-- Form -->
+          <form class="card form-card js-payment-method-form" action="#" method="post" novalidate>
+            <div class="form-section" aria-labelledby="section-basics">
+              <p class="form-section__title" id="section-basics">BASICS</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="pmName">Method name <span aria-hidden="true">*</span></label>
+                  <input class="form-control" type="text" id="pmName" name="pmName" placeholder="Visa / MasterCard"
+                    required aria-required="true" data-role="pmName" />
+                  <p class="form-error is-hidden">Please enter a method name.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmProvider">Provider <span aria-hidden="true">*</span></label>
+                  <select class="form-control" id="pmProvider" name="pmProvider" required aria-required="true"
+                    data-role="pmProvider">
+                    <option value="">Select provider</option>
+                    <option value="stripe">Stripe</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="adyen">Adyen</option>
+                    <option value="checkout">Checkout.com</option>
+                    <option value="manual">Manual / Offline</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <p class="form-error is-hidden">Please choose a provider.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmType">Type <span aria-hidden="true">*</span></label>
+                  <select class="form-control" id="pmType" name="pmType" required aria-required="true"
+                    data-role="pmType">
+                    <option value="">Select type</option>
+                    <option value="card">Card</option>
+                    <option value="bank">Bank transfer</option>
+                    <option value="wallet">Wallet</option>
+                    <option value="cash">Cash</option>
+                    <option value="crypto">Crypto</option>
+                  </select>
+                  <p class="form-error is-hidden">Please choose a payment type.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmCode">Internal code</label>
+                  <input class="form-control" type="text" id="pmCode" name="pmCode" placeholder="visa_card"
+                    data-role="pmCode" />
+                  <p class="cs-helper-text">Optional code used by backend (unique identifier).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section" aria-labelledby="section-fees">
+              <p class="form-section__title" id="section-fees">FEES & RULES</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="pmFeeType">Fee mode</label>
+                  <select class="form-control" id="pmFeeType" name="pmFeeType" data-role="pmFeeType">
+                    <option value="none">No fees</option>
+                    <option value="fixed">Fixed fee</option>
+                    <option value="percent">Percentage fee</option>
+                    <option value="mixed">Mixed (fixed + %)</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmFeeFixed">Fixed fee</label>
+                  <input class="form-control" type="text" id="pmFeeFixed" name="pmFeeFixed" placeholder="0.00"
+                    inputmode="decimal" data-role="pmFeeFixed" />
+                  <p class="cs-helper-text">Currency depends on selected currency.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmFeePercent">Percent fee</label>
+                  <input class="form-control" type="text" id="pmFeePercent" name="pmFeePercent" placeholder="2.9"
+                    inputmode="decimal" data-role="pmFeePercent" />
+                  <p class="cs-helper-text">Example: 2.9 = 2.9%</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmMinAmount">Minimum amount</label>
+                  <input class="form-control" type="text" id="pmMinAmount" name="pmMinAmount" placeholder="1.00"
+                    inputmode="decimal" data-role="pmMinAmount" />
+                  <p class="cs-helper-text">Optional minimum donation amount for this method.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section" aria-labelledby="section-availability">
+              <p class="form-section__title" id="section-availability">AVAILABILITY</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="pmCountry">Country <span class="pm-small">(default UK)</span></label>
+                  <select class="form-control" id="pmCountry" name="pmCountry" data-role="pmCountry">
+                    <option value="">Any country</option>
+                    <option value="gb" selected>United Kingdom (UK)</option>
+                    <option value="us">United States</option>
+                    <option value="tr">Türkiye</option>
+                    <option value="eg">Egypt</option>
+                    <option value="sa">Saudi Arabia</option>
+                    <option value="ae">United Arab Emirates</option>
+                    <option value="jo">Jordan</option>
+                  </select>
+                  <p class="cs-helper-text">Used for checkout availability and reporting.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmCurrency">Currency</label>
+                  <select class="form-control" id="pmCurrency" name="pmCurrency" data-role="pmCurrency">
+                    <option value="GBP" selected>GBP</option>
+                    <option value="USD">USD</option>
+                    <option value="TRY">TRY</option>
+                    <option value="EGP">EGP</option>
+                    <option value="SAR">SAR</option>
+                    <option value="AED">AED</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmStatus">Status</label>
+                  <select class="form-control" id="pmStatus" name="pmStatus" data-role="pmStatus">
+                    <option value="active" selected>Active</option>
+                    <option value="disabled">Disabled</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmSort">Sort order</label>
+                  <input class="form-control" type="text" id="pmSort" name="pmSort" placeholder="10" inputmode="numeric"
+                    data-role="pmSort" />
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div>
+                  <div class="cs-toggle">
+                    <div class="cs-toggle__info">
+                      <span class="cs-toggle__label">Set as default</span>
+                      <span class="cs-toggle__helper">This method becomes the default option in checkout.</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" data-role="pmDefault" />
+                      <span class="switch__control" aria-hidden="true"></span>
+                    </label>
+                  </div>
+
+                  <div class="cs-toggle mt-3">
+                    <div class="cs-toggle__info">
+                      <span class="cs-toggle__label">Enable in checkout</span>
+                      <span class="cs-toggle__helper">When disabled, method stays hidden.</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" data-role="pmEnabled" checked />
+                      <span class="switch__control" aria-hidden="true"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmNotes">Notes</label>
+                  <textarea class="form-control" id="pmNotes" name="pmNotes" rows="4" placeholder="Internal notes..."
+                    data-role="pmNotes"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section" aria-labelledby="section-branding">
+              <p class="form-section__title" id="section-branding">BRANDING</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="pmIcon">Icon (FontAwesome class)</label>
+                  <input class="form-control" type="text" id="pmIcon" name="pmIcon"
+                    placeholder="fa-solid fa-credit-card" data-role="pmIcon" />
+                  <p class="cs-helper-text">Optional. If empty, a default icon is used.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="pmLogo">Logo URL (optional)</label>
+                  <input class="form-control" type="url" id="pmLogo" name="pmLogo" placeholder="https://.../logo.png"
+                    data-role="pmLogo" />
+                  <p class="cs-helper-text">Used for preview. UI only.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i>
+                Save payment method
+              </button>
+              <a class="btn btn-ghost" href="payment-method.html">Cancel</a>
+            </div>
+          </form>
+
+          <!-- Preview -->
+          <aside class="card" aria-live="polite">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <p class="eyebrow">Preview</p>
+                <h3 class="h4 mb-1" data-preview="name">Payment method name</h3>
+                <p class="text-muted mb-0" data-preview="provider">Provider · Type</p>
+              </div>
+
+              <div class="pm-preview__logo" aria-hidden="true">
+                <i class="fa-solid fa-credit-card" data-preview="icon"></i>
+                <img class="is-hidden" data-preview="logo" alt="" />
+              </div>
+            </div>
+
+            <div class="pm-meta">
+              <div class="pm-row">
+                <span class="text-muted">Status</span>
+                <span class="status-pill status-pill--active" data-preview="status">Active</span>
+              </div>
+
+              <div class="pm-row">
+                <span class="text-muted">Country</span>
+                <span class="pm-flag" data-preview="country">
+                  <span class="fi fi-gb" aria-hidden="true"></span>
+                  <span>United Kingdom</span>
+                </span>
+              </div>
+
+              <div class="pm-row">
+                <span class="text-muted">Currency</span>
+                <span data-preview="currency">GBP</span>
+              </div>
+
+              <div class="pm-row">
+                <span class="text-muted">Fees</span>
+                <span data-preview="fees">No fees</span>
+              </div>
+
+              <div class="pm-row">
+                <span class="text-muted">Availability</span>
+                <span class="pm-badge" data-preview="availability">
+                  <span class="badge badge--subtle">Enabled</span>
+                  <span class="badge badge--subtle is-hidden" data-preview="isDefault">Default</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <p class="text-muted mb-2">Notes</p>
+              <p class="mb-0 text-muted" data-preview="notes">—</p>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+
+  <script defer>
+    (function paymentMethodNewPage() {
+      const page = document.querySelector('[data-page="payment-method-new"]');
+      if (!page) return;
+
+      const form = page.querySelector('.js-payment-method-form');
+      if (!form) return;
+
+      const $ = (sel) => form.querySelector(sel);
+
+      const preview = {
+        name: page.querySelector('[data-preview="name"]'),
+        provider: page.querySelector('[data-preview="provider"]'),
+        status: page.querySelector('[data-preview="status"]'),
+        country: page.querySelector('[data-preview="country"]'),
+        currency: page.querySelector('[data-preview="currency"]'),
+        fees: page.querySelector('[data-preview="fees"]'),
+        availability: page.querySelector('[data-preview="availability"]'),
+        isDefault: page.querySelector('[data-preview="isDefault"]'),
+        notes: page.querySelector('[data-preview="notes"]'),
+        iconEl: page.querySelector('[data-preview="icon"]'),
+        logoEl: page.querySelector('[data-preview="logo"]'),
+        logoWrap: page.querySelector('.pm-preview__logo')
+      };
+
+      const fields = {
+        name: $('[data-role="pmName"]'),
+        provider: $('[data-role="pmProvider"]'),
+        type: $('[data-role="pmType"]'),
+        status: $('[data-role="pmStatus"]'),
+        country: $('[data-role="pmCountry"]'),
+        currency: $('[data-role="pmCurrency"]'),
+        feeType: $('[data-role="pmFeeType"]'),
+        feeFixed: $('[data-role="pmFeeFixed"]'),
+        feePercent: $('[data-role="pmFeePercent"]'),
+        enabled: $('[data-role="pmEnabled"]'),
+        isDefault: $('[data-role="pmDefault"]'),
+        notes: $('[data-role="pmNotes"]'),
+        icon: $('[data-role="pmIcon"]'),
+        logo: $('[data-role="pmLogo"]')
+      };
+
+      const countryMap = {
+        gb: { name: 'United Kingdom', flag: 'gb' },
+        us: { name: 'United States', flag: 'us' },
+        tr: { name: 'Türkiye', flag: 'tr' },
+        eg: { name: 'Egypt', flag: 'eg' },
+        sa: { name: 'Saudi Arabia', flag: 'sa' },
+        ae: { name: 'United Arab Emirates', flag: 'ae' },
+        jo: { name: 'Jordan', flag: 'jo' }
+      };
+
+      function safeText(el, value) {
+        if (!el) return;
+        el.textContent = value;
+      }
+
+      function setStatusPill(status) {
+        if (!preview.status) return;
+        const el = preview.status;
+
+        el.classList.remove('status-pill--active', 'status-pill--draft', 'status-pill--completed');
+        // Reuse existing pills classes; map disabled -> draft styling to keep DS consistent.
+        if (status === 'active') {
+          el.classList.add('status-pill--active');
+          el.textContent = 'Active';
+        } else if (status === 'disabled') {
+          el.classList.add('status-pill--draft');
+          el.textContent = 'Disabled';
+        } else {
+          el.classList.add('status-pill--draft');
+          el.textContent = 'Draft';
+        }
+      }
+
+      function computeFeesText() {
+        const mode = fields.feeType?.value || 'none';
+        const fixed = (fields.feeFixed?.value || '').trim();
+        const pct = (fields.feePercent?.value || '').trim();
+
+        if (mode === 'none') return 'No fees';
+        if (mode === 'fixed') return fixed ? `Fixed: ${fixed}` : 'Fixed fee';
+        if (mode === 'percent') return pct ? `Percent: ${pct}%` : 'Percent fee';
+        // mixed
+        const parts = [];
+        if (fixed) parts.push(`Fixed: ${fixed}`);
+        if (pct) parts.push(`+ ${pct}%`);
+        return parts.length ? parts.join(' ') : 'Mixed fees';
+      }
+
+      function setLogoOrIcon() {
+        const iconClass = (fields.icon?.value || '').trim();
+        const logoUrl = (fields.logo?.value || '').trim();
+
+        // Reset
+        if (preview.iconEl) preview.iconEl.className = '';
+        if (preview.logoEl) preview.logoEl.classList.add('is-hidden');
+
+        if (logoUrl && preview.logoEl) {
+          preview.logoEl.src = logoUrl;
+          preview.logoEl.classList.remove('is-hidden');
+          // Hide icon behind
+          if (preview.iconEl) preview.iconEl.className = 'is-hidden';
+          return;
+        }
+
+        // Icon fallback
+        const defaultIcon = 'fa-solid fa-credit-card';
+        const finalIcon = iconClass || defaultIcon;
+
+        if (preview.iconEl) {
+          preview.iconEl.className = finalIcon;
+        }
+      }
+
+      function renderPreview() {
+        safeText(preview.name, fields.name?.value?.trim() || 'Payment method name');
+
+        const providerTxt = fields.provider?.value ? fields.provider.options[fields.provider.selectedIndex].text : 'Provider';
+        const typeTxt = fields.type?.value ? fields.type.options[fields.type.selectedIndex].text : 'Type';
+        safeText(preview.provider, `${providerTxt} · ${typeTxt}`);
+
+        setStatusPill(fields.status?.value || 'active');
+
+        const c = fields.country?.value || 'gb';
+        const m = countryMap[c] || countryMap.gb;
+
+        if (preview.country) {
+          preview.country.innerHTML = `
+            <span class="fi fi-${m.flag}" aria-hidden="true"></span>
+            <span>${m.name}</span>
+          `;
+        }
+
+        safeText(preview.currency, fields.currency?.value || 'GBP');
+        safeText(preview.fees, computeFeesText());
+
+        // Availability badges
+        if (preview.availability) {
+          const enabled = !!fields.enabled?.checked;
+          preview.availability.querySelector('.badge')?.classList.toggle('badge--subtle', true);
+          preview.availability.querySelector('.badge')?.classList.toggle('badge--warning', false);
+
+          preview.availability.querySelector('.badge')?.textContent = enabled ? 'Enabled' : 'Disabled';
+          if (!enabled) preview.availability.querySelector('.badge')?.classList.add('badge--warning');
+        }
+
+        if (preview.isDefault) {
+          preview.isDefault.classList.toggle('is-hidden', !fields.isDefault?.checked);
+          preview.isDefault.textContent = 'Default';
+        }
+
+        safeText(preview.notes, (fields.notes?.value || '').trim() || '—');
+
+        setLogoOrIcon();
+      }
+
+      // Initial default UK preview
+      renderPreview();
+
+      // Live updates
+      Object.values(fields).forEach((el) => {
+        if (!el) return;
+        el.addEventListener('input', renderPreview);
+        el.addEventListener('change', renderPreview);
+      });
+
+      // Basic UI validation (front-only)
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const required = [fields.name, fields.provider, fields.type];
+        let ok = true;
+
+        required.forEach((el) => {
+          if (!el) return;
+          const wrap = el.closest('.form-field');
+          const err = wrap?.querySelector('.form-error');
+          const isEmpty = !String(el.value || '').trim();
+
+          if (el.tagName === 'SELECT') {
+            if (!el.value) {
+              ok = false;
+              err?.classList.remove('is-hidden');
+            } else {
+              err?.classList.add('is-hidden');
+            }
+          } else {
+            if (isEmpty) {
+              ok = false;
+              err?.classList.remove('is-hidden');
+            } else {
+              err?.classList.add('is-hidden');
+            }
+          }
+        });
+
+        if (!ok) {
+          // Optional: integrate with your system-alerts page helpers later
+          // window.dispatchEvent(new CustomEvent('cs:alert', { detail: { type: 'toast', icon: 'error', title: 'Missing fields', text: 'Please complete required fields.' } }));
+          return;
+        }
+
+        // UI-only success feedback
+        // (Backend will replace this behavior)
+        alert('UI only: Payment method saved.');
+      });
+    })();
+  </script>
+</body>
+
+</html>
