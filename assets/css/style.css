@@ -7905,6 +7905,15 @@ body[data-theme="dark"] .donor-preview-card__dnc-pill {
   box-shadow: var(--shadow-card-light);
 }
 
+.categories-shell {
+
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card-light);
+}
+
 .settings-nav {
   border-right: 1px solid var(--color-border);
   padding-right: 1rem;
