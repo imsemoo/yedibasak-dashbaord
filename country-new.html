@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - New Country</title>
+  <meta name="description" content="Add a new country record with ISO codes, dialing code, and status." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/countries/new" />
+
+  <meta property="og:title" content="Donations Dashboard - New Country" />
+  <meta property="og:description" content="Create a country record used across campaigns and settings." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.org/dashboard/countries/new" />
+  <meta property="og:image" content="https://example.org/assets/img/og-image.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donations Dashboard - New Country" />
+  <meta name="twitter:description" content="Create a country record used across campaigns and settings." />
+  <meta name="twitter:image" content="https://example.org/assets/img/og-image.png" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <!-- Flag Icons (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.5.0/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Page-local CSS (move to style.css when ready) -->
+  <style>
+    .cs-flag-preview {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface-alt);
+    }
+
+    .cs-flag-preview .fi {
+      border-radius: 6px;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px var(--color-border-subtle);
+    }
+
+    .cs-flag-preview__meta {
+      display: grid;
+      gap: 2px;
+      line-height: 1.2;
+    }
+
+    .cs-flag-preview__meta .text-muted {
+      font-size: 0.9rem;
+    }
+
+    .form-card .form-grid {
+      align-items: start;
+    }
+
+    .cs-inline-help {
+      margin-top: var(--space-2);
+      color: var(--color-text-muted);
+      font-size: 0.92rem;
+    }
+
+    .cs-required {
+      color: var(--color-danger);
+      margin-left: 2px;
+    }
+
+    .cs-preview-card {
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-4));
+    }
+
+    @media (max-width: 991.98px) {
+      .cs-preview-card {
+        position: static;
+      }
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <!-- Sidebar navigation -->
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+
+        <!-- Countries -->
+        <a class="sidebar__link active" href="countries.html">
+          <i class="fa-solid fa-flag sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Countries</span>
+        </a>
+
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual donations</span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <!-- More submenu -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <!-- App workspace -->
+    <div class="app-main">
+      <!-- Header -->
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">Countries</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search donors, campaigns, or messages"
+              autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-group">
+            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
+              data-dropdown-target="notifications" aria-haspopup="true" aria-expanded="false"
+              aria-controls="notifications-menu" aria-label="Open notifications">
+              <span class="badge-dot"></span>
+              <i class="fa-regular fa-bell" aria-hidden="true"></i>
+            </button>
+
+            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
+              role="menu" aria-label="Notifications">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Notifications</span>
+                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">Mark all as
+                  read</button>
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-notification is-unread" role="menuitem">
+                  <div class="notification-dot" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">3 campaigns ending soon</p>
+                    <p class="notification-meta">Today &bull; Campaigns</p>
+                  </div>
+                  <span class="notification-time">2m</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-green" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">New donation: $500 for "Healthcare Fund"</p>
+                    <p class="notification-meta">5h &bull; Donations</p>
+                  </div>
+                  <span class="notification-time">5h</span>
+                </li>
+                <li class="dropdown-notification" role="menuitem">
+                  <div class="notification-dot is-orange" aria-hidden="true"></div>
+                  <div class="notification-body">
+                    <p class="notification-title">Payout scheduled for tomorrow</p>
+                    <p class="notification-meta">Yesterday &bull; Finance</p>
+                  </div>
+                  <span class="notification-time">1d</span>
+                </li>
+              </ul>
+              <div class="dropdown-footer">
+                <button type="button" class="dropdown-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-group dropdown-user">
+            <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
+              data-dropdown-target="user-menu" type="button" aria-haspopup="true" aria-expanded="false"
+              aria-controls="user-menu">
+              <div class="avatar" aria-hidden="true">JL</div>
+              <div class="user-details">
+                <div class="user-name">Jordan Lee</div>
+                <div class="user-email text-muted">jordan@donations.org</div>
+              </div>
+            </button>
+
+            <div class="dropdown dropdown-user-menu" id="user-menu" data-dropdown-panel="user-menu" role="menu"
+              aria-label="User menu">
+              <div class="dropdown-header dropdown-user-header">
+                <div class="dropdown-user-avatar avatar" aria-hidden="true">JL</div>
+                <div class="dropdown-user-info">
+                  <span class="dropdown-user-name">Jordan Lee</span>
+                  <span class="dropdown-user-email">jordan@donations.org</span>
+                </div>
+              </div>
+
+              <div class="dropdown-divider"></div>
+
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span>Profile</span>
+              </a>
+
+              <a href="#" class="dropdown-item" role="menuitem">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                <span>Account settings</span>
+              </a>
+
+              <div class="dropdown-divider"></div>
+
+              <button type="button" class="dropdown-item dropdown-item-danger" role="menuitem">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                <span>Sign out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main -->
+      <main class="app-content cs-country-new" id="main-content" tabindex="-1" data-page="country-new">
+        <!-- Page header -->
+        <section class="card page-header" aria-labelledby="country-form-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="countries.html">Countries</a></li>
+                <li aria-current="page">Add new country</li>
+              </ol>
+            </nav>
+
+            <div class="page-header__title">
+              <h1 id="country-form-title" class="h3">Add New Country</h1>
+              <p class="page-header__subtitle text-muted">Create a reusable country record for campaigns and settings.
+              </p>
+            </div>
+          </div>
+
+          <div class="page-header__actions">
+            <a class="btn btn-ghost" href="countries.html">Back to countries</a>
+          </div>
+        </section>
+
+        <section class="form-layout">
+          <!-- FORM -->
+          <form class="card form-card js-country-form" action="#" method="post" novalidate>
+            <div class="form-section" aria-labelledby="section-basics">
+              <p class="form-section__title" id="section-basics">BASICS</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="countryName">
+                    Country name <span class="cs-required" aria-hidden="true">*</span>
+                  </label>
+                  <input class="form-control" type="text" id="countryName" name="countryName"
+                    placeholder="United Kingdom" required aria-required="true" data-role="countryName"
+                    value="United Kingdom" />
+                  <p class="form-error is-hidden" data-error="countryName">Please enter a country name.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="countryStatus">
+                    Status <span class="cs-required" aria-hidden="true">*</span>
+                  </label>
+                  <select class="form-control" id="countryStatus" name="countryStatus" required aria-required="true"
+                    data-role="status">
+                    <option value="active" selected>Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                  <p class="cs-inline-help">Inactive countries won’t appear in new campaign pickers.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="iso2">
+                    ISO2 code <span class="cs-required" aria-hidden="true">*</span>
+                  </label>
+                  <input class="form-control" type="text" id="iso2" name="iso2" placeholder="GB" maxlength="2"
+                    inputmode="latin" autocomplete="off" required aria-required="true" data-role="iso2" value="GB" />
+                  <p class="cs-inline-help">Two-letter code (e.g., EG, TR, KE). Used for flags and integrations.</p>
+                  <p class="form-error is-hidden" data-error="iso2">Please enter a valid ISO2 (2 letters).</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="iso3">ISO3 code</label>
+                  <input class="form-control" type="text" id="iso3" name="iso3" placeholder="GBR" maxlength="3"
+                    inputmode="latin" autocomplete="off" data-role="iso3" value="GBR" />
+                  <p class="cs-inline-help">Optional. Three-letter code (e.g., EGY, TUR).</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="dialingCode">Dialing code</label>
+                  <input class="form-control" type="text" id="dialingCode" name="dialingCode" placeholder="+44"
+                    inputmode="tel" autocomplete="off" data-role="dialingCode" value="+44" />
+                  <p class="cs-inline-help">Optional. Helps with donor phone validation.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="currency">Default currency</label>
+                  <select class="form-control" id="currency" name="currency" data-role="currency">
+                    <option value="">Select currency</option>
+                    <option value="TRY">TRY — Turkish Lira</option>
+                    <option value="USD">USD — US Dollar</option>
+                    <option value="EUR">EUR — Euro</option>
+                    <option value="EGP">EGP — Egyptian Pound</option>
+                    <option value="KES">KES — Kenyan Shilling</option>
+                    <option value="IDR">IDR — Indonesian Rupiah</option>
+                    <option value="GBP" selected>GBP — British Pound</option>
+                  </select>
+                  <p class="cs-inline-help">Optional. Used as a default suggestion in country-scoped workflows.</p>
+                </div>
+
+                <div class="form-field w-100">
+                  <label class="form-label" for="countryNotes">Notes</label>
+                  <textarea class="form-control" id="countryNotes" name="countryNotes" rows="3"
+                    placeholder="Internal notes (optional)" data-role="notes"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section" aria-labelledby="section-flag">
+              <p class="form-section__title" id="section-flag">FLAG</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label" for="flagStyle">Flag style</label>
+                  <select class="form-control" id="flagStyle" name="flagStyle" data-role="flagStyle">
+                    <option value="default" selected>Default (rectangle)</option>
+                    <option value="square">Square (fis)</option>
+                  </select>
+                  <p class="cs-inline-help">Uses Flag Icons classes: <code>fi</code> and optional <code>fis</code>.</p>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label" for="flagPreviewMode">Preview size</label>
+                  <select class="form-control" id="flagPreviewMode" name="flagPreviewMode" data-role="flagSize">
+                    <option value="lg" selected>Large</option>
+                    <option value="md">Medium</option>
+                    <option value="sm">Small</option>
+                  </select>
+                  <p class="cs-inline-help">UI only. Does not affect stored data.</p>
+                </div>
+
+                <div class="form-field" style="grid-column: 1 / -1;">
+                  <div class="cs-flag-preview" aria-live="polite">
+                    <span class="fi fi-eg" data-flag-preview aria-label="Selected country flag"></span>
+                    <div class="cs-flag-preview__meta">
+                      <strong data-flag-name>Flag preview</strong>
+                      <span class="text-muted">Based on ISO2: <span data-flag-iso>EG</span></span>
+                    </div>
+                  </div>
+                  <p class="cs-inline-help">
+                    If the flag looks wrong, verify the ISO2 code. Some territories may differ by library naming.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                Save country
+              </button>
+              <a class="btn btn-ghost" href="countries.html">Cancel</a>
+            </div>
+          </form>
+
+          <!-- PREVIEW / SUMMARY -->
+          <aside class="card cs-preview-card" aria-live="polite" data-preview-card>
+            <div class="campaign-preview__header">
+              <div>
+                <p class="eyebrow">Preview</p>
+                <h3 class="h4" data-preview="title">Country name</h3>
+              </div>
+              <span class="status-pill status-pill--draft" data-preview="status">Active</span>
+            </div>
+
+            <div class="campaign-preview__body">
+              <div class="cs-flag-preview mb-3">
+                <span class="fi fi-eg" data-preview-flag aria-label="Country flag preview"></span>
+                <div class="cs-flag-preview__meta">
+                  <strong data-preview-name>Egypt</strong>
+                  <span class="text-muted">ISO2: <span data-preview-iso2>EG</span></span>
+                </div>
+              </div>
+
+              <div class="campaign-preview__meta">
+                <span><i class="fa-solid fa-hashtag" aria-hidden="true"></i> ISO3: <span
+                    data-preview-iso3>—</span></span>
+                <span><i class="fa-solid fa-phone" aria-hidden="true"></i> Dialing: <span
+                    data-preview-dial>—</span></span>
+                <span><i class="fa-solid fa-coins" aria-hidden="true"></i> Currency: <span
+                    data-preview-currency>—</span></span>
+              </div>
+
+              <p class="text-muted mt-3" data-preview-notes>Notes will appear here.</p>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- JavaScript Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="assets/js/script.js" defer></script>
+
+  <!-- Page-local JS (move to script.js when ready) -->
+  <script defer>
+    (function initCountryNewPage() {
+      const form = document.querySelector(".js-country-form");
+      if (!form) return;
+
+      const elName = form.querySelector('[data-role="countryName"]');
+      const elStatus = form.querySelector('[data-role="status"]');
+      const elIso2 = form.querySelector('[data-role="iso2"]');
+      const elIso3 = form.querySelector('[data-role="iso3"]');
+      const elDial = form.querySelector('[data-role="dialingCode"]');
+      const elCurrency = form.querySelector('[data-role="currency"]');
+      const elNotes = form.querySelector('[data-role="notes"]');
+      const elFlagStyle = form.querySelector('[data-role="flagStyle"]');
+      const elFlagSize = form.querySelector('[data-role="flagSize"]');
+
+      const flagPreview = document.querySelector("[data-flag-preview]");
+      const flagIso = document.querySelector("[data-flag-iso]");
+      const flagName = document.querySelector("[data-flag-name]");
+
+      const pvTitle = document.querySelector('[data-preview="title"]');
+      const pvStatus = document.querySelector('[data-preview="status"]');
+      const pvFlag = document.querySelector("[data-preview-flag]");
+      const pvName = document.querySelector("[data-preview-name]");
+      const pvIso2 = document.querySelector("[data-preview-iso2]");
+      const pvIso3 = document.querySelector("[data-preview-iso3]");
+      const pvDial = document.querySelector("[data-preview-dial]");
+      const pvCurrency = document.querySelector("[data-preview-currency]");
+      const pvNotes = document.querySelector("[data-preview-notes]");
+
+      function safeUpper(v) {
+        return (v || "").toString().trim().toUpperCase();
+      }
+
+      function safeLower(v) {
+        return (v || "").toString().trim().toLowerCase();
+      }
+
+      function updateFlagClasses(iso2Value) {
+        const iso = safeLower(iso2Value) || "eg";
+
+        // style: rectangle vs square
+        const isSquare = (elFlagStyle?.value === "square");
+
+        // size: simple font-size scaling (flag-icons are inline elements)
+        const size = elFlagSize?.value || "lg";
+        const sizePx = size === "sm" ? 18 : size === "md" ? 22 : 28;
+
+        [flagPreview, pvFlag].forEach((node) => {
+          if (!node) return;
+          node.className = ""; // reset
+          node.classList.add("fi");
+          if (isSquare) node.classList.add("fis");
+          node.classList.add(`fi-${iso}`);
+          node.style.fontSize = sizePx + "px";
+        });
+
+        if (flagIso) flagIso.textContent = safeUpper(iso2Value) || "—";
+        if (pvIso2) pvIso2.textContent = safeUpper(iso2Value) || "—";
+      }
+
+      function updatePreview() {
+        const name = (elName?.value || "").trim() || "Country name";
+        const status = elStatus?.value || "active";
+        const iso2 = safeUpper(elIso2?.value);
+        const iso3 = safeUpper(elIso3?.value);
+        const dial = (elDial?.value || "").trim();
+        const currency = (elCurrency?.value || "").trim();
+        const notes = (elNotes?.value || "").trim();
+
+        if (pvTitle) pvTitle.textContent = name;
+        if (pvName) pvName.textContent = name;
+        if (flagName) flagName.textContent = name;
+
+        if (pvStatus) {
+          pvStatus.textContent = status === "inactive" ? "Inactive" : "Active";
+          pvStatus.classList.remove("status-pill--active", "status-pill--draft", "status-pill--warning");
+          pvStatus.classList.add(status === "inactive" ? "status-pill--draft" : "status-pill--active");
+        }
+
+        if (pvIso3) pvIso3.textContent = iso3 || "—";
+        if (pvDial) pvDial.textContent = dial || "—";
+        if (pvCurrency) pvCurrency.textContent = currency || "—";
+
+        if (pvNotes) pvNotes.textContent = notes ? notes : "Notes will appear here.";
+
+        updateFlagClasses(iso2);
+      }
+
+      function setFieldError(key, isError) {
+        const node = form.querySelector(`[data-error="${key}"]`);
+        if (!node) return;
+        node.classList.toggle("is-hidden", !isError);
+      }
+
+      function validate() {
+        let ok = true;
+
+        const name = (elName?.value || "").trim();
+        const iso2 = safeUpper(elIso2?.value);
+
+        setFieldError("countryName", !name);
+        if (!name) ok = false;
+
+        // ISO2 must be exactly 2 letters
+        const iso2Ok = /^[A-Z]{2}$/.test(iso2);
+        setFieldError("iso2", !iso2Ok);
+        if (!iso2Ok) ok = false;
+
+        return ok;
+      }
+
+      // Live preview bindings
+      ["input", "change"].forEach((evt) => {
+        form.addEventListener(evt, (e) => {
+          const t = e.target;
+          if (!t) return;
+
+          // normalize ISO inputs
+          if (t === elIso2) t.value = safeUpper(t.value).replace(/[^A-Z]/g, "").slice(0, 2);
+          if (t === elIso3) t.value = safeUpper(t.value).replace(/[^A-Z]/g, "").slice(0, 3);
+
+          updatePreview();
+        });
+      });
+
+      // Submit validation
+      form.addEventListener("submit", (e) => {
+        const ok = validate();
+        if (!ok) {
+          e.preventDefault();
+          updatePreview();
+          const firstError = form.querySelector(".form-error:not(.is-hidden)");
+          if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      });
+
+      // initial
+      updatePreview();
+    })();
+  </script>
+</body>
+
+</html>
