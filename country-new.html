@@ -51,6 +51,13 @@
       box-shadow: 0 0 0 1px var(--color-border-subtle);
     }
 
+    /* Circular flag helper: combine with `fis` (square) to produce a circular flag */
+    .fi-round {
+      border-radius: 50% !important;
+      overflow: hidden;
+      display: inline-block;
+    }
+
     .cs-flag-preview__meta {
       display: grid;
       gap: 2px;
@@ -416,7 +423,7 @@
                   <label class="form-label" for="flagStyle">Flag style</label>
                   <select class="form-control" id="flagStyle" name="flagStyle" data-role="flagStyle">
                     <option value="default" selected>Default (rectangle)</option>
-                    <option value="square">Square (fis)</option>
+                    <option value="circle">Circular (fis)</option>
                   </select>
                   <p class="cs-inline-help">Uses Flag Icons classes: <code>fi</code> and optional <code>fis</code>.</p>
                 </div>
@@ -548,6 +555,7 @@
 
         // style: rectangle vs square
         const isSquare = (elFlagStyle?.value === "square");
+        const isCircle = (elFlagStyle?.value === "circle");
 
         // size: simple font-size scaling (flag-icons are inline elements)
         const size = elFlagSize?.value || "lg";
@@ -558,6 +566,10 @@
           node.className = ""; // reset
           node.classList.add("fi");
           if (isSquare) node.classList.add("fis");
+          if (isCircle) {
+            node.classList.add("fis");
+            node.classList.add("fi-round");
+          }
           node.classList.add(`fi-${iso}`);
           node.style.fontSize = sizePx + "px";
         });

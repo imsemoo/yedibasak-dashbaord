@@ -5736,7 +5736,6 @@ input[type="checkbox"] {
   background: var(--color-surface);
   transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
   cursor: pointer;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
