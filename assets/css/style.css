@@ -14959,3 +14959,87 @@ body[data-theme="dark"] .switch input:checked+.switch__control::after {
 body[data-theme="dark"] .switch input:focus-visible+.switch__control {
   box-shadow: 0 0 0 4px rgba(21, 197, 206, 0.35);
 }
+
+/* Small page-only helpers (does not override your design system) */
+.sys-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 992px) {
+  .sys-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sys-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-4);
+}
+
+.sys-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.sys-note {
+  background: var(--color-primary-soft);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.sys-note code {
+  background: color-mix(in srgb, var(--color-border) 35%, transparent);
+  border-radius: 10px;
+  padding: 2px 8px;
+}
+
+.sys-kv {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.sys-kv div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.sys-kv div:last-child {
+  border-bottom: 0;
+}
+
+.cs-swal-popup {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.cs-swal-title {
+  color: var(--color-text);
+}
+
+.cs-swal-text {
+  color: var(--color-text-muted);
+}
+
+.cs-swal-actions {
+  gap: var(--space-2);
+}
+
+.swal2-container {
+  z-index: 999999999 !important;
+}
