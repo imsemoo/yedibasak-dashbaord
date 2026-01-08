@@ -25,7 +25,145 @@
   <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
   <link rel="stylesheet" href="assets/css/all.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .settings-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-4);
+    }
 
+    .settings-categories__pane {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+    }
+
+    .settings-categories__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-3);
+    }
+
+    .settings-categories__list,
+    .settings-categories__sublist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .settings-categories__item {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .settings-categories__item.is-active {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .settings-categories__item-label {
+      border: none;
+      background: none;
+      padding: 0;
+      text-align: left;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .settings-categories__item-actions {
+      display: flex;
+      gap: var(--space-1);
+    }
+
+    .settings-categories__item {
+      background: var(--color-surface-alt);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .settings-categories__item button {
+      border-radius: 50%;
+    }
+
+    .icon-button {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      display: grid;
+      place-items: center;
+      position: relative;
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .icon-button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .campaign-visibility {
+      margin-top: var(--space-5);
+    }
+
+    .segmented-control {
+      display: inline-flex;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      overflow: hidden;
+    }
+
+    .segmented-control__item {
+      border: none;
+      padding: 0.5rem 1.25rem;
+      background: transparent;
+      color: var(--color-text-soft);
+      cursor: pointer;
+    }
+
+    .segmented-control__item.is-active {
+      background: var(--color-primary);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .settings-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .settings-toggle-row:last-of-type {
+      border-bottom: 0;
+    }
+
+    .settings-toggle-row h4 {
+      margin-bottom: var(--space-1);
+    }
+
+    .segmented-control__item {
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .segmented-control__item:hover:not(.is-active) {
+      background: var(--color-surface-alt);
+    }
+  </style>
 </head>
 
 <body data-theme="light">

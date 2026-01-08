@@ -8,6 +8,7 @@
   <meta name="description" content="Manage categories and sub-categories used across campaigns." />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/categories" />
 
   <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
   <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
@@ -17,11 +18,162 @@
   <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
   <link rel="stylesheet" href="assets/css/all.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    /* Same styles used inside settings.html (panel-categories) */
+    .settings-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .settings-categories__pane {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+    }
+
+    .settings-categories__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-3);
+      gap: var(--space-3);
+    }
+
+    .settings-categories__list,
+    .settings-categories__sublist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .settings-categories__item {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-3);
+      background: var(--color-surface-alt);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity .2s ease;
+    }
+
+    .settings-categories__item.is-active {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .settings-categories__item.is-disabled {
+      opacity: .58;
+    }
+
+    .settings-categories__item-label {
+      border: none;
+      background: none;
+      padding: 0;
+      text-align: left;
+      flex: 1;
+      cursor: pointer;
+      color: var(--color-text);
+    }
+
+    .settings-categories__item-meta {
+      font-size: 0.92rem;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    .settings-categories__item-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .icon-button {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      display: grid;
+      place-items: center;
+      position: relative;
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .icon-button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* Toggle cell in list row */
+    .row-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+    }
+
+    .row-toggle__label {
+      font-size: .9rem;
+      color: var(--color-text-soft);
+      white-space: nowrap;
+    }
+
+    /* Tooltip (lightweight, no extra libs) */
+    .has-tooltip {
+      position: relative;
+    }
+
+    .has-tooltip[data-tooltip]:hover::after,
+    .has-tooltip[data-tooltip]:focus-visible::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      right: 0;
+      top: calc(100% + 10px);
+      z-index: 50;
+      min-width: 220px;
+      max-width: 280px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      box-shadow: var(--shadow-card-light);
+      font-size: 0.92rem;
+      line-height: 1.3;
+      white-space: normal;
+    }
+
+    .has-tooltip[data-tooltip]:hover::before,
+    .has-tooltip[data-tooltip]:focus-visible::before {
+      content: "";
+      position: absolute;
+      right: 18px;
+      top: calc(100% + 4px);
+      width: 10px;
+      height: 10px;
+      background: var(--color-surface);
+      border-left: 1px solid var(--color-border);
+      border-top: 1px solid var(--color-border);
+      transform: rotate(45deg);
+      z-index: 51;
+    }
+  </style>
 </head>
 
 <body data-theme="light">
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
   <div class="app">
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
@@ -67,7 +219,7 @@
           <span class="sidebar__label">Settings</span>
         </a>
 
-        <!-- More submenu -->
+        <!-- More -->
         <li class="sidebar-item sidebar-item--expandable">
           <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
             aria-controls="more-menu" aria-expanded="false">
@@ -80,34 +232,21 @@
 
           <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
             <li>
-              <a href="team.html" class="sidebar-sublink">
-                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
-                <span>Team &amp; roles</span>
-              </a>
-            </li>
-            <li>
-              <a href="exports.html" class="sidebar-sublink">
-                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
-                <span>Exports &amp; reports</span>
-              </a>
-            </li>
-            <li>
-              <a href="integrations.html" class="sidebar-sublink">
-                <i class="fa-solid fa-plug" aria-hidden="true"></i>
-                <span>Integrations</span>
-              </a>
-            </li>
-            <li>
-              <a href="access-audit.html" class="sidebar-sublink">
-                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
-                <span>Access audit</span>
-              </a>
-            </li>
-            <!-- Optional: put Categories here if you want -->
-            <li>
               <a href="categories.html" class="sidebar-sublink is-active">
                 <i class="fa-solid fa-tags" aria-hidden="true"></i>
                 <span>Categories</span>
+              </a>
+            </li>
+            <li>
+              <a href="payment-method.html" class="sidebar-sublink">
+                <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
+                <span>Payment methods</span>
+              </a>
+            </li>
+            <li>
+              <a href="system-alerts.html" class="sidebar-sublink">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <span>System alerts</span>
               </a>
             </li>
           </ul>
@@ -125,6 +264,7 @@
             aria-controls="sidebar" aria-expanded="false">
             <i class="fas fa-bars" aria-hidden="true"></i>
           </button>
+
           <div class="app-header__titles">
             <p class="eyebrow">Dashboard</p>
             <h2 class="h4">Categories</h2>
@@ -144,38 +284,6 @@
           <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
             <i class="fas fa-sun" aria-hidden="true"></i>
           </button>
-
-          <div class="dropdown-group">
-            <button class="icon-button js-dropdown-toggle js-notifications-toggle" id="notifications-toggle"
-              data-dropdown-target="notifications" type="button" aria-haspopup="true" aria-expanded="false"
-              aria-controls="notifications-menu" aria-label="Open notifications">
-              <span class="badge-dot"></span>
-              <i class="fa fa-bell" aria-hidden="true"></i>
-            </button>
-
-            <div class="dropdown dropdown-notifications" id="notifications-menu" data-dropdown-panel="notifications"
-              role="menu" aria-label="Notifications">
-              <div class="dropdown-header">
-                <span class="dropdown-title">Notifications</span>
-                <button class="dropdown-link dropdown-mark-all js-mark-notifications" type="button">
-                  Mark all as read
-                </button>
-              </div>
-              <ul class="dropdown-list">
-                <li class="dropdown-notification" role="menuitem">
-                  <div class="notification-dot" aria-hidden="true"></div>
-                  <div class="notification-body">
-                    <p class="notification-title">Recurring donation processed</p>
-                    <p class="notification-meta">2h &bull; Finance</p>
-                  </div>
-                  <span class="notification-time">2h</span>
-                </li>
-              </ul>
-              <div class="dropdown-footer">
-                <button type="button" class="dropdown-link">View all notifications</button>
-              </div>
-            </div>
-          </div>
 
           <div class="dropdown-group dropdown-user">
             <button class="header-user js-dropdown-toggle js-user-menu-toggle" id="user-menu-toggle"
@@ -203,6 +311,12 @@
                 </li>
                 <li>
                   <button class="dropdown-link" type="button">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    Security
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-link" type="button">
                     <i class="fa fa-sign-out-alt" aria-hidden="true"></i>
                     Sign out
                   </button>
@@ -210,7 +324,6 @@
               </ul>
             </div>
           </div>
-
         </div>
       </header>
 
@@ -231,119 +344,187 @@
           </div>
         </section>
 
-        <section class="settings-page">
-          <div class="categories-shell">
-            <div class="settings-content">
-              <div class="settings-panel settings-panel--active" data-settings-panel="categories" id="panel-categories"
-                role="region" aria-label="Categories">
-                <div class="settings-panel__header">
-                  <div>
-                    <h3>Categories</h3>
-                    <p class="settings-panel__desc">Organize categories and sub-categories that structure each campaign.
-                    </p>
-                  </div>
-                </div>
-
-                <div class="settings-panel__body settings-categories">
-                  <div class="settings-categories__pane">
-                    <div class="settings-categories__header">
-                      <h4>Categories</h4>
-                      <button type="button" class="btn btn-outline" data-modal-open="category-form">Add
-                        category</button>
-                    </div>
-                    <ul class="settings-categories__list" data-category-list></ul>
-                  </div>
-
-                  <div class="settings-categories__pane">
-                    <div class="settings-categories__header">
-                      <h4>Sub-categories</h4>
-                      <button type="button" class="btn btn-outline" data-modal-open="subcategory-form">Add
-                        sub-category</button>
-                    </div>
-                    <ul class="settings-categories__sublist" data-subcategory-list></ul>
-                  </div>
-                </div>
-
-                <div class="settings-panel__actions">
-                  <a class="btn btn-outline" href="settings.html">Back to settings</a>
-                  <button type="button" class="btn btn-primary" data-save-button disabled>Save changes</button>
-                </div>
+        <section class="settings-categories" aria-label="Categories manager">
+          <!-- Categories -->
+          <div class="settings-categories__pane">
+            <div class="settings-categories__header">
+              <div>
+                <h4 style="margin:0">Categories</h4>
+                <p class="text-muted" style="margin:4px 0 0">Select a category to manage sub-categories.</p>
               </div>
+              <button type="button" class="btn btn-outline" data-modal-open="category-form">
+                Add category
+              </button>
             </div>
+
+            <ul class="settings-categories__list" data-category-list></ul>
+          </div>
+
+          <!-- Sub-categories -->
+          <div class="settings-categories__pane">
+            <div class="settings-categories__header">
+              <div>
+                <h4 style="margin:0">Sub-categories</h4>
+                <p class="text-muted" style="margin:4px 0 0">Linked to the selected category.</p>
+              </div>
+              <button type="button" class="btn btn-outline" data-modal-open="subcategory-form" data-sub-add disabled>
+                Add sub-category
+              </button>
+            </div>
+
+            <ul class="settings-categories__sublist" data-subcategory-list></ul>
           </div>
         </section>
-
-        <!-- لازم نفس المودالات بتوع التاب بالظبط -->
-        <div class="modal" data-modal="category-form" hidden>
-          <div class="modal__overlay" data-modal-close></div>
-          <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-category-title">
-            <header class="modal__header">
-              <h4 id="modal-category-title">Add category</h4>
-              <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
-                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-              </button>
-            </header>
-            <form id="category-form" class="modal__body" novalidate>
-              <input type="hidden" name="categoryId" />
-              <div class="form-field">
-                <label class="form-label" for="category-name">Category name</label>
-                <input id="category-name" class="form-control" type="text" name="name" required />
-              </div>
-              <div class="form-field">
-                <label class="form-label" for="category-description">Description <span
-                    class="text-muted">(optional)</span></label>
-                <textarea id="category-description" class="form-control" name="description" rows="3"></textarea>
-              </div>
-              <div class="modal__actions">
-                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
-                <button type="submit" class="btn btn-primary">Save category</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="modal" data-modal="subcategory-form" hidden>
-          <div class="modal__overlay" data-modal-close></div>
-          <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-subcategory-title">
-            <header class="modal__header">
-              <h4 id="modal-subcategory-title">Add sub-category</h4>
-              <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
-                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-              </button>
-            </header>
-            <form id="subcategory-form" class="modal__body" novalidate>
-              <input type="hidden" name="subcategoryId" />
-              <input type="hidden" name="categoryId" />
-              <div class="form-field">
-                <label class="form-label" for="subcategory-name">Sub-category name</label>
-                <input id="subcategory-name" class="form-control" type="text" name="name" required />
-              </div>
-              <div class="modal__actions">
-                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
-                <button type="submit" class="btn btn-primary">Save sub-category</button>
-              </div>
-            </form>
-          </div>
-        </div>
 
         <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
       </main>
 
+      <!-- Footer -->
       <footer class="app-footer">
         <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
       </footer>
     </div>
   </div>
 
+  <!-- Templates -->
+  <template id="category-item-template">
+    <li class="settings-categories__item" data-category-id="">
+      <button type="button" class="settings-categories__item-label" data-action="select">
+        <strong data-field="name">Category</strong>
+        <div class="settings-categories__item-meta" data-field="desc">—</div>
+      </button>
+
+      <div class="settings-categories__item-actions">
+        <!-- NEW: Toggle with tooltip -->
+        <div class="row-toggle has-tooltip" tabindex="0"
+          data-tooltip="Disable to hide this category from campaign creation and filters. (UI demo)">
+          <span class="row-toggle__label">Enabled</span>
+          <label class="switch" style="margin:0">
+            <input type="checkbox" data-action="toggle" checked />
+            <span class="switch__control"></span>
+          </label>
+        </div>
+
+        <button type="button" class="icon-button" data-action="edit" aria-label="Edit category">
+          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="icon-button" data-action="delete" aria-label="Delete category">
+          <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+        </button>
+      </div>
+    </li>
+  </template>
+
+  <template id="subcategory-item-template">
+    <li class="settings-categories__item" data-subcategory-id="">
+      <button type="button" class="settings-categories__item-label" data-action="select-sub">
+        <strong data-field="name">Sub-category</strong>
+        <div class="settings-categories__item-meta" data-field="meta">—</div>
+      </button>
+
+      <div class="settings-categories__item-actions">
+        <button type="button" class="icon-button" data-action="edit-sub" aria-label="Edit sub-category">
+          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="icon-button" data-action="delete-sub" aria-label="Delete sub-category">
+          <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+        </button>
+      </div>
+    </li>
+  </template>
+
+  <!-- Modals (same structure as settings.html) -->
+  <div class="modal" data-modal="confirm" hidden>
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-confirm-title">
+      <header class="modal__header">
+        <h4 id="modal-confirm-title">Confirm action</h4>
+        <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <div class="modal__body">
+        <p data-confirm-message>Are you sure you want to continue?</p>
+      </div>
+      <div class="modal__actions">
+        <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+        <button type="button" class="btn btn-primary" data-confirm-action>Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" data-modal="category-form" hidden>
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-category-title">
+      <header class="modal__header">
+        <h4 id="modal-category-title">Add category</h4>
+        <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <form id="category-form" class="modal__body" novalidate>
+        <input type="hidden" name="categoryId" />
+        <div class="form-field">
+          <label class="form-label" for="category-name">Category name</label>
+          <input id="category-name" class="form-control" type="text" name="name" required />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="category-description">Description <span
+              class="text-muted">(optional)</span></label>
+          <textarea id="category-description" class="form-control" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-field">
+          <label class="switch">
+            <input type="checkbox" name="enabled" checked />
+            <span class="switch__control"></span>
+            Enabled
+          </label>
+        </div>
+        <div class="modal__actions">
+          <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" data-modal="subcategory-form" hidden>
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-subcategory-title">
+      <header class="modal__header">
+        <h4 id="modal-subcategory-title">Add sub-category</h4>
+        <button type="button" class="modal__close" data-modal-close aria-label="Close modal">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <form id="subcategory-form" class="modal__body" novalidate>
+        <input type="hidden" name="subcategoryId" />
+        <input type="hidden" name="categoryId" />
+        <div class="form-field">
+          <label class="form-label" for="subcategory-name">Sub-category name</label>
+          <input id="subcategory-name" class="form-control" type="text" name="name" required />
+        </div>
+        <div class="modal__actions">
+          <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save sub-category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
   <script src="assets/js/owl.carousel.min.js" defer></script>
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
   <script src="assets/js/script.js" defer></script>
 
-  <script>
-    (function () {
-      // Toast helper (نفس الفكرة اللي عندك)
+  <script defer>
+    (function CategoriesPage() {
+      const page = document.querySelector('[data-page="categories"]');
+      if (!page) return;
+
+      // Toast helper (same idea as your settings demo)
       function showToast(msg) {
         const container = document.querySelector('.toast-container');
         if (!container) return;
@@ -354,232 +535,273 @@
         t.style.marginTop = '8px';
         t.style.background = 'var(--color-surface)';
         t.style.border = '1px solid var(--color-border)';
-        t.style.borderRadius = '10px';
+        t.style.borderRadius = '12px';
+        t.style.boxShadow = 'var(--shadow-card-light)';
         container.appendChild(t);
         setTimeout(() => {
           t.style.opacity = 0;
-          t.style.transition = 'opacity 300ms';
-          setTimeout(() => t.remove(), 350);
-        }, 2500);
+          t.style.transition = 'opacity 250ms';
+          setTimeout(() => t.remove(), 260);
+        }, 2600);
       }
 
-      function enableSave() {
-        const btn = document.querySelector('[data-save-button]');
-        if (btn) btn.removeAttribute('disabled');
+      // Simple modal open/close (compatible with your markup)
+      function openModal(name) {
+        const modal = document.querySelector('[data-modal="' + name + '"]');
+        if (modal) modal.hidden = false;
       }
-
-      // Modal open/close (compatible with your data attrs)
-      function openModal(modal) { if (!modal) return; modal.hidden = false; }
-      function closeModal(modal) { if (!modal) return; modal.hidden = true; }
+      function closeModal(modal) {
+        if (modal) modal.hidden = true;
+      }
 
       document.addEventListener('click', (e) => {
-        const opener = e.target.closest('[data-modal-open]');
-        if (opener) {
-          const key = opener.getAttribute('data-modal-open');
-          openModal(document.querySelector('[data-modal="' + key + '"]'));
+        const openBtn = e.target.closest('[data-modal-open]');
+        if (openBtn) {
+          openModal(openBtn.getAttribute('data-modal-open'));
+          return;
         }
-
-        const closer = e.target.closest('[data-modal-close]');
-        if (closer) {
-          closeModal(closer.closest('.modal'));
+        const closeBtn = e.target.closest('[data-modal-close]');
+        if (closeBtn) {
+          closeModal(closeBtn.closest('.modal'));
         }
       });
 
-      // Demo data (عشان اللستات متبقاش فاضية)
-      const categories = [
-        { id: 'cat-1', name: 'Education', desc: 'Schools, supplies, scholarships' },
-        { id: 'cat-2', name: 'Healthcare', desc: 'Medical aid and emergency response' },
-        { id: 'cat-3', name: 'Food', desc: 'Meals, parcels, nutrition' }
-      ];
+      // Data (UI demo)
+      const state = {
+        selectedCategoryId: null,
+        confirm: { type: null, id: null },
+        categories: [
+          { id: 'cat-1', name: 'Education', description: 'Scholarships and schools support', enabled: true },
+          { id: 'cat-2', name: 'Health', description: 'Medical aid and supplies', enabled: true },
+          { id: 'cat-3', name: 'Food', description: 'Meals and relief packages', enabled: false }
+        ],
+        subcategories: [
+          { id: 'sub-1', categoryId: 'cat-1', name: 'Books' },
+          { id: 'sub-2', categoryId: 'cat-1', name: 'Tuition' },
+          { id: 'sub-3', categoryId: 'cat-2', name: 'Surgery' },
+          { id: 'sub-4', categoryId: 'cat-2', name: 'Medicine' },
+          { id: 'sub-5', categoryId: 'cat-3', name: 'Ramadan baskets' }
+        ]
+      };
 
-      const subcategories = [
-        { id: 'sub-1', categoryId: 'cat-1', name: 'Back to school kits' },
-        { id: 'sub-2', categoryId: 'cat-1', name: 'Teacher support' },
-        { id: 'sub-3', categoryId: 'cat-2', name: 'Clinic supplies' },
-        { id: 'sub-4', categoryId: 'cat-3', name: 'Hot meals' }
-      ];
+      const els = {
+        catList: page.querySelector('[data-category-list]'),
+        subList: page.querySelector('[data-subcategory-list]'),
+        subAddBtn: page.querySelector('[data-sub-add]'),
+        confirmModal: document.querySelector('[data-modal="confirm"]'),
+        confirmMsg: document.querySelector('[data-confirm-message]'),
+        confirmAction: document.querySelector('[data-confirm-action]'),
+        catTpl: document.getElementById('category-item-template'),
+        subTpl: document.getElementById('subcategory-item-template'),
+        catForm: document.getElementById('category-form'),
+        subForm: document.getElementById('subcategory-form')
+      };
 
-      const catList = document.querySelector('[data-category-list]');
-      const subList = document.querySelector('[data-subcategory-list]');
+      function setSelectedCategory(id) {
+        state.selectedCategoryId = id;
+        render();
+      }
+
+      function renderCategories() {
+        els.catList.innerHTML = '';
+
+        state.categories.forEach((c) => {
+          const node = els.catTpl.content.firstElementChild.cloneNode(true);
+          node.setAttribute('data-category-id', c.id);
+
+          const isActive = state.selectedCategoryId === c.id;
+          node.classList.toggle('is-active', isActive);
+          node.classList.toggle('is-disabled', !c.enabled);
+
+          node.querySelector('[data-field="name"]').textContent = c.name;
+          node.querySelector('[data-field="desc"]').textContent = c.description || '—';
+
+          const toggle = node.querySelector('input[data-action="toggle"]');
+          toggle.checked = !!c.enabled;
+
+          // Wire actions
+          node.querySelector('[data-action="select"]').addEventListener('click', () => setSelectedCategory(c.id));
+
+          toggle.addEventListener('change', () => {
+            c.enabled = toggle.checked;
+            node.classList.toggle('is-disabled', !c.enabled);
+            showToast(c.enabled ? 'Category enabled (demo)' : 'Category disabled (demo)');
+          });
+
+          node.querySelector('[data-action="edit"]').addEventListener('click', () => {
+            // Fill category modal
+            els.catForm.elements.categoryId.value = c.id;
+            els.catForm.elements.name.value = c.name;
+            els.catForm.elements.description.value = c.description || '';
+            els.catForm.elements.enabled.checked = !!c.enabled;
+            document.getElementById('modal-category-title').textContent = 'Edit category';
+            openModal('category-form');
+          });
+
+          node.querySelector('[data-action="delete"]').addEventListener('click', () => {
+            state.confirm = { type: 'delete-category', id: c.id };
+            els.confirmMsg.textContent = 'Delete this category? Sub-categories will be kept (demo).';
+            openModal('confirm');
+          });
+
+          els.catList.appendChild(node);
+        });
+      }
+
+      function renderSubcategories() {
+        els.subList.innerHTML = '';
+
+        const selected = state.categories.find(c => c.id === state.selectedCategoryId);
+        els.subAddBtn.disabled = !selected;
+
+        if (!selected) {
+          const empty = document.createElement('li');
+          empty.className = 'text-muted';
+          empty.style.padding = '10px 4px';
+          empty.textContent = 'Select a category to view its sub-categories.';
+          els.subList.appendChild(empty);
+          return;
+        }
+
+        const subs = state.subcategories.filter(s => s.categoryId === selected.id);
+
+        if (!subs.length) {
+          const empty = document.createElement('li');
+          empty.className = 'text-muted';
+          empty.style.padding = '10px 4px';
+          empty.textContent = 'No sub-categories yet.';
+          els.subList.appendChild(empty);
+          return;
+        }
+
+        subs.forEach((s) => {
+          const node = els.subTpl.content.firstElementChild.cloneNode(true);
+          node.setAttribute('data-subcategory-id', s.id);
+
+          node.querySelector('[data-field="name"]').textContent = s.name;
+          node.querySelector('[data-field="meta"]').textContent = 'Belongs to: ' + selected.name;
+
+          node.querySelector('[data-action="edit-sub"]').addEventListener('click', () => {
+            els.subForm.elements.subcategoryId.value = s.id;
+            els.subForm.elements.categoryId.value = selected.id;
+            els.subForm.elements.name.value = s.name;
+            document.getElementById('modal-subcategory-title').textContent = 'Edit sub-category';
+            openModal('subcategory-form');
+          });
+
+          node.querySelector('[data-action="delete-sub"]').addEventListener('click', () => {
+            state.confirm = { type: 'delete-sub', id: s.id };
+            els.confirmMsg.textContent = 'Delete this sub-category?';
+            openModal('confirm');
+          });
+
+          els.subList.appendChild(node);
+        });
+      }
 
       function render() {
-        if (catList) {
-          catList.innerHTML = categories.map(c => `
-            <li class="settings-categories__item" data-category-id="${c.id}">
-              <div class="settings-categories__item-main">
-                <strong>${c.name}</strong>
-                <p class="text-muted">${c.desc || ''}</p>
-              </div>
-              <div class="settings-categories__item-actions">
-                <button type="button" class="btn btn-ghost btn-sm" data-action="edit-category">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </button>
-                <button type="button" class="btn btn-ghost btn-ghost--danger btn-sm" data-action="delete-category">
-                  <i class="fa-regular fa-trash-can"></i>
-                </button>
-              </div>
-            </li>
-          `).join('');
+        // If nothing selected, auto-select first category for better UX
+        if (!state.selectedCategoryId && state.categories.length) {
+          state.selectedCategoryId = state.categories[0].id;
         }
-
-        if (subList) {
-          subList.innerHTML = subcategories.map(s => {
-            const parent = categories.find(c => c.id === s.categoryId);
-            return `
-              <li class="settings-categories__item" data-subcategory-id="${s.id}" data-category-id="${s.categoryId}">
-                <div class="settings-categories__item-main">
-                  <strong>${s.name}</strong>
-                  <p class="text-muted">Category: ${parent ? parent.name : '—'}</p>
-                </div>
-                <div class="settings-categories__item-actions">
-                  <button type="button" class="btn btn-ghost btn-sm" data-action="edit-subcategory">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                  </button>
-                  <button type="button" class="btn btn-ghost btn-ghost--danger btn-sm" data-action="delete-subcategory">
-                    <i class="fa-regular fa-trash-can"></i>
-                  </button>
-                </div>
-              </li>
-            `;
-          }).join('');
-        }
+        renderCategories();
+        renderSubcategories();
       }
 
-      render();
-
-      // Enable save on any interaction
-      document.addEventListener('input', (e) => {
-        if (e.target.closest('#category-form, #subcategory-form')) enableSave();
-      });
-      document.addEventListener('change', (e) => {
-        if (e.target.closest('#category-form, #subcategory-form')) enableSave();
+      // Add category button resets modal
+      document.querySelectorAll('[data-modal-open="category-form"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          els.catForm.reset();
+          els.catForm.elements.categoryId.value = '';
+          els.catForm.elements.enabled.checked = true;
+          document.getElementById('modal-category-title').textContent = 'Add category';
+        });
       });
 
-      // Handle form submit (demo only)
-      const catForm = document.getElementById('category-form');
-      const subForm = document.getElementById('subcategory-form');
+      // Add sub-category requires selected category
+      els.subAddBtn.addEventListener('click', () => {
+        const selected = state.selectedCategoryId;
+        if (!selected) return;
+        els.subForm.reset();
+        els.subForm.elements.subcategoryId.value = '';
+        els.subForm.elements.categoryId.value = selected;
+        document.getElementById('modal-subcategory-title').textContent = 'Add sub-category';
+        openModal('subcategory-form');
+      });
 
-      if (catForm) {
-        catForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const id = catForm.elements.categoryId.value || ('cat-' + Date.now());
-          const name = catForm.elements.name.value.trim();
-          const desc = catForm.elements.description.value.trim();
+      // Category form submit (add/edit)
+      els.catForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = els.catForm.elements.categoryId.value || ('cat-' + Date.now());
+        const name = els.catForm.elements.name.value.trim();
+        const description = els.catForm.elements.description.value.trim();
+        const enabled = !!els.catForm.elements.enabled.checked;
 
-          if (!name) return;
+        if (!name) return;
 
-          const existing = categories.find(c => c.id === id);
-          if (existing) {
-            existing.name = name; existing.desc = desc;
-            showToast('Category updated (demo)');
-          } else {
-            categories.unshift({ id, name, desc });
-            showToast('Category added (demo)');
-          }
-
-          render();
-          closeModal(document.querySelector('[data-modal="category-form"]'));
-          catForm.reset();
-          catForm.elements.categoryId.value = '';
-          enableSave();
-        });
-      }
-
-      if (subForm) {
-        subForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const id = subForm.elements.subcategoryId.value || ('sub-' + Date.now());
-          const name = subForm.elements.name.value.trim();
-          const categoryId = subForm.elements.categoryId.value || (categories[0] ? categories[0].id : '');
-
-          if (!name) return;
-
-          const existing = subcategories.find(s => s.id === id);
-          if (existing) {
-            existing.name = name;
-            existing.categoryId = categoryId;
-            showToast('Sub-category updated (demo)');
-          } else {
-            subcategories.unshift({ id, name, categoryId });
-            showToast('Sub-category added (demo)');
-          }
-
-          render();
-          closeModal(document.querySelector('[data-modal="subcategory-form"]'));
-          subForm.reset();
-          subForm.elements.subcategoryId.value = '';
-          subForm.elements.categoryId.value = '';
-          enableSave();
-        });
-      }
-
-      // Edit/Delete actions (demo only)
-      document.addEventListener('click', (e) => {
-        const btn = e.target.closest('[data-action]');
-        if (!btn) return;
-
-        const action = btn.getAttribute('data-action');
-        const li = btn.closest('li');
-
-        if (action === 'edit-category' && li) {
-          const id = li.getAttribute('data-category-id');
-          const item = categories.find(c => c.id === id);
-          if (!item) return;
-
-          const modal = document.querySelector('[data-modal="category-form"]');
-          document.querySelector('#modal-category-title').textContent = 'Edit category';
-          catForm.elements.categoryId.value = item.id;
-          catForm.elements.name.value = item.name;
-          catForm.elements.description.value = item.desc || '';
-          openModal(modal);
+        const existing = state.categories.find(c => c.id === id);
+        if (existing) {
+          existing.name = name;
+          existing.description = description;
+          existing.enabled = enabled;
+          showToast('Category updated (demo)');
+        } else {
+          state.categories.push({ id, name, description, enabled });
+          state.selectedCategoryId = id;
+          showToast('Category added (demo)');
         }
 
-        if (action === 'delete-category' && li) {
-          const id = li.getAttribute('data-category-id');
-          const idx = categories.findIndex(c => c.id === id);
-          if (idx >= 0) categories.splice(idx, 1);
+        closeModal(document.querySelector('[data-modal="category-form"]'));
+        render();
+      });
 
-          // delete related subs (demo)
-          for (let i = subcategories.length - 1; i >= 0; i--) {
-            if (subcategories[i].categoryId === id) subcategories.splice(i, 1);
-          }
+      // Sub-category form submit (add/edit)
+      els.subForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = els.subForm.elements.subcategoryId.value || ('sub-' + Date.now());
+        const categoryId = els.subForm.elements.categoryId.value;
+        const name = els.subForm.elements.name.value.trim();
+        if (!name || !categoryId) return;
 
-          render();
+        const existing = state.subcategories.find(s => s.id === id);
+        if (existing) {
+          existing.name = name;
+          showToast('Sub-category updated (demo)');
+        } else {
+          state.subcategories.push({ id, categoryId, name });
+          showToast('Sub-category added (demo)');
+        }
+
+        closeModal(document.querySelector('[data-modal="subcategory-form"]'));
+        render();
+      });
+
+      // Confirm handler
+      els.confirmAction.addEventListener('click', () => {
+        if (state.confirm.type === 'delete-category') {
+          const id = state.confirm.id;
+          state.categories = state.categories.filter(c => c.id !== id);
+
+          // Keep subs (as message said) OR remove them if you prefer:
+          // state.subcategories = state.subcategories.filter(s => s.categoryId !== id);
+
+          if (state.selectedCategoryId === id) state.selectedCategoryId = state.categories[0]?.id || null;
           showToast('Category deleted (demo)');
-          enableSave();
         }
 
-        if (action === 'edit-subcategory' && li) {
-          const id = li.getAttribute('data-subcategory-id');
-          const item = subcategories.find(s => s.id === id);
-          if (!item) return;
-
-          const modal = document.querySelector('[data-modal="subcategory-form"]');
-          document.querySelector('#modal-subcategory-title').textContent = 'Edit sub-category';
-          subForm.elements.subcategoryId.value = item.id;
-          subForm.elements.categoryId.value = item.categoryId || '';
-          subForm.elements.name.value = item.name;
-          openModal(modal);
-        }
-
-        if (action === 'delete-subcategory' && li) {
-          const id = li.getAttribute('data-subcategory-id');
-          const idx = subcategories.findIndex(s => s.id === id);
-          if (idx >= 0) subcategories.splice(idx, 1);
-          render();
+        if (state.confirm.type === 'delete-sub') {
+          const id = state.confirm.id;
+          state.subcategories = state.subcategories.filter(s => s.id !== id);
           showToast('Sub-category deleted (demo)');
-          enableSave();
         }
+
+        state.confirm = { type: null, id: null };
+        closeModal(els.confirmModal);
+        render();
       });
 
-      // Save changes (demo)
-      const saveBtn = document.querySelector('[data-save-button]');
-      if (saveBtn) {
-        saveBtn.addEventListener('click', () => {
-          showToast('Categories saved (demo)');
-          saveBtn.setAttribute('disabled', '');
-        });
-      }
+      // Initial render
+      render();
     })();
   </script>
 </body>
