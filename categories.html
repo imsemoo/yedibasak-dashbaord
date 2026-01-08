@@ -20,7 +20,6 @@
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <style>
-    /* Same styles used inside settings.html (panel-categories) */
     .settings-categories {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -81,18 +80,30 @@
       flex: 1;
       cursor: pointer;
       color: var(--color-text);
+      min-width: 0;
+    }
+
+    .settings-categories__item-label strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .settings-categories__item-meta {
       font-size: 0.92rem;
       color: var(--color-text-muted);
       margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .settings-categories__item-actions {
       display: flex;
       align-items: center;
       gap: var(--space-1);
+      flex-wrap: nowrap;
     }
 
     .icon-button {
@@ -107,14 +118,14 @@
       position: relative;
       cursor: pointer;
       transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+      flex: 0 0 auto;
     }
 
     .icon-button:disabled {
-      opacity: 0.3;
+      opacity: 0.35;
       cursor: not-allowed;
     }
 
-    /* Toggle cell in list row */
     .row-toggle {
       display: inline-flex;
       align-items: center;
@@ -123,6 +134,7 @@
       border-radius: 999px;
       border: 1px solid var(--color-border);
       background: var(--color-surface);
+      flex: 0 0 auto;
     }
 
     .row-toggle__label {
@@ -131,9 +143,9 @@
       white-space: nowrap;
     }
 
-    /* Tooltip (lightweight, no extra libs) */
     .has-tooltip {
       position: relative;
+      outline: none;
     }
 
     .has-tooltip[data-tooltip]:hover::after,
@@ -143,8 +155,8 @@
       right: 0;
       top: calc(100% + 10px);
       z-index: 50;
-      min-width: 220px;
-      max-width: 280px;
+      min-width: 230px;
+      max-width: 320px;
       padding: 10px 12px;
       border-radius: 12px;
       border: 1px solid var(--color-border);
@@ -152,7 +164,7 @@
       color: var(--color-text);
       box-shadow: var(--shadow-card-light);
       font-size: 0.92rem;
-      line-height: 1.3;
+      line-height: 1.35;
       white-space: normal;
     }
 
@@ -170,12 +182,15 @@
       transform: rotate(45deg);
       z-index: 51;
     }
+
+    .empty-hint {
+      padding: 10px 4px;
+    }
   </style>
 </head>
 
 <body data-theme="light">
   <div class="app">
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
@@ -183,8 +198,10 @@
         </a>
       </div>
 
+      <!-- Main navigation links -->
       <nav class="sidebar__nav" aria-label="Primary">
-        <a class="sidebar__link" href="index.html">
+        <!-- Main sections -->
+        <a class="sidebar__link active" href="index.html" aria-current="page">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
@@ -209,6 +226,19 @@
           <span class="sidebar__label">Manual donations</span>
         </a>
 
+        <a class="sidebar__link" href="countries.html">
+          <i class="fa-regular fa-flag sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Countries </span>
+        </a>
+        <a class="sidebar__link" href="city.html">
+          <i class="fa-solid fa-city sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Cities </span>
+        </a>
+        <a class="sidebar__link" href="payment-method.html">
+          <i class="fa-regular fa-credit-card sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Payment Method </span>
+        </a>
+
         <a class="sidebar__link" href="messages.html">
           <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Messages</span>
@@ -219,10 +249,10 @@
           <span class="sidebar__label">Settings</span>
         </a>
 
-        <!-- More -->
+        <!-- "More" expandable submenu (secondary sections) -->
         <li class="sidebar-item sidebar-item--expandable">
           <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
-            aria-controls="more-menu" aria-expanded="false">
+            aria-controls="more-menu" aria-expanded="false" aria-haspopup="true">
             <span class="d-flex align-items-center" style="gap: var(--space-3);">
               <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
               <span class="sidebar__label">More</span>
@@ -232,15 +262,33 @@
 
           <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
             <li>
-              <a href="categories.html" class="sidebar-sublink is-active">
+              <a href="categories.html" class="sidebar-sublink">
                 <i class="fa-solid fa-tags" aria-hidden="true"></i>
                 <span>Categories</span>
               </a>
             </li>
             <li>
-              <a href="payment-method.html" class="sidebar-sublink">
-                <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
-                <span>Payment methods</span>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
               </a>
             </li>
             <li>
@@ -352,7 +400,7 @@
                 <h4 style="margin:0">Categories</h4>
                 <p class="text-muted" style="margin:4px 0 0">Select a category to manage sub-categories.</p>
               </div>
-              <button type="button" class="btn btn-outline" data-modal-open="category-form">
+              <button type="button" class="btn btn-outline" data-modal-open="category-form" data-action="add-category">
                 Add category
               </button>
             </div>
@@ -367,7 +415,8 @@
                 <h4 style="margin:0">Sub-categories</h4>
                 <p class="text-muted" style="margin:4px 0 0">Linked to the selected category.</p>
               </div>
-              <button type="button" class="btn btn-outline" data-modal-open="subcategory-form" data-sub-add disabled>
+              <button type="button" class="btn btn-outline" data-modal-open="subcategory-form" data-action="add-sub"
+                disabled>
                 Add sub-category
               </button>
             </div>
@@ -379,7 +428,6 @@
         <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
       </main>
 
-      <!-- Footer -->
       <footer class="app-footer">
         <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
       </footer>
@@ -395,7 +443,15 @@
       </button>
 
       <div class="settings-categories__item-actions">
-        <!-- NEW: Toggle with tooltip -->
+        <!-- Move -->
+        <button type="button" class="icon-button" data-action="move-up" aria-label="Move up">
+          <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="icon-button" data-action="move-down" aria-label="Move down">
+          <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+
+        <!-- Toggle + tooltip -->
         <div class="row-toggle has-tooltip" tabindex="0"
           data-tooltip="Disable to hide this category from campaign creation and filters. (UI demo)">
           <span class="row-toggle__label">Enabled</span>
@@ -405,6 +461,7 @@
           </label>
         </div>
 
+        <!-- Edit / Delete -->
         <button type="button" class="icon-button" data-action="edit" aria-label="Edit category">
           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
         </button>
@@ -423,6 +480,15 @@
       </button>
 
       <div class="settings-categories__item-actions">
+        <!-- Move -->
+        <button type="button" class="icon-button" data-action="move-up-sub" aria-label="Move up">
+          <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="icon-button" data-action="move-down-sub" aria-label="Move down">
+          <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+
+        <!-- Edit / Delete -->
         <button type="button" class="icon-button" data-action="edit-sub" aria-label="Edit sub-category">
           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
         </button>
@@ -433,7 +499,7 @@
     </li>
   </template>
 
-  <!-- Modals (same structure as settings.html) -->
+  <!-- Modals -->
   <div class="modal" data-modal="confirm" hidden>
     <div class="modal__overlay" data-modal-close></div>
     <div class="modal__dialog" role="document" aria-modal="true" aria-labelledby="modal-confirm-title">
@@ -512,19 +578,20 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Vendor scripts -->
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
   <script src="assets/js/owl.carousel.min.js" defer></script>
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
   <script src="assets/js/script.js" defer></script>
 
+  <!-- Page script -->
   <script defer>
-    (function CategoriesPage() {
+    (function () {
       const page = document.querySelector('[data-page="categories"]');
       if (!page) return;
 
-      // Toast helper (same idea as your settings demo)
+      // Toast helper (compatible with your demo)
       function showToast(msg) {
         const container = document.querySelector('.toast-container');
         if (!container) return;
@@ -545,8 +612,8 @@
         }, 2600);
       }
 
-      // Simple modal open/close (compatible with your markup)
-      function openModal(name) {
+      // Modal helpers (same API: data-modal-open / data-modal-close)
+      function openModalByName(name) {
         const modal = document.querySelector('[data-modal="' + name + '"]');
         if (modal) modal.hidden = false;
       }
@@ -557,7 +624,8 @@
       document.addEventListener('click', (e) => {
         const openBtn = e.target.closest('[data-modal-open]');
         if (openBtn) {
-          openModal(openBtn.getAttribute('data-modal-open'));
+          const name = openBtn.getAttribute('data-modal-open');
+          openModalByName(name);
           return;
         }
         const closeBtn = e.target.closest('[data-modal-close]');
@@ -566,7 +634,7 @@
         }
       });
 
-      // Data (UI demo)
+      // UI demo state
       const state = {
         selectedCategoryId: null,
         confirm: { type: null, id: null },
@@ -587,40 +655,71 @@
       const els = {
         catList: page.querySelector('[data-category-list]'),
         subList: page.querySelector('[data-subcategory-list]'),
-        subAddBtn: page.querySelector('[data-sub-add]'),
-        confirmModal: document.querySelector('[data-modal="confirm"]'),
-        confirmMsg: document.querySelector('[data-confirm-message]'),
-        confirmAction: document.querySelector('[data-confirm-action]'),
+        subAddBtn: page.querySelector('[data-action="add-sub"]'),
         catTpl: document.getElementById('category-item-template'),
         subTpl: document.getElementById('subcategory-item-template'),
         catForm: document.getElementById('category-form'),
-        subForm: document.getElementById('subcategory-form')
+        subForm: document.getElementById('subcategory-form'),
+        confirmModal: document.querySelector('[data-modal="confirm"]'),
+        confirmMsg: document.querySelector('[data-confirm-message]'),
+        confirmAction: document.querySelector('[data-confirm-action]')
       };
+
+      function getSelectedCategory() {
+        return state.categories.find(c => c.id === state.selectedCategoryId) || null;
+      }
 
       function setSelectedCategory(id) {
         state.selectedCategoryId = id;
         render();
       }
 
+      function swapInArray(arr, fromIndex, toIndex) {
+        if (toIndex < 0 || toIndex >= arr.length) return;
+        const tmp = arr[fromIndex];
+        arr[fromIndex] = arr[toIndex];
+        arr[toIndex] = tmp;
+      }
+
       function renderCategories() {
         els.catList.innerHTML = '';
 
-        state.categories.forEach((c) => {
+        state.categories.forEach((c, idx) => {
           const node = els.catTpl.content.firstElementChild.cloneNode(true);
           node.setAttribute('data-category-id', c.id);
 
-          const isActive = state.selectedCategoryId === c.id;
-          node.classList.toggle('is-active', isActive);
+          node.classList.toggle('is-active', state.selectedCategoryId === c.id);
           node.classList.toggle('is-disabled', !c.enabled);
 
           node.querySelector('[data-field="name"]').textContent = c.name;
           node.querySelector('[data-field="desc"]').textContent = c.description || '—';
 
+          const btnSelect = node.querySelector('[data-action="select"]');
+          const btnUp = node.querySelector('[data-action="move-up"]');
+          const btnDown = node.querySelector('[data-action="move-down"]');
+          const btnEdit = node.querySelector('[data-action="edit"]');
+          const btnDelete = node.querySelector('[data-action="delete"]');
           const toggle = node.querySelector('input[data-action="toggle"]');
+
           toggle.checked = !!c.enabled;
 
-          // Wire actions
-          node.querySelector('[data-action="select"]').addEventListener('click', () => setSelectedCategory(c.id));
+          // Disable move buttons at edges
+          btnUp.disabled = idx === 0;
+          btnDown.disabled = idx === state.categories.length - 1;
+
+          btnSelect.addEventListener('click', () => setSelectedCategory(c.id));
+
+          btnUp.addEventListener('click', () => {
+            swapInArray(state.categories, idx, idx - 1);
+            showToast('Category moved up (demo)');
+            render();
+          });
+
+          btnDown.addEventListener('click', () => {
+            swapInArray(state.categories, idx, idx + 1);
+            showToast('Category moved down (demo)');
+            render();
+          });
 
           toggle.addEventListener('change', () => {
             c.enabled = toggle.checked;
@@ -628,20 +727,20 @@
             showToast(c.enabled ? 'Category enabled (demo)' : 'Category disabled (demo)');
           });
 
-          node.querySelector('[data-action="edit"]').addEventListener('click', () => {
-            // Fill category modal
+          btnEdit.addEventListener('click', () => {
+            els.catForm.reset();
             els.catForm.elements.categoryId.value = c.id;
             els.catForm.elements.name.value = c.name;
             els.catForm.elements.description.value = c.description || '';
             els.catForm.elements.enabled.checked = !!c.enabled;
             document.getElementById('modal-category-title').textContent = 'Edit category';
-            openModal('category-form');
+            openModalByName('category-form');
           });
 
-          node.querySelector('[data-action="delete"]').addEventListener('click', () => {
+          btnDelete.addEventListener('click', () => {
             state.confirm = { type: 'delete-category', id: c.id };
-            els.confirmMsg.textContent = 'Delete this category? Sub-categories will be kept (demo).';
-            openModal('confirm');
+            els.confirmMsg.textContent = 'Delete this category? Sub-categories will also be removed. (UI demo)';
+            openModalByName('confirm');
           });
 
           els.catList.appendChild(node);
@@ -651,48 +750,76 @@
       function renderSubcategories() {
         els.subList.innerHTML = '';
 
-        const selected = state.categories.find(c => c.id === state.selectedCategoryId);
+        const selected = getSelectedCategory();
         els.subAddBtn.disabled = !selected;
 
         if (!selected) {
-          const empty = document.createElement('li');
-          empty.className = 'text-muted';
-          empty.style.padding = '10px 4px';
-          empty.textContent = 'Select a category to view its sub-categories.';
-          els.subList.appendChild(empty);
+          const li = document.createElement('li');
+          li.className = 'text-muted empty-hint';
+          li.textContent = 'Select a category to view its sub-categories.';
+          els.subList.appendChild(li);
           return;
         }
 
         const subs = state.subcategories.filter(s => s.categoryId === selected.id);
 
         if (!subs.length) {
-          const empty = document.createElement('li');
-          empty.className = 'text-muted';
-          empty.style.padding = '10px 4px';
-          empty.textContent = 'No sub-categories yet.';
-          els.subList.appendChild(empty);
+          const li = document.createElement('li');
+          li.className = 'text-muted empty-hint';
+          li.textContent = 'No sub-categories yet.';
+          els.subList.appendChild(li);
           return;
         }
 
-        subs.forEach((s) => {
+        subs.forEach((s, localIdx) => {
           const node = els.subTpl.content.firstElementChild.cloneNode(true);
           node.setAttribute('data-subcategory-id', s.id);
 
           node.querySelector('[data-field="name"]').textContent = s.name;
           node.querySelector('[data-field="meta"]').textContent = 'Belongs to: ' + selected.name;
 
-          node.querySelector('[data-action="edit-sub"]').addEventListener('click', () => {
+          const btnUp = node.querySelector('[data-action="move-up-sub"]');
+          const btnDown = node.querySelector('[data-action="move-down-sub"]');
+          const btnEdit = node.querySelector('[data-action="edit-sub"]');
+          const btnDelete = node.querySelector('[data-action="delete-sub"]');
+
+          btnUp.disabled = localIdx === 0;
+          btnDown.disabled = localIdx === subs.length - 1;
+
+          btnUp.addEventListener('click', () => {
+            // Move inside the selected category only
+            const ids = subs.map(x => x.id);
+            const globalIndexes = ids.map(id => state.subcategories.findIndex(z => z.id === id));
+            const fromG = globalIndexes[localIdx];
+            const toG = globalIndexes[localIdx - 1];
+            swapInArray(state.subcategories, fromG, toG);
+            showToast('Sub-category moved up (demo)');
+            renderSubcategories();
+          });
+
+          btnDown.addEventListener('click', () => {
+            const ids = subs.map(x => x.id);
+            const globalIndexes = ids.map(id => state.subcategories.findIndex(z => z.id === id));
+            const fromG = globalIndexes[localIdx];
+            const toG = globalIndexes[localIdx + 1];
+            swapInArray(state.subcategories, fromG, toG);
+            showToast('Sub-category moved down (demo)');
+            renderSubcategories();
+          });
+
+          btnEdit.addEventListener('click', () => {
+            els.subForm.reset();
             els.subForm.elements.subcategoryId.value = s.id;
             els.subForm.elements.categoryId.value = selected.id;
             els.subForm.elements.name.value = s.name;
             document.getElementById('modal-subcategory-title').textContent = 'Edit sub-category';
-            openModal('subcategory-form');
+            openModalByName('subcategory-form');
           });
 
-          node.querySelector('[data-action="delete-sub"]').addEventListener('click', () => {
+          btnDelete.addEventListener('click', () => {
             state.confirm = { type: 'delete-sub', id: s.id };
-            els.confirmMsg.textContent = 'Delete this sub-category?';
-            openModal('confirm');
+            els.confirmMsg.textContent = 'Delete this sub-category? (UI demo)';
+            openModalByName('confirm');
           });
 
           els.subList.appendChild(node);
@@ -700,7 +827,7 @@
       }
 
       function render() {
-        // If nothing selected, auto-select first category for better UX
+        // Auto-select first category for better UX
         if (!state.selectedCategoryId && state.categories.length) {
           state.selectedCategoryId = state.categories[0].id;
         }
@@ -708,8 +835,8 @@
         renderSubcategories();
       }
 
-      // Add category button resets modal
-      document.querySelectorAll('[data-modal-open="category-form"]').forEach(btn => {
+      // Add Category: reset modal when clicking add
+      document.querySelectorAll('[data-action="add-category"]').forEach(btn => {
         btn.addEventListener('click', () => {
           els.catForm.reset();
           els.catForm.elements.categoryId.value = '';
@@ -718,23 +845,24 @@
         });
       });
 
-      // Add sub-category requires selected category
+      // Add Sub-category: set selected category
       els.subAddBtn.addEventListener('click', () => {
-        const selected = state.selectedCategoryId;
+        const selected = getSelectedCategory();
         if (!selected) return;
+
         els.subForm.reset();
         els.subForm.elements.subcategoryId.value = '';
-        els.subForm.elements.categoryId.value = selected;
+        els.subForm.elements.categoryId.value = selected.id;
         document.getElementById('modal-subcategory-title').textContent = 'Add sub-category';
-        openModal('subcategory-form');
       });
 
       // Category form submit (add/edit)
       els.catForm.addEventListener('submit', (e) => {
         e.preventDefault();
+
         const id = els.catForm.elements.categoryId.value || ('cat-' + Date.now());
-        const name = els.catForm.elements.name.value.trim();
-        const description = els.catForm.elements.description.value.trim();
+        const name = (els.catForm.elements.name.value || '').trim();
+        const description = (els.catForm.elements.description.value || '').trim();
         const enabled = !!els.catForm.elements.enabled.checked;
 
         if (!name) return;
@@ -758,10 +886,12 @@
       // Sub-category form submit (add/edit)
       els.subForm.addEventListener('submit', (e) => {
         e.preventDefault();
+
         const id = els.subForm.elements.subcategoryId.value || ('sub-' + Date.now());
         const categoryId = els.subForm.elements.categoryId.value;
-        const name = els.subForm.elements.name.value.trim();
-        if (!name || !categoryId) return;
+        const name = (els.subForm.elements.name.value || '').trim();
+
+        if (!categoryId || !name) return;
 
         const existing = state.subcategories.find(s => s.id === id);
         if (existing) {
@@ -773,19 +903,19 @@
         }
 
         closeModal(document.querySelector('[data-modal="subcategory-form"]'));
-        render();
+        renderSubcategories();
       });
 
-      // Confirm handler
+      // Confirm action
       els.confirmAction.addEventListener('click', () => {
         if (state.confirm.type === 'delete-category') {
           const id = state.confirm.id;
           state.categories = state.categories.filter(c => c.id !== id);
+          state.subcategories = state.subcategories.filter(s => s.categoryId !== id);
 
-          // Keep subs (as message said) OR remove them if you prefer:
-          // state.subcategories = state.subcategories.filter(s => s.categoryId !== id);
-
-          if (state.selectedCategoryId === id) state.selectedCategoryId = state.categories[0]?.id || null;
+          if (state.selectedCategoryId === id) {
+            state.selectedCategoryId = state.categories[0]?.id || null;
+          }
           showToast('Category deleted (demo)');
         }
 
@@ -800,7 +930,6 @@
         render();
       });
 
-      // Initial render
       render();
     })();
   </script>

@@ -3483,7 +3483,7 @@
         previewVideo.src = url;
         previewVideo.classList.remove("is-hidden");
         previewVideo.load();
-        previewVideo.play().catch(() => {});
+        previewVideo.play().catch(() => { });
         if (previewImg) {
           previewImg.classList.add("is-hidden");
         }
@@ -6789,9 +6789,12 @@
 
     const init = () => {
       const page = document.querySelector(".settings-page");
+      // Ensure modal system is initialized globally so pages that reuse the
+      // settings modals (like `categories.html`) work even without the
+      // `.settings-page` wrapper.
+      initModals();
       if (!page) return;
       initTabs(page);
-      initModals();
       const tracker = createPanelTracker(page);
       initBilling(page, tracker.markDirty);
       initZakat(page, tracker.markDirty);

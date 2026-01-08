@@ -36,7 +36,6 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <div class="app">
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
@@ -44,8 +43,10 @@
         </a>
       </div>
 
+      <!-- Main navigation links -->
       <nav class="sidebar__nav" aria-label="Primary">
-        <a class="sidebar__link" href="index.html">
+        <!-- Main sections -->
+        <a class="sidebar__link " href="index.html" aria-current="page">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
@@ -70,6 +71,19 @@
           <span class="sidebar__label">Manual donations</span>
         </a>
 
+        <a class="sidebar__link" href="countries.html">
+          <i class="fa-regular fa-flag sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Countries </span>
+        </a>
+        <a class="sidebar__link" href="city.html">
+          <i class="fa-solid fa-city sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Cities </span>
+        </a>
+        <a class="sidebar__link active" href="payment-method.html">
+          <i class="fa-regular fa-credit-card sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Payment Method </span>
+        </a>
+
         <a class="sidebar__link" href="messages.html">
           <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Messages</span>
@@ -80,10 +94,10 @@
           <span class="sidebar__label">Settings</span>
         </a>
 
-        <!-- More submenu -->
+        <!-- "More" expandable submenu (secondary sections) -->
         <li class="sidebar-item sidebar-item--expandable">
           <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
-            aria-controls="more-menu" aria-expanded="false">
+            aria-controls="more-menu" aria-expanded="false" aria-haspopup="true">
             <span class="d-flex align-items-center" style="gap: var(--space-3);">
               <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
               <span class="sidebar__label">More</span>
@@ -92,6 +106,12 @@
           </button>
 
           <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="categories.html" class="sidebar-sublink">
+                <i class="fa-solid fa-tags" aria-hidden="true"></i>
+                <span>Categories</span>
+              </a>
+            </li>
             <li>
               <a href="team.html" class="sidebar-sublink">
                 <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
@@ -116,24 +136,10 @@
                 <span>Access audit</span>
               </a>
             </li>
-
-            <!-- New tables -->
             <li>
-              <a href="country.html" class="sidebar-sublink">
-                <i class="fa-solid fa-flag" aria-hidden="true"></i>
-                <span>Countries</span>
-              </a>
-            </li>
-            <li>
-              <a href="city.html" class="sidebar-sublink">
-                <i class="fa-solid fa-city" aria-hidden="true"></i>
-                <span>Cities</span>
-              </a>
-            </li>
-            <li>
-              <a href="payment-method.html" class="sidebar-sublink is-active">
-                <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
-                <span>Payment methods</span>
+              <a href="system-alerts.html" class="sidebar-sublink">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <span>System alerts</span>
               </a>
             </li>
           </ul>
@@ -256,7 +262,8 @@
         </section>
 
         <!-- TABLE default -->
-        <section class="payment-methods-view payment-methods-view--table is-active" aria-label="Payment methods table view">
+        <section class="payment-methods-view payment-methods-view--table is-active"
+          aria-label="Payment methods table view">
           <div class="card table-card">
             <div class="table-responsive">
               <table class="table payment-methods-table" data-table>
@@ -287,10 +294,12 @@
                     <td data-label="Created"><span class="text-muted">2026-01-03</span></td>
                     <td class="table-col-actions" data-label="Actions">
                       <div class="table-actions">
-                        <button type="button" class="btn btn-ghost btn-ghost--xs js-row-view" aria-label="View Credit Card">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-row-view"
+                          aria-label="View Credit Card">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                         </button>
-                        <a href="payment-method-new.html" class="btn btn-outline btn-outline--xs" aria-label="Edit Credit Card">
+                        <a href="payment-method-new.html" class="btn btn-outline btn-outline--xs"
+                          aria-label="Edit Credit Card">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                         </a>
                         <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -327,10 +336,12 @@
                     <td data-label="Created"><span class="text-muted">2025-12-11</span></td>
                     <td class="table-col-actions" data-label="Actions">
                       <div class="table-actions">
-                        <button type="button" class="btn btn-ghost btn-ghost--xs js-row-view" aria-label="View Bank Transfer">
+                        <button type="button" class="btn btn-ghost btn-ghost--xs js-row-view"
+                          aria-label="View Bank Transfer">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                         </button>
-                        <a href="payment-method-new.html" class="btn btn-outline btn-outline--xs" aria-label="Edit Bank Transfer">
+                        <a href="payment-method-new.html" class="btn btn-outline btn-outline--xs"
+                          aria-label="Edit Bank Transfer">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                         </a>
                         <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -370,7 +381,8 @@
                         <button type="button" class="btn btn-ghost btn-ghost--xs js-row-view" aria-label="View PayPal">
                           <i class="fa-regular fa-eye" aria-hidden="true"></i>
                         </button>
-                        <a href="payment-method-new.html" class="btn btn-outline btn-outline--xs" aria-label="Edit PayPal">
+                        <a href="payment-method-new.html" class="btn btn-outline btn-outline--xs"
+                          aria-label="Edit PayPal">
                           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                         </a>
                         <div class="dropdown dropdown-actions dropdown-actions--compact">
@@ -397,8 +409,8 @@
             </div>
 
             <!-- ✅ Pagination component (موحد) -->
-            <div class="cs-pagination d-flex align-items-center justify-content-between flex-wrap gap-2"
-              data-pagination aria-label="Table pagination">
+            <div class="cs-pagination d-flex align-items-center justify-content-between flex-wrap gap-2" data-pagination
+              aria-label="Table pagination">
               <div class="cs-pagination__meta text-muted" data-pagination-meta>
                 Showing <span data-from>1</span>–<span data-to>10</span> of <span data-total>0</span>
               </div>

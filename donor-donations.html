@@ -83,37 +83,113 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <div class="app">
-    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+<aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
           <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
         </a>
       </div>
 
+      <!-- Main navigation links -->
       <nav class="sidebar__nav" aria-label="Primary">
-        <a class="sidebar__link" href="donors-overview.html">
+        <!-- Main sections -->
+        <a class="sidebar__link active" href="index.html" aria-current="page">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
 
-        <a class="sidebar__link active" href="donor-donations.html" aria-current="page">
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+
+        <a class="sidebar__link" href="donations.html">
           <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Donations</span>
         </a>
 
-        <a class="sidebar__link " href="donor-monthly-giving.html">
+        <a class="sidebar__link" href="donors.html">
           <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
-          <span class="sidebar__label">Monthly Giving</span>
+          <span class="sidebar__label">Donors</span>
         </a>
 
+        <a class="sidebar__link" href="manual-donation.html">
+          <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Manual donations</span>
+        </a>
 
+        <a class="sidebar__link" href="countries.html">
+          <i class="fa-regular fa-flag sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Countries </span>
+        </a>
+        <a class="sidebar__link" href="city.html">
+          <i class="fa-solid fa-city sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Cities </span>
+        </a>
+        <a class="sidebar__link" href="payment-method.html">
+          <i class="fa-regular fa-credit-card sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Payment Method </span>
+        </a>
+
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
 
         <a class="sidebar__link" href="settings.html">
           <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Settings</span>
         </a>
 
+        <!-- "More" expandable submenu (secondary sections) -->
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false" aria-haspopup="true">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
 
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="categories.html" class="sidebar-sublink">
+                <i class="fa-solid fa-tags" aria-hidden="true"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+            <li>
+              <a href="team.html" class="sidebar-sublink">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                <span>Team &amp; roles</span>
+              </a>
+            </li>
+            <li>
+              <a href="exports.html" class="sidebar-sublink">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                <span>Exports &amp; reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="integrations.html" class="sidebar-sublink">
+                <i class="fa-solid fa-plug" aria-hidden="true"></i>
+                <span>Integrations</span>
+              </a>
+            </li>
+            <li>
+              <a href="access-audit.html" class="sidebar-sublink">
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                <span>Access audit</span>
+              </a>
+            </li>
+            <li>
+              <a href="system-alerts.html" class="sidebar-sublink">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <span>System alerts</span>
+              </a>
+            </li>
+          </ul>
         </li>
       </nav>
     </aside>

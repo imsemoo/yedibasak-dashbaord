@@ -33,78 +33,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.5.0/css/flag-icons.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
 
-  <!-- Page-local CSS (move to style.css when ready) -->
-  <style>
-    /* Countries table flag cell */
-    .cs-flag {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      font-weight: 600;
-    }
-
-    .cs-flag .fi {
-      box-shadow: 0 0 0 1px var(--color-border-subtle);
-      border-radius: 6px;
-    }
-
-    .cs-table-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-4);
-      flex-wrap: wrap;
-    }
-
-    /* Unified Pagination component */
-    .cs-pagination {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-4);
-      padding: var(--space-4);
-      border-top: 1px solid var(--color-border);
-      background: var(--color-surface);
-      border-bottom-left-radius: var(--radius-lg);
-      border-bottom-right-radius: var(--radius-lg);
-    }
-
-    .cs-pagination__right {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .cs-pagination__pages {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-1);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      background: var(--color-surface-alt);
-    }
-
-    .cs-pagination__dots {
-      padding: 0 var(--space-2);
-      color: var(--color-text-muted);
-      user-select: none;
-    }
-
-    /* Make the table the default experience */
-    .cs-countries-page .table-card {
-      overflow: hidden;
-    }
-  </style>
 </head>
 
 <body data-theme="light">
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <div class="app">
-    <!-- Sidebar navigation -->
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <div class="sidebar__logo">
         <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
@@ -112,8 +46,10 @@
         </a>
       </div>
 
+      <!-- Main navigation links -->
       <nav class="sidebar__nav" aria-label="Primary">
-        <a class="sidebar__link" href="index.html">
+        <!-- Main sections -->
+        <a class="sidebar__link " href="index.html" aria-current="page">
           <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Overview</span>
         </a>
@@ -133,15 +69,22 @@
           <span class="sidebar__label">Donors</span>
         </a>
 
-        <!-- Countries (NEW) -->
-        <a class="sidebar__link active" href="countries.html">
-          <i class="fa-solid fa-flag sidebar__icon" aria-hidden="true"></i>
-          <span class="sidebar__label">Countries</span>
-        </a>
-
         <a class="sidebar__link" href="manual-donation.html">
           <i class="fas fa-keyboard sidebar__icon" aria-hidden="true"></i>
           <span class="sidebar__label">Manual donations</span>
+        </a>
+
+        <a class="sidebar__link active" href="countries.html">
+          <i class="fa-regular fa-flag sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Countries </span>
+        </a>
+        <a class="sidebar__link" href="city.html">
+          <i class="fa-solid fa-city sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Cities </span>
+        </a>
+        <a class="sidebar__link" href="payment-method.html">
+          <i class="fa-regular fa-credit-card sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Payment Method </span>
         </a>
 
         <a class="sidebar__link" href="messages.html">
@@ -154,10 +97,10 @@
           <span class="sidebar__label">Settings</span>
         </a>
 
-        <!-- More submenu -->
+        <!-- "More" expandable submenu (secondary sections) -->
         <li class="sidebar-item sidebar-item--expandable">
           <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
-            aria-controls="more-menu" aria-expanded="false">
+            aria-controls="more-menu" aria-expanded="false" aria-haspopup="true">
             <span class="d-flex align-items-center" style="gap: var(--space-3);">
               <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
               <span class="sidebar__label">More</span>
@@ -166,6 +109,12 @@
           </button>
 
           <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="categories.html" class="sidebar-sublink">
+                <i class="fa-solid fa-tags" aria-hidden="true"></i>
+                <span>Categories</span>
+              </a>
+            </li>
             <li>
               <a href="team.html" class="sidebar-sublink">
                 <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
@@ -190,11 +139,16 @@
                 <span>Access audit</span>
               </a>
             </li>
+            <li>
+              <a href="system-alerts.html" class="sidebar-sublink">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <span>System alerts</span>
+              </a>
+            </li>
           </ul>
         </li>
       </nav>
     </aside>
-
     <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
 
     <!-- App workspace -->
