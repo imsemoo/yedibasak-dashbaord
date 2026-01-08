@@ -20,172 +20,7 @@
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <style>
-    .settings-categories {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: var(--space-4);
-    }
 
-    .settings-categories__pane {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: var(--space-4);
-    }
-
-    .settings-categories__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-3);
-      gap: var(--space-3);
-    }
-
-    .settings-categories__list,
-    .settings-categories__sublist {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .settings-categories__item {
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: var(--space-3);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: var(--space-3);
-      background: var(--color-surface-alt);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity .2s ease;
-    }
-
-    .settings-categories__item.is-active {
-      border-color: var(--color-primary);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .settings-categories__item.is-disabled {
-      opacity: .58;
-    }
-
-    .settings-categories__item-label {
-      border: none;
-      background: none;
-      padding: 0;
-      text-align: left;
-      flex: 1;
-      cursor: pointer;
-      color: var(--color-text);
-      min-width: 0;
-    }
-
-    .settings-categories__item-label strong {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .settings-categories__item-meta {
-      font-size: 0.92rem;
-      color: var(--color-text-muted);
-      margin-top: 2px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .settings-categories__item-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--space-1);
-      flex-wrap: nowrap;
-    }
-
-    .icon-button {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      color: var(--color-text);
-      display: grid;
-      place-items: center;
-      position: relative;
-      cursor: pointer;
-      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
-      flex: 0 0 auto;
-    }
-
-    .icon-button:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-
-    .row-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      flex: 0 0 auto;
-    }
-
-    .row-toggle__label {
-      font-size: .9rem;
-      color: var(--color-text-soft);
-      white-space: nowrap;
-    }
-
-    .has-tooltip {
-      position: relative;
-      outline: none;
-    }
-
-    .has-tooltip[data-tooltip]:hover::after,
-    .has-tooltip[data-tooltip]:focus-visible::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      right: 0;
-      top: calc(100% + 10px);
-      z-index: 50;
-      min-width: 230px;
-      max-width: 320px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      color: var(--color-text);
-      box-shadow: var(--shadow-card-light);
-      font-size: 0.92rem;
-      line-height: 1.35;
-      white-space: normal;
-    }
-
-    .has-tooltip[data-tooltip]:hover::before,
-    .has-tooltip[data-tooltip]:focus-visible::before {
-      content: "";
-      position: absolute;
-      right: 18px;
-      top: calc(100% + 4px);
-      width: 10px;
-      height: 10px;
-      background: var(--color-surface);
-      border-left: 1px solid var(--color-border);
-      border-top: 1px solid var(--color-border);
-      transform: rotate(45deg);
-      z-index: 51;
-    }
-
-    .empty-hint {
-      padding: 10px 4px;
-    }
   </style>
 </head>
 
@@ -451,15 +286,7 @@
           <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
         </button>
 
-        <!-- Toggle + tooltip -->
-        <div class="row-toggle has-tooltip" tabindex="0"
-          data-tooltip="Disable to hide this category from campaign creation and filters. (UI demo)">
-          <span class="row-toggle__label">Enabled</span>
-          <label class="switch" style="margin:0">
-            <input type="checkbox" data-action="toggle" checked />
-            <span class="switch__control"></span>
-          </label>
-        </div>
+
 
         <!-- Edit / Delete -->
         <button type="button" class="icon-button" data-action="edit" aria-label="Edit category">
@@ -468,6 +295,15 @@
         <button type="button" class="icon-button" data-action="delete" aria-label="Delete category">
           <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
         </button>
+        <!-- Toggle + tooltip -->
+        <div class="row-toggle has-tooltip" tabindex="0"
+          data-tooltip="Disable to hide this category from the navigation bar menu. (UI demo)">
+
+          <label class="switch" style="margin:0">
+            <input type="checkbox" data-action="toggle" checked />
+            <span class="switch__control"></span>
+          </label>
+        </div>
       </div>
     </li>
   </template>
