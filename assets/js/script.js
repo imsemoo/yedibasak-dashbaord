@@ -286,6 +286,7 @@
   const STORAGE_KEY = "donations-dashboard-theme";
   const CAMPAIGN_VIEW_STORAGE_KEY = "dd_campaigns_view_mode";
   const DONATIONS_VIEW_STORAGE_KEY = "dd_donations_view_mode";
+  const DONATION_TYPE_STORAGE_KEY = "dd_donation_type";
   const DONORS_VIEW_STORAGE_KEY = "dd_donors_view_mode";
   const mobileQuery = window.matchMedia("(max-width: 1023px)");
 
@@ -1669,6 +1670,15 @@
       campaigns: ['campaign', 'amount', 'status', 'date'],
     };
 
+    // How cards should adapt per type (show/hide campaign and meta block)
+    const cardFieldMap = {
+      general: { campaign: true, meta: true, amount: true },
+      zakat: { campaign: false, meta: false, amount: true },
+      qurbani: { campaign: true, meta: false, amount: true },
+      gift: { campaign: true, meta: true, amount: true },
+      campaigns: { campaign: true, meta: true, amount: true },
+    };
+
     const applyColumns = (type) => {
       const allowed = typeColumnMap[type] || typeColumnMap['general'];
 
@@ -1689,6 +1699,17 @@
           cell.setAttribute('aria-hidden', show ? 'false' : 'true');
         });
       });
+
+      // Also adapt card view elements for this type
+      Array.from(document.querySelectorAll('.donation-card')).forEach((card) => {
+        const campaignEl = card.querySelector('.donation-card__campaign');
+        const metaEl = card.querySelector('.donation-card__meta');
+        const amountEl = card.querySelector('.donation-card__amount');
+        const cfg = cardFieldMap[type] || cardFieldMap['general'];
+        if (campaignEl) campaignEl.style.display = cfg.campaign ? '' : 'none';
+        if (metaEl) metaEl.style.display = cfg.meta ? '' : 'none';
+        if (amountEl) amountEl.style.display = cfg.amount ? '' : 'none';
+      });
     };
 
     options.forEach((opt) => {
@@ -1701,7 +1722,10 @@
         opt.setAttribute('aria-checked', 'true');
         opt.setAttribute('tabindex', '0');
         opt.classList.add('is-active');
-        const type = opt.dataset.donationType || 'general';
+        const type = (opt.dataset.donationType || 'general').toLowerCase();
+        try {
+          localStorage.setItem(DONATION_TYPE_STORAGE_KEY, type);
+        } catch (e) { }
         applyColumns(type);
       });
     });
@@ -1728,13 +1752,18 @@
       }
     });
 
-    // initialize from existing checked option or first option
-    const active = options.find((o) => o.getAttribute('aria-checked') === 'true') || options[0];
+    // initialize from stored selection, existing checked option, or first option
+    const storedType = (localStorage.getItem(DONATION_TYPE_STORAGE_KEY) || '').toLowerCase();
+    let active = null;
+    if (storedType) active = options.find((o) => (o.dataset.donationType || '').toLowerCase() === storedType);
+    if (!active) active = options.find((o) => o.getAttribute('aria-checked') === 'true') || options[0];
     if (active) {
+      options.forEach((o) => o.classList.remove('is-active'));
       active.classList.add('is-active');
       active.setAttribute('aria-checked', 'true');
       active.setAttribute('tabindex', '0');
-      applyColumns(active.dataset.donationType || 'general');
+      const type = (active.dataset.donationType || 'general').toLowerCase();
+      applyColumns(type);
     }
   };
 
