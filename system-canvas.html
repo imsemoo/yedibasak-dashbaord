@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - System Canvas</title>
+  <meta name="description" content="System UI kit for offcanvas drawers (filters, details, editors)." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/system-canvas" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    .sys-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 992px) {
+      .sys-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sys-card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: var(--space-4);
+    }
+
+    .sys-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    /* Optional: make offcanvas match your cards */
+    .offcanvas {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border-left: 1px solid var(--color-border);
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Ensure offcanvas is fixed, above the backdrop and animate smoothly */
+    .offcanvas {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1085;
+      /* above backdrop */
+      /* start hidden off-screen and animate into view */
+      transition: transform .32s cubic-bezier(.2, .8, .2, 1), visibility .32s linear, opacity .2s ease;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateX(100%);
+    }
+
+    /* offcanvas from the left */
+    .offcanvas.offcanvas-start {
+      transform: translateX(-100%);
+      left: 0;
+      right: auto;
+    }
+
+    /* offcanvas from the right (default) */
+    .offcanvas.offcanvas-end {
+      transform: translateX(100%);
+      right: 0;
+      left: auto;
+    }
+
+    .offcanvas.show {
+      transform: translateX(0);
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .offcanvas-backdrop {
+      z-index: 1080 !important;
+    }
+
+    .offcanvas-header {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .offcanvas-title {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .oc-section {
+      padding: var(--space-4);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface-alt);
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">System Docs</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li><a href="system-modals.html" class="sidebar-sublink"><i
+                  class="fa-solid fa-window-restore"></i><span>System modals</span></a></li>
+            <li><a href="system-canvas.html" class="sidebar-sublink is-active"><i
+                  class="fa-solid fa-right-to-bracket"></i><span>System canvas</span></a></li>
+            <li><a href="system-components.html" class="sidebar-sublink"><i
+                  class="fa-solid fa-layer-group"></i><span>System components</span></a></li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">System canvas</h2>
+          </div>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="app-content" id="main-content" tabindex="-1" data-page="system-canvas">
+        <section class="card page-header" aria-labelledby="sys-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li aria-current="page">System canvas</li>
+              </ol>
+            </nav>
+
+            <div class="page-header__title">
+              <h1 id="sys-title" class="h3">Offcanvas / Drawer Library</h1>
+              <p class="page-header__subtitle text-muted">
+                Standard patterns: filters, details, quick edit, bulk actions.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="sys-grid">
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Canvas presets</h3>
+                <p class="text-muted mb-0">Use Bootstrap offcanvas with consistent header/actions.</p>
+              </div>
+            </div>
+
+            <div class="sys-btns">
+              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#ocFilters">
+                Filters canvas
+              </button>
+              <button class="btn btn-ghost" type="button" data-bs-toggle="offcanvas" data-bs-target="#ocDetails">
+                Details canvas
+              </button>
+              <button class="btn btn-ghost" type="button" data-bs-toggle="offcanvas" data-bs-target="#ocEditor">
+                Quick editor
+              </button>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="oc-section">
+              <p class="mb-1"><strong>Backend rule:</strong></p>
+              <p class="mb-0 text-muted">Offcanvas is preferred for non-destructive flows (filters/details). Destructive
+                actions stay in SweetAlert2 confirm.</p>
+            </div>
+          </section>
+
+          <aside class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">JS usage</h3>
+                <p class="text-muted mb-0">Open/close programmatically.</p>
+              </div>
+            </div>
+
+            <div class="oc-section">
+              <p class="mb-2"><code>bootstrap.Offcanvas.getOrCreateInstance('#ocFilters').show()</code></p>
+              <p class="mb-0"><code>bootstrap.Offcanvas.getInstance(el).hide()</code></p>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ===================== Offcanvas ===================== -->
+
+  <!-- Filters -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="ocFilters" aria-labelledby="ocFiltersLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="ocFiltersLabel">Table filters</h5>
+      <button type="button" class="icon-button" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="form-field mb-3">
+        <label class="form-label" for="fStatus">Status</label>
+        <select class="form-control" id="fStatus">
+          <option value="">All</option>
+          <option value="active" selected>Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="form-field mb-3">
+        <label class="form-label" for="fSearch">Search</label>
+        <input class="form-control" id="fSearch" type="search" placeholder="Search by name..." />
+      </div>
+
+      <div class="d-flex justify-content-end" style="gap: var(--space-2);">
+        <button type="button" class="btn btn-ghost" data-bs-dismiss="offcanvas">Cancel</button>
+        <button type="button" class="btn btn-primary">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Details -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="ocDetails" aria-labelledby="ocDetailsLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="ocDetailsLabel">Country details</h5>
+      <button type="button" class="icon-button" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="card p-3 mb-3">
+        <p class="eyebrow mb-1">Summary</p>
+        <p class="mb-1"><strong>Name:</strong> United Kingdom</p>
+        <p class="mb-1"><strong>Code:</strong> UK</p>
+        <p class="mb-0 text-muted"><strong>Status:</strong> Active</p>
+      </div>
+
+      <div class="card p-3">
+        <p class="eyebrow mb-1">Notes</p>
+        <p class="mb-0 text-muted">Use this canvas for quick read only info, not editing.</p>
+      </div>
+
+      <div class="d-flex justify-content-end mt-3" style="gap: var(--space-2);">
+        <button type="button" class="btn btn-ghost" data-bs-dismiss="offcanvas">Close</button>
+        <button type="button" class="btn btn-primary">Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editor -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="ocEditor" aria-labelledby="ocEditorLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="ocEditorLabel">Quick edit</h5>
+      <button type="button" class="icon-button" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="form-field mb-3">
+        <label class="form-label" for="eName">Name</label>
+        <input class="form-control" id="eName" type="text" value="United Kingdom" />
+      </div>
+      <div class="form-field mb-3">
+        <label class="form-label" for="eStatus">Status</label>
+        <select class="form-control" id="eStatus">
+          <option value="active" selected>Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="d-flex justify-content-end" style="gap: var(--space-2);">
+        <button type="button" class="btn btn-ghost" data-bs-dismiss="offcanvas">Cancel</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>

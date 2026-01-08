@@ -28,7 +28,7 @@
     chip.dataset.value = value;
     chip.innerHTML = `
       <span class="cs-chip__label"></span>
-      <button type="button" class="cs-chip__x" aria-label="Remove">�</button>
+      <button type="button" class="cs-chip__x" aria-label="Remove"><i class="fa-solid fa-chevron-down"></i></button>
     `;
     chip.querySelector('.cs-chip__label').textContent = label;
     return chip;

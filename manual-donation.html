@@ -23,10 +23,13 @@
   <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
 
   <!-- Stylesheets -->
+
   <link rel="stylesheet" href="assets/css/normalize.css" />
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
   <link rel="stylesheet" href="assets/css/all.min.css" />
+  <!-- Select2 (Searchable Select / Multi Select) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
@@ -427,14 +430,14 @@
                   </div>
 
                   <div class="form-field form-field--inline">
-                    <div>
+                    <div class="form-field">
                       <label class="form-label" for="manualDate">Donation date</label>
                       <input class="form-control" type="date" id="manualDate" />
                     </div>
-                    <div>
+                    <div class="form-field">
                       <label class="form-label" for="manualCampaign">Campaign</label>
-                      <select class="form-control" id="manualCampaign">
-                        <option value="">Select campaign</option>
+
+                      <select class="form-control js-select2" id="manualCampaign" data-placeholder="Choose campaign...">
                         <option value="Clean Water Initiative">Clean Water Initiative</option>
                         <option value="Healthcare Fund">Healthcare Fund</option>
                         <option value="Education for All">Education for All</option>
@@ -588,10 +591,12 @@
   <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
-  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <!-- Select2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
   <script src="assets/js/script.js" defer></script>
+  <script src="assets/js/ui-script.js"></script>
 </body>
 
 </html>

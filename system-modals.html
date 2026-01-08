@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - System Modals</title>
+  <meta name="description" content="System UI kit for Bootstrap modals (sizes, forms, confirmations, media, lists)." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/system-modals" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    .sys-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 992px) {
+      .sys-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sys-card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: var(--space-4);
+    }
+
+    .sys-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .sys-note {
+      background: var(--color-primary-soft);
+      border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+    }
+
+    .sys-note code {
+      background: color-mix(in srgb, var(--color-border) 35%, transparent);
+      border-radius: 10px;
+      padding: 2px 8px;
+    }
+
+    .c-modal__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .c-modal__title {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .c-modal__desc {
+      margin: 0;
+      color: var(--color-text-muted);
+    }
+
+    .c-modal__footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+        <a class="sidebar__link" href="campaigns.html">
+          <i class="fas fa-bullhorn sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Campaigns</span>
+        </a>
+        <a class="sidebar__link" href="donations.html">
+          <i class="fas fa-hand-holding-heart sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donations</span>
+        </a>
+        <a class="sidebar__link" href="donors.html">
+          <i class="fas fa-users sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Donors</span>
+        </a>
+        <a class="sidebar__link" href="messages.html">
+          <i class="fas fa-envelope sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Messages</span>
+        </a>
+        <a class="sidebar__link" href="settings.html">
+          <i class="fas fa-cog sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Settings</span>
+        </a>
+
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li>
+              <a href="system-alerts.html" class="sidebar-sublink">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <span>System alerts</span>
+              </a>
+            </li>
+            <li>
+              <a href="system-modals.html" class="sidebar-sublink is-active">
+                <i class="fa-solid fa-window-restore" aria-hidden="true"></i>
+                <span>System modals</span>
+              </a>
+            </li>
+            <li>
+              <a href="system-canvas.html" class="sidebar-sublink">
+                <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+                <span>System canvas</span>
+              </a>
+            </li>
+            <li>
+              <a href="system-components.html" class="sidebar-sublink">
+                <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                <span>System components</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <!-- Header -->
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">System modals</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search dashboard">
+            <label class="sr-only" for="dashboard-search">Search dashboard</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-search" type="search" name="q" placeholder="Search UI kit" autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="app-content" id="main-content" tabindex="-1" data-page="system-modals">
+        <section class="card page-header" aria-labelledby="sys-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li aria-current="page">System modals</li>
+              </ol>
+            </nav>
+
+            <div class="page-header__title">
+              <h1 id="sys-title" class="h3">Bootstrap Modals Library</h1>
+              <p class="page-header__subtitle text-muted">
+                Reusable modal patterns: confirm, forms, details, media, and list pickers.
+              </p>
+            </div>
+          </div>
+
+          <div class="page-header__actions">
+            <button class="btn btn-ghost" type="button" data-copy-modal-markup>
+              <i class="fa-regular fa-copy" aria-hidden="true"></i>
+              Copy notes
+            </button>
+          </div>
+        </section>
+
+        <section class="sys-grid">
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Modal presets</h3>
+                <p class="text-muted mb-0">Use as templates and wire with backend.</p>
+              </div>
+            </div>
+
+            <div class="sys-btns">
+              <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#mConfirm">
+                Confirm modal
+              </button>
+              <button class="btn btn-ghost" type="button" data-bs-toggle="modal" data-bs-target="#mForm">
+                Form modal
+              </button>
+              <button class="btn btn-ghost" type="button" data-bs-toggle="modal" data-bs-target="#mDetails">
+                Details modal
+              </button>
+              <button class="btn btn-ghost" type="button" data-bs-toggle="modal" data-bs-target="#mMedia">
+                Media modal
+              </button>
+              <button class="btn btn-ghost" type="button" data-bs-toggle="modal" data-bs-target="#mPicker">
+                Picker modal
+              </button>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="sys-note">
+              <p class="mb-2"><strong>Guideline:</strong> keep only UI in these pages.</p>
+              <p class="mb-0">
+                Backend calls should only: fill content + toggle open/close + handle submit.
+              </p>
+            </div>
+          </section>
+
+          <aside class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Quick integration</h3>
+                <p class="text-muted mb-0">How backend should hook it.</p>
+              </div>
+            </div>
+
+            <div class="sys-note mb-3">
+              <p class="mb-2"><strong>Open modal:</strong></p>
+              <p class="mb-0"><code>bootstrap.Modal.getOrCreateInstance('#mForm').show()</code></p>
+            </div>
+
+            <div class="sys-note">
+              <p class="mb-2"><strong>Fill content:</strong></p>
+              <p class="mb-0"><code>document.querySelector('[data-x]').textContent = ...</code></p>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ===================== Modals ===================== -->
+
+  <!-- Confirm -->
+  <div class="modal fade" id="mConfirm" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card">
+        <div class="modal-body">
+          <div class="c-modal__header">
+            <div>
+              <h3 class="c-modal__title">Delete item?</h3>
+              <p class="c-modal__desc">This action cannot be undone.</p>
+            </div>
+            <button type="button" class="icon-button" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="c-modal__footer">
+            <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-confirm-action>Yes, delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="modal fade" id="mForm" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content card">
+        <div class="modal-body">
+          <div class="c-modal__header">
+            <div>
+              <h3 class="c-modal__title">Create new city</h3>
+              <p class="c-modal__desc">Use this pattern for CRUD forms.</p>
+            </div>
+            <button type="button" class="icon-button" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <form class="form-grid" action="#" method="post" novalidate>
+            <div class="form-field">
+              <label class="form-label" for="mCityName">City name</label>
+              <input class="form-control" id="mCityName" type="text" placeholder="London" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="mCityCode">City code</label>
+              <input class="form-control" id="mCityCode" type="text" placeholder="LDN" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="mCityStatus">Status</label>
+              <select class="form-control" id="mCityStatus">
+                <option value="active" selected>Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+
+            <div class="c-modal__footer">
+              <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Details -->
+  <div class="modal fade" id="mDetails" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+      <div class="modal-content card">
+        <div class="modal-body">
+          <div class="c-modal__header">
+            <div>
+              <h3 class="c-modal__title">Payment method details</h3>
+              <p class="c-modal__desc">Read-only details pattern.</p>
+            </div>
+            <button type="button" class="icon-button" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <div class="card p-3">
+                <p class="eyebrow mb-1">Summary</p>
+                <p class="mb-1"><strong>Type:</strong> Credit card</p>
+                <p class="mb-1"><strong>Provider:</strong> Stripe</p>
+                <p class="mb-0 text-muted"><strong>Status:</strong> Active</p>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card p-3">
+                <p class="eyebrow mb-1">Meta</p>
+                <p class="mb-1"><strong>Created:</strong> 2025-12-01</p>
+                <p class="mb-1"><strong>Updated:</strong> 2025-12-18</p>
+                <p class="mb-0 text-muted"><strong>ID:</strong> pm_10293</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="c-modal__footer">
+            <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Media -->
+  <div class="modal fade" id="mMedia" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content card">
+        <div class="modal-body">
+          <div class="c-modal__header">
+            <div>
+              <h3 class="c-modal__title">Media preview</h3>
+              <p class="c-modal__desc">Use for images/videos attachments.</p>
+            </div>
+            <button type="button" class="icon-button" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="card p-3">
+            <img src="assets/img/logo.png" alt="Preview" style="width:100%; border-radius: var(--radius-md);" />
+          </div>
+
+          <div class="c-modal__footer">
+            <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Replace</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Picker -->
+  <div class="modal fade" id="mPicker" tabindex="-1" aria-hidden="true" backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content card">
+        <div class="modal-body">
+          <div class="c-modal__header">
+            <div>
+              <h3 class="c-modal__title">Pick a country</h3>
+              <p class="c-modal__desc">Use for lookups and relations.</p>
+            </div>
+            <button type="button" class="icon-button" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="form-field mb-3">
+            <label class="form-label" for="pickerSearch">Search</label>
+            <input class="form-control" id="pickerSearch" type="search" placeholder="Type to filter..." />
+          </div>
+
+          <div class="list-group">
+            <button type="button" class="list-group-item list-group-item-action">United Kingdom</button>
+            <button type="button" class="list-group-item list-group-item-action">Turkey</button>
+            <button type="button" class="list-group-item list-group-item-action">Egypt</button>
+            <button type="button" class="list-group-item list-group-item-action">Kenya</button>
+          </div>
+
+          <div class="c-modal__footer">
+            <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Select</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+  <script src="assets/js/script.js" defer></script>
+
+  <script defer>
+    (function () {
+      const page = document.querySelector('[data-page="system-modals"]');
+      if (!page) return;
+
+      // Demo action: confirm button
+      document.querySelector('[data-confirm-action]')?.addEventListener('click', () => {
+        const m = bootstrap.Modal.getInstance(document.getElementById('mConfirm'));
+        m?.hide();
+      });
+
+      page.querySelector('[data-copy-modal-markup]')?.addEventListener('click', async () => {
+        const txt = `Use IDs:
+# mConfirm  (small confirm)
+# mForm     (form modal)
+# mDetails  (xl details, scrollable)
+# mMedia    (media preview)
+# mPicker   (picker/list)
+
+Open: bootstrap.Modal.getOrCreateInstance('#mForm').show()
+Close: bootstrap.Modal.getInstance(el).hide()
+`;
+        try {
+          await navigator.clipboard.writeText(txt);
+        } catch { }
+      });
+    })();
+  </script>
+</body>
+
+</html>

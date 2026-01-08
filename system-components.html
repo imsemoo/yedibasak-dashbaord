@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donations Dashboard - System Components</title>
+  <meta name="description"
+    content="System UI kit for tables, forms, inputs, select2, multi-select, validation, pagination, and common patterns." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#15C5CE" />
+  <link rel="canonical" href="https://example.org/dashboard/system-components" />
+
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <link rel="preload" href="assets/fonts/Jost-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/normalize.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Select2 (Searchable Select / Multi Select) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+
+
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app">
+    <!-- Sidebar (same layout) -->
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar__logo">
+        <a class="sidebar__brand" href="index.html" aria-label="Donations dashboard home">
+          <img src="assets/img/logo.svg" alt="Donations Dashboard logo" height="50" />
+        </a>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Primary">
+        <a class="sidebar__link" href="index.html">
+          <i class="fas fa-th-large sidebar__icon" aria-hidden="true"></i>
+          <span class="sidebar__label">Overview</span>
+        </a>
+
+        <li class="sidebar-item sidebar-item--expandable">
+          <button class="sidebar-link sidebar-link--toggle" type="button" data-submenu="more-menu"
+            aria-controls="more-menu" aria-expanded="false">
+            <span class="d-flex align-items-center" style="gap: var(--space-3);">
+              <i class="fa-solid fa-layer-group sidebar__icon" aria-hidden="true"></i>
+              <span class="sidebar__label">More</span>
+            </span>
+            <i class="fa-solid fa-chevron-right submenu-caret" aria-hidden="true"></i>
+          </button>
+
+          <ul class="sidebar-submenu" id="more-menu" aria-hidden="true">
+            <li><a href="system-alerts.html" class="sidebar-sublink"><i class="fa-solid fa-triangle-exclamation"
+                  aria-hidden="true"></i><span>System alerts</span></a></li>
+            <li><a href="system-modals.html" class="sidebar-sublink"><i class="fa-solid fa-window-restore"
+                  aria-hidden="true"></i><span>System modals</span></a></li>
+            <li><a href="system-canvas.html" class="sidebar-sublink"><i class="fa-solid fa-right-to-bracket"
+                  aria-hidden="true"></i><span>System canvas</span></a></li>
+            <li><a href="system-components.html" class="sidebar-sublink is-active"><i class="fa-solid fa-layer-group"
+                  aria-hidden="true"></i><span>System components</span></a></li>
+          </ul>
+        </li>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay js-sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-main">
+      <!-- Header -->
+      <header class="app-header" aria-label="Dashboard header">
+        <div class="app-header__left">
+          <button class="icon-button js-sidebar-toggle" type="button" aria-label="Toggle sidebar"
+            aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="app-header__titles">
+            <p class="eyebrow">Dashboard</p>
+            <h2 class="h4">System components</h2>
+          </div>
+        </div>
+
+        <div class="app-header__center">
+          <form class="search" role="search" aria-label="Search UI kit">
+            <label class="sr-only" for="kit-search">Search</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="kit-search" type="search" name="q" placeholder="Search components..." autocomplete="off" />
+          </form>
+        </div>
+
+        <div class="app-header__right">
+          <button class="icon-button js-theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="app-content" id="main-content" tabindex="-1" data-page="system-components">
+        <!-- Page header -->
+        <section class="card page-header" aria-labelledby="sys-title">
+          <div>
+            <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><a href="index.html">Dashboard</a></li>
+                <li aria-current="page">System components</li>
+              </ol>
+            </nav>
+
+            <div class="page-header__title">
+              <h1 id="sys-title" class="h3">UI Kit: Forms, Selects, Tables</h1>
+              <p class="page-header__subtitle text-muted">
+                Copy/paste ready patterns. Backend should only bind data + actions.
+              </p>
+            </div>
+          </div>
+
+          <div class="page-header__actions">
+            <button class="btn btn-ghost" type="button" data-copy-notes>
+              <i class="fa-regular fa-copy" aria-hidden="true"></i>
+              Copy dev notes
+            </button>
+          </div>
+        </section>
+
+        <section class="sys-stack">
+
+          <!-- ===================== NOTES ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Developer notes</h3>
+                <p class="sys-subtitle">Naming conventions + data attributes for reuse.</p>
+              </div>
+            </div>
+
+            <div class="sys-note">
+              <p class="mb-2"><strong>Targets:</strong> use <code>data-role</code> for backend hooks
+                (fill/disable/validate).</p>
+              <p class="mb-0"><strong>Plugins:</strong> Select2 is initialized only on elements with
+                <code>.js-select2</code>.
+              </p>
+            </div>
+          </section>
+
+          <!-- ===================== FORMS BASICS ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Inputs & validation states</h3>
+                <p class="sys-subtitle">Text, email, password, numbers, search, input groups.</p>
+              </div>
+            </div>
+
+            <div class="sys-grid-3">
+              <div class="form-field">
+                <label class="form-label" for="fText">Text</label>
+                <input class="form-control" id="fText" type="text" placeholder="Type here..." />
+                <span class="sys-hint">Helper text example.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="fEmail">Email</label>
+                <input class="form-control" id="fEmail" type="email" placeholder="name@company.com" />
+                <span class="sys-hint">Use for email validation.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="fPassword">Password</label>
+                <input class="form-control" id="fPassword" type="password" placeholder="••••••••" />
+                <span class="sys-hint">Use toggle visibility if needed.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="fNumber">Number</label>
+                <input class="form-control" id="fNumber" type="number" placeholder="1000" inputmode="numeric" />
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="fSearch">Search</label>
+                <input class="form-control" id="fSearch" type="search" placeholder="Search..." />
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="fDisabled">Disabled</label>
+                <input class="form-control" id="fDisabled" type="text" value="Disabled value" disabled />
+              </div>
+            </div>
+
+            <div class="sys-divider"></div>
+
+            <div class="sys-grid-2">
+              <div class="form-field sys-field-ok">
+                <label class="form-label" for="fOk">Success state</label>
+                <input class="form-control" id="fOk" type="text" value="Looks good" />
+                <span class="sys-hint">Used after successful validation.</span>
+              </div>
+
+              <div class="form-field sys-field-err">
+                <label class="form-label" for="fErr">Error state</label>
+                <input class="form-control" id="fErr" type="text" value="Wrong value" />
+                <span class="sys-error">This field is required.</span>
+              </div>
+            </div>
+
+            <div class="sys-divider"></div>
+
+            <div class="sys-grid-2">
+              <div class="form-field">
+                <label class="form-label" for="igAmount">Input group (prefix)</label>
+                <div class="input-group">
+                  <span class="input-group-text">₺</span>
+                  <input class="form-control" id="igAmount" type="text" placeholder="50.000" inputmode="numeric" />
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="igSuffix">Input group (suffix)</label>
+                <div class="input-group">
+                  <input class="form-control" id="igSuffix" type="text" placeholder="https://example.org" />
+                  <span class="input-group-text">.org</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================== TEXTAREA + COUNTER ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Textarea & character counter</h3>
+                <p class="sys-subtitle">Common “story/description” pattern.</p>
+              </div>
+            </div>
+
+            <div class="sys-grid-2">
+              <div class="form-field">
+                <label class="form-label" for="taStory">Description</label>
+                <textarea class="form-control" id="taStory" rows="4" data-maxlength="220"
+                  placeholder="Write a short description..." aria-describedby="taCounter"></textarea>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <span class="sys-hint">Max length demo.</span>
+                  <span class="char-counter" id="taCounter">0 / 220</span>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="taNotes">Notes</label>
+                <textarea class="form-control" id="taNotes" rows="4" placeholder="Optional notes..."></textarea>
+                <span class="sys-hint">Use for admin-only notes.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================== CHECK / RADIO / SWITCH ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Checkboxes, radios, switches</h3>
+                <p class="sys-subtitle">Use consistent spacing and labels.</p>
+              </div>
+            </div>
+
+            <div class="sys-grid-3">
+              <div class="form-field">
+                <p class="form-label">Checkbox</p>
+                <label class="d-flex align-items-center" style="gap: 10px;">
+                  <input type="checkbox" checked />
+                  <span>Enable feature</span>
+                </label>
+                <label class="d-flex align-items-center mt-2" style="gap: 10px;">
+                  <input type="checkbox" />
+                  <span>Secondary option</span>
+                </label>
+                <span class="sys-hint">Use for multi true/false flags.</span>
+              </div>
+
+              <div class="form-field">
+                <p class="form-label">Radio group</p>
+                <label class="d-flex align-items-center" style="gap: 10px;">
+                  <input type="radio" name="rg1" checked />
+                  <span>Option A</span>
+                </label>
+                <label class="d-flex align-items-center mt-2" style="gap: 10px;">
+                  <input type="radio" name="rg1" />
+                  <span>Option B</span>
+                </label>
+                <span class="sys-hint">Use when only one is allowed.</span>
+              </div>
+
+              <div class="form-field">
+                <p class="form-label">Switch</p>
+                <div class="cs-toggle">
+                  <div class="cs-toggle__info">
+                    <span class="cs-toggle__label">Active</span>
+                    <span class="cs-toggle__helper">Toggle status on/off.</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked />
+                    <span class="switch__control" aria-hidden="true"></span>
+                  </label>
+                </div>
+                <span class="sys-hint">Use for primary enable/disable toggles.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================== DATE / TIME ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Date & time fields</h3>
+                <p class="sys-subtitle">UI-only patterns using native inputs.</p>
+              </div>
+            </div>
+
+            <div class="sys-grid-3">
+              <div class="form-field">
+                <label class="form-label" for="d1">Date</label>
+                <input class="form-control" id="d1" type="date" />
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="t1">Time</label>
+                <input class="form-control" id="t1" type="time" />
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="dr1">Date range (simple)</label>
+                <div class="d-flex" style="gap: var(--space-2);">
+                  <input class="form-control" type="date" aria-label="Start date" />
+                  <input class="form-control" type="date" aria-label="End date" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================== FILE UPLOAD ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">File upload</h3>
+                <p class="sys-subtitle">Simple dropzone-like pattern (UI only).</p>
+              </div>
+            </div>
+
+            <label class="sys-upload" for="upload1">
+              <i class="fa-regular fa-image" aria-hidden="true" style="font-size: 22px;"></i>
+              <strong>Drop files here</strong>
+              <span class="text-muted">PNG, JPG, PDF up to 10MB</span>
+              <input class="sr-only" id="upload1" type="file" />
+            </label>
+          </section>
+
+          <!-- ===================== SELECT2 (SEARCHABLE SELECT) ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Select2: Searchable select</h3>
+                <p class="sys-subtitle">Single select + allow clear + placeholder.</p>
+              </div>
+            </div>
+
+            <div class="sys-grid-2">
+              <div class="form-field">
+                <label class="form-label" for="s2Country">Country (searchable)</label>
+                <select class="form-control js-select2" id="s2Country" data-placeholder="Select country..."
+                  data-allow-clear="true">
+                  <option></option>
+                  <option value="uk" selected>United Kingdom</option>
+                  <option value="tr">Türkiye</option>
+                  <option value="eg">Egypt</option>
+                  <option value="ke">Kenya</option>
+                  <option value="ps">Palestine</option>
+                  <option value="id">Indonesia</option>
+                </select>
+                <span class="sys-hint">Select2 single + placeholder + clear.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="s2City">City (searchable)</label>
+                <select class="form-control js-select2" id="s2City" data-placeholder="Select city...">
+                  <option></option>
+                  <option value="london" selected>London</option>
+                  <option value="istanbul">Istanbul</option>
+                  <option value="cairo">Cairo</option>
+                  <option value="nairobi">Nairobi</option>
+                  <option value="jakarta">Jakarta</option>
+                </select>
+                <span class="sys-hint">Good for City/Payment provider/etc.</span>
+              </div>
+            </div>
+
+            <div class="sys-divider"></div>
+
+            <div class="sys-note">
+              <p class="mb-2"><strong>Backend hint:</strong> keep the select markup stable, backend only injects
+                options.</p>
+              <p class="mb-0">Re-init after options update: <code>$(el).trigger('change.select2')</code> or destroy/init
+                safely.</p>
+            </div>
+          </section>
+
+          <!-- ===================== SELECT2 MULTI ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Select2: Multi select</h3>
+                <p class="sys-subtitle">Multiple + tags mode + token separators.</p>
+              </div>
+            </div>
+
+            <div class="sys-grid-2">
+              <div class="form-field">
+                <label class="form-label" for="s2Tags">Categories (multi)</label>
+                <select class="form-control js-select2" id="s2Tags" multiple data-placeholder="Choose categories...">
+                  <option value="qurban">Qurban</option>
+                  <option value="zakat">Zakat</option>
+                  <option value="sadaka" selected>Sadaka</option>
+                  <option value="gift">Gift</option>
+                  <option value="water">Water</option>
+                  <option value="health">Healthcare</option>
+                </select>
+                <span class="sys-hint">Multi select: best for categories/tags.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="s2TagsNew">Tags mode (user can type)</label>
+                <select class="form-control js-select2-tags" id="s2TagsNew" multiple data-placeholder="Type tags...">
+                  <option value="impact" selected>impact</option>
+                  <option value="community">community</option>
+                </select>
+                <span class="sys-hint">Tags enabled: comma/space adds new tag.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================== CUSTOM MULTISELECT (CHIPS) ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Custom multiselect (chips)</h3>
+                <p class="sys-subtitle">Same concept as your existing component, with clean JS + hidden input.</p>
+              </div>
+            </div>
+
+            <div class="sys-grid-2">
+              <div class="cs-multiselect js-cs-multiselect" data-name="campaignTags"
+                data-placeholder="Choose primary categories">
+                <label class="form-label">Categories</label>
+
+                <button type="button" class="cs-multiselect__control" data-control aria-haspopup="listbox"
+                  aria-expanded="false">
+                  <span class="cs-multiselect__placeholder" data-placeholder>Choose primary categories</span>
+                  <div class="cs-multiselect__chips" data-chips></div>
+                  <span class="cs-multiselect__chev" aria-hidden="true"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+
+                <div class="cs-multiselect__dropdown is-hidden" data-dropdown role="listbox"
+                  aria-multiselectable="true">
+                  <button type="button" class="cs-multiselect__option" data-value="qurban" data-label="Qurban">
+                    Qurban · Udhiya, Gift, Other
+                  </button>
+                  <button type="button" class="cs-multiselect__option" data-value="zakat" data-label="Zakat">
+                    Zakat · al-mal, al-fitr
+                  </button>
+                  <button type="button" class="cs-multiselect__option" data-value="sadaka" data-label="Sadaka">
+                    Sadaka · General giving
+                  </button>
+                  <button type="button" class="cs-multiselect__option" data-value="gift" data-label="Gift">
+                    Gift · Seasonal programs
+                  </button>
+                </div>
+
+                <input type="hidden" name="campaignTags" data-hidden value="sadaka" />
+                <span class="sys-hint">Hidden input stores CSV: qurban,zakat,...</span>
+              </div>
+
+              <div class="sys-note">
+                <p class="mb-2"><strong>When to prefer this over Select2?</strong></p>
+                <ul class="mb-0" style="padding-left: 18px;">
+                  <li>When options are small (<= 20) and you want “chip-first” UX.</li>
+                  <li>When you want full control over markup/RTL/animations.</li>
+                  <li>When you want zero plugin dependency.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================== TABLE DEFAULT + PAGINATION ===================== -->
+          <section class="card">
+            <div class="sys-card-title">
+              <div>
+                <h3 class="h4 mb-1">Table (default) + toolbar + pagination</h3>
+                <p class="sys-subtitle">This is the default list style (no cards).</p>
+              </div>
+
+              <div class="d-flex" style="gap: var(--space-2);">
+                <button class="btn btn-ghost" type="button">Export</button>
+                <button class="btn btn-primary" type="button">Add new</button>
+              </div>
+            </div>
+
+            <div class="sys-toolbar">
+              <div class="sys-toolbar__left">
+                <div class="form-field mb-0" style="min-width: 280px;">
+                  <label class="sr-only" for="tSearch">Search</label>
+                  <input class="form-control" id="tSearch" type="search" placeholder="Search..." />
+                </div>
+
+                <select class="form-control" style="width: 210px;">
+                  <option value="">Status: All</option>
+                  <option value="active" selected>Status: Active</option>
+                  <option value="inactive">Status: Inactive</option>
+                </select>
+
+                <button class="btn btn-ghost" type="button">Filters</button>
+              </div>
+
+              <div class="sys-toolbar__right">
+                <button class="btn btn-ghost" type="button" disabled data-bulk-btn>
+                  Bulk actions
+                </button>
+              </div>
+            </div>
+
+            <div class="cs-table-wrap" role="region" aria-label="Table">
+              <table class="cs-table" aria-describedby="table-help">
+                <thead>
+                  <tr>
+                    <th style="width:52px;">
+                      <label class="sr-only" for="tAll">Select all</label>
+                      <input id="tAll" type="checkbox" data-select-all />
+                    </th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Status</th>
+                    <th>Updated</th>
+                    <th style="width:200px; text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox" data-row-check /></td>
+                    <td><strong>United Kingdom</strong></td>
+                    <td>UK</td>
+                    <td><span class="status-pill status-pill--success">Active</span></td>
+                    <td class="text-muted">2025-12-18</td>
+                    <td>
+                      <div class="cs-cell-actions">
+                        <button class="btn btn-ghost btn-sm" type="button">View</button>
+                        <button class="btn btn-ghost btn-sm" type="button">Edit</button>
+                        <button class="btn btn-ghost btn-sm" type="button">Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td><input type="checkbox" data-row-check /></td>
+                    <td><strong>Türkiye</strong></td>
+                    <td>TR</td>
+                    <td><span class="status-pill status-pill--draft">Draft</span></td>
+                    <td class="text-muted">2025-11-01</td>
+                    <td>
+                      <div class="cs-cell-actions">
+                        <button class="btn btn-ghost btn-sm" type="button">View</button>
+                        <button class="btn btn-ghost btn-sm" type="button">Edit</button>
+                        <button class="btn btn-ghost btn-sm" type="button">Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="text-muted mt-2 mb-0" id="table-help">Component: table + toolbar + bulk + unified pagination.</p>
+
+            <!-- Pagination component (unified) -->
+            <div class="cs-pagination" data-pagination>
+              <div class="cs-pagination__meta">
+                Showing <strong>1–10</strong> of <strong>82</strong>
+              </div>
+
+              <nav class="cs-pagination__nav" aria-label="Pagination">
+                <button class="cs-page-btn" type="button" disabled aria-label="Previous page">
+                  <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                <button class="cs-page-btn is-active" type="button" aria-current="page">1</button>
+                <button class="cs-page-btn" type="button">2</button>
+                <button class="cs-page-btn" type="button">3</button>
+                <span class="text-muted px-2">…</span>
+                <button class="cs-page-btn" type="button">9</button>
+                <button class="cs-page-btn" type="button" aria-label="Next page">
+                  <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </button>
+              </nav>
+            </div>
+          </section>
+
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- JS Files -->
+  <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/bootstrap.bundle.min.js" defer></script>
+
+  <!-- Select2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
+
+  <script src="assets/js/script.js" defer></script>
+  <script src="assets/js/ui-script.js" defer></script>
+
+</body>
+
+</html>
