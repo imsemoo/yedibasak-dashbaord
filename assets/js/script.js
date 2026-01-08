@@ -1635,6 +1635,110 @@
   };
 
   /**
+   * Donation type selector (donations page) — toggles which table columns are visible
+   * Expects `[data-role="donationTypeSelector"]` with `.donation-type-selector__option` buttons
+   * and a `.donations-table` with headers matching: Donor, Campaign, Amount, Method, Status, Date
+   */
+  const initDonationTypeSelector = () => {
+    const container = document.querySelector('[data-role="donationTypeSelector"]');
+    if (!container) return;
+    const options = Array.from(container.querySelectorAll('.donation-type-selector__option'));
+    const table = document.querySelector('.donations-table');
+    const thead = table?.querySelector('thead');
+    const tbody = table?.querySelector('tbody');
+    if (!table || !thead || !tbody || !options.length) return;
+
+    const headers = Array.from(thead.querySelectorAll('th')).map((h) => h.textContent.trim().toLowerCase());
+
+    const headerKey = (text) => {
+      if (text.includes('donor')) return 'donor';
+      if (text.includes('campaign')) return 'campaign';
+      if (text.includes('amount')) return 'amount';
+      if (text.includes('method')) return 'method';
+      if (text.includes('status')) return 'status';
+      if (text.includes('date')) return 'date';
+      if (text.includes('action')) return 'actions';
+      return text.replace(/\s+/g, '_');
+    };
+
+    const typeColumnMap = {
+      general: ['donor', 'campaign', 'amount', 'method', 'status', 'date'],
+      zakat: ['donor', 'amount', 'status', 'date'],
+      qurbani: ['donor', 'campaign', 'amount', 'date'],
+      gift: ['donor', 'campaign', 'amount', 'method', 'date'],
+      campaigns: ['campaign', 'amount', 'status', 'date'],
+    };
+
+    const applyColumns = (type) => {
+      const allowed = typeColumnMap[type] || typeColumnMap['general'];
+
+      // Toggle headers
+      Array.from(thead.querySelectorAll('th')).forEach((th, idx) => {
+        const key = headerKey(headers[idx]);
+        const show = allowed.includes(key);
+        th.style.display = show ? '' : 'none';
+        th.setAttribute('aria-hidden', show ? 'false' : 'true');
+      });
+
+      // Toggle each row cell by index
+      Array.from(tbody.querySelectorAll('tr')).forEach((row) => {
+        Array.from(row.children).forEach((cell, idx) => {
+          const key = headerKey(headers[idx]);
+          const show = allowed.includes(key);
+          cell.style.display = show ? '' : 'none';
+          cell.setAttribute('aria-hidden', show ? 'false' : 'true');
+        });
+      });
+    };
+
+    options.forEach((opt) => {
+      opt.addEventListener('click', () => {
+        options.forEach((o) => {
+          o.setAttribute('aria-checked', 'false');
+          o.setAttribute('tabindex', '-1');
+          o.classList.remove('is-active');
+        });
+        opt.setAttribute('aria-checked', 'true');
+        opt.setAttribute('tabindex', '0');
+        opt.classList.add('is-active');
+        const type = opt.dataset.donationType || 'general';
+        applyColumns(type);
+      });
+    });
+
+    // keyboard navigation inside the radiogroup
+    container.addEventListener('keydown', (e) => {
+      const focused = document.activeElement;
+      if (!focused || !focused.classList.contains('donation-type-selector__option')) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = focused.nextElementSibling || options[0];
+        next.focus();
+        next.click();
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = focused.previousElementSibling || options[options.length - 1];
+        prev.focus();
+        prev.click();
+      }
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        focused.click();
+      }
+    });
+
+    // initialize from existing checked option or first option
+    const active = options.find((o) => o.getAttribute('aria-checked') === 'true') || options[0];
+    if (active) {
+      active.classList.add('is-active');
+      active.setAttribute('aria-checked', 'true');
+      active.setAttribute('tabindex', '0');
+      applyColumns(active.dataset.donationType || 'general');
+    }
+  };
+
+  /**
    * Attach local dropdown menus for campaign cards/rows so publish/archive/clone actions feel interactive.
    * Relies on `.js-actions-toggle`, `.dropdown-menu--actions`, and `.dropdown-actions` wrappers.
    */
@@ -2076,7 +2180,7 @@
 
     const validModes = viewButtons.map((btn) => btn.dataset.viewMode).filter(Boolean);
     const stored = localStorage.getItem(DONATIONS_VIEW_STORAGE_KEY);
-    const fallback = validModes.includes("cards") ? "cards" : validModes[0];
+    const fallback = validModes.includes("table") ? "table" : validModes[0];
     const initialMode = stored && validModes.includes(stored) ? stored : fallback;
 
     const setActiveView = (mode) => {
@@ -7248,6 +7352,7 @@
     }
     initCampaignViewToggle();
     initDonationsViewToggle();
+    initDonationTypeSelector();
     initDonorsViewToggle();
     initCampaignFilters();
     initDonationsFilters();
