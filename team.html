@@ -30,6 +30,195 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="assets/css/style.css" />
 
+  <!-- ====== PATCH: Checkbox + Roles CRUD UI (minimal) ====== -->
+  <style>
+    /* ========== Checkbox (global friendly) ========== */
+    .perm-checkbox,
+    .invite-scope-grid label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .perm-checkbox input[type="checkbox"],
+    .invite-scope-grid input[type="checkbox"],
+    input[type="checkbox"].c-check {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+      background: var(--color-surface, #fff);
+      display: inline-grid;
+      place-items: center;
+      box-shadow: inset 0 0 0 1px transparent;
+      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .12s ease;
+      flex: 0 0 18px;
+    }
+
+    .perm-checkbox input[type="checkbox"]::after,
+    .invite-scope-grid input[type="checkbox"]::after,
+    input[type="checkbox"].c-check::after {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 3px;
+      transform: scale(0);
+      transition: transform .16s ease;
+      background: var(--color-primary, #15C5CE);
+    }
+
+    .perm-checkbox input[type="checkbox"]:checked,
+    .invite-scope-grid input[type="checkbox"]:checked,
+    input[type="checkbox"].c-check:checked {
+      border-color: color-mix(in srgb, var(--color-primary, #15C5CE) 55%, var(--color-border, rgba(0, 0, 0, .12)));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary, #15C5CE) 14%, transparent);
+    }
+
+    .perm-checkbox input[type="checkbox"]:checked::after,
+    .invite-scope-grid input[type="checkbox"]:checked::after,
+    input[type="checkbox"].c-check:checked::after {
+      transform: scale(1);
+    }
+
+    .perm-checkbox input[type="checkbox"]:focus-visible,
+    .invite-scope-grid input[type="checkbox"]:focus-visible,
+    input[type="checkbox"].c-check:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary, #15C5CE) 20%, transparent);
+      border-color: var(--color-primary, #15C5CE);
+    }
+
+    .perm-checkbox input[type="checkbox"]:active,
+    .invite-scope-grid input[type="checkbox"]:active,
+    input[type="checkbox"].c-check:active {
+      transform: scale(0.96);
+    }
+
+    .perm-checkbox input[type="checkbox"][disabled],
+    .invite-scope-grid input[type="checkbox"][disabled],
+    input[type="checkbox"].c-check[disabled] {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    /* ========== Roles list action buttons ========== */
+    .roles-list__title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .roles-list__row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .role-row-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .role-row-actions .icon-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+    }
+
+    /* ========== Simple modal (minimal, matches system) ========== */
+    .c-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+
+    .c-modal[hidden] {
+      display: none;
+    }
+
+    .c-modal__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+    }
+
+    .c-modal__dialog {
+      position: relative;
+      width: min(620px, 96vw);
+      background: var(--color-surface, #fff);
+      border: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+      border-radius: var(--radius-lg, 16px);
+      box-shadow: var(--shadow-card-light, 0 14px 30px rgba(0, 0, 0, .12));
+      overflow: hidden;
+    }
+
+    .c-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+    }
+
+    .c-modal__body {
+      padding: 16px;
+    }
+
+    .c-modal__actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+    }
+
+    .c-field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .c-field label {
+      font-weight: 600;
+    }
+
+    .c-help {
+      color: var(--color-text-muted, rgba(0, 0, 0, .55));
+      font-size: .92rem;
+    }
+
+    /* Toast */
+    .c-toast-wrap {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1100;
+      display: grid;
+      gap: 10px;
+    }
+
+    .c-toast {
+      background: var(--color-surface, #fff);
+      border: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: var(--shadow-card-light, 0 14px 30px rgba(0, 0, 0, .12));
+      min-width: 220px;
+    }
+  </style>
+  <!-- ====== /PATCH ====== -->
+
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -608,6 +797,8 @@
                         </div>
                       </footer>
                     </div>
+
+                    <!-- باقي كروت الـ members كما هي -->
                     <div class="team-member-details-card" data-member-panel="m-2">
                       <header class="team-member-details__header">
                         <div class="avatar avatar-lg" aria-hidden="true">PN</div>
@@ -688,6 +879,7 @@
                         </div>
                       </footer>
                     </div>
+
                     <div class="team-member-details-card" data-member-panel="m-3">
                       <header class="team-member-details__header">
                         <div class="avatar avatar-lg" aria-hidden="true">MS</div>
@@ -768,6 +960,7 @@
                         </div>
                       </footer>
                     </div>
+
                     <div class="team-member-details-card" data-member-panel="m-4">
                       <header class="team-member-details__header">
                         <div class="avatar avatar-lg" aria-hidden="true">LP</div>
@@ -848,6 +1041,7 @@
                         </div>
                       </footer>
                     </div>
+
                     <div class="team-member-details-card" data-member-panel="m-5">
                       <header class="team-member-details__header">
                         <div class="avatar avatar-lg" aria-hidden="true">TM</div>
@@ -928,69 +1122,143 @@
                         </div>
                       </footer>
                     </div>
+
                   </div>
                 </div>
               </aside>
             </div>
           </div>
+
           <div class="team-panel" data-team-panel="roles">
             <div class="roles-layout">
               <aside class="roles-list">
                 <ul class="roles-list__items">
+
                   <li class="roles-list__item is-active" data-role-id="admin">
-                    <button type="button" class="roles-list__button">
-                      <div class="roles-list__title">
-                        <span>Admin</span>
-                        <span class="badge-role badge-role--admin">Full access</span>
+                    <div class="roles-list__row">
+                      <button type="button" class="roles-list__button">
+                        <div class="roles-list__title">
+                          <span>Admin</span>
+                          <span class="badge-role badge-role--admin">Full access</span>
+                        </div>
+                        <p class="roles-list__meta text-muted">4 members</p>
+                      </button>
+
+                      <div class="role-row-actions" role="group" aria-label="Role actions">
+                        <button class="icon-button" type="button" data-role-action="edit" aria-label="Edit role">
+                          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </button>
+                        <button class="icon-button" type="button" data-role-action="delete" aria-label="Delete role">
+                          <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                        </button>
                       </div>
-                      <p class="roles-list__meta text-muted">4 members</p>
-                    </button>
+                    </div>
                   </li>
+
                   <li class="roles-list__item" data-role-id="manager">
-                    <button type="button" class="roles-list__button">
-                      <div class="roles-list__title">
-                        <span>Manager</span>
-                        <span class="badge-role badge-role--manager">Campaigns</span>
+                    <div class="roles-list__row">
+                      <button type="button" class="roles-list__button">
+                        <div class="roles-list__title">
+                          <span>Manager</span>
+                          <span class="badge-role badge-role--manager">Campaigns</span>
+                        </div>
+                        <p class="roles-list__meta text-muted">2 members</p>
+                      </button>
+
+                      <div class="role-row-actions" role="group" aria-label="Role actions">
+                        <button class="icon-button" type="button" data-role-action="edit" aria-label="Edit role">
+                          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </button>
+                        <button class="icon-button" type="button" data-role-action="delete" aria-label="Delete role">
+                          <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                        </button>
                       </div>
-                      <p class="roles-list__meta text-muted">2 members</p>
-                    </button>
+                    </div>
                   </li>
+
                   <li class="roles-list__item" data-role-id="finance">
-                    <button type="button" class="roles-list__button">
-                      <div class="roles-list__title">
-                        <span>Finance</span>
-                        <span class="badge-role badge-role--finance">Finance</span>
+                    <div class="roles-list__row">
+                      <button type="button" class="roles-list__button">
+                        <div class="roles-list__title">
+                          <span>Finance</span>
+                          <span class="badge-role badge-role--finance">Finance</span>
+                        </div>
+                        <p class="roles-list__meta text-muted">1 member</p>
+                      </button>
+
+                      <div class="role-row-actions" role="group" aria-label="Role actions">
+                        <button class="icon-button" type="button" data-role-action="edit" aria-label="Edit role">
+                          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </button>
+                        <button class="icon-button" type="button" data-role-action="delete" aria-label="Delete role">
+                          <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                        </button>
                       </div>
-                      <p class="roles-list__meta text-muted">1 member</p>
-                    </button>
+                    </div>
                   </li>
+
                   <li class="roles-list__item" data-role-id="support">
-                    <button type="button" class="roles-list__button">
-                      <div class="roles-list__title">
-                        <span>Support</span>
-                        <span class="badge-role badge-role--support">Support</span>
+                    <div class="roles-list__row">
+                      <button type="button" class="roles-list__button">
+                        <div class="roles-list__title">
+                          <span>Support</span>
+                          <span class="badge-role badge-role--support">Support</span>
+                        </div>
+                        <p class="roles-list__meta text-muted">2 members</p>
+                      </button>
+
+                      <div class="role-row-actions" role="group" aria-label="Role actions">
+                        <button class="icon-button" type="button" data-role-action="edit" aria-label="Edit role">
+                          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </button>
+                        <button class="icon-button" type="button" data-role-action="delete" aria-label="Delete role">
+                          <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                        </button>
                       </div>
-                      <p class="roles-list__meta text-muted">2 members</p>
-                    </button>
+                    </div>
                   </li>
+
                   <li class="roles-list__item" data-role-id="viewer">
-                    <button type="button" class="roles-list__button">
-                      <div class="roles-list__title">
-                        <span>Viewer</span>
-                        <span class="badge-role badge-role--viewer">Viewer</span>
+                    <div class="roles-list__row">
+                      <button type="button" class="roles-list__button">
+                        <div class="roles-list__title">
+                          <span>Viewer</span>
+                          <span class="badge-role badge-role--viewer">Viewer</span>
+                        </div>
+                        <p class="roles-list__meta text-muted">5 members</p>
+                      </button>
+
+                      <div class="role-row-actions" role="group" aria-label="Role actions">
+                        <button class="icon-button" type="button" data-role-action="edit" aria-label="Edit role">
+                          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </button>
+                        <button class="icon-button" type="button" data-role-action="delete" aria-label="Delete role">
+                          <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                        </button>
                       </div>
-                      <p class="roles-list__meta text-muted">5 members</p>
-                    </button>
+                    </div>
                   </li>
+
                 </ul>
               </aside>
 
               <section class="role-permissions" aria-live="polite">
+
                 <section class="role-permissions__card is-active" data-role-panel="admin">
                   <header class="role-permissions__header">
-                    <h3>Admin permissions</h3>
-                    <p class="text-muted muted">Define what Admins can do across the dashboard.</p>
+                    <div
+                      style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                      <div>
+                        <h3>Admin permissions</h3>
+                        <p class="text-muted muted">Define what Admins can do across the dashboard.</p>
+                      </div>
+                      <button type="button" class="btn btn-primary btn-sm" data-role-open="role-form"
+                        data-role-action="add">
+                        Add role
+                      </button>
+                    </div>
                   </header>
+
                   <div class="role-permissions__sections">
                     <div class="perm-section" data-perm-section="campaigns">
                       <div class="perm-section__head">
@@ -1107,6 +1375,8 @@
                     </div>
                   </footer>
                 </section>
+
+                <!-- باقي الـ role cards زي ما هي -->
 
                 <section class="role-permissions__card" data-role-panel="manager">
                   <header class="role-permissions__header">
@@ -1235,6 +1505,7 @@
                     <h3>Finance permissions</h3>
                     <p class="text-muted muted">Reconciliation and payout specialists.</p>
                   </header>
+
                   <div class="role-permissions__sections">
                     <div class="perm-section">
                       <div class="perm-section__head">
@@ -1595,11 +1866,13 @@
                     </div>
                   </footer>
                 </section>
+
               </section>
             </div>
           </div>
 
         </section>
+
         <aside class="invite-panel" aria-hidden="true">
           <div class="invite-panel__backdrop" data-invite-close></div>
           <div class="invite-panel__sheet">
@@ -1667,7 +1940,6 @@
         </aside>
       </main>
 
-
       <!-- Application footer -->
       <footer class="app-footer">
         <p class="text-muted">&copy; 2025 Donations Dashboard. All rights reserved.</p>
@@ -1675,14 +1947,357 @@
     </div>
   </div>
 
+  <!-- ====== PATCH: Toast + Modals ====== -->
+  <div class="c-toast-wrap" aria-live="polite" aria-atomic="true" data-toast-wrap></div>
+
+  <div class="c-modal" data-role-modal="role-form" hidden>
+    <div class="c-modal__overlay" data-role-close></div>
+    <div class="c-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="role-form-title">
+      <div class="c-modal__header">
+        <h4 id="role-form-title" style="margin:0">Add role</h4>
+        <button type="button" class="icon-button" data-role-close aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <form class="c-modal__body" id="roleForm" novalidate>
+        <input type="hidden" name="roleId" />
+
+        <div class="c-field">
+          <label for="roleName">Role name</label>
+          <input id="roleName" class="form-control" name="roleName" type="text" required
+            placeholder="e.g. Content Editor" />
+          <div class="c-help">Used in roles list (static UI demo).</div>
+        </div>
+
+        <div class="c-field">
+          <label for="roleTag">Role tag</label>
+          <select id="roleTag" class="form-control" name="roleTag" required>
+            <option value="admin">Admin (Full access)</option>
+            <option value="manager">Manager (Campaigns)</option>
+            <option value="finance">Finance</option>
+            <option value="support">Support</option>
+            <option value="viewer">Viewer</option>
+          </select>
+          <div class="c-help">Controls badge style and mapped permissions panel.</div>
+        </div>
+
+        <div class="c-field">
+          <label for="roleMembersCount">Members count</label>
+          <input id="roleMembersCount" class="form-control" name="roleMembersCount" type="number" min="0" step="1"
+            value="0" />
+        </div>
+
+        <div class="c-modal__actions">
+          <button type="button" class="btn btn-light" data-role-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="c-modal" data-role-modal="confirm" hidden>
+    <div class="c-modal__overlay" data-role-close></div>
+    <div class="c-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div class="c-modal__header">
+        <h4 id="confirm-title" style="margin:0">Confirm</h4>
+        <button type="button" class="icon-button" data-role-close aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="c-modal__body">
+        <p style="margin:0" data-confirm-text>Are you sure?</p>
+      </div>
+      <div class="c-modal__actions">
+        <button type="button" class="btn btn-light" data-role-close>Cancel</button>
+        <button type="button" class="btn btn-danger" data-confirm-yes>Delete</button>
+      </div>
+    </div>
+  </div>
+  <!-- ====== /PATCH ====== -->
+
   <!-- JavaScript Files -->
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
   <script src="assets/js/owl.carousel.min.js" defer></script>
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="assets/js/script.js" defer></script>
+
+  <!-- ====== PATCH: Roles CRUD (UI demo) + Confirm + Toast ====== -->
+  <script defer>
+    (function () {
+      const rolesPanel = document.querySelector('[data-team-panel="roles"]');
+      if (!rolesPanel) return;
+
+      // Toast
+      function toast(msg) {
+        const wrap = document.querySelector('[data-toast-wrap]');
+        if (!wrap) return;
+        const t = document.createElement('div');
+        t.className = 'c-toast';
+        t.textContent = msg;
+        wrap.appendChild(t);
+        setTimeout(() => {
+          t.style.opacity = '0';
+          t.style.transition = 'opacity 220ms';
+          setTimeout(() => t.remove(), 240);
+        }, 2400);
+      }
+
+      // Modals
+      function openModal(name) {
+        const m = document.querySelector('[data-role-modal="' + name + '"]');
+        if (m) m.hidden = false;
+      }
+      function closeModal(el) {
+        const m = el?.closest?.('[data-role-modal]');
+        if (m) m.hidden = true;
+      }
+      document.addEventListener('click', (e) => {
+        const closeBtn = e.target.closest('[data-role-close]');
+        if (closeBtn) closeModal(closeBtn);
+
+        // optional: click outside modal content
+        const modal = e.target.closest('[data-role-modal]');
+        if (modal && e.target === modal && modal.getAttribute('data-modal-backdrop-close') === 'true') {
+          modal.hidden = true;
+        }
+      });
+
+      const listEl = rolesPanel.querySelector('.roles-list__items');
+      if (!listEl) return;
+
+      const tagLabel = {
+        admin: 'Full access',
+        manager: 'Campaigns',
+        finance: 'Finance',
+        support: 'Support',
+        viewer: 'Viewer'
+      };
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
+      }
+
+      // Build initial state from DOM (supports both old/new markup safely)
+      const state = {
+        roles: Array.from(listEl.querySelectorAll('.roles-list__item')).map((li) => {
+          const id = li.getAttribute('data-role-id') || ('role-' + Math.random().toString(16).slice(2));
+          const title = li.querySelector('.roles-list__title span')?.textContent?.trim() || 'Role';
+          const badgeCls = li.querySelector('.badge-role')?.className || 'badge-role badge-role--viewer';
+          const membersText = li.querySelector('.roles-list__meta')?.textContent || '0 members';
+          const membersCount = parseInt((membersText.match(/\d+/) || ['0'])[0], 10);
+          const tag = (badgeCls.match(/badge-role--(\w+)/) || [])[1] || 'viewer';
+          return { id, title, tag, membersCount };
+        }),
+        confirm: { id: null }
+      };
+
+      function setActiveRole(id) {
+        const li = listEl.querySelector('.roles-list__item[data-role-id="' + CSS.escape(id) + '"]');
+        if (!li) return;
+
+        listEl.querySelectorAll('.roles-list__item').forEach(x => x.classList.remove('is-active'));
+        li.classList.add('is-active');
+
+        const role = state.roles.find(r => r.id === id);
+        if (!role) return;
+
+        rolesPanel.querySelectorAll('[data-role-panel]').forEach(card => card.classList.remove('is-active'));
+        const card = rolesPanel.querySelector('[data-role-panel="' + role.tag + '"]');
+        if (card) card.classList.add('is-active');
+      }
+
+      function getActiveRoleIdFromDom() {
+        return listEl.querySelector('.roles-list__item.is-active')?.getAttribute('data-role-id');
+      }
+
+      function renderRoles({ keepActive = true } = {}) {
+        const prevActiveId = keepActive ? getActiveRoleIdFromDom() : null;
+
+        listEl.innerHTML = '';
+
+        state.roles.forEach((r, idx) => {
+          const li = document.createElement('li');
+          li.className = 'roles-list__item';
+          li.setAttribute('data-role-id', r.id);
+
+          const shouldBeActive = (prevActiveId && r.id === prevActiveId) || (!prevActiveId && idx === 0);
+          if (shouldBeActive) li.classList.add('is-active');
+
+          // NEW markup: row wrapper + button + actions (no nested buttons)
+          li.innerHTML = `
+          <div class="roles-list__row">
+            <button type="button" class="roles-list__button">
+              <div class="roles-list__title">
+                <span>${escapeHtml(r.title)}</span>
+                <span class="badge-role badge-role--${escapeHtml(r.tag)}">${escapeHtml(tagLabel[r.tag] || 'Role')}</span>
+              </div>
+              <p class="roles-list__meta text-muted">${r.membersCount} ${r.membersCount === 1 ? 'member' : 'members'}</p>
+            </button>
+
+            <div class="role-row-actions" role="group" aria-label="Role actions">
+              <button class="icon-button" type="button" data-role-action="edit" aria-label="Edit role">
+                <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+              </button>
+              <button class="icon-button" type="button" data-role-action="delete" aria-label="Delete role">
+                <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+          const selectBtn = li.querySelector('.roles-list__button');
+          const editBtn = li.querySelector('[data-role-action="edit"]');
+          const delBtn = li.querySelector('[data-role-action="delete"]');
+
+          // Select role
+          selectBtn.addEventListener('click', () => setActiveRole(r.id));
+
+          // Edit/Delete (stop bubbling)
+          editBtn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            openEditRole(r.id);
+          });
+
+          delBtn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            openDeleteConfirm(r.id);
+          });
+
+          listEl.appendChild(li);
+        });
+
+        // Ensure active card after re-render
+        const activeNow = getActiveRoleIdFromDom() || state.roles[0]?.id;
+        if (activeNow) setActiveRole(activeNow);
+      }
+
+      // Role form modal
+      const roleForm = document.getElementById('roleForm');
+      const roleFormTitle = document.getElementById('role-form-title');
+      const roleName = document.getElementById('roleName');
+      const roleTag = document.getElementById('roleTag');
+      const roleMembersCount = document.getElementById('roleMembersCount');
+
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-role-open="role-form"]');
+        if (!btn) return;
+        const act = btn.getAttribute('data-role-action');
+        if (act === 'add') openAddRole();
+      });
+
+      function openAddRole() {
+        roleForm?.reset?.();
+        if (roleForm?.elements?.roleId) roleForm.elements.roleId.value = '';
+        if (roleMembersCount) roleMembersCount.value = 0;
+        if (roleFormTitle) roleFormTitle.textContent = 'Add role';
+        openModal('role-form');
+        roleName?.focus?.();
+      }
+
+      function openEditRole(id) {
+        const r = state.roles.find(x => x.id === id);
+        if (!r) return;
+
+        roleForm?.reset?.();
+        if (roleForm?.elements?.roleId) roleForm.elements.roleId.value = r.id;
+        if (roleName) roleName.value = r.title;
+        if (roleTag) roleTag.value = r.tag;
+        if (roleMembersCount) roleMembersCount.value = r.membersCount;
+        if (roleFormTitle) roleFormTitle.textContent = 'Edit role';
+        openModal('role-form');
+        roleName?.focus?.();
+      }
+
+      roleForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const id = roleForm.elements.roleId.value || ('role-' + Date.now());
+        const title = (roleName?.value || '').trim();
+        const tag = roleTag?.value || 'viewer';
+        const membersCount = Math.max(0, parseInt(roleMembersCount?.value || '0', 10) || 0);
+
+        if (!title) {
+          toast('Role name is required.');
+          roleName?.focus?.();
+          return;
+        }
+
+        const existing = state.roles.find(x => x.id === id);
+        if (existing) {
+          existing.title = title;
+          existing.tag = tag;
+          existing.membersCount = membersCount;
+          toast('Role updated (demo).');
+        } else {
+          state.roles.push({ id, title, tag, membersCount });
+          toast('Role added (demo).');
+        }
+
+        const modal = document.querySelector('[data-role-modal="role-form"]');
+        if (modal) modal.hidden = true;
+
+        renderRoles({ keepActive: true });
+        setActiveRole(id); // after add/edit select it
+      });
+
+      // Delete confirm
+      const confirmText = document.querySelector('[data-confirm-text]');
+      const confirmYes = document.querySelector('[data-confirm-yes]');
+
+      function openDeleteConfirm(id) {
+        const r = state.roles.find(x => x.id === id);
+        if (!r) return;
+
+        state.confirm.id = id;
+        if (confirmText) confirmText.textContent = `Delete role "${r.title}"? (UI demo)`;
+        openModal('confirm');
+      }
+
+      confirmYes?.addEventListener('click', () => {
+        if (!state.confirm.id) return;
+
+        const id = state.confirm.id;
+        const wasActive = getActiveRoleIdFromDom() === id;
+
+        state.roles = state.roles.filter(x => x.id !== id);
+        state.confirm.id = null;
+
+        const modal = document.querySelector('[data-role-modal="confirm"]');
+        if (modal) modal.hidden = true;
+
+        toast('Role deleted (demo).');
+
+        renderRoles({ keepActive: true });
+
+        // If deleted role was active, ensure a valid active remains
+        if (wasActive) {
+          const next = state.roles[0]?.id;
+          if (next) setActiveRole(next);
+        }
+      });
+
+      // Init
+      renderRoles({ keepActive: true });
+
+      // Ensure correct active card on first load (based on DOM or first role)
+      const initialActiveId = getActiveRoleIdFromDom() || state.roles[0]?.id;
+      if (initialActiveId) setActiveRole(initialActiveId);
+    })();
+  </script>
+  <!-- ====== /PATCH ====== -->
+
+
 </body>
 
 </html>

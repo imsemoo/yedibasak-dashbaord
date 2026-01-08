@@ -8582,7 +8582,6 @@ body[data-theme="dark"] .donor-preview-card__dnc-pill {
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-card-light);
-  overflow: hidden;
   transform: translateX(24px);
   opacity: 0;
   pointer-events: none;
