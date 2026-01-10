@@ -3,100 +3,6 @@
  * team management, exports, and settings screens.
  * Runs in the browser and simply wires UI interactions to the existing backend-
  * rendered pages without adding new API calls yet.
- * 
- * =====================================================================================
- * دليل الوظائف - FUNCTIONS INDEX
- * =====================================================================================
- * 
- * ★ لإيقاف أي وظيفة: ابحث عن اسمها في DOMContentLoaded (نهاية الملف) وعلق عليها
- * ★ To disable any function: Find its call in DOMContentLoaded (end of file) and comment it out
- * 
- * =====================================================================================
- * | الوظائف الأساسية - CORE FUNCTIONS                                                |
- * =====================================================================================
- * | initThemeToggle()           | تبديل الثيم فاتح/داكن      | Theme toggle           |
- * | initSidebar()               | القائمة الجانبية           | Sidebar navigation     |
- * | initSidebarSubmenus()       | القوائم الفرعية            | Sidebar submenus       |
- * | Dropdowns.init()            | القوائم المنسدلة           | All dropdown menus     |
- * | initAccessibilityHelpers()  | مساعدات الوصول            | Keyboard nav           |
- * =====================================================================================
- * 
- * =====================================================================================
- * | صفحة النظرة العامة - OVERVIEW PAGE                                                |
- * =====================================================================================
- * | initOverviewPage()          | الصفحة الرئيسية            | Main dashboard         |
- * | initDonorsOverviewPage()    | نظرة عامة المتبرعين        | Donors overview        |
- * =====================================================================================
- * 
- * =====================================================================================
- * | صفحة الحملات - CAMPAIGNS PAGE                                                     |
- * =====================================================================================
- * | initCampaignViewToggle()    | تبديل عرض بطاقات/جدول     | Cards/table view       |
- * | initCampaignFilters()       | فلاتر الحملات              | Campaign filters       |
- * | initCampaignActions()       | إجراءات الحملات            | Campaign actions       |
- * | refreshCampaignUI()         | تحديث الواجهة              | Refresh UI             |
- * | initCampaignStatusTabs()    | تبويبات الحالة             | Status tabs            |
- * | initCampaignCloseModal()    | نافذة إغلاق الحملة         | Close modal            |
- * | initCampaignPreview()       | معاينة الحملة              | Preview panel          |
- * | initCampaignImageUpload()   | رفع الصور                  | Image upload           |
- * | initCampaignFormFormatting()| تنسيق النموذج              | Form formatting        |
- * | initCampaignFormPreview()   | معاينة النموذج             | Live preview           |
- * | initCampaignFormValidation()| التحقق من النموذج          | Form validation        |
- * | initCampaignCreationExtras()| إضافات الإنشاء             | Creation extras        |
- * =====================================================================================
- * 
- * =====================================================================================
- * | صفحة التبرعات - DONATIONS PAGE                                                    |
- * =====================================================================================
- * | initDonationsViewToggle()   | تبديل عرض بطاقات/جدول     | Cards/table view       |
- * | initDonationTypeSelector()  | محدد نوع التبرع            | Type column toggle     |
- * | initDonationsFilters()      | فلاتر التبرعات             | Donations filters      |
- * | initDonationsActions()      | إجراءات التبرعات           | Donation actions       |
- * | initDonationsPreview()      | معاينة التبرع              | Preview panel          |
- * | initDonationDetailsPage()   | تفاصيل التبرع              | Single donation        |
- * | initDonationsCheckout()     | سلة التبرعات               | Cart & checkout        |
- * =====================================================================================
- * 
- * =====================================================================================
- * | صفحة المتبرعين - DONORS PAGE                                                      |
- * =====================================================================================
- * | initDonorsViewToggle()      | تبديل عرض بطاقات/جدول     | Cards/table view       |
- * | initDonorsFilters()         | فلاتر المتبرعين            | Donors filters         |
- * | initDonorsActions()         | إجراءات المتبرعين          | Donor actions          |
- * | initDonorsPreview()         | معاينة المتبرع             | Preview panel          |
- * | initDonorsPage()            | صفحة المتبرعين             | Donors list            |
- * | initDonorDetailsPage()      | تفاصيل المتبرع             | Single donor           |
- * | initDonorNewPage()          | إضافة متبرع جديد           | New donor form         |
- * | initDonorDonationsPage()    | تبرعات المتبرع             | Donor donations        |
- * =====================================================================================
- * 
- * =====================================================================================
- * | صفحات أخرى - OTHER PAGES                                                          |
- * =====================================================================================
- * | initMessagesPage()          | صفحة الرسائل               | Messages               |
- * | initSettingsPage()          | صفحة الإعدادات             | Settings               |
- * | initTeamPage()              | صفحة الفريق                | Team management        |
- * | initIntegrationsPage()      | صفحة التكاملات             | Integrations           |
- * | initExportsPage()           | صفحة التصدير               | Data exports           |
- * | initAccessAuditPage()       | سجل الوصول                 | Access audit           |
- * =====================================================================================
- * 
- * =====================================================================================
- * | وظائف مساعدة - HELPER FUNCTIONS                                                   |
- * =====================================================================================
- * | initMultiSelectTags()       | الوسوم متعددة الاختيار     | Tag picker             |
- * | markNotificationsAsRead()   | تعليم الإشعارات كمقروءة    | Mark notifications     |
- * =====================================================================================
- * 
- * ★★★ مثال لإيقاف وظيفة - EXAMPLE TO DISABLE A FUNCTION ★★★
- * 
- * في سطر ~7372 ستجد:
- *   initMessagesPage();
- * 
- * لإيقافها، علق عليها هكذا:
- *   // initMessagesPage();  // DISABLED - معطلة
- * 
- * =====================================================================================
  */
 (() => {
   "use strict";
@@ -7463,200 +7369,55 @@
     updateBadge();
   };
 
-  /* ═══════════════════════════════════════════════════════════════════════════════
-   * نقطة التهيئة الرئيسية - MAIN INITIALIZATION POINT
-   * 
-   * لإيقاف أي وظيفة، ضع // قبلها
-   * To disable any function, add // before it
-   * ═══════════════════════════════════════════════════════════════════════════════ */
   document.addEventListener("DOMContentLoaded", () => {
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * الوظائف الأساسية - CORE FUNCTIONS (مطلوبة للتشغيل الأساسي)
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // تبديل الثيم (فاتح/داكن) - Theme toggle (light/dark)
     initThemeToggle();
-
-    // القائمة الجانبية - Sidebar navigation
     initSidebar();
-
-    // القوائم الفرعية في الشريط الجانبي - Sidebar expandable submenus
     initSidebarSubmenus();
-
-    // جميع القوائم المنسدلة - All dropdown menus
     Dropdowns.init();
-
-    // مساعدات الوصول وتنقل لوحة المفاتيح - Accessibility & keyboard navigation
     initAccessibilityHelpers();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * صفحة النظرة العامة - OVERVIEW PAGE
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // الصفحة الرئيسية والرسوم البيانية والخريطة - Main overview with charts & map
     initOverviewPage();
-
-    // صفحة نظرة عامة المتبرعين - Donors overview page
     if (typeof initDonorsOverviewPage === "function") {
       initDonorsOverviewPage();
     }
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * عروض البطاقات والجداول - VIEW TOGGLES (Cards/Table)
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // تبديل عرض الحملات (بطاقات/جدول) - Campaign view toggle (cards/table)
     initCampaignViewToggle();
-
-    // تبديل عرض التبرعات (بطاقات/جدول) - Donations view toggle (cards/table)
     initDonationsViewToggle();
-
-    // محدد نوع التبرع (يتحكم في الأعمدة المرئية) - Donation type selector
     initDonationTypeSelector();
-
-    // تبديل عرض المتبرعين (بطاقات/جدول) - Donors view toggle (cards/table)
     initDonorsViewToggle();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * الفلاتر - FILTERS
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // فلاتر الحملات (الدرج الجانبي) - Campaign filters (side drawer)
     initCampaignFilters();
-
-    // فلاتر التبرعات (الدرج الجانبي) - Donations filters (side drawer)
     initDonationsFilters();
-
-    // فلاتر المتبرعين (الدرج الجانبي) - Donors filters (side drawer)
     initDonorsFilters();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * إجراءات الحملات - CAMPAIGN ACTIONS
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // قوائم إجراءات الحملات (حذف، تعديل، نسخ) - Campaign action menus
     initCampaignActions();
-
-    // تحديث واجهة الحملات (البطاقات والصفوف) - Refresh campaign UI
     refreshCampaignUI();
-
-    // تبويبات حالة الحملات (الكل/نشط/مكتمل) - Campaign status tabs
     initCampaignStatusTabs();
-
-    // نافذة تأكيد إغلاق الحملة - Close campaign confirmation modal
     initCampaignCloseModal();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * إجراءات التبرعات والمتبرعين - DONATIONS & DONORS ACTIONS
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // قوائم إجراءات التبرعات - Donation action menus
     initDonationsActions();
-
-    // قوائم إجراءات المتبرعين - Donor action menus
     initDonorsActions();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * لوحات المعاينة - PREVIEW PANELS
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // لوحة معاينة الحملة - Campaign preview side panel
     initCampaignPreview();
-
-    // لوحة معاينة التبرع - Donation preview side panel
     initDonationsPreview();
-
-    // لوحة معاينة المتبرع - Donor preview side panel
     initDonorsPreview();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * صفحة المتبرعين - DONORS PAGE
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // صفحة قائمة المتبرعين (الجدول والبحث والفرز) - Donors list page
     initDonorsPage();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * نماذج الحملات - CAMPAIGN FORMS
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // محدد الوسوم متعدد الاختيار - Multi-select tag picker
     initMultiSelectTags();
-
-    // منطقة رفع صور وفيديو الحملة - Campaign image/video upload dropzone
     initCampaignImageUpload();
-
-    // تنسيق حقول نموذج الحملة (العملة، الأرقام) - Campaign form field formatting
     initCampaignFormFormatting();
-
-    // معاينة نموذج الحملة المباشرة - Campaign form live preview
     initCampaignFormPreview();
-
-    // التحقق من صحة نموذج الحملة - Campaign form validation
     initCampaignFormValidation();
-
-    // ميزات إضافية لإنشاء الحملة - Extra campaign creation features
     initCampaignCreationExtras();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * صفحات التفاصيل - DETAILS PAGES
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // صفحة تفاصيل تبرع واحد - Single donation details page
     initDonationDetailsPage();
-
-    // صفحة تفاصيل متبرع واحد - Single donor details page
     initDonorDetailsPage();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * سلة التبرعات - DONATIONS CHECKOUT
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // سلة التبرعات وعملية الدفع - Donation cart and checkout process
     initDonationsCheckout();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * صفحات المتبرعين الإضافية - ADDITIONAL DONOR PAGES
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // صفحة تبرعات متبرع معين - Specific donor's donations page
     if (typeof initDonorDonationsPage === "function") {
       initDonorDonationsPage();
     }
-
-    // صفحة إضافة متبرع جديد - New donor creation page
     initDonorNewPage && initDonorNewPage();
-
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * صفحات إدارية أخرى - OTHER ADMIN PAGES
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // صفحة الرسائل والمحادثات - Messages and conversations page
     initMessagesPage();
-
-    // صفحة الإعدادات (الفواتير، الزكاة، أنواع التبرعات) - Settings page
     initSettingsPage();
-
-    // صفحة إدارة الفريق (الأعضاء، الأدوار، الصلاحيات) - Team management page
     initTeamPage();
-
-    // صفحة التكاملات الخارجية - External integrations page
     initIntegrationsPage();
-
-    // صفحة سجل مراجعة الوصول - Access audit log page
     initAccessAuditPage();
-
-    // صفحة تصدير البيانات - Data exports page
     if (typeof initExportsPage === "function") {
       initExportsPage();
     }
 
-    /* ═══════════════════════════════════════════════════════════════════════════
-     * الإشعارات - NOTIFICATIONS
-     * ═══════════════════════════════════════════════════════════════════════════ */
-
-    // زر تعليم جميع الإشعارات كمقروءة - Mark all notifications as read button
     const markAllNotifications = document.querySelector(".js-mark-notifications");
     if (markAllNotifications) {
       markAllNotifications.addEventListener("click", markNotificationsAsRead);

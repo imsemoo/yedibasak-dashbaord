@@ -1,9 +1,48 @@
+/**
+ * UI Script - System Components Page Behaviors
+ * سكريبت واجهة المستخدم - سلوكيات صفحة مكونات النظام
+ * 
+ * =====================================================================================
+ * دليل الوظائف - FUNCTIONS INDEX
+ * =====================================================================================
+ * 
+ * ★ لإيقاف أي وظيفة: ابحث عن اسمها أدناه وعلق على استدعائها
+ * ★ To disable any function: Find it below and comment out its invocation (IIFE call)
+ * 
+ * =====================================================================================
+ * | الوظيفة                     | الوصف بالعربية              | Description              |
+ * =====================================================================================
+ * | Copy Notes Handler          | نسخ الملاحظات للحافظة        | Copy notes to clipboard  |
+ * | initCounters()              | عداد أحرف مربع النص          | Textarea char counter    |
+ * | initTableBulk()             | تحديد صفوف الجدول بالجملة    | Table bulk select all    |
+ * | initSelect2WhenReady()      | تهيئة Select2 المنسدلة       | Init Select2 dropdowns   |
+ * | initCustomMultiselect()     | القائمة المخصصة متعددة الخيار | Custom chips multiselect |
+ * =====================================================================================
+ * 
+ * ★★★ مثال لإيقاف وظيفة - EXAMPLE TO DISABLE A FUNCTION ★★★
+ * 
+ * قبل (تعمل):
+ *   (function initCounters() { ... })();
+ * 
+ * بعد (معطلة):
+ *   // (function initCounters() { ... })();
+ *   // أو ببساطة احذف () في نهاية الوظيفة:
+ *   (function initCounters() { ... }); // بدون () = لن تعمل
+ * 
+ * =====================================================================================
+ */
+
 (function () {
   // Prefer targeting the system-components area, but fall back to `document`
   // so shared widgets (Select2, chips) initialize on other pages too.
   const page = document.querySelector('[data-page="system-components"]') || document;
 
-  /* ===================== Copy notes ===================== */
+  /* ═══════════════════════════════════════════════════════════════════════════════
+   * COPY NOTES - نسخ الملاحظات
+   * وظيفة: نسخ ملاحظات مكونات النظام إلى الحافظة عند الضغط على الزر
+   * Purpose: Copy system components notes to clipboard on button click
+   * لإيقافها: علق على السطر page.querySelector('[data-copy-notes]')?.addEventListener...
+   * ═══════════════════════════════════════════════════════════════════════════════ */
   page.querySelector('[data-copy-notes]')?.addEventListener('click', async () => {
     const txt = `System Components Notes
 - Init Select2 on: .js-select2
@@ -16,7 +55,12 @@
     try { await navigator.clipboard.writeText(txt); } catch (e) { }
   });
 
-  /* ===================== Textarea counter ===================== */
+  /* ═══════════════════════════════════════════════════════════════════════════════
+   * TEXTAREA COUNTER - عداد أحرف مربع النص
+   * وظيفة: عرض عدد الأحرف المكتوبة مقابل الحد الأقصى المسموح
+   * Purpose: Show character count vs max allowed in textarea
+   * لإيقافها: علق على استدعاء الوظيفة })(); في نهايتها
+   * ═══════════════════════════════════════════════════════════════════════════════ */
   (function initCounters() {
     const ta = page.querySelector('#taStory');
     const counter = page.querySelector('#taCounter');
@@ -36,7 +80,12 @@
     sync();
   })();
 
-  /* ===================== Table bulk select ===================== */
+  /* ═══════════════════════════════════════════════════════════════════════════════
+   * TABLE BULK SELECT - تحديد صفوف الجدول بالجملة
+   * وظيفة: تحديد/إلغاء تحديد جميع صفوف الجدول دفعة واحدة + تفعيل زر الإجراء الجماعي
+   * Purpose: Select/deselect all table rows + enable bulk action button
+   * لإيقافها: علق على استدعاء الوظيفة })(); في نهايتها
+   * ═══════════════════════════════════════════════════════════════════════════════ */
   (function initTableBulk() {
     const selectAll = page.querySelector('[data-select-all]');
     const rowChecks = [...page.querySelectorAll('[data-row-check]')];
@@ -61,14 +110,19 @@
     syncBulk();
   })();
 
-  /* ===================== Select2 init (after scripts load) ===================== */
+  /* ═══════════════════════════════════════════════════════════════════════════════
+   * SELECT2 INITIALIZATION - تهيئة Select2
+   * وظيفة: تفعيل مكتبة Select2 على القوائم المنسدلة (.js-select2) والوسوم (.js-select2-tags)
+   * Purpose: Init Select2 on dropdowns (.js-select2) and tag inputs (.js-select2-tags)
+   * لإيقافها: علق على استدعاء الوظيفة })(); في نهايتها
+   * ═══════════════════════════════════════════════════════════════════════════════ */
   (function initSelect2WhenReady() {
     function run() {
       if (typeof window.jQuery === 'undefined' || typeof window.jQuery.fn.select2 === 'undefined') return false;
 
       const $ = window.jQuery;
 
-      // Single/Multi standard
+      // Single/Multi standard - القوائم المنسدلة العادية
       $('.js-select2').each(function () {
         const $el = $(this);
         const placeholder = $el.data('placeholder') || '';
@@ -81,7 +135,7 @@
         });
       });
 
-      // Tags mode
+      // Tags mode - وضع الوسوم
       $('.js-select2-tags').each(function () {
         const $el = $(this);
         const placeholder = $el.data('placeholder') || 'Type...';
@@ -107,32 +161,46 @@
     }, 120);
   })();
 
-  /* ===================== Custom multiselect (chips) ===================== */
+  /* ═══════════════════════════════════════════════════════════════════════════════
+   * CUSTOM MULTISELECT (CHIPS) - القائمة المخصصة متعددة الاختيار
+   * وظيفة: قائمة منسدلة مخصصة تعرض الخيارات كشرائح (chips) قابلة للحذف
+   * Purpose: Custom dropdown showing selections as removable chips
+   * العناصر المطلوبة:
+   *   - [data-control]: زر فتح/إغلاق القائمة
+   *   - [data-dropdown]: القائمة المنسدلة
+   *   - [data-hidden]: حقل مخفي لتخزين القيم (CSV)
+   *   - [data-chips]: حاوية الشرائح
+   *   - [data-placeholder]: نص العنصر النائب
+   * لإيقافها: علق على استدعاء الوظيفة })(); في نهايتها
+   * ═══════════════════════════════════════════════════════════════════════════════ */
   (function initCustomMultiselect() {
     const root = page.querySelector('.js-cs-multiselect');
     if (!root) return;
 
-    const btn = root.querySelector('[data-control]');
-    const dd = root.querySelector('[data-dropdown]');
-    const hidden = root.querySelector('[data-hidden]');
-    const chips = root.querySelector('[data-chips]');
-    const ph = root.querySelector('[data-placeholder]');
+    const btn = root.querySelector('[data-control]');      // زر التحكم
+    const dd = root.querySelector('[data-dropdown]');       // القائمة المنسدلة
+    const hidden = root.querySelector('[data-hidden]');     // الحقل المخفي
+    const chips = root.querySelector('[data-chips]');       // حاوية الشرائح
+    const ph = root.querySelector('[data-placeholder]');    // النص النائب
 
     if (!btn || !dd || !hidden || !chips || !ph) return;
 
     const options = [...dd.querySelectorAll('.cs-multiselect__option')];
 
+    // الحصول على القيم المحددة - Get selected values
     function getSelected() {
       const raw = (hidden.value || '').trim();
       if (!raw) return [];
       return raw.split(',').map(s => s.trim()).filter(Boolean);
     }
 
+    // تعيين القيم المحددة - Set selected values
     function setSelected(list) {
       hidden.value = list.join(',');
       render();
     }
 
+    // رسم الشرائح - Render chips
     function render() {
       const selected = getSelected();
       chips.innerHTML = '';
@@ -167,21 +235,25 @@
       }
     }
 
+    // فتح القائمة - Open dropdown
     function open() {
       dd.classList.remove('is-hidden');
       btn.setAttribute('aria-expanded', 'true');
     }
 
+    // إغلاق القائمة - Close dropdown
     function close() {
       dd.classList.add('is-hidden');
       btn.setAttribute('aria-expanded', 'false');
     }
 
+    // معالج زر التحكم - Toggle button handler
     btn.addEventListener('click', () => {
       const openNow = dd.classList.contains('is-hidden');
       if (openNow) open(); else close();
     });
 
+    // معالج اختيار الخيارات - Option click handler
     options.forEach(o => {
       o.addEventListener('click', () => {
         const v = o.getAttribute('data-value') || '';
@@ -191,10 +263,12 @@
       });
     });
 
+    // إغلاق عند النقر خارج القائمة - Close on outside click
     document.addEventListener('click', (e) => {
       if (!root.contains(e.target)) close();
     });
 
+    // إغلاق عند الضغط على Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') close();
     });

@@ -569,33 +569,30 @@
               </div>
             </div>
 
-            <div class="cs-multiselect js-cs-multiselect" data-name="campaignTags"
-              data-placeholder="Choose primary categories">
+
+            <div class="form-field">
               <label class="form-label" for="campaignTags">Categories</label>
-              <button type="button" class="cs-multiselect__control" data-control aria-haspopup="listbox"
-                aria-expanded="false">
-                <span class="cs-multiselect__placeholder" data-placeholder>Choose primary categories</span>
-                <div class="cs-multiselect__chips" data-chips></div>
-                <span class="cs-multiselect__chev" aria-hidden="true">▾</span>
-              </button>
 
-              <div class="cs-multiselect__dropdown is-hidden" data-dropdown role="listbox" aria-multiselectable="true">
-                <button type="button" class="cs-multiselect__option" data-value="qurban" data-label="Qurban">
-                  Qurban · Udhiya, Gift, Other
-                </button>
-                <button type="button" class="cs-multiselect__option" data-value="zakat" data-label="Zakat">
-                  Zakat · al-mal, al-fitr
-                </button>
-                <button type="button" class="cs-multiselect__option" data-value="sadaka" data-label="Sadaka">
-                  Sadaka · General giving
-                </button>
-                <button type="button" class="cs-multiselect__option" data-value="gift" data-label="Gift">
-                  Gift · Seasonal programs
-                </button>
-              </div>
+              <select class="form-control js-select2" id="campaignTags" data-placeholder="Choose primary categories...">
+                <option value="Qurban">Qurban</option>
+                <option value="Zakat">Zakat</option>
+                <option value="Sadaka">Sadaka</option>
 
-              <!-- hidden input (comma separated) -->
-              <input type="hidden" name="campaignTags" data-hidden />
+              </select>
+              <p class="form-error is-hidden">Please select at least one category.</p>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="campaignsubTags">Sub Categories</label>
+
+              <select class="form-control js-select2" id="campaignsubTags" data-placeholder="Choose sub categories...">
+                <option value="Udhiya">Udhiya</option>
+                <option value="al-mal">al-mal</option>
+                <option value="al-fitr">al-fitr</option>
+                <option value="General giving">General giving</option>
+                <option value="Seasonal programs">Seasonal programs</option>
+              </select>
+              <p class="form-error is-hidden">Please select at least one category.</p>
             </div>
 
             <div class="form-section" aria-labelledby="section-advanced">
