@@ -174,155 +174,36 @@
     }, 120);
   })();
 
-  /* ═══════════════════════════════════════════════════════════════════════════════
-   * CUSTOM MULTISELECT (CHIPS) - القائمة المخصصة متعددة الاختيار
-   * وظيفة: قائمة منسدلة مخصصة تعرض الخيارات كشرائح (chips) قابلة للحذف
-   * Purpose: Custom dropdown showing selections as removable chips
-   * العناصر المطلوبة:
-   *   - [data-control]: زر فتح/إغلاق القائمة
-   *   - [data-dropdown]: القائمة المنسدلة
-   *   - [data-hidden]: حقل مخفي لتخزين القيم (CSV)
-   *   - [data-chips]: حاوية الشرائح
-   *   - [data-placeholder]: نص العنصر النائب
-   * لإيقافها: علق على استدعاء الوظيفة })(); في نهايتها
-   * ═══════════════════════════════════════════════════════════════════════════════ */
-  (function initCustomMultiselect() {
-    const root = page.querySelector('.js-cs-multiselect');
-    if (!root) return;
-
-    const btn = root.querySelector('[data-control]');      // زر التحكم
-    const dd = root.querySelector('[data-dropdown]');       // القائمة المنسدلة
-    const hidden = root.querySelector('[data-hidden]');     // الحقل المخفي
-    const chips = root.querySelector('[data-chips]');       // حاوية الشرائح
-    const ph = root.querySelector('[data-placeholder]');    // النص النائب
-
-    if (!btn || !dd || !hidden || !chips || !ph) return;
-
-    const options = [...dd.querySelectorAll('.cs-multiselect__option')];
-
-    // الحصول على القيم المحددة - Get selected values
-    function getSelected() {
-      const raw = (hidden.value || '').trim();
-      if (!raw) return [];
-      return raw.split(',').map(s => s.trim()).filter(Boolean);
-    }
-
-    // تعيين القيم المحددة - Set selected values
-    function setSelected(list) {
-      hidden.value = list.join(',');
-      render();
-    }
-
-    // رسم الشرائح - Render chips
-    function render() {
-      const selected = getSelected();
-      chips.innerHTML = '';
-
-      options.forEach(o => {
-        const v = o.getAttribute('data-value') || '';
-        o.classList.toggle('is-selected', selected.includes(v));
-      });
-
-      if (!selected.length) {
-        ph.style.display = '';
-      } else {
-        ph.style.display = 'none';
-        selected.forEach(v => {
-          const opt = options.find(o => (o.getAttribute('data-value') || '') === v);
-          const label = opt?.getAttribute('data-label') || v;
-
-          const chip = document.createElement('span');
-          chip.className = 'cs-chip';
-          chip.innerHTML = `<span>${label}</span>`;
-          const x = document.createElement('button');
-          x.type = 'button';
-          x.setAttribute('aria-label', `Remove ${label}`);
-          x.innerHTML = `<i class="fa-solid fa-xmark" aria-hidden="true"></i>`;
-          x.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setSelected(selected.filter(s => s !== v));
-          });
-          chip.appendChild(x);
-          chips.appendChild(chip);
-        });
-      }
-    }
-
-    // فتح القائمة - Open dropdown
-    function open() {
-      dd.classList.remove('is-hidden');
-      btn.setAttribute('aria-expanded', 'true');
-    }
-
-    // إغلاق القائمة - Close dropdown
-    function close() {
-      dd.classList.add('is-hidden');
-      btn.setAttribute('aria-expanded', 'false');
-    }
-
-    // معالج زر التحكم - Toggle button handler
-    btn.addEventListener('click', () => {
-      const openNow = dd.classList.contains('is-hidden');
-      if (openNow) open(); else close();
-    });
-
-    // معالج اختيار الخيارات - Option click handler
-    options.forEach(o => {
-      o.addEventListener('click', () => {
-        const v = o.getAttribute('data-value') || '';
-        const selected = getSelected();
-        const next = selected.includes(v) ? selected.filter(x => x !== v) : [...selected, v];
-        setSelected(next);
-      });
-    });
-
-    // إغلاق عند النقر خارج القائمة - Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!root.contains(e.target)) close();
-    });
-
-    // إغلاق عند الضغط على Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') close();
-    });
-
-    render();
-  })();
+  // Custom multiselect initialization disabled in `ui-script.js` to avoid
+  // duplicate/conflicting initialization with the main `assets/js/script.js`.
+  // The global initializer in `script.js` handles `.js-cs-multiselect` elements.
 
   /* Password visibility toggle for #fPassword - add eye icon to show/hide */
   (function initPasswordToggle() {
     const pwd = page.querySelector('#fPassword');
     if (!pwd) return;
 
-    let btn = page.querySelector('.password-toggle');
-    if (!btn) {
-      btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'icon-button password-toggle';
-      btn.setAttribute('aria-label', 'Toggle password visibility');
-      btn.innerHTML = "<i class='fa-solid fa-eye' aria-hidden='true'></i>";
-      // If input is inside an input-group, append the button there; otherwise insert after
-      const grp = pwd.closest('.input-group');
-      if (grp) {
-        grp.appendChild(btn);
-      } else {
-        pwd.insertAdjacentElement('afterend', btn);
-      }
-    }
+    // don't add twice
+    if (page.querySelector('.password-toggle')) return;
 
-    const toggle = () => {
-      const icon = btn.querySelector('i');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'icon-button password-toggle';
+    btn.setAttribute('aria-label', 'Toggle password visibility');
+    btn.innerHTML = "<i class='fa-solid fa-eye' aria-hidden='true'></i>";
+
+    pwd.insertAdjacentElement('afterend', btn);
+
+    btn.addEventListener('click', () => {
       if (pwd.type === 'password') {
         pwd.type = 'text';
-        if (icon) icon.className = 'fa-solid fa-eye-slash';
+        btn.innerHTML = "<i class='fa-solid fa-eye-slash' aria-hidden='true'></i>";
       } else {
         pwd.type = 'password';
-        if (icon) icon.className = 'fa-solid fa-eye';
+        btn.innerHTML = "<i class='fa-solid fa-eye' aria-hidden='true'></i>";
       }
       pwd.focus();
-    };
-
-    btn.addEventListener('click', toggle);
+    });
   })();
 
 })();

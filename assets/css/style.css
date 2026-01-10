@@ -1036,6 +1036,7 @@ table input[type="radio"] {
   background: var(--color-surface-alt) !important;
   border-radius: 999px !important;
   padding: 6px 10px !important;
+  padding-left: 20px !important;
   margin: 0;
   color: var(--color-text) !important;
 }
