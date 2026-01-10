@@ -1522,6 +1522,9 @@ table input[type="radio"] {
   padding: 0;
 }
 
+.leaflet-control-attribution {
+  display: none;
+}
 
 /* ============================================================
    Statistics & KPIs
@@ -2027,8 +2030,8 @@ table.cs-table tbody tr:hover td {
   transform: none;
   pointer-events: auto;
   overflow: visible;
-  z-index: 9;
   right: unset;
+  z-index: unset;
 }
 
 .dropdown-actions .icon-button {

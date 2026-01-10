@@ -1387,7 +1387,7 @@
       return 0.52;
     };
 
-    const map = L.map(mapContainer, { worldCopyJump: true, zoomControl: false });
+    const map = L.map(mapContainer, { worldCopyJump: true, zoomControl: false, attributionControl: false });
     map.setView([12, 10], 2.5);
 
     const lightTiles = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
