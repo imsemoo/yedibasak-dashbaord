@@ -481,6 +481,12 @@ body[data-theme="dark"] .sidebar__nav::-webkit-scrollbar-thumb {
   box-shadow: 0 12px 22px rgba(21, 197, 206, 0.18);
 }
 
+.badge--pill {
+  background: var(--color-primary-soft);
+  border-color: rgba(21, 197, 206, 0.24);
+  color: var(--color-primary-strong);
+}
+
 .badge--level {
   display: inline-flex;
   align-items: center;
@@ -1816,7 +1822,7 @@ table.cs-table tbody tr:hover td {
   align-items: center;
   gap: var(--space-2);
   justify-content: flex-end;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 
 .table-actions .btn-primary.btn-small {
@@ -2513,6 +2519,71 @@ table.cs-table tbody tr:hover td {
   transform: translateY(0);
 }
 
+.sys-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 992px) {
+  .sys-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sys-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-4);
+}
+
+.sys-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.sys-note {
+  background: var(--color-primary-soft);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.sys-note code {
+  background: color-mix(in srgb, var(--color-border) 35%, transparent);
+  border-radius: 10px;
+  padding: 2px 8px;
+}
+
+.c-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.c-modal__title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.c-modal__desc {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.c-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
 
 /* ============================================================
    User Components
@@ -3071,7 +3142,7 @@ table.cs-table tbody tr:hover td {
 }
 
 .sidebar-submenu.is-open {
-  max-height: 260px;
+  max-height: 660px;
   opacity: 1;
   overflow: auto;
 }
@@ -7386,6 +7457,118 @@ table.cs-table tbody tr:hover td {
   gap: var(--space-2);
 }
 
+/* ========== Roles list action buttons ========== */
+.roles-list__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.roles-list__row {
+  display: flex;
+  gap: 10px;
+}
+
+.role-row-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  align-self: center;
+}
+
+.role-row-actions .icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+
+/* ========== Simple modal (minimal, matches system) ========== */
+.c-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.c-modal[hidden] {
+  display: none;
+}
+
+.c-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+}
+
+.c-modal__dialog {
+  position: relative;
+  width: min(620px, 96vw);
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: var(--shadow-card-light, 0 14px 30px rgba(0, 0, 0, .12));
+  overflow: hidden;
+}
+
+.c-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+}
+
+.c-modal__body {
+  padding: 16px;
+}
+
+.c-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+}
+
+.c-field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.c-field label {
+  font-weight: 600;
+}
+
+.c-help {
+  color: var(--color-text-muted, rgba(0, 0, 0, .55));
+  font-size: .92rem;
+}
+
+/* Toast */
+.c-toast-wrap {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1100;
+  display: grid;
+  gap: 10px;
+}
+
+.c-toast {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, rgba(0, 0, 0, .12));
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: var(--shadow-card-light, 0 14px 30px rgba(0, 0, 0, .12));
+  min-width: 220px;
+}
 
 /* ============================================================
    Settings Page

@@ -30,194 +30,7 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="assets/css/style.css" />
 
-  <!-- ====== PATCH: Checkbox + Roles CRUD UI (minimal) ====== -->
-  <style>
-    /* ========== Checkbox (global friendly) ========== */
-    .perm-checkbox,
-    .invite-scope-grid label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      user-select: none;
-    }
 
-    .perm-checkbox input[type="checkbox"],
-    .invite-scope-grid input[type="checkbox"],
-    input[type="checkbox"].c-check {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 6px;
-      border: 1px solid var(--color-border, rgba(0, 0, 0, .12));
-      background: var(--color-surface, #fff);
-      display: inline-grid;
-      place-items: center;
-      box-shadow: inset 0 0 0 1px transparent;
-      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .12s ease;
-      flex: 0 0 18px;
-    }
-
-    .perm-checkbox input[type="checkbox"]::after,
-    .invite-scope-grid input[type="checkbox"]::after,
-    input[type="checkbox"].c-check::after {
-      content: "";
-      width: 9px;
-      height: 9px;
-      border-radius: 3px;
-      transform: scale(0);
-      transition: transform .16s ease;
-      background: var(--color-primary, #15C5CE);
-    }
-
-    .perm-checkbox input[type="checkbox"]:checked,
-    .invite-scope-grid input[type="checkbox"]:checked,
-    input[type="checkbox"].c-check:checked {
-      border-color: color-mix(in srgb, var(--color-primary, #15C5CE) 55%, var(--color-border, rgba(0, 0, 0, .12)));
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary, #15C5CE) 14%, transparent);
-    }
-
-    .perm-checkbox input[type="checkbox"]:checked::after,
-    .invite-scope-grid input[type="checkbox"]:checked::after,
-    input[type="checkbox"].c-check:checked::after {
-      transform: scale(1);
-    }
-
-    .perm-checkbox input[type="checkbox"]:focus-visible,
-    .invite-scope-grid input[type="checkbox"]:focus-visible,
-    input[type="checkbox"].c-check:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary, #15C5CE) 20%, transparent);
-      border-color: var(--color-primary, #15C5CE);
-    }
-
-    .perm-checkbox input[type="checkbox"]:active,
-    .invite-scope-grid input[type="checkbox"]:active,
-    input[type="checkbox"].c-check:active {
-      transform: scale(0.96);
-    }
-
-    .perm-checkbox input[type="checkbox"][disabled],
-    .invite-scope-grid input[type="checkbox"][disabled],
-    input[type="checkbox"].c-check[disabled] {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-
-    /* ========== Roles list action buttons ========== */
-    .roles-list__title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .roles-list__row {
-      display: grid;
-      gap: 10px;
-    }
-
-    .role-row-actions {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-left: auto;
-    }
-
-    .role-row-actions .icon-button {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-    }
-
-    /* ========== Simple modal (minimal, matches system) ========== */
-    .c-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      display: grid;
-      place-items: center;
-      padding: 18px;
-    }
-
-    .c-modal[hidden] {
-      display: none;
-    }
-
-    .c-modal__overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, .45);
-    }
-
-    .c-modal__dialog {
-      position: relative;
-      width: min(620px, 96vw);
-      background: var(--color-surface, #fff);
-      border: 1px solid var(--color-border, rgba(0, 0, 0, .12));
-      border-radius: var(--radius-lg, 16px);
-      box-shadow: var(--shadow-card-light, 0 14px 30px rgba(0, 0, 0, .12));
-      overflow: hidden;
-    }
-
-    .c-modal__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 16px 16px 12px;
-      border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, .12));
-    }
-
-    .c-modal__body {
-      padding: 16px;
-    }
-
-    .c-modal__actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      padding: 12px 16px 16px;
-      border-top: 1px solid var(--color-border, rgba(0, 0, 0, .12));
-    }
-
-    .c-field {
-      display: grid;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .c-field label {
-      font-weight: 600;
-    }
-
-    .c-help {
-      color: var(--color-text-muted, rgba(0, 0, 0, .55));
-      font-size: .92rem;
-    }
-
-    /* Toast */
-    .c-toast-wrap {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 1100;
-      display: grid;
-      gap: 10px;
-    }
-
-    .c-toast {
-      background: var(--color-surface, #fff);
-      border: 1px solid var(--color-border, rgba(0, 0, 0, .12));
-      border-radius: 14px;
-      padding: 10px 12px;
-      box-shadow: var(--shadow-card-light, 0 14px 30px rgba(0, 0, 0, .12));
-      min-width: 220px;
-    }
-  </style>
-  <!-- ====== /PATCH ====== -->
 
   <script type="application/ld+json">
     {
@@ -1132,8 +945,11 @@
           <div class="team-panel" data-team-panel="roles">
             <div class="roles-layout">
               <aside class="roles-list">
-                <ul class="roles-list__items">
 
+                <button type="button" class="btn btn-primary  mb-4" data-role-open="role-form" data-role-action="add">
+                  Add role
+                </button>
+                <ul class="roles-list__items">
                   <li class="roles-list__item is-active" data-role-id="admin">
                     <div class="roles-list__row">
                       <button type="button" class="roles-list__button">
@@ -1252,10 +1068,7 @@
                         <h3>Admin permissions</h3>
                         <p class="text-muted muted">Define what Admins can do across the dashboard.</p>
                       </div>
-                      <button type="button" class="btn btn-primary btn-sm" data-role-open="role-form"
-                        data-role-action="add">
-                        Add role
-                      </button>
+
                     </div>
                   </header>
 

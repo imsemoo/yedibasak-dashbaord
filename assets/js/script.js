@@ -7625,6 +7625,11 @@
       initDonorDonationsPage();
     }
 
+    // صفحة التبرع اليدوي - Manual donation page
+    if (typeof initManualDonationPage === "function") {
+      initManualDonationPage();
+    }
+
     // صفحة إضافة متبرع جديد - New donor creation page
     initDonorNewPage && initDonorNewPage();
 
