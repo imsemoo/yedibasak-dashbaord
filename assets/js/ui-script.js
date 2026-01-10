@@ -128,10 +128,23 @@
         const placeholder = $el.data('placeholder') || '';
         const allowClear = String($el.data('allow-clear')) === 'true';
 
+        // If this is the country select, render flags using flag-icons (https://flagicons.lipis.dev/)
+        const isCountry = ($el.attr('id') || '') === 's2Country';
+
+        const formatCountry = (state) => {
+          if (!state.id) return state.text;
+          const code = (state.id === 'uk' ? 'gb' : state.id).toLowerCase();
+          const $node = $("<span><i class='fi fi-" + code + "' style='margin-right:8px' aria-hidden='true'></i>" + state.text + "</span>");
+          return $node;
+        };
+
         $el.select2({
           placeholder,
           allowClear,
-          width: '100'
+          width: '100%',
+          templateResult: isCountry ? formatCountry : undefined,
+          templateSelection: isCountry ? formatCountry : undefined,
+          escapeMarkup: function (m) { return m; }
         });
       });
 
@@ -274,6 +287,42 @@
     });
 
     render();
+  })();
+
+  /* Password visibility toggle for #fPassword - add eye icon to show/hide */
+  (function initPasswordToggle() {
+    const pwd = page.querySelector('#fPassword');
+    if (!pwd) return;
+
+    let btn = page.querySelector('.password-toggle');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'icon-button password-toggle';
+      btn.setAttribute('aria-label', 'Toggle password visibility');
+      btn.innerHTML = "<i class='fa-solid fa-eye' aria-hidden='true'></i>";
+      // If input is inside an input-group, append the button there; otherwise insert after
+      const grp = pwd.closest('.input-group');
+      if (grp) {
+        grp.appendChild(btn);
+      } else {
+        pwd.insertAdjacentElement('afterend', btn);
+      }
+    }
+
+    const toggle = () => {
+      const icon = btn.querySelector('i');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        if (icon) icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        pwd.type = 'password';
+        if (icon) icon.className = 'fa-solid fa-eye';
+      }
+      pwd.focus();
+    };
+
+    btn.addEventListener('click', toggle);
   })();
 
 })();
