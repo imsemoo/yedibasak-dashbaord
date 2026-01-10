@@ -263,11 +263,11 @@
                   </select>
                 </div>
 
-                <div class="form-field">
+                <!-- <div class="form-field">
                   <label class="form-label" for="notes">Notes</label>
                   <textarea class="form-control" id="notes" name="notes" rows="3" data-role="notes"
                     placeholder="Optional internal notes...">Greater London</textarea>
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -277,18 +277,21 @@
               <div class="form-grid">
                 <div class="form-field">
                   <label class="form-label" for="countryName">Country <span aria-hidden="true">*</span></label>
-                  <input class="form-control" type="text" id="countryName" name="countryName" required
-                    aria-required="true" placeholder="United Kingdom" data-role="countryName" value="United Kingdom" />
+
+                  <select name="country" id="countryName" class="form-control" data-role="countryName">
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="United States">United States</option>
+                  </select>
                   <p class="form-error is-hidden">Please enter a country name.</p>
                 </div>
-
+                <!-- 
                 <div class="form-field">
                   <label class="form-label" for="iso2">Country ISO2 <span aria-hidden="true">*</span></label>
                   <input class="form-control" type="text" id="iso2" name="iso2" required aria-required="true"
                     placeholder="GB" maxlength="2" inputmode="latin" autocomplete="off" data-role="iso2" value="GB" />
                   <p class="form-error is-hidden">Please enter ISO2 (e.g. GB).</p>
                   <p class="cs-helper-text">Used to render flag icon.</p>
-                </div>
+                </div> -->
 
                 <div class="form-field">
                   <label class="form-label">Flag preview</label>
