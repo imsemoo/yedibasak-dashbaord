@@ -1,0 +1,75 @@
+================================================================================
+PLAIN TEXT EMAIL FALLBACK - DONATION CONFIRMATION
+================================================================================
+Organization: {{org_name}}
+================================================================================
+
+✓ DONATION CONFIRMED!
+--------------------------------------------------------------------------------
+
+Thank you, {{donor_name}}!
+
+Your generosity makes a real difference. Your donation has been CONFIRMED and 
+is now being processed.
+
+--------------------------------------------------------------------------------
+CONFIRMATION DETAILS
+--------------------------------------------------------------------------------
+
+Confirmation ID:  {{receipt_id}}
+Date:             {{donation_date}}
+Donor:            {{donor_name}}
+Type:             {{donation_type}}
+Campaign:         {{campaign_name}}
+Payment Method:   {{payment_method}}
+Status:           {{donation_status}}
+
+--------------------------------------------------------------------------------
+DONATION AMOUNT
+--------------------------------------------------------------------------------
+
+Amount:           {{currency}}{{donation_amount}}
+Processing Fees:  {{currency}}{{fees}}
+                  --------------------------------
+TOTAL:            {{currency}}{{total}}
+
+--------------------------------------------------------------------------------
+VIEW YOUR CONFIRMATION
+--------------------------------------------------------------------------------
+
+View Receipt Online: {{receipt_url}}
+Download PDF:        {{pdf_url}}
+
+--------------------------------------------------------------------------------
+WHAT HAPPENS NEXT?
+--------------------------------------------------------------------------------
+
+✓ Your payment is being processed securely
+✓ You'll receive an official receipt within 24 hours
+✓ Your donation will be allocated to {{campaign_name}}
+
+--------------------------------------------------------------------------------
+NEED HELP?
+--------------------------------------------------------------------------------
+
+Contact our support team: {{support_email}}
+
+{{org_name}}
+{{org_address}}
+
+--------------------------------------------------------------------------------
+LEGAL
+--------------------------------------------------------------------------------
+
+{{org_name}} is a registered nonprofit (Reg. No: {{org_reg_number}}). Your 
+donation may be tax-deductible to the extent allowed by law. Please consult 
+your tax advisor. No goods or services were provided in exchange for this 
+contribution.
+
+Privacy Policy: {{privacy_url}}
+Terms of Service: {{terms_url}}
+Manage Preferences: {{unsubscribe_url}}
+
+© {{current_year}} {{org_name}}. All rights reserved.
+
+================================================================================

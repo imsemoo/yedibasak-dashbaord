@@ -1,0 +1,73 @@
+================================================================================
+PLAIN TEXT EMAIL FALLBACK - DONATION RECEIPT
+================================================================================
+Organization: {{org_name}}
+================================================================================
+
+DONATION RECEIPT
+--------------------------------------------------------------------------------
+
+Thank you, {{donor_name}}!
+
+Your generosity makes a real difference. We've received your donation and it's already making an impact.
+
+STATUS: {{donation_status}}
+
+--------------------------------------------------------------------------------
+DONATION SUMMARY
+--------------------------------------------------------------------------------
+
+Receipt ID:      {{receipt_id}}
+Date:            {{donation_date}}
+Donor:           {{donor_name}}
+Type:            {{donation_type}}
+Campaign:        {{campaign_name}}
+Payment Method:  {{payment_method}}
+
+--------------------------------------------------------------------------------
+AMOUNTS
+--------------------------------------------------------------------------------
+
+Amount:          {{currency}}{{donation_amount}}
+Processing Fees: {{currency}}{{fees}}
+                 --------------------------------
+TOTAL:           {{currency}}{{total}}
+
+--------------------------------------------------------------------------------
+VIEW YOUR RECEIPT
+--------------------------------------------------------------------------------
+
+View Receipt Online: {{receipt_url}}
+Download PDF:        {{pdf_url}}
+
+--------------------------------------------------------------------------------
+RECURRING DONATION (if applicable)
+--------------------------------------------------------------------------------
+
+Your {{recurring_frequency}} donation of {{currency}}{{donation_amount}} 
+will be charged on day {{recurring_day}} of each {{recurring_frequency}}.
+
+--------------------------------------------------------------------------------
+NEED HELP?
+--------------------------------------------------------------------------------
+
+Contact our support team: {{support_email}}
+
+{{org_name}}
+{{org_address}}
+
+--------------------------------------------------------------------------------
+LEGAL
+--------------------------------------------------------------------------------
+
+{{org_name}} is a registered 501(c)(3) nonprofit organization. Your donation 
+may be tax-deductible to the extent allowed by law. Please consult your tax 
+advisor. No goods or services were provided in exchange for this contribution.
+
+Privacy Policy: {{privacy_url}}
+Terms of Service: {{terms_url}}
+Manage Preferences: {{unsubscribe_url}}
+
+© {{current_year}} {{org_name}}. All rights reserved.
+
+================================================================================

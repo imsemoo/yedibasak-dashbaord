@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation Confirmation - PDF Template</title>
+  <style>
+    /* ============================================
+       PDF PRINT STYLESHEET
+       Optimized for A4 (210mm × 297mm) and Letter (8.5" × 11")
+       ============================================ */
+    
+    @page {
+      size: A4;
+      margin: 20mm 15mm 25mm 15mm;
+    }
+    
+    @page letter {
+      size: letter;
+      margin: 0.75in 0.6in 1in 0.6in;
+    }
+    
+    /* Font Embedding */
+    @font-face {
+      font-family: 'Inter';
+      src: url('../fonts/Inter-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+    }
+    
+    @font-face {
+      font-family: 'Inter';
+      src: url('../fonts/Inter-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+    }
+    
+    @font-face {
+      font-family: 'Inter';
+      src: url('../fonts/Inter-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-style: normal;
+    }
+    
+    @font-face {
+      font-family: 'Inter';
+      src: url('../fonts/Inter-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+    
+    /* Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    :root {
+      /* Brand Colors */
+      --color-primary: #15C5CE;
+      --color-primary-dark: #0f9aa2;
+      --color-accent: #E67514;
+      --color-success: #26B65C;
+      --color-warning: #F59E0B;
+      --color-danger: #EF4444;
+      
+      /* Neutrals */
+      --color-text: #212121;
+      --color-text-muted: #6B7280;
+      --color-text-light: #9CA3AF;
+      --color-border: #E2E8F3;
+      --color-bg: #FFFFFF;
+      --color-surface: #F8FAFC;
+      
+      /* Spacing (8pt grid) */
+      --space-1: 2mm;
+      --space-2: 4mm;
+      --space-3: 6mm;
+      --space-4: 8mm;
+      --space-5: 10mm;
+      --space-6: 12mm;
+      --space-8: 16mm;
+      
+      /* Typography Scale */
+      --font-title: 22pt;
+      --font-section: 12pt;
+      --font-body: 10pt;
+      --font-small: 9pt;
+      --font-micro: 8pt;
+      
+      /* Border */
+      --border-width: 0.5pt;
+      --border-style: solid;
+    }
+    
+    body {
+      font-family: 'Inter', 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      font-size: var(--font-body);
+      line-height: 1.5;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    
+    /* Print optimizations */
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      
+      .pdf-container {
+        page-break-inside: avoid;
+      }
+      
+      .no-print {
+        display: none !important;
+      }
+    }
+    
+    /* ============================================
+       PDF CONTAINER
+       ============================================ */
+    .pdf-container {
+      max-width: 180mm;
+      margin: 0 auto;
+      padding: var(--space-4);
+    }
+    
+    /* ============================================
+       1. TOP HEADER
+       ============================================ */
+    .pdf-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: var(--space-4);
+      border-bottom: 2pt solid var(--color-primary);
+      margin-bottom: var(--space-4);
+    }
+    
+    .pdf-header__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    
+    .pdf-header__logo {
+      width: 50mm;
+      height: auto;
+      max-height: 18mm;
+      object-fit: contain;
+    }
+    
+    .pdf-header__title-block {
+      text-align: right;
+    }
+    
+    .pdf-header__title {
+      font-size: var(--font-title);
+      font-weight: 700;
+      color: var(--color-success);
+      margin: 0 0 var(--space-1) 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5pt;
+      max-width: 300px;
+    }
+    
+    .pdf-header__receipt-id {
+      font-size: var(--font-section);
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0;
+    }
+    
+    .pdf-header__date {
+      font-size: var(--font-small);
+      color: var(--color-text-muted);
+      margin: var(--space-1) 0 0 0;
+    }
+    
+    /* ============================================
+       HERO THANK YOU MESSAGE
+       ============================================ */
+    .pdf-hero {
+      text-align: center;
+      padding: var(--space-5) var(--space-4);
+      background: linear-gradient(135deg, rgba(21, 197, 206, 0.08) 0%, rgba(38, 182, 92, 0.08) 100%);
+      border-radius: 4mm;
+      margin-bottom: var(--space-4);
+      border: var(--border-width) var(--border-style) rgba(21, 197, 206, 0.2);
+    }
+    
+    .pdf-hero__icon {
+      width: 16mm;
+      height: 16mm;
+      margin: 0 auto var(--space-3);
+      background-color: var(--color-success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .pdf-hero__icon svg {
+      width: 8mm;
+      height: 8mm;
+      fill: #ffffff;
+    }
+    
+    .pdf-hero__title {
+      font-size: 16pt;
+      font-weight: 700;
+      color: var(--color-text);
+      margin: 0 0 var(--space-2) 0;
+    }
+    
+    .pdf-hero__subtitle {
+      font-size: var(--font-body);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      max-width: 140mm;
+      margin: 0 auto;
+    }
+    
+    /* ============================================
+       2. RECIPIENT BLOCK
+       ============================================ */
+    .pdf-recipient {
+      background-color: var(--color-surface);
+      border: var(--border-width) var(--border-style) var(--color-border);
+      border-radius: 3mm;
+      padding: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    
+    .pdf-recipient__label {
+      font-size: var(--font-micro);
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5pt;
+      margin-bottom: var(--space-1);
+    }
+    
+    .pdf-recipient__name {
+      font-size: 14pt;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 var(--space-1) 0;
+    }
+    
+    .pdf-recipient__details {
+      font-size: var(--font-small);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+    
+    .pdf-recipient__details p {
+      margin: 0;
+    }
+    
+    /* ============================================
+       3. DONATION DETAILS TABLE
+       ============================================ */
+    .pdf-section {
+      margin-bottom: var(--space-4);
+    }
+    
+    .pdf-section__title {
+      font-size: var(--font-section);
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 var(--space-2) 0;
+      padding-bottom: var(--space-1);
+      border-bottom: var(--border-width) var(--border-style) var(--color-border);
+    }
+    
+    .pdf-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-body);
+    }
+    
+    .pdf-table th,
+    .pdf-table td {
+      padding: var(--space-2) var(--space-2);
+      text-align: left;
+      border-bottom: var(--border-width) var(--border-style) var(--color-border);
+    }
+    
+    .pdf-table th {
+      font-weight: 600;
+      color: var(--color-text-muted);
+      font-size: var(--font-small);
+      text-transform: uppercase;
+      letter-spacing: 0.3pt;
+      background-color: var(--color-surface);
+    }
+    
+    .pdf-table td {
+      color: var(--color-text);
+    }
+    
+    .pdf-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .pdf-table__value {
+      font-weight: 500;
+    }
+    
+    /* Status pill */
+    .pdf-status {
+      display: inline-block;
+      padding: 1mm 3mm;
+      border-radius: 2mm;
+      font-size: var(--font-micro);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3pt;
+    }
+    
+    .pdf-status--completed {
+      background-color: rgba(38, 182, 92, 0.15);
+      color: #15803d;
+      border: 0.5pt solid rgba(38, 182, 92, 0.3);
+    }
+    
+    .pdf-status--pending {
+      background-color: rgba(245, 158, 11, 0.15);
+      color: #b45309;
+      border: 0.5pt solid rgba(245, 158, 11, 0.3);
+    }
+    
+    .pdf-status--processing {
+      background-color: rgba(21, 197, 206, 0.15);
+      color: #0f9aa2;
+      border: 0.5pt solid rgba(21, 197, 206, 0.3);
+    }
+    
+    /* ============================================
+       4. TOTALS SECTION
+       ============================================ */
+    .pdf-totals {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: var(--space-4);
+    }
+    
+    .pdf-totals__box {
+      width: 70mm;
+      border: var(--border-width) var(--border-style) var(--color-border);
+      border-radius: 3mm;
+      overflow: hidden;
+    }
+    
+    .pdf-totals__row {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--space-2) var(--space-3);
+      border-bottom: var(--border-width) var(--border-style) var(--color-border);
+    }
+    
+    .pdf-totals__row:last-child {
+      border-bottom: none;
+    }
+    
+    .pdf-totals__label {
+      font-size: var(--font-body);
+      color: var(--color-text-muted);
+    }
+    
+    .pdf-totals__value {
+      font-size: var(--font-body);
+      font-weight: 500;
+      color: var(--color-text);
+    }
+    
+    .pdf-totals__row--total {
+      background-color: var(--color-success);
+    }
+    
+    .pdf-totals__row--total .pdf-totals__label,
+    .pdf-totals__row--total .pdf-totals__value {
+      color: #ffffff;
+      font-size: var(--font-section);
+      font-weight: 700;
+    }
+    
+    /* ============================================
+       5. RECURRING SECTION
+       ============================================ */
+    .pdf-recurring {
+      background-color: #FFF7ED;
+      border: var(--border-width) var(--border-style) #FED7AA;
+      border-radius: 3mm;
+      padding: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    
+    .pdf-recurring__title {
+      font-size: var(--font-body);
+      font-weight: 600;
+      color: var(--color-accent);
+      margin: 0 0 var(--space-1) 0;
+    }
+    
+    .pdf-recurring__details {
+      font-size: var(--font-small);
+      color: #92400E;
+      line-height: 1.5;
+    }
+    
+    .pdf-recurring__details p {
+      margin: 0;
+    }
+    
+    /* ============================================
+       WHAT HAPPENS NEXT SECTION
+       ============================================ */
+    .pdf-next-steps {
+      background-color: var(--color-surface);
+      border: var(--border-width) var(--border-style) var(--color-border);
+      border-radius: 3mm;
+      padding: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    
+    .pdf-next-steps__title {
+      font-size: var(--font-body);
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 var(--space-2) 0;
+    }
+    
+    .pdf-next-steps__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .pdf-next-steps__item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+      font-size: var(--font-small);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+    }
+    
+    .pdf-next-steps__item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .pdf-next-steps__number {
+      width: 5mm;
+      height: 5mm;
+      background-color: var(--color-primary);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-micro);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    
+    /* ============================================
+       6. VERIFICATION SECTION
+       ============================================ */
+    .pdf-verification {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-3);
+      background-color: var(--color-surface);
+      border: var(--border-width) var(--border-style) var(--color-border);
+      border-radius: 3mm;
+      margin-bottom: var(--space-4);
+    }
+    
+    .pdf-qr {
+      width: 25mm;
+      height: 25mm;
+      border: var(--border-width) var(--border-style) var(--color-border);
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .pdf-qr img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .pdf-verification__info {
+      flex: 1;
+    }
+    
+    .pdf-verification__title {
+      font-size: var(--font-body);
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 var(--space-1) 0;
+    }
+    
+    .pdf-verification__text {
+      font-size: var(--font-small);
+      color: var(--color-text-muted);
+      margin: 0 0 var(--space-1) 0;
+    }
+    
+    .pdf-verification__url {
+      font-size: var(--font-small);
+      color: var(--color-primary);
+      font-weight: 500;
+      word-break: break-all;
+    }
+    
+    /* ============================================
+       7. FOOTER
+       ============================================ */
+    .pdf-footer {
+      margin-top: var(--space-6);
+      padding-top: var(--space-3);
+      border-top: var(--border-width) var(--border-style) var(--color-border);
+    }
+    
+    .pdf-footer__legal {
+      font-size: var(--font-micro);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin-bottom: var(--space-2);
+    }
+    
+    .pdf-footer__org {
+      font-size: var(--font-micro);
+      color: var(--color-text-muted);
+    }
+    
+    .pdf-footer__org strong {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+    
+    .pdf-footer__contact {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-2);
+      font-size: var(--font-micro);
+      color: var(--color-text-muted);
+    }
+    
+    /* ============================================
+       GRAYSCALE PRINT SUPPORT
+       ============================================ */
+    @media print and (monochrome) {
+      :root {
+        --color-primary: #333333;
+        --color-accent: #555555;
+        --color-success: #444444;
+      }
+      
+      .pdf-header {
+        border-bottom-color: #333333;
+      }
+      
+      .pdf-totals__row--total {
+        background-color: #333333;
+      }
+      
+      .pdf-hero {
+        background: #f5f5f5;
+        border-color: #cccccc;
+      }
+      
+      .pdf-hero__icon {
+        background-color: #333333;
+      }
+      
+      .pdf-status {
+        background-color: #f0f0f0;
+        color: #333333;
+        border-color: #999999;
+      }
+      
+      .pdf-next-steps__number {
+        background-color: #333333;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="pdf-container">
+    
+    <!-- ============================================
+         1. TOP HEADER
+         ============================================ -->
+    <header class="pdf-header">
+      <div class="pdf-header__brand">
+        <img src="../../assets/img/logo.svg" alt="Yedi Basak" class="pdf-header__logo" />
+      </div>
+      <div class="pdf-header__title-block">
+        <h1 class="pdf-header__title">Donation Confirmation</h1>
+        <p class="pdf-header__receipt-id">#DON-2026-00148</p>
+        <p class="pdf-header__date">Date: January 28, 2026</p>
+      </div>
+    </header>
+    
+    <!-- ============================================
+         HERO THANK YOU MESSAGE
+         ============================================ -->
+    <section class="pdf-hero">
+      <div class="pdf-hero__icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+      <h2 class="pdf-hero__title">Thank You for Your Generosity!</h2>
+      <p class="pdf-hero__subtitle">
+        Your donation has been received and is being processed. This confirmation serves as your record of this transaction.
+      </p>
+    </section>
+    
+    <!-- ============================================
+         2. RECIPIENT BLOCK
+         ============================================ -->
+    <section class="pdf-recipient">
+      <p class="pdf-recipient__label">Donor Information</p>
+      <h2 class="pdf-recipient__name">Ahmed Al-Rashid</h2>
+      <div class="pdf-recipient__details">
+        <p>ahmed.rashid@email.com</p>
+        <p>+90 532 123 4567</p>
+        <p>Fatih, Istanbul, Turkey 34000</p>
+      </div>
+    </section>
+    
+    <!-- ============================================
+         3. DONATION DETAILS TABLE
+         ============================================ -->
+    <section class="pdf-section">
+      <h3 class="pdf-section__title">Donation Details</h3>
+      <table class="pdf-table">
+        <tbody>
+          <tr>
+            <th style="width: 40%;">Description</th>
+            <th style="width: 60%;">Details</th>
+          </tr>
+          <tr>
+            <td>Donation Type</td>
+            <td class="pdf-table__value">Zakat</td>
+          </tr>
+          <tr>
+            <td>Campaign</td>
+            <td class="pdf-table__value">Emergency Relief Fund</td>
+          </tr>
+          <tr>
+            <td>Payment Method</td>
+            <td class="pdf-table__value">Visa ····4242</td>
+          </tr>
+          <tr>
+            <td>Transaction Reference</td>
+            <td class="pdf-table__value">ch_3LxG7Q9LJf9kPq</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>
+              <span class="pdf-status pdf-status--completed">Completed</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    
+    <!-- ============================================
+         4. TOTALS SECTION
+         ============================================ -->
+    <section class="pdf-totals">
+      <div class="pdf-totals__box">
+        <div class="pdf-totals__row">
+          <span class="pdf-totals__label">Subtotal</span>
+          <span class="pdf-totals__value">$1,200.00</span>
+        </div>
+        <div class="pdf-totals__row">
+          <span class="pdf-totals__label">Processing Fees</span>
+          <span class="pdf-totals__value">$12.00</span>
+        </div>
+        <div class="pdf-totals__row pdf-totals__row--total">
+          <span class="pdf-totals__label">Total</span>
+          <span class="pdf-totals__value">$1,212.00</span>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ============================================
+         WHAT HAPPENS NEXT
+         ============================================ -->
+    <section class="pdf-next-steps">
+      <h4 class="pdf-next-steps__title">What Happens Next?</h4>
+      <ul class="pdf-next-steps__list">
+        <li class="pdf-next-steps__item">
+          <span class="pdf-next-steps__number">1</span>
+          <span>Your payment is being securely processed by our payment provider.</span>
+        </li>
+        <li class="pdf-next-steps__item">
+          <span class="pdf-next-steps__number">2</span>
+          <span>You'll receive an official receipt via email once the transaction is complete.</span>
+        </li>
+        <li class="pdf-next-steps__item">
+          <span class="pdf-next-steps__number">3</span>
+          <span>Your donation will be allocated to the Emergency Relief Fund campaign.</span>
+        </li>
+      </ul>
+    </section>
+    
+    <!-- ============================================
+         5. RECURRING SECTION (Optional)
+         ============================================ -->
+    <!-- Uncomment if recurring donation is enabled -->
+    <!--
+    <section class="pdf-recurring">
+      <h4 class="pdf-recurring__title">Recurring Donation Setup</h4>
+      <div class="pdf-recurring__details">
+        <p><strong>Frequency:</strong> {{recurring_frequency}}</p>
+        <p><strong>Charge Day:</strong> Day {{recurring_day}} of each period</p>
+        <p><strong>Next Charge:</strong> {{next_charge_date}}</p>
+      </div>
+    </section>
+    -->
+    
+    <!-- ============================================
+         6. VERIFICATION SECTION
+         ============================================ -->
+    <section class="pdf-verification">
+      <div class="pdf-qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://yedibasak.org/verify/DON-2026-00148" alt="Verification QR Code" />
+      </div>
+      <div class="pdf-verification__info">
+        <h4 class="pdf-verification__title">Verify This Confirmation</h4>
+        <p class="pdf-verification__text">Scan the QR code or visit the link below to verify the authenticity of this confirmation.</p>
+        <p class="pdf-verification__url">https://yedibasak.org/verify/DON-2026-00148</p>
+      </div>
+    </section>
+    
+    <!-- ============================================
+         7. FOOTER
+         ============================================ -->
+    <footer class="pdf-footer">
+      <p class="pdf-footer__legal">
+        Yedi Basak Insani Yardim Dernegi is a registered nonprofit organization (Registration No: 34-7654321). 
+        Your donation may be tax-deductible to the extent allowed by law. Please consult your tax advisor. 
+        No goods or services were provided in exchange for this contribution unless otherwise noted above.
+      </p>
+      <div class="pdf-footer__org">
+        <strong>Yedi Basak Insani Yardim Dernegi</strong><br>
+        Molla Gürani Mah. Turgut Özal Cad. No:72, Fatih, Istanbul 34093, Turkey
+      </div>
+      <div class="pdf-footer__contact">
+        <span>Email: info@yedibasak.org</span>
+        <span>Phone: +90 212 123 4567</span>
+        <span>Web: www.yedibasak.org</span>
+      </div>
+    </footer>
+    
+  </div>
+</body>
+</html>

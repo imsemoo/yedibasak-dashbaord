@@ -1,0 +1,66 @@
+================================================================================
+PLAIN TEXT EMAIL FALLBACK - RECURRING DONATION CONFIRMATION
+================================================================================
+Organization: {{org_name}}
+================================================================================
+
+🔄 RECURRING DONATION ACTIVE
+--------------------------------------------------------------------------------
+
+Thank you, {{donor_name}}!
+
+Your commitment to ongoing giving helps us plan for the future and create 
+lasting impact. Your recurring donation has been successfully set up.
+
+--------------------------------------------------------------------------------
+YOUR RECURRING DONATION
+--------------------------------------------------------------------------------
+
+Amount:          {{currency}}{{donation_amount}}
+Frequency:       {{recurring_frequency}}
+Charge Day:      Day {{recurring_day}} of each {{recurring_frequency}}
+Next Charge:     {{next_charge_date}}
+Status:          {{donation_status}}
+
+--------------------------------------------------------------------------------
+DONATION INFORMATION
+--------------------------------------------------------------------------------
+
+Campaign:        {{campaign_name}}
+Donation Type:   {{donation_type}}
+Payment Method:  {{payment_method}}
+
+--------------------------------------------------------------------------------
+MANAGE YOUR SUBSCRIPTION
+--------------------------------------------------------------------------------
+
+Modify or cancel at any time: {{manage_subscription_url}}
+
+Note: You can modify or cancel your recurring donation at any time from your 
+donor portal. We'll send you a receipt after each successful charge.
+
+--------------------------------------------------------------------------------
+NEED HELP?
+--------------------------------------------------------------------------------
+
+Contact our support team: {{support_email}}
+
+{{org_name}}
+{{org_address}}
+
+--------------------------------------------------------------------------------
+LEGAL
+--------------------------------------------------------------------------------
+
+{{org_name}} is a registered 501(c)(3) nonprofit organization. Your donation 
+may be tax-deductible to the extent allowed by law. Please consult your tax 
+advisor. This email confirms your recurring donation setup. Charges will 
+appear on your statement as "{{org_name}}".
+
+Privacy Policy: {{privacy_url}}
+Terms of Service: {{terms_url}}
+Manage Preferences: {{unsubscribe_url}}
+
+© {{current_year}} {{org_name}}. All rights reserved.
+
+================================================================================
